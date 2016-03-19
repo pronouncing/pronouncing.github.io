@@ -1,173 +1,124 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  <title>ooad第四天 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="结构型设计模式结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。
+外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）
+装饰器模式（Decorator）：Decorator模式采用对象组合而非继承的手法，实现了在运行时动态的扩展对象功能的能力，而且可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ooad第四天">
+<meta property="og:url" content="http://yoursite.com/2014/09/19/ooad第四天/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="结构型设计模式结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。
+外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）
+装饰器模式（Decorator）：Decorator模式采用对象组合而非继承的手法，实现了在运行时动态的扩展对象功能的能力，而且可以">
+<meta property="og:updated_time" content="2014-09-19T13:38:25.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ooad第四天">
+<meta name="twitter:description" content="结构型设计模式结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。
+外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）
+装饰器模式（Decorator）：Decorator模式采用对象组合而非继承的手法，实现了在运行时动态的扩展对象功能的能力，而且可以">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
-    <title>ooad第四天 | lihao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="lihao">
-    
-    <meta name="description" content="结构型设计模式结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。
-外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）
-装饰器模式（Decorator）">
-    
-    
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="pronouncing" />
-    <meta name="twitter:title" content="ooad第四天 | lihao" />
-      
-    
-    
-    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/logos.jpg">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+
+
+
 </head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-ooad第四天" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">存档</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ooad第四天
+    </h1>
+  
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+      </header>
     
-      <a href="/2014/09/19/ooad第四天/" title="ooad第四天" itemprop="url">ooad第四天</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yoursite.com" title="lihao">lihao</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2014-09-19T13:36:27.000Z" itemprop="datePublished">2014-09-19</time>
-    更新日期:<time datetime="2014-09-19T13:38:25.109Z" itemprop="dateModified">2014-09-19</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构型设计模式"><span class="toc-number">1.</span> <span class="toc-text">结构型设计模式</span></a></li></ol>
-		</div>
-		
-		<h3 id="结构型设计模式"><a href="#结构型设计模式" class="headerlink" title="结构型设计模式"></a>结构型设计模式</h3><p>结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。</p>
+    <div class="article-meta">
+      <a href="/2014/09/19/ooad第四天/" class="article-date">
+  <time datetime="2014-09-19T13:36:27.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="结构型设计模式"><a href="#结构型设计模式" class="headerlink" title="结构型设计模式"></a>结构型设计模式</h3><p>结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。</p>
 <p>外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）</p>
 <p>装饰器模式（Decorator）：Decorator模式采用对象组合而非继承的手法，实现了在运行时动态的扩展对象功能的能力，而且可以根据需要扩展多个功能，避免了单独使用继承带来的“灵活性差”和“多子类衍生问题”。<br>装饰器模式至少有：抽象构件角色、具体构件角色、抽象装饰角色、具体装饰角色，4个类</p>
 <p>代理模式（Bridge）： 客户程序和目标对象之间增加一层中间层，让代理对象来代替目标对象打点一切。</p>
 <p>适配器模式：简单来说就是将不匹配的变成匹配</p>
-  
-	</div>
-		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ooad/">ooad</a>
+      
+
+      
+
+    </div>
   </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yoursite.com/2014/09/19/ooad第四天/" data-title="ooad第四天 | lihao" data-tsina="pronouncing" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/09/19/ooad第五天/" title="ooad第五天">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  ooad第五天</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/09/19/ooad第三天/"  title="ooad第三天">
- <strong>NEXT:</strong><br/> 
- <span>ooad第三天
-</span>
-</a>
-</div>
-
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/19/ooad第五天/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ooad第五天
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/19/ooad第三天/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ooad第三天</div>
+    </a>
+  
 </nav>
 
-	
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2014/09/19/ooad第四天/" data-title="ooad第四天" data-url="http://yoursite.com/2014/09/19/ooad第四天/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"pronouncing"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
 
-<!-- 百度统计公共JS代码 end -->
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2014/09/19/ooad第四天/" data-title="ooad第四天" data-url="http://yoursite.com/2014/09/19/ooad第四天/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
 
 <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
         />
@@ -175,255 +126,64 @@ var duoshuoQuery = {short_name:"pronouncing"};
 
 
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构型设计模式"><span class="toc-number">1.</span> <span class="toc-text">结构型设计模式</span></a></li></ol>
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
   
+</article>
 
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
-		
-			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
-		
-			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
-		
-			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
-		
-			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
-		
-			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
-		
-			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
-		
-			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
-		
-			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
-        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
-  </div>
-
-
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
 	</div>
-	
-	
-	<section class="info">
-		<p> 你好，我是LiHao <br/>
-			这是我的博客,信不信由你</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
-		
-		
-		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
-		
-		
-		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
-		
-        
-        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
-        
-	</div>
-		<p class="copyright"> © 2016
-		
-		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
-		
-		</p>
-</div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"pronouncing"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
+<script src="/js/script.js"></script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
-  </body>
+
+
+  </div>
+</body>
 </html>

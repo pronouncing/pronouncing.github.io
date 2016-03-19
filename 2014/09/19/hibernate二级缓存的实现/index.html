@@ -1,103 +1,64 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  <title>hibernate二级缓存的实现 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.
+缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate二级缓存的实现">
+<meta property="og:url" content="http://yoursite.com/2014/09/19/hibernate二级缓存的实现/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.
+缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存">
+<meta property="og:updated_time" content="2014-09-19T14:51:54.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate二级缓存的实现">
+<meta name="twitter:description" content="对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.
+缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
-    <title>hibernate二级缓存的实现 | lihao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="lihao">
-    
-    <meta name="description" content="对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.
-缓存就是数据库数据在内存中的临时容器,包括">
-    
-    
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="pronouncing" />
-    <meta name="twitter:title" content="hibernate二级缓存的实现 | lihao" />
-      
-    
-    
-    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/logos.jpg">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+
+
+
 </head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-hibernate二级缓存的实现" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">存档</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      hibernate二级缓存的实现
+    </h1>
+  
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+      </header>
     
-      <a href="/2014/09/19/hibernate二级缓存的实现/" title="hibernate二级缓存的实现" itemprop="url">hibernate二级缓存的实现</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yoursite.com" title="lihao">lihao</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2014-09-19T14:38:08.000Z" itemprop="datePublished">2014-09-19</time>
-    更新日期:<time datetime="2014-09-19T14:51:54.202Z" itemprop="dateModified">2014-09-19</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-		</div>
-		
-		<p>对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.</p>
+    <div class="article-meta">
+      <a href="/2014/09/19/hibernate二级缓存的实现/" class="article-date">
+  <time datetime="2014-09-19T14:38:08.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.</p>
 <pre><code>缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存管理策略,在缓存中查找相关数据,如发现所需的数据,则直接将此数据作为结果加以利用,从而避免了数据库调用性能的开销.而相对内存操作而言,数据库调用是一个代价高昂的过程.
 
 一般来讲ORM中的缓存分为以下几类:
@@ -204,71 +165,59 @@ Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基�
 4.transactional:事务型缓存,必须运行在JTA事务环境中.此缓存中,缓存的相关操作被添加到事务中(此缓存类似于一个内存数据库),如事务失败,则缓冲池的数据会一同回滚到事务的开始之前的状态.事务型缓存实现了&quot;Repeatable read&quot;事务隔离等级,有效保证了数据的合法性,适应于对关键数据的缓存,Hibernate内置缓存中,只有JBossCache支持事务型缓存.
 </code></pre><p>Hibernate获取数据的方式有不同的几种，其与缓存结合使用的效果也不尽相同，而Hibernate中具体怎么使用缓存其实是我们很关心的一个问题，直接涉及到性能方面。<br>缓存在Hibernate中主要有三个方面：一级缓存、二级缓存和查询缓存；一级缓存在Hibernate中对应的即为session范围的缓存，也就是当session关闭时缓存即被清除，一级缓存在Hibernate中是不可配置的部分；二级缓存在Hibernate中对应的即为SessionFactory范围的缓存，通常来讲SessionFactory的生命周期和应用的生命周期相同，所以可以看成是进程缓存或集群缓存，二级缓存在Hibernate中是可以配置的，可以通过class-cache配置类粒度级别的缓存(class-cache在class中数据发生任何变化的情况下自动更新)，同时也可通过collection-cache配置集合粒度级别的缓存(collection-cache仅在 collection中增加了元素或者删除了元素的情况下才自动更新，也就是当collection中元素发生值的变化的情况下它是不会自动更新的)，缓存自然会带来并发的访问问题，这个时候相应的就要根据应用来设置缓存所采用的事务隔离级别，和数据库的事务隔离级别概念基本一样，没什么多介绍的， ^<em>^；查询缓存在Hibernate同样是可配置的，默认是关闭的，可以通过设置cache.use</em> query<em>cache为true来打开查询缓存。根据缓存的通常实现策略，我们可以来理解Hibernate的这三种缓存，缓存的实现通过是通过key/value的Map方式来实现，在 Hibernate的一级、二级和查询缓存也同样如此，一级、二级缓存使用的key均为po的主键ID，value即为po实例对象，查询缓存使用的则为查询的条件、查询的参数、查询的页数，value有两种情况，如果采用的是select po.property这样的方式那么value为整个结果集，如采用的是from这样的方式那么value为获取的结果集中各po对象的主键ID，这样的作用很明显，节省内存，^</em>^<br>简单介绍完Hibernate的缓存后，再结合Hibernate的获取数据方式来说明缓存的具体使用方式，在Hibernate中获取数据常用的方式主要有四种：Session.load、Session.get、Query.list、Query.iterator。<br>1、Session.load<br>      在执行session.load时，Hibernate首先从当前session的一级缓存中获取id对应的值，在获取不到的情况下，将根据该对象是否配置了二级缓存来做相应的处理，如配置了二级缓存，则从二级缓存中获取id对应的值，如仍然获取不到则还需要根据是否配置了延迟加载来决定如何执行，如未配置延迟加载则从数据库中直接获取，在从数据库获取到数据的情况下，Hibernate会相应的填充一级缓存和二级缓存，如配置了延迟加载则直接返回一个代理类，只有在触发代理类的调用时才进行数据库查询的操作。<br>      在这样的情况下我们就可以看到，在session一直打开的情况下，要注意在适当的时候对一级缓存进行刷新操作，通常是在该对象具有单向关联维护的时候，在Hibernate中可以使用象session.clear、session.evict的方式来强制刷新一级缓存。<br>      二级缓存则在数据发生任何变化(新增、更新、删除)的情况下都会自动的被更新。<br>2、Session.get<br>      在执行Session.get时，和Session.load不同的就是在当从缓存中获取不到时，直接从数据库中获取id对应的值。<br>3、Query.list<br>      在执行Query.list时，Hibernate的做法是首先检查是否配置了查询缓存，如配置了则从查询缓存中查找key为查询语句+查询参数+分页条件的值，如获取不到则从数据库中进行获取，从数据库获取到后Hibernate将会相应的填充一级、二级和查询缓存，如获取到的为直接的结果集，则直接返回，如获取到的为一堆id的值，则再根据id获取相应的值(Session.load)，最后形成结果集返回，可以看到，在这样的情况下，list也是有可能造成N次的查询的。<br>      查询缓存在数据发生任何变化的情况下都会被自动的清空。<br>4、Query.iterator<br>      在执行Query.iterator时，和Query.list的不同的在于从数据库获取的处理上，Query.iterator向数据库发起的是 select id from这样的语句，也就是它是先获取符合查询条件的id，之后在进行iterator.next调用时才再次发起session.load的调用获取实际的数据。<br>      可见，在拥有二级缓存并且查询参数多变的情况下，Query.iterator会比Query.list更为高效。</p>
 <p>这四种获取数据的方式都各有适用的场合，要根据实际情况做相应的决定，^_^，最好的方式无疑就是打开show_sql选项看看执行的情况来做分析，系统结构上只用保证这种调整是容易实现的就好了，在cache这个方面的调整自然是非常的容易，只需要调整配置文件里的设置，而查询的方式则可对外部进行屏蔽，这样要根据实际情况调整也非常容易。</p>
-</cache>  
-	</div>
-		<footer class="article-footer clearfix">
+</cache>
+      
 
-  <div class="article-tags">
+      
+
+    </div>
+  </div>
   
-  <span></span> <a href="/tags/hibernate/">hibernate</a>
-  </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yoursite.com/2014/09/19/hibernate二级缓存的实现/" data-title="hibernate二级缓存的实现 | lihao" data-tsina="pronouncing" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/09/19/hibernate关系注解映射/" title="hibernate关系注解映射">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  hibernate关系注解映射</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/09/19/iBatis与Hibernate区别/"  title="iBatis与Hibernate区别">
- <strong>NEXT:</strong><br/> 
- <span>iBatis与Hibernate区别
-</span>
-</a>
-</div>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/19/hibernate关系注解映射/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          hibernate关系注解映射
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/19/iBatis与Hibernate区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iBatis与Hibernate区别</div>
+    </a>
+  
 </nav>
 
-	
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2014/09/19/hibernate二级缓存的实现/" data-title="hibernate二级缓存的实现" data-url="http://yoursite.com/2014/09/19/hibernate二级缓存的实现/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"pronouncing"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
 
-<!-- 百度统计公共JS代码 end -->
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2014/09/19/hibernate二级缓存的实现/" data-title="hibernate二级缓存的实现" data-url="http://yoursite.com/2014/09/19/hibernate二级缓存的实现/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
 
 <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
         />
@@ -276,255 +225,64 @@ var duoshuoQuery = {short_name:"pronouncing"};
 
 
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
   
-  </div>
+</article>
 
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
-		
-			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
-		
-			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
-		
-			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
-		
-			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
-		
-			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
-		
-			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
-		
-			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
-		
-			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
-        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
-  </div>
-
-
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
 	</div>
-	
-	
-	<section class="info">
-		<p> 你好，我是LiHao <br/>
-			这是我的博客,信不信由你</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
-		
-		
-		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
-		
-		
-		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
-		
-        
-        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
-        
-	</div>
-		<p class="copyright"> © 2016
-		
-		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
-		
-		</p>
-</div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"pronouncing"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
+<script src="/js/script.js"></script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
-  </body>
+
+
+  </div>
+</body>
 </html>

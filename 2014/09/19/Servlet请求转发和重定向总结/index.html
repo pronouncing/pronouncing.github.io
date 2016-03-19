@@ -1,102 +1,61 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  <title>Servlet请求转发和重定向总结 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Servlet中forward redirect （请求转发 重定向）自己总结forward：请求转发redirect: 重定向1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet请求转发和重定向总结">
+<meta property="og:url" content="http://yoursite.com/2014/09/19/Servlet请求转发和重定向总结/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="Servlet中forward redirect （请求转发 重定向）自己总结forward：请求转发redirect: 重定向1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致">
+<meta property="og:updated_time" content="2014-09-19T12:55:23.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Servlet请求转发和重定向总结">
+<meta name="twitter:description" content="Servlet中forward redirect （请求转发 重定向）自己总结forward：请求转发redirect: 重定向1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
-    <title>Servlet请求转发和重定向总结 | lihao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="lihao">
-    
-    <meta name="description" content="Servlet中forward redirect （请求转发 重定向）自己总结forward：请求转发redirect: 重定向1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。2.从这里">
-    
-    
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="pronouncing" />
-    <meta name="twitter:title" content="Servlet请求转发和重定向总结 | lihao" />
-      
-    
-    
-    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/logos.jpg">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+
+
+
 </head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Servlet请求转发和重定向总结" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">存档</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Servlet请求转发和重定向总结
+    </h1>
+  
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+      </header>
     
-      <a href="/2014/09/19/Servlet请求转发和重定向总结/" title="Servlet请求转发和重定向总结" itemprop="url">Servlet请求转发和重定向总结</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yoursite.com" title="lihao">lihao</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2014-09-19T12:53:19.000Z" itemprop="datePublished">2014-09-19</time>
-    更新日期:<time datetime="2014-09-19T12:55:23.645Z" itemprop="dateModified">2014-09-19</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-从地址栏显示来说"><span class="toc-number">1.</span> <span class="toc-text">1.从地址栏显示来说</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释一"><span class="toc-number">2.</span> <span class="toc-text">解释一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解释二"><span class="toc-number">2.1.</span> <span class="toc-text">解释二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解释三："><span class="toc-number">2.2.</span> <span class="toc-text">解释三：</span></a></li></ol></li></ol>
-		</div>
-		
-		<p>Servlet中forward redirect （请求转发 重定向）自己总结<br>forward：请求转发<br>redirect: 重定向<br>1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。<br>2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致方法获得RequestDisapatcher对象 然后用其forward方法来进行请求转发：<br>RequestDisapatcher rd=reqest.getRequestDisapatcher();<br>rd.forward(req,resp); //用这里的方法来进行转发</p>
+    <div class="article-meta">
+      <a href="/2014/09/19/Servlet请求转发和重定向总结/" class="article-date">
+  <time datetime="2014-09-19T12:53:19.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Servlet中forward redirect （请求转发 重定向）自己总结<br>forward：请求转发<br>redirect: 重定向<br>1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。<br>2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致方法获得RequestDisapatcher对象 然后用其forward方法来进行请求转发：<br>RequestDisapatcher rd=reqest.getRequestDisapatcher();<br>rd.forward(req,resp); //用这里的方法来进行转发</p>
 <p>3.HttpServletResponse 对象的SendRequest（String location）方法称作重定向，如果location地址前面加上“/ ”,则表示相对于servlet容器的根来请求，即<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> ,如果location地址前没有加上“/”，则表示当前请求的URI来寻找地址(就是当前的项目目录中)。<br>4.RequestDispather的forward（request,response)方法称为请求转发。<br>5.请求转发和重定向的区别：<br>a.请求转发：整个过程在同一个请求当中。所以在用getParameter的时候的值可以随时拿到。<br>b. 重定向：实际上客户端会向服务器发送两个请求。第一个请求是请求serlvet，第二个请求是服务器将结果发送到请求页面。所以getParameter是不可能得到同一个请求参数的。所以最总是是用response对象中的sendRedirect方法来重定向，也即服务器响应对象来进行重定向的.<br>c.RequestDisapatcher是通过调用HttpServletRequest对象的getRequestDisapatcher方法得到的。是属于请求对象的方法。<br>d.sendRedirect方法是属于HttpServletResposne对象的方法，即响应对象的方法，既然调用了响应对象的方法，那就表明整个请求过程已经结束了，服务器开始向客户端返回执行的结果。</p>
 <p>6.重定向在firebug中的会有两个请求 而请求转发只有一个。本源就是请求个数。</p>
 <p>前后两个页面 有数据传递 用请求转发，没有则用重定向。<br>比如servlet查询了数据需要在页面显示，就用请求转发。<br>比如servlet做了update操作跳转到其他页面，就用重定向。</p>
@@ -123,71 +82,59 @@
 <p>对于客户端而言，它只知道自己最早请求的那个A，而不知道中间的B，甚至C、D。 传输的信息不会丢失。</p>
 <h3 id="解释三："><a href="#解释三：" class="headerlink" title="解释三："></a>解释三：</h3><p>转发是服务器行为，重定向是客户端行为。 </p>
 <p>两者的内部机制有很大的区别：<br>1 请求转发只能将请求转发给同一个WEB应用中的组件，<br>而重定向还可以重新定向到同一站点不同应用程序中的资源，甚至可以定向到一绝对的URL。<br>2 重定向可以看见目标页面的URL，<br>转发只能看见第一次访问的页面URL，以后的工作都是有服务器来做的。<br>3 请求响应调用者和被调用者之间共享相同的request对象和response对象，<br>重定向调用者和被调用者属于两个独立访问请求和响应过程。<br>4 重定向跳转后必须加上return，要不然页面虽然跳转了，<br>但是还会执行跳转后面的语句，<br>转发是执行了跳转页面，下面的代码就不会在执行了。 </p>
-  
-	</div>
-		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/servlet/">servlet</a>
+      
+
+      
+
+    </div>
   </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yoursite.com/2014/09/19/Servlet请求转发和重定向总结/" data-title="Servlet请求转发和重定向总结 | lihao" data-tsina="pronouncing" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/09/19/Servlet中forward和redirect的区别/" title="Servlet中forward和redirect的区别">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Servlet中forward和redirect的区别</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/09/19/第19章jdbc数据库编程/"  title="第19章jdbc数据库编程">
- <strong>NEXT:</strong><br/> 
- <span>第19章jdbc数据库编程
-</span>
-</a>
-</div>
-
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/19/Servlet中forward和redirect的区别/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Servlet中forward和redirect的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/19/第19章jdbc数据库编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第19章jdbc数据库编程</div>
+    </a>
+  
 </nav>
 
-	
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2014/09/19/Servlet请求转发和重定向总结/" data-title="Servlet请求转发和重定向总结" data-url="http://yoursite.com/2014/09/19/Servlet请求转发和重定向总结/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"pronouncing"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
 
-<!-- 百度统计公共JS代码 end -->
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2014/09/19/Servlet请求转发和重定向总结/" data-title="Servlet请求转发和重定向总结" data-url="http://yoursite.com/2014/09/19/Servlet请求转发和重定向总结/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
 
 <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
         />
@@ -195,255 +142,64 @@ var duoshuoQuery = {short_name:"pronouncing"};
 
 
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-从地址栏显示来说"><span class="toc-number">1.</span> <span class="toc-text">1.从地址栏显示来说</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解释一"><span class="toc-number">2.</span> <span class="toc-text">解释一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解释二"><span class="toc-number">2.1.</span> <span class="toc-text">解释二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解释三："><span class="toc-number">2.2.</span> <span class="toc-text">解释三：</span></a></li></ol></li></ol>
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
   
+</article>
 
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
-		
-			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
-		
-			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
-		
-			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
-		
-			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
-		
-			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
-		
-			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
-		
-			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
-		
-			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
-        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
-  </div>
-
-
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
 	</div>
-	
-	
-	<section class="info">
-		<p> 你好，我是LiHao <br/>
-			这是我的博客,信不信由你</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
-		
-		
-		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
-		
-		
-		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
-		
-        
-        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
-        
-	</div>
-		<p class="copyright"> © 2016
-		
-		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
-		
-		</p>
-</div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"pronouncing"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
+<script src="/js/script.js"></script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
-  </body>
+
+
+  </div>
+</body>
 </html>

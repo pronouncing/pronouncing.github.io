@@ -1,104 +1,72 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  <title>java18章网络编程 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OSI7层模型解释：1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）
+2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。
+3：网络层：源主机和目标主机的网络地址进行通信
+4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java18章网络编程">
+<meta property="og:url" content="http://yoursite.com/2014/09/19/java18章网络编程/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="OSI7层模型解释：1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）
+2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。
+3：网络层：源主机和目标主机的网络地址进行通信
+4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，">
+<meta property="og:image" content="http://i.imgur.com/0YVkoFj.jpg">
+<meta property="og:updated_time" content="2014-09-19T12:44:56.300Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java18章网络编程">
+<meta name="twitter:description" content="OSI7层模型解释：1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）
+2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。
+3：网络层：源主机和目标主机的网络地址进行通信
+4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，">
+<meta name="twitter:image" content="http://i.imgur.com/0YVkoFj.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
-    <title>java18章网络编程 | lihao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="lihao">
-    
-    <meta name="description" content="OSI7层模型解释：1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）
-2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。
-3：网络层：源">
-    
-    
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="pronouncing" />
-    <meta name="twitter:title" content="java18章网络编程 | lihao" />
-      
-    
-    
-    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/logos.jpg">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+
+
+
 </head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-java18章网络编程" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">存档</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java18章网络编程
+    </h1>
+  
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+      </header>
     
-      <a href="/2014/09/19/java18章网络编程/" title="java18章网络编程" itemprop="url">java18章网络编程</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yoursite.com" title="lihao">lihao</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2014-09-19T12:42:16.000Z" itemprop="datePublished">2014-09-19</time>
-    更新日期:<time datetime="2014-09-19T12:44:56.300Z" itemprop="dateModified">2014-09-19</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI7层模型解释："><span class="toc-number">1.</span> <span class="toc-text">OSI7层模型解释：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下面给大家贴一段代码f是服务器端f1是客服端"><span class="toc-number">1.1.</span> <span class="toc-text">下面给大家贴一段代码f是服务器端f1是客服端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端"><span class="toc-number">1.2.</span> <span class="toc-text">服务器端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客服端"><span class="toc-number">1.3.</span> <span class="toc-text">客服端</span></a></li></ol></li></ol>
-		</div>
-		
-		<p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
+    <div class="article-meta">
+      <a href="/2014/09/19/java18章网络编程/" class="article-date">
+  <time datetime="2014-09-19T12:42:16.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
 <h2 id="OSI7层模型解释："><a href="#OSI7层模型解释：" class="headerlink" title="OSI7层模型解释："></a>OSI7层模型解释：</h2><p>1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）</p>
 <p>2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据<br>如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。</p>
 <p>3：网络层：源主机和目标主机的网络地址进行通信</p>
@@ -108,71 +76,59 @@
 <p>TCP/IP模型：程序员应要做的就是在应用这一层里面<br>TCP协议是面向连接的可靠的通信协议,<br>而UDP是非连接的不可靠的通信协议,<br>这两个协议位于TCP/IP模型的传输层，要在网络上找到另一台计算机的程序进行通讯需要提供IP地址和端口号.</p>
 <p>Socke是客户端ServerSocke是服务器端,Socket和ServerSocke用于在两个java程序之间创建一个TCP/IP连接，程序之间的通讯通过IO类来执行</p>
 <h3 id="下面给大家贴一段代码f是服务器端f1是客服端"><a href="#下面给大家贴一段代码f是服务器端f1是客服端" class="headerlink" title="下面给大家贴一段代码f是服务器端f1是客服端"></a>下面给大家贴一段代码f是服务器端f1是客服端</h3><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.LayoutManager;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.ServerSocket;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import java.net.SocketTimeoutException;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class f extends JFrame implements Runnable &#123;</span><br><span class="line"> ServerSocket svr;</span><br><span class="line"> JTextArea w;</span><br><span class="line"> public f(int port) throws IllegalArgumentException, IOException &#123;</span><br><span class="line">  Container m = this.getContentPane();</span><br><span class="line">  m.setLayout(new GridLayout(3, 1));</span><br><span class="line">  this.setSize(300, 450);</span><br><span class="line">  this.setTitle(&quot;服务端&quot;);</span><br><span class="line">  this.setVisible(true);</span><br><span class="line">  this.setLocationRelativeTo(null);</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">  w = new JTextArea(100, 200);</span><br><span class="line">  this.add(w);</span><br><span class="line">  svr = new ServerSocket(port);</span><br><span class="line"> &#125;</span><br><span class="line"> public void run() &#123;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">   System.out.println(&quot;在端口&quot; + svr.getLocalPort() + &quot;上等待客户端...&quot;);</span><br><span class="line">   Socket server;</span><br><span class="line">   try &#123;</span><br><span class="line">    server = svr.accept();  //服务器等待方法</span><br><span class="line">    System.out.println(&quot;刚连接&quot; + server.getReuseAddress());</span><br><span class="line">    DataInputStream in = new DataInputStream(server.getInputStream());</span><br><span class="line">    w.setText(in.readUTF());</span><br><span class="line">    server.close();</span><br><span class="line">   &#125; catch (SocketTimeoutException e) &#123;</span><br><span class="line">    break;</span><br><span class="line">   &#125; catch (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    break;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">   f x = new f(8088);</span><br><span class="line">   Thread f = new Thread(x);</span><br><span class="line">   f.start();</span><br><span class="line">  &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
-	</div>
-		<footer class="article-footer clearfix">
+<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
 
-  <div class="article-tags">
+      
+
+    </div>
+  </div>
   
-  <span></span> <a href="/tags/javaSE/">javaSE</a>
-  </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yoursite.com/2014/09/19/java18章网络编程/" data-title="java18章网络编程 | lihao" data-tsina="pronouncing" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/09/19/第19章jdbc数据库编程/" title="第19章jdbc数据库编程">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  第19章jdbc数据库编程</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/09/19/第17章IO系统流/"  title="第17章I/O系统流">
- <strong>NEXT:</strong><br/> 
- <span>第17章I/O系统流
-</span>
-</a>
-</div>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/19/第19章jdbc数据库编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第19章jdbc数据库编程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/19/第17章IO系统流/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第17章I/O系统流</div>
+    </a>
+  
 </nav>
 
-	
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2014/09/19/java18章网络编程/" data-title="java18章网络编程" data-url="http://yoursite.com/2014/09/19/java18章网络编程/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"pronouncing"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
 
-<!-- 百度统计公共JS代码 end -->
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2014/09/19/java18章网络编程/" data-title="java18章网络编程" data-url="http://yoursite.com/2014/09/19/java18章网络编程/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
 
 <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
         />
@@ -180,255 +136,64 @@ var duoshuoQuery = {short_name:"pronouncing"};
 
 
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI7层模型解释："><span class="toc-number">1.</span> <span class="toc-text">OSI7层模型解释：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下面给大家贴一段代码f是服务器端f1是客服端"><span class="toc-number">1.1.</span> <span class="toc-text">下面给大家贴一段代码f是服务器端f1是客服端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端"><span class="toc-number">1.2.</span> <span class="toc-text">服务器端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客服端"><span class="toc-number">1.3.</span> <span class="toc-text">客服端</span></a></li></ol></li></ol>
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
   
+</article>
 
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
-		
-			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
-		
-			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
-		
-			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
-		
-			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
-		
-			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
-		
-			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
-		
-			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
-		
-			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
-        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
-  </div>
-
-
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
 	</div>
-	
-	
-	<section class="info">
-		<p> 你好，我是LiHao <br/>
-			这是我的博客,信不信由你</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
-		
-		
-		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
-		
-		
-		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
-		
-        
-        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
-        
-	</div>
-		<p class="copyright"> © 2016
-		
-		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
-		
-		</p>
-</div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"pronouncing"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
+<script src="/js/script.js"></script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
-  </body>
+
+
+  </div>
+</body>
 </html>

@@ -1,102 +1,64 @@
-
- <!DOCTYPE HTML>
-<html >
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  <title>第10章接口 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是接口？　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。
+　　在Java语言规范中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第10章接口">
+<meta property="og:url" content="http://yoursite.com/2014/09/19/第10章接口/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="什么是接口？　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。
+　　在Java语言规范中，">
+<meta property="og:updated_time" content="2014-09-19T11:10:02.275Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第10章接口">
+<meta name="twitter:description" content="什么是接口？　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。
+　　在Java语言规范中，">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
-    <title>第10章接口 | lihao</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
-    
-    <meta name="author" content="lihao">
-    
-    <meta name="description" content="什么是接口？　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的特">
-    
-    
-    
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="pronouncing" />
-    <meta name="twitter:title" content="第10章接口 | lihao" />
-      
-    
-    
-    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
-    
-    
-    <link rel="icon" href="/img/logos.jpg">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css">
+
+
+
 </head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第10章接口" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
-				<h2 class="blog-motto"></h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">首页</a></li>
-					
-						<li><a href="/archives">存档</a></li>
-					
-						<li><a href="/about">关于</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
-						<input type="hidden" name="q" value="site:yoursite.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第10章接口
+    </h1>
+  
 
-    </header>
-    <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
-  <h1 itemprop="name">
+      </header>
     
-      <a href="/2014/09/19/第10章接口/" title="第10章接口" itemprop="url">第10章接口</a>
-  </h1>
-  <p class="article-author">By
-    
-      <a href="http://yoursite.com" title="lihao">lihao</a>
-    </p>
-  <p class="article-time">
-    <time datetime="2014-09-19T11:02:30.000Z" itemprop="datePublished">2014-09-19</time>
-    更新日期:<time datetime="2014-09-19T11:10:02.275Z" itemprop="dateModified">2014-09-19</time>
-    
-  </p>
-</header>
-	<div class="article-content">
-		
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是接口？"><span class="toc-number">1.</span> <span class="toc-text">什么是接口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型等级结构"><span class="toc-number">2.</span> <span class="toc-text">　　类型等级结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单方法接口"><span class="toc-number">3.</span> <span class="toc-text">　　单方法接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么使用接口"><span class="toc-number">4.</span> <span class="toc-text">为什么使用接口:</span></a></li></ol>
-		</div>
-		
-		<h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
+    <div class="article-meta">
+      <a href="/2014/09/19/第10章接口/" class="article-date">
+  <time datetime="2014-09-19T11:02:30.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
 <p>　　在Java语言规范中，一个方法的特征仅包括方法的名字，参数的数目和种类，而不包括方法的返回类<br>型，参数的名字以及所抛出来的异常。在Java编译器检查方法的重载时，会根据这些条件判断两个方法是<br>否是重载方法。但在Java编译器检查方法的置换时，则会进一步检查两个方法(分处超类型和子类型)的返<br>还类型和抛出的异常是否相同。</p>
 <p>　　接口继承和实现继承的规则不同，一个类只有一个直接父类，但可以实现多个接口。<br>　　Java接口本身没有任何实现，因为Java接口不涉及表象，而只描述public行为，所以Java接口比Java<br>抽象类更抽象化。<br>　　Java接口的方法只能是抽象的和公开的，Java接口不能有构造器，Java接口可以有public，静态的和<br>final属性。<br>　　接口把方法的特征和方法的实现分割开来。这种分割体现在接口常常代表一个角色，它包装与该角色<br>相关的操作和属性，而实现这个接口的类便是扮演这个角色的演员。一个角色由不同的演员来演，而不同<br>的演员之间除了扮演一个共同的角色之外，并不要求其它的共同之处。<br>为什么使用接口？<br>　　两个类中的两个类似的功能，调用他们的类动态的决定一种实现，那他们提供一个抽象父类，子类分<br>别实现父类所定义的方法。<br>　　问题的出现：Java是一种单继承的语言，一般情况下，哪个具体类可能已经有了一个超类，解决是给<br>它的父类加父类，或者给它父类的父类加父类，只到移动到类等级结构的最顶端。这样一来，对一个具体<br>类的可插入性的设计，就变成了对整个等级结构中所有类的修改。<br>　　接口是可插入性的保证。<br>　　在一个等级结构中的任何一个类都可以实现一个接口，这个接口会影响到此类的所有子类，但不会影<br>响到此类的任何超类。此类将不得不实现这个接口所规定的方法，而其子类可以从此类自动继承这些方法<br>，当然也可以选择置换掉所有的这些方法，或者其中的某一些方法，这时候，这些子类具有了可插入性(<br>并且可以用这个接口类型装载，传递实现了他的所有子类)。<br>　　我们关心的不是那一个具体的类，而是这个类是否实现了我们需要的接口。<br>　　接口提供了关联以及方法调用上的可插入性，软件系统的规模越大，生命周期越长，接口使得软件系<br>统的灵活性和可扩展性，可插入性方面得到保证。<br>　　类型<br>　　使用Java接口将软件单位与内部和外部耦合起来。使用Java接口不是具体的类进行变量的类型声明，<br>方法的返还类型声明，参量的类型声明，以及数据类型的转换。<br>　　在理想的情况下，一个具体的Java类应当只实现Java接口和抽象Java类中声明的方法，而不应当给多<br>余方法。</p>
 <h2 id="类型等级结构"><a href="#类型等级结构" class="headerlink" title="　　类型等级结构"></a>　　类型等级结构</h2><p>　　Java接口(以及抽象类)一般用来作为一个类型的等级结构的起点。<br>　　如果一个类已经有了一个主要的超类型，那么通过实现一个接口，这个类可以拥有另一个次要的超类型，<br>这种次要的超类型叫做混合类型。<br>Java接口常用方法</p>
@@ -104,71 +66,59 @@
 <p>　　仅且只有一个方法，只有实现了这个接口(重写这个接口中的唯一一个方法)，你才有资格去事件监听<br>器列表里注册(参数为Actionlistener类型)，当事件源变动时，自动调用这个唯一的actionPerformed方<br>法.<br>　　## 标识接口 ##<br>　　是没有任何方法和属性的接口。标识接口不对实现它的类有任何语意上的要求，它仅仅表明了实现它<br>的类属于一个特定的类型(传递)。<br>　　不推荐过多的使用标识接口。<br>　　## 常量接口 ##<br>　　用Java接口来声明一些常量，然后由实现这个接口的类使用这些常量。</p>
 <p>接口提供了规范和标准，接口不能被实例化，接口不包含任何构造器，接口中的所有方法都是抽象的，<br>接口可以定义静态常量，是异构集合.<br>一个接口能继承多个接口 public class b extends A<br>一个类可以实现多个接口<br>声明一个接口关键字是public interface A<br>实现一个接口的方法用public class H implements A,B,C</p>
 <h2 id="为什么使用接口"><a href="#为什么使用接口" class="headerlink" title="为什么使用接口:"></a>为什么使用接口:</h2><p><strong>抽象中有2个缺陷.<br>1抽象是单项继承————接口是多项实现<br>2抽象而破坏了安全性————而接口保证了安全性<br>抽象——[标准]——接口<br>抽象方法——[安全]——抽象方法<br>抽象是指向子类对象——不能被实例——而接口指向实现对象<br>总结：<br> Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，</strong></p>
-  
-	</div>
-		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/javaSE/">javaSE</a>
+      
+
+      
+
+    </div>
   </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://yoursite.com/2014/09/19/第10章接口/" data-title="第10章接口 | lihao" data-tsina="pronouncing" class="share clearfix">
-  </div>
-
-</div>
-</footer>   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2014/09/19/11章异常处理/" title="11章异常处理">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  11章异常处理</span>
-</a>
-</div>
-
-
-<div class="next">
-<a href="/2014/09/19/第9章多态和抽象/"  title="第9章多态和抽象">
- <strong>NEXT:</strong><br/> 
- <span>第9章多态和抽象
-</span>
-</a>
-</div>
-
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/19/11章异常处理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          11章异常处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/19/第9章多态和抽象/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第9章多态和抽象</div>
+    </a>
+  
 </nav>
 
-	
-<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2014/09/19/第10章接口/" data-title="第10章接口" data-url="http://yoursite.com/2014/09/19/第10章接口/"></div>
-<!-- 多说评论框 end -->
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"pronouncing"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- 多说公共JS代码 end -->
 
-<!-- 百度统计公共JS代码 end -->
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2014/09/19/第10章接口/" data-title="第10章接口" data-url="http://yoursite.com/2014/09/19/第10章接口/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
 
 <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
         />
@@ -176,255 +126,64 @@ var duoshuoQuery = {short_name:"pronouncing"};
 
 
 
-</div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是接口？"><span class="toc-number">1.</span> <span class="toc-text">什么是接口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型等级结构"><span class="toc-number">2.</span> <span class="toc-text">　　类型等级结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单方法接口"><span class="toc-number">3.</span> <span class="toc-text">　　单方法接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么使用接口"><span class="toc-number">4.</span> <span class="toc-text">为什么使用接口:</span></a></li></ol>
-  </div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
   
+</article>
 
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
-		
-			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
-		
-			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
-		
-			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
-		
-			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
-		
-			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
-		
-			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
-		
-			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
-		
-			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
-		
-			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
-        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
-    </ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
-  </div>
-
-
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
-</div>
-    </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
 	</div>
-	
-	
-	<section class="info">
-		<p> 你好，我是LiHao <br/>
-			这是我的博客,信不信由你</p>
-	</section>
-	 
-	<div class="social-font" class="clearfix">
-		
-		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
-		
-		
-		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
-		
-		
-		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
-		
-		
-		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
-		
-        
-        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
-        
-	</div>
-		<p class="copyright"> © 2016
-		
-		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
-		
-		</p>
-</div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
-</script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
-});
-</script>
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
-  var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
-  });
-});     
-</script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"pronouncing"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
+<script src="/js/script.js"></script>
 
 
 
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
-  </body>
+
+
+  </div>
+</body>
 </html>
