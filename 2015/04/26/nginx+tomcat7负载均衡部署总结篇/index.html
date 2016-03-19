@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nginx+tomcat7负载均衡部署总结篇 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一台服务器+2个tomcat7 (Nginx+tomcat7)部署负载均衡什么是反向代理？反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。  
+通俗的讲这里讲得很直白。反向代理方式实际上就是一台负责转发的代理服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx+tomcat7负载均衡部署总结篇">
+<meta property="og:url" content="http://yoursite.com/2015/04/26/nginx+tomcat7负载均衡部署总结篇/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="一台服务器+2个tomcat7 (Nginx+tomcat7)部署负载均衡什么是反向代理？反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。  
+通俗的讲这里讲得很直白。反向代理方式实际上就是一台负责转发的代理服务器">
+<meta property="og:updated_time" content="2016-03-19T20:08:36.080Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx+tomcat7负载均衡部署总结篇">
+<meta name="twitter:description" content="一台服务器+2个tomcat7 (Nginx+tomcat7)部署负载均衡什么是反向代理？反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。  
+通俗的讲这里讲得很直白。反向代理方式实际上就是一台负责转发的代理服务器">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-nginx+tomcat7负载均衡部署总结篇" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx+tomcat7负载均衡部署总结篇
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/26/nginx+tomcat7负载均衡部署总结篇/" class="article-date">
+  <time datetime="2015-04-25T19:43:57.000Z" itemprop="datePublished">2015-04-26</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一台服务器-2个tomcat7-Nginx-tomcat7-部署负载均衡"><a href="#一台服务器-2个tomcat7-Nginx-tomcat7-部署负载均衡" class="headerlink" title="一台服务器+2个tomcat7 (Nginx+tomcat7)部署负载均衡"></a>一台服务器+2个tomcat7 (Nginx+tomcat7)部署负载均衡</h2><h3 id="什么是反向代理？"><a href="#什么是反向代理？" class="headerlink" title="什么是反向代理？"></a>什么是反向代理？</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。  </p>
+<h3 id="通俗的讲"><a href="#通俗的讲" class="headerlink" title="通俗的讲"></a>通俗的讲</h3><p>这里讲得很直白。反向代理方式实际上就是一台负责转发的代理服务器，貌似充当了真正服务器的功能，但实际上并不是，代理服务器只是充当了转发的作用，并且从真正的服务器那里取得返回的数据。这样说，其实nginx完成的就是这样的工作。我们让nginx监听一个端口，譬如80端口，但实际上我们转发给在8080端口的tomcat，由它来处理真正的请求，当请求完成后，tomcat返回，但数据此时没直接返回，而是直接给nginx，由nginx进行返回，这里，我们会以为是nginx进行了处理，但实际上进行处理的是tomcat。<br>    说到上面的方式，也许很多人又会想起来，这样可以把静态文件交由nginx来进行处理。对，很多用到nginx的地方都是作为静态伺服器，这样可以方便缓存那些静态文件，比如CSS，JS，html，htm等文件。</p>
+<h3 id="用到的软件nginx-exe"><a href="#用到的软件nginx-exe" class="headerlink" title="用到的软件nginx.exe"></a>用到的软件nginx.exe</h3><p>nginx官网下一个。<a href="http://nginx.org/en/download.html" target="_blank" rel="external">http://nginx.org/en/download.html</a><br>当前我用的版本是nginx1.8.0</p>
+<p>下完后首先要启动。进入到nginx文件夹，直接start nginx就OK了。<br>启动命令：start nginx<br>结束命令：nginx –s stop<br>检查命令：nignx -t<br>重新加载命令：nginx –s reload</p>
+<p>详细解说请参考：<a href="http://cxshun.iteye.com/blog/1535188" target="_blank" rel="external">http://cxshun.iteye.com/blog/1535188</a></p>
+<p>打开        \conf\nginx.conf<br>下面是完整的配置代码</p>
+<h3 id="Windows上部署：一台服务器-2个tomcat-部署负载均衡-Nginx-tomcat"><a href="#Windows上部署：一台服务器-2个tomcat-部署负载均衡-Nginx-tomcat" class="headerlink" title="Windows上部署：一台服务器+2个tomcat 部署负载均衡 Nginx+tomcat"></a>Windows上部署：一台服务器+2个tomcat 部署负载均衡 Nginx+tomcat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Nginx所用用户和组，window下不指定  </span></span><br><span class="line"><span class="comment">#user  nobody;</span></span><br><span class="line"><span class="comment">#工作的子进程数量（通常等于CPU数量或者2倍于CPU）</span></span><br><span class="line">worker_processes  4;</span><br><span class="line"></span><br><span class="line"><span class="comment">#错误日志存放路径  </span></span><br><span class="line"><span class="comment">#error_log  logs/error.log;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  notice;</span></span><br><span class="line"><span class="comment">#error_log  logs/error.log  info;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#指定pid存放文件  </span></span><br><span class="line"><span class="comment">#pid        logs/nginx.pid;</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">#使用网络IO模型linux建议epoll，FreeBSD建议采用kqueue，window下不指定。  </span></span><br><span class="line">events &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">#允许最大连接数  </span></span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_<span class="built_in">type</span>  application/octet-stream;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#定义日志格式  </span></span><br><span class="line">    <span class="built_in">log</span>_format  main  <span class="string">'$remote_addr - $remote_user [$time_local] "$request" '</span></span><br><span class="line">                      <span class="string">'$status $body_bytes_sent "$http_referer" '</span></span><br><span class="line">                      <span class="string">'"$http_user_agent" "$http_x_forwarded_for"'</span>;</span><br><span class="line">	<span class="comment">#请求日志保存位置  </span></span><br><span class="line">    access_<span class="built_in">log</span>  logs/access.log  main;</span><br><span class="line">	<span class="comment">#打开发送文件  </span></span><br><span class="line">    sendfile        on;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#keepalive_timeout  0;</span></span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">	<span class="comment">#打开gzip压缩  </span></span><br><span class="line">    <span class="comment">#gzip  on;</span></span><br><span class="line">	<span class="comment">#设定负载均衡的服务器列表</span></span><br><span class="line">	upstream <span class="built_in">local</span>_tomcat&#123;  </span><br><span class="line">      server localhost:8080 weight=1;  </span><br><span class="line">      server localhost:9090 weight=1;</span><br><span class="line">	   </span><br><span class="line">     &#125;  </span><br><span class="line">	<span class="comment">#第一个虚拟主机  </span></span><br><span class="line">    server &#123;</span><br><span class="line">		<span class="comment">#监听IP端口  </span></span><br><span class="line">        listen       8081;</span><br><span class="line">		<span class="comment">#主机名  </span></span><br><span class="line">        server_name  localhost;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">#设置字符集  </span></span><br><span class="line">        <span class="comment">#charset koi8-r;</span></span><br><span class="line">		<span class="comment">#本虚拟server的访问日志 相当于局部变量  </span></span><br><span class="line">        <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">        root html;  </span><br><span class="line">            index index.html index.htm;  </span><br><span class="line">            <span class="comment">#此处的 http://localhost与upstream localhost对应  </span></span><br><span class="line">            proxy_pass http://<span class="built_in">local</span>_tomcat;</span><br><span class="line">			proxy_redirect          off;</span><br><span class="line">			<span class="comment">#后端的Web服务器可以通过X-Forwarded-For获取用户真实IP</span></span><br><span class="line">			proxy_<span class="built_in">set</span>_header        Host <span class="variable">$host</span>;</span><br><span class="line">			proxy_<span class="built_in">set</span>_header        X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">			proxy_<span class="built_in">set</span>_header        X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">			client_max_body_size    10m;	<span class="comment">#允许客户端请求的最大单文件字节数</span></span><br><span class="line">			client_body_buffer_size 128k;	<span class="comment">#缓冲区代理缓冲用户端请求的最大字节数</span></span><br><span class="line">			proxy_connect_timeout   90;		<span class="comment">#nginx跟后端服务器连接超时时间(代理连接超时)</span></span><br><span class="line">			proxy_send_timeout      90;		<span class="comment">#后端服务器数据回传时间(代理发送超时)		  </span></span><br><span class="line">			proxy_<span class="built_in">read</span>_timeout      90;		<span class="comment">#连接成功后，后端服务器响应时间(代理接收超时)</span></span><br><span class="line">			proxy_buffer_size       4k;		<span class="comment">#设置代理服务器（nginx）保存用户头信息的缓冲区大小</span></span><br><span class="line">			proxy_buffers           4 32k;	<span class="comment">#proxy_buffers缓冲区，网页平均在32k以下的话，这样设置</span></span><br><span class="line">			proxy_busy_buffers_size 64k;	<span class="comment">#高负荷下缓冲大小（proxy_buffers*2）</span></span><br><span class="line">			proxy_temp_file_write_size 64k;	<span class="comment">#设定缓存文件夹大小，大于这个值，将从upstream服务器传</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#error_page  404              /404.html;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># redirect server error pages to the static page /50x.html</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># proxy the PHP scripts to Apache listening on 127.0.0.1:80</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">        <span class="comment">#    proxy_pass   http://127.0.0.1;</span></span><br><span class="line">        <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment">#location ~ \.php$ &#123;</span></span><br><span class="line">        <span class="comment">#    root           html;</span></span><br><span class="line">        <span class="comment">#    fastcgi_pass   127.0.0.1:9000;</span></span><br><span class="line">        <span class="comment">#    fastcgi_index  index.php;</span></span><br><span class="line">        <span class="comment">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span></span><br><span class="line">        <span class="comment">#    include        fastcgi_params;</span></span><br><span class="line">        <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># deny access to .htaccess files, if Apache's document root</span></span><br><span class="line">        <span class="comment"># concurs with nginx's one</span></span><br><span class="line">        <span class="comment">#</span></span><br><span class="line">        <span class="comment">#location ~ /\.ht &#123;</span></span><br><span class="line">        <span class="comment">#    deny  all;</span></span><br><span class="line">        <span class="comment">#&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># another virtual host using mix of IP-, name-, and port-based configuration</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#server &#123;</span></span><br><span class="line">    <span class="comment">#    listen       8000;</span></span><br><span class="line">    <span class="comment">#    listen       somename:8080;</span></span><br><span class="line">    <span class="comment">#    server_name  somename  alias  another.alias;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#    location / &#123;</span></span><br><span class="line">    <span class="comment">#        root   html;</span></span><br><span class="line">    <span class="comment">#        index  index.html index.htm;</span></span><br><span class="line">    <span class="comment">#    &#125;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># HTTPS server</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#server &#123;</span></span><br><span class="line">    <span class="comment">#    listen       443 ssl;</span></span><br><span class="line">    <span class="comment">#    server_name  localhost;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#    ssl_certificate      cert.pem;</span></span><br><span class="line">    <span class="comment">#    ssl_certificate_key  cert.key;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#    ssl_session_cache    shared:SSL:1m;</span></span><br><span class="line">    <span class="comment">#    ssl_session_timeout  5m;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#    ssl_ciphers  HIGH:!aNULL:!MD5;</span></span><br><span class="line">    <span class="comment">#    ssl_prefer_server_ciphers  on;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#    location / &#123;</span></span><br><span class="line">    <span class="comment">#        root   html;</span></span><br><span class="line">    <span class="comment">#        index  index.html index.htm;</span></span><br><span class="line">    <span class="comment">#    &#125;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/27/tomcat7+nginx+memcached配置Session共享/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          tomcat7+nginx+memcached配置Session共享篇
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/22/OOAD设计原则思维导图总结篇/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OOAD设计原则思维导图总结篇</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2015/04/26/nginx+tomcat7负载均衡部署总结篇/" data-title="nginx+tomcat7负载均衡部署总结篇" data-url="http://yoursite.com/2015/04/26/nginx+tomcat7负载均衡部署总结篇/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

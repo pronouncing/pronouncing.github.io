@@ -34,6 +34,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ooad第五天" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/ooad第五天/">ooad第五天</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/ooad第五天/" class="article-date">
+  <time datetime="2014-09-19T13:42:39.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="行为型设计模式"><a href="#行为型设计模式" class="headerlink" title="行为型设计模式"></a>行为型设计模式</h2><p>行为型模式：行为模式关注的是对象的行为。该类型的模式需要做的是对可能变化的行为进行抽象，通过封装达到整个架构的可扩展性。</p>
+<p>模版模式：模板方法模式是通过把不变行为搬移到超类，去除子类中的重复代码来体现他的优势的，提供一个很好的代码复用平台（变化的抽象、不变得封装）。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/09/19/ooad第五天/#more">More...</a>
+          </p>
+        
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-ooad第四天" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -183,48 +223,6 @@
 <p>UML（统一建模语言）：是专门用来进行软件系统设计和架构建模的一门可视化建模语言，它通过各种图示展示了软件系统的方方面面。</p>
 <p>使用类图表示关系：接口与类（实现关系）、对象与对象之间（泛化关系、关联关系）。<br>关联关系有分为：聚合关系、组合关系、依赖关系</p>
 <p>泛化关系: 指对象与对象之间的继承关系<br>关联关系: 指对象和对象之间的连接<br>依赖关系:使用(方法或构造器的参数、方法的返回值)<br>聚合关系: 整体与部分的拥有关系(整体与部分之间是可分离的)<br>组合关系: 同样体现整体与部分间的包含关系(整体与部分是不可分的)</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Servlet中forward和redirect的区别" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Servlet中forward和redirect的区别/">Servlet中forward和redirect的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/Servlet中forward和redirect的区别/" class="article-date">
-  <time datetime="2014-09-19T12:57:36.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>forward方式：request.getRequestDispatcher(“/somePage.jsp”).forwardrequest, response);<br>redirect方式：response.sendRedirect(“/somePage.jsp”);<br>forward是服务器内部重定向，程序收到请求后重新定向到另一个程序，客户机并不知道；redirect则是服务器收到请求后发送一个状态头给客户，客户将再请求一次，这里多了两次网络通信的来往。当然forward也有缺点，就是forward的页面的路径如果是相对路径就会有些问题了。    forward 会将 request state , bean 等等信息带往下一个 jsp<br>redirect 是送到 client 端后再一次 request , 所以资料不被保留.<br>使用 forward 你就可以用 getAttribute() 来取的前一个 jsp 所放入的 bean 等等资料</p>
-<p>在网上看到一些帖子，总结了一些区别，可以从以下几个方面来看：</p>
-<h3 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h3><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
-<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.所以redirect等于客户端向服务器端发出两次request，同时也接受两次response。</p>
-<h3 id="2-从数据共享来说"><a href="#2-从数据共享来说" class="headerlink" title="2.从数据共享来说"></a>2.从数据共享来说</h3><p>forward:转发页面和转发到的页面可以共享request里面的数据.<br>redirect:不能共享数据.</p>
-<p>redirect不仅可以重定向到当前应用程序的其他资源,还可以重定向到同一个站点上的其他应用程序中的资源,甚至是使用绝对URL重定向到其他站点的资源.</p>
-<p>forward,方法只能在同一个Web应用程序内的资源之间转发请求.forward 是服务器内部的一种操作.<br>redirect 是服务器通知客户端,让客户端重新发起请求.<br>所以,你可以说 redirect 是一种间接的请求, 但是你不能说”一个请求是属于forward还是redirect “</p>
-<h3 id="3-从运用地方来说"><a href="#3-从运用地方来说" class="headerlink" title="3.从运用地方来说"></a>3.从运用地方来说</h3><p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.<br>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
 
       
 

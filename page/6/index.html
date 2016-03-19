@@ -34,6 +34,41 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/MYSQL数据库总结篇/" class="article-date">
+  <time datetime="2014-09-19T15:58:56.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>– 第一章<br>/<em><br> 数据库分类<br> 1 网状<br> 2 层次<br> 3 关系<br> 4 对象<br>关系型数据库<br> 表之间的关系: 1 一对一<br>        2 一对多<br>        3 多对多<br> SQL语句：1.DDL<br>   2.DQL<br>   3.DML<br>   4,DCL<br>– 第二章<br>创建数据库、表<br>create database 库名<br>create table 表名<br>修改表名、删除列名、修改列名、添加列、备份<br>增加列 ALTER TABLE t_class ADD COLUMN 列名 类型 – column可省略<br>修改列 ALTER TABLE t_class CHANGE 列名 新列名 新列类型<br>删除列 ALTER TABLE t_class DROP COLUMN nam – column可省略<br>备份表 CREATE TABLE 新表名 SELECT</em>FROM 旧表名<br>数据类型<br>decimal(m,n) 总长度和小数点后长度<br>char 默认长度为1  最大长度为16<br>varchar()后面必须跟参数<br>– 第三章<br>数据完整性<br> 1 实体完整性<br> 2 域完整性<br> 3 引用完整性<br> 4 自定义完整性<br>constraint foreign key 列 references 列<br>必须申明表的类型 engine=innodb<br>还有字符的编码集 charset=’utf8‘；<br>– 第四章<br>添加、删除、修改<br>delete from 表名<br>truncate table 表名<br>– 第五章<br>select * from 表名<br>模糊查询 where like’_%’<br>         and or not<br>在什么与什么之间 between and<br>           in<br>      运算符<br>order by 列名 asc<br>              desc<br>      limit<br>select distinct 列 from 表   去重复<br>AS<br>– 第六章<br> MAX() 求最大值<br> Min() 求最小值<br> count() 统计所有数据<br> sum() 求总和<br> avg() 求平均值<br>Group by 分组<br>having   （having可以使用聚合函数的过滤条件 where不能使用聚合函数可以使用比较运算符===having和where都是过滤条件)<br>SQL执行顺序<br>select  1.from      某张表<br> 2.where     进行条件筛选<br> 3.group by  条件筛选完后进行那一列的分组<br> 4.select    分组之后执行查询某张表某一列的数据<br> 5.having    进行函数过滤进行条件<br> 6.order by  进行排序操作 <asc如果不写就是正序排列>和<desc倒叙排列><br> 7.limit     返回这张表需要显示多少行<br>– 第七章<br>组合查询<br>子查询<br>union  两张表进行连接以列的形式显示数据<br>exists() 存在 结果为真就真，假为假<br>all() 满足所有数据<br>any() 满足任意数据<br>– 第八章<br>  多表的连接<br>  内连接：where<br>  外连接: 表1 left join 表2 on 条件<br>   表1 right join 表2 on 条件</desc倒叙排列></asc如果不写就是正序排列></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MySQL学习笔记三" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -391,42 +426,6 @@ constructor
 
         Object obj=ac.getBean(&quot;id值&quot;);
 </code></pre>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-spring3mvc与struts2比较" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/spring3mvc与struts2比较/">spring3mvc与struts2比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/spring3mvc与struts2比较/" class="article-date">
-  <time datetime="2014-09-19T15:03:32.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>项目刚刚换了web层框架，放弃了struts2改用spring3mvc。当初换框架的时候目的比较单纯：springmvc支持rest，我对对restful url由衷的喜欢<br>不用不知道 一用就发现开发效率确实比struts2高。<br>我们用struts2时采用的传统的配置文件的方式，并没有使用传说中的0配置。spring3 mvc可以认为已经100%零配置了（除了配置springmvc-servlet.xml外）<br>比较了一下strus2与spring3 mvc的差别：<br>spring3 mvc是方法级别的拦截，拦截到方法后根据参数上的注解，把request数据注入进去，在spring3mvc中，一个方法对应一个request上下文。<br>而struts2框架是类级别的拦截，每次来了请求就创建一个Action，然后调用setter getter方法把request中的数据注入；struts2实际上是通过setter getter方法与request打交道的；struts2中，一个Action对象对应一个request上下文。</p>
-<h3 id="好了-我们来整理一下"><a href="#好了-我们来整理一下" class="headerlink" title="好了 我们来整理一下"></a>好了 我们来整理一下</h3><p>spring mvc是方法级别的拦截，一个方法对应一个request上下文，而方法同时又跟一个url对应，所以说从架构本身上 spring3 mvc就容易实现restful url。<br>struts2是类级别的拦截， 一个类对应一个request上下文；实现restful url要费劲，因为struts2 action的一个方法可以对应一个url；而其类属性却被所有方法共享，这也就无法用注解或其他方式标识其所属方法了。<br>spring3 mvc的方法之间基本上独立的，独享request response数据，请求数据通过参数获取，处理结果通过ModelMap交回给框架方法之间不共享变量<br>而struts2搞的就比较乱，虽然方法之间也是独立的，但其所有Action变量是共享的，这不会影响程序运行，却给我们编码 读程序时带来麻烦。<br>spring3 mvc的验证也是一个亮点，支持JSR303，处理ajax的请求更是方便 只需一个注解@ResponseBody ，然后直接返回响应文本即可。</p>
-
       
 
       

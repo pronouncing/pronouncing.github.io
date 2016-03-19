@@ -34,6 +34,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/">第5章Oracle PL/SQL使用游标获取</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/" class="article-date">
+  <time datetime="2014-09-22T02:50:03.000Z" itemprop="datePublished">2014-09-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>### 1. 游标的概述 ###
+</code></pre><h3 id="1-隐式游标"><a href="#1-隐式游标" class="headerlink" title="1. 隐式游标"></a>1. 隐式游标</h3><pre><code>   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+</code></pre><h3 id="2-显式游标"><a href="#2-显式游标" class="headerlink" title="2. 显式游标"></a>2. 显式游标</h3><pre><code>显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭）
+</code></pre><h3 id="3-典型的查询操作"><a href="#3-典型的查询操作" class="headerlink" title="3. 典型的查询操作"></a>3. 典型的查询操作</h3><pre><code> a、 解析 （处理SQL语句的一个步骤是解析，确保SQL语句是有效的）
+ b、 绑定（将PL/SQL程序中的变量与绑定变量关联）
+  c、打开（打开游标）
+ d、 执行（从SQL引擎中运行SQL语句）
+ e、 提取（在游标的结果集中获取下一行）
+ f、 关闭（关闭 游标）
+游标获取数据库中的数据集合，然后打开提取每次提取后都会定位到下一行，然后从SGA中将数据拿到程序变量中，在此过程中是由Oracle自动将绑定变量与程序变量相关联。
+</code></pre><h3 id="4-游标属性"><a href="#4-游标属性" class="headerlink" title="4. 游标属性"></a>4. 游标属性</h3><pre><code>      a、%found      如果记录成功获取，返回true，否则返回false
+      b、%notfound   如果记录获取失败，返回true，否则返回false
+      c、%rowcount   返回从游标中获取的记数
+      d、%isopen     如果游标是打开的，返回true，否则返回false
+      e、bulk_rowcount 返回forall语句更改的每个集合元素的记录数
+      f、bulk_exception 返回forall语句更改的每个集合元素的记录的异常信息
+注意：可以在PL/SQL代码中引用游标属性，不能在SQL语句中使用这些属性。
+</code></pre><h3 id="2-使用显式游标"><a href="#2-使用显式游标" class="headerlink" title="2. 使用显式游标"></a>2. 使用显式游标</h3><pre><code>1. 声明显示游标
+      cursor 游标名     is select 语句 for update;
+                 游标名 指向的影响这一行类型%rowtype或type类型
+2. 打开显式游标
+      open 显式游标名；
+3. 从显式游标中提取记录
+      fetch 游标名 into 记录或变量列表；
+4. 关闭显式游标
+      close 游标名
+</code></pre><ol>
+<li>游标for循环<pre><code>for 记录 in 游标名 loop
+   执行语句
+end loop；
+</code></pre><h3 id="使用引用游标"><a href="#使用引用游标" class="headerlink" title="使用引用游标:"></a>使用引用游标:</h3>create or replace procedure proc_info(id in int) is<br>type cur_info is ref cursor; –类型type   游标名   IS   ref cursor引用游标<br>cur_emp cur_info;             –游标标量<br>cur_emp_info emp%rowtype;   –影响的整列的数据<br>begin<br>open cur_emp for                     – 打开游标<br>select <em> from emp where empno=id;<br>loop<br>fetch cur_emp into cur_emp_info;    –从游标中提取数据<br>exit when cur_emp%notfound;        –退出条件没有记录就退出<br>dbms_output.put_line(‘ID：’||cur_emp_info.empno|| ‘姓名：’||cur_emp_info.ename ||’工资：’||v_vv.sal);<br>end loop;<br>close cur_emp;                                   –关闭游标<br>end;<br>call v_v(7499);<br>select </em> from emp;</li>
+</ol>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -283,41 +352,6 @@ f、归档进程(ARCH)
 </li>
 </ol>
 <p>序列的创建<br>create sequence  序列名 increment by 增加 start with 起始数字</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/MYSQL数据库总结篇/" class="article-date">
-  <time datetime="2014-09-19T15:58:56.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>– 第一章<br>/<em><br> 数据库分类<br> 1 网状<br> 2 层次<br> 3 关系<br> 4 对象<br>关系型数据库<br> 表之间的关系: 1 一对一<br>        2 一对多<br>        3 多对多<br> SQL语句：1.DDL<br>   2.DQL<br>   3.DML<br>   4,DCL<br>– 第二章<br>创建数据库、表<br>create database 库名<br>create table 表名<br>修改表名、删除列名、修改列名、添加列、备份<br>增加列 ALTER TABLE t_class ADD COLUMN 列名 类型 – column可省略<br>修改列 ALTER TABLE t_class CHANGE 列名 新列名 新列类型<br>删除列 ALTER TABLE t_class DROP COLUMN nam – column可省略<br>备份表 CREATE TABLE 新表名 SELECT</em>FROM 旧表名<br>数据类型<br>decimal(m,n) 总长度和小数点后长度<br>char 默认长度为1  最大长度为16<br>varchar()后面必须跟参数<br>– 第三章<br>数据完整性<br> 1 实体完整性<br> 2 域完整性<br> 3 引用完整性<br> 4 自定义完整性<br>constraint foreign key 列 references 列<br>必须申明表的类型 engine=innodb<br>还有字符的编码集 charset=’utf8‘；<br>– 第四章<br>添加、删除、修改<br>delete from 表名<br>truncate table 表名<br>– 第五章<br>select * from 表名<br>模糊查询 where like’_%’<br>         and or not<br>在什么与什么之间 between and<br>           in<br>      运算符<br>order by 列名 asc<br>              desc<br>      limit<br>select distinct 列 from 表   去重复<br>AS<br>– 第六章<br> MAX() 求最大值<br> Min() 求最小值<br> count() 统计所有数据<br> sum() 求总和<br> avg() 求平均值<br>Group by 分组<br>having   （having可以使用聚合函数的过滤条件 where不能使用聚合函数可以使用比较运算符===having和where都是过滤条件)<br>SQL执行顺序<br>select  1.from      某张表<br> 2.where     进行条件筛选<br> 3.group by  条件筛选完后进行那一列的分组<br> 4.select    分组之后执行查询某张表某一列的数据<br> 5.having    进行函数过滤进行条件<br> 6.order by  进行排序操作 <asc如果不写就是正序排列>和<desc倒叙排列><br> 7.limit     返回这张表需要显示多少行<br>– 第七章<br>组合查询<br>子查询<br>union  两张表进行连接以列的形式显示数据<br>exists() 存在 结果为真就真，假为假<br>all() 满足所有数据<br>any() 满足任意数据<br>– 第八章<br>  多表的连接<br>  内连接：where<br>  外连接: 表1 left join 表2 on 条件<br>   表1 right join 表2 on 条件</desc倒叙排列></asc如果不写就是正序排列></p>
 
       
 

@@ -34,6 +34,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Servlet中forward和redirect的区别" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/Servlet中forward和redirect的区别/">Servlet中forward和redirect的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/Servlet中forward和redirect的区别/" class="article-date">
+  <time datetime="2014-09-19T12:57:36.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>forward方式：request.getRequestDispatcher(“/somePage.jsp”).forwardrequest, response);<br>redirect方式：response.sendRedirect(“/somePage.jsp”);<br>forward是服务器内部重定向，程序收到请求后重新定向到另一个程序，客户机并不知道；redirect则是服务器收到请求后发送一个状态头给客户，客户将再请求一次，这里多了两次网络通信的来往。当然forward也有缺点，就是forward的页面的路径如果是相对路径就会有些问题了。    forward 会将 request state , bean 等等信息带往下一个 jsp<br>redirect 是送到 client 端后再一次 request , 所以资料不被保留.<br>使用 forward 你就可以用 getAttribute() 来取的前一个 jsp 所放入的 bean 等等资料</p>
+<p>在网上看到一些帖子，总结了一些区别，可以从以下几个方面来看：</p>
+<h3 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h3><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
+<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.所以redirect等于客户端向服务器端发出两次request，同时也接受两次response。</p>
+<h3 id="2-从数据共享来说"><a href="#2-从数据共享来说" class="headerlink" title="2.从数据共享来说"></a>2.从数据共享来说</h3><p>forward:转发页面和转发到的页面可以共享request里面的数据.<br>redirect:不能共享数据.</p>
+<p>redirect不仅可以重定向到当前应用程序的其他资源,还可以重定向到同一个站点上的其他应用程序中的资源,甚至是使用绝对URL重定向到其他站点的资源.</p>
+<p>forward,方法只能在同一个Web应用程序内的资源之间转发请求.forward 是服务器内部的一种操作.<br>redirect 是服务器通知客户端,让客户端重新发起请求.<br>所以,你可以说 redirect 是一种间接的请求, 但是你不能说”一个请求是属于forward还是redirect “</p>
+<h3 id="3-从运用地方来说"><a href="#3-从运用地方来说" class="headerlink" title="3.从运用地方来说"></a>3.从运用地方来说</h3><p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.<br>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Servlet请求转发和重定向总结" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -206,71 +248,6 @@
 <li>字符流：     Reader(读)，Writer(写) </li>
 </ol>
 <p>比较常用的流有 <strong>文件流——处理流——对象流</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> public static void main(String []args) throws FileNotFoundException,IOException &#123;</span><br><span class="line">  FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流            这是字节流输入流</span><br><span class="line">  BufferedInputStream d=new BufferedInputStream(w);//缓存区                  这是缓存流</span><br><span class="line">  FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流         这是字节写出流</span><br><span class="line">  int b;</span><br><span class="line">  while((b = d.read())!=-1) &#123;</span><br><span class="line">   c.write(b);</span><br><span class="line">  &#125;</span><br><span class="line">  c.flush(); //刷新</span><br><span class="line">  d.close(); //关闭写出字节流</span><br><span class="line">  c.close(); //关闭写出缓存区字节流</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">字节流：</span><br><span class="line">FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流          </span><br><span class="line">FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流        </span><br><span class="line">InputStreamReader w=new InputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流 </span><br><span class="line">OutputStreamReader c=new OutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符写出流   </span><br><span class="line"> </span><br><span class="line">↓ ↑</span><br><span class="line">FileInputStreamReader w=new FileInputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流</span><br><span class="line">FileOutputStreamReader c=new FileOutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符输出流   </span><br><span class="line"> </span><br><span class="line">处理流：</span><br><span class="line">BufferedInputStream d=new BufferedInputStream(w);//缓存区 可以整行读取      字节缓存流</span><br><span class="line">BufferedOutputStream d=new BufferedOutputStream(w);//缓存区  可以整行写出    字节缓存流</span><br><span class="line"> </span><br><span class="line">对象流：</span><br><span class="line"> ObjectIputStream   对象序列化</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-第15章集合框架" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第15章集合框架/">第15章集合框架</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/第15章集合框架/" class="article-date">
-  <time datetime="2014-09-19T12:24:39.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="集合框架："><a href="#集合框架：" class="headerlink" title="集合框架："></a>集合框架：</h2><p>java集合框架中的对象容器，按照对象在其中的存储方式，分为List -Set和Map三种类型.<br>Set类型对象容器中没有顺序，且不能重复;List类型对象容器中的对象按照索引顺序排序，而且可以有重复的对象;Map类型对象容器中的元素包含一对 ”键对象–值对象“映射，其中键对象不能重复，值对象可以重复。三种存储方式对应java集合框架中 Set     List     和Map 三个接口.<br>java集合层次流程图：画黑色边框的是重点掌握的内容(1-Collection接&gt;2-Map接口&gt;Iterator迭代器)<br><img src="http://i.imgur.com/yEHt6b1.jpg" alt=""><br>第二版文字说明：</p>
-<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><pre><code>|--List:元素是有序的，元素可以重复。因为该集合体系有索引。
-        |--ArrayList:底层的数据结构使用的是数组结构。特点：查询速度很快。但是增删稍慢。线程不同步。
-        |--LinkedList:底层使用的链表数据结构。特点：增删速度很快，查询稍慢。线程不同步。
-        |--Vector:底层是数组数据结构。线程同步。被ArrayList替代了。因为效率低。(特有的： 枚举)
-
-|--Set：元素是无序(存入和取出的顺序不一定一致)，元素不可以重复。
-        |--HashSet:底层数据结构是哈希表。是线程不安全的。不同步。
-                HashSet是如何保证元素唯一性的呢？
-                是通过元素的两个方法，hashCode和equals来完成。
-                如果元素的HashCode值相同，才会判断equals是否为true。
-                如果元素的hashcode值不同，不会调用equals。
-                注意,对于判断元素是否存在，以及删除等操作，依赖的方法是元素的hashcode和equals方法。
-                Set集合的功能和Collection是一致的。
-        |--TreeSet：可以对Set集合中的元素进行排序。
-                底层数据结构是二叉树。
-                保证元素唯一性的依据：compareTo方法return 0.
-                TreeSet排序的第一种方式：
-                        让元素自身具备比较性。
-                        元素需要实现Comparable接口，覆盖compareTo方法。
-                        这种方式也称为元素的自然顺序，或者叫做默认顺序。
-                TreeSet的第二种排序方式：
-                        当元素自身不具备比较性时，或者具备的比较性不是所需要的。
-                        这时就需要让集合自身具备比较性。
-                        在集合初始化时，就有了比较方式
-</code></pre><h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><pre><code>|--Hashtable:底层是哈希表数据结构，不可以存入null键null值。该集合是线程同步的。jdk1.0.效率低。
-|--HashMap：底层是哈希表数据结构，允许使用 null 值和 null 键，该集合是不同步的。将hashtable替代，jdk1.2.效率高。
-|--TreeMap：底层是二叉树数据结构。线程不同步。可以用于给map集合中的键进行排序。
-</code></pre><h3 id="map集合的两种取出方式："><a href="#map集合的两种取出方式：" class="headerlink" title="map集合的两种取出方式："></a>map集合的两种取出方式：</h3><p>  1，Set<k> keySet：将map中所有的键存入到Set集合。因为set具备迭代器。<br>        所有可以迭代方式取出所有的键，在根据get方法。获取每一个键对应的值。</k></p>
-<pre><code>Map集合的取出原理：将map集合转成set集合。在通过迭代器取出。
-</code></pre><p>  2，Set<map.entry<k,v>&gt; entrySet：将map集合中的映射关系存入到了set集合中，<br>                                而这个关系的数据类型就是：Map.Entry<br>                                Entry其实就是Map中的一个static内部接口。<br>                                为什么要定义在内部呢？<br>                                因为只有有了Map集合，有了键值对，才会有键值的映射关系。<br>                                关系属于Map集合中的一个内部事物。<br>                                而且该事物在直接访问Map集合中的元素。</map.entry<k,v></p>
 
       
 

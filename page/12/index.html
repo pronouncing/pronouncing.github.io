@@ -34,6 +34,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-第15章集合框架" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/第15章集合框架/">第15章集合框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/第15章集合框架/" class="article-date">
+  <time datetime="2014-09-19T12:24:39.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="集合框架："><a href="#集合框架：" class="headerlink" title="集合框架："></a>集合框架：</h2><p>java集合框架中的对象容器，按照对象在其中的存储方式，分为List -Set和Map三种类型.<br>Set类型对象容器中没有顺序，且不能重复;List类型对象容器中的对象按照索引顺序排序，而且可以有重复的对象;Map类型对象容器中的元素包含一对 ”键对象–值对象“映射，其中键对象不能重复，值对象可以重复。三种存储方式对应java集合框架中 Set     List     和Map 三个接口.<br>java集合层次流程图：画黑色边框的是重点掌握的内容(1-Collection接&gt;2-Map接口&gt;Iterator迭代器)<br><img src="http://i.imgur.com/yEHt6b1.jpg" alt=""><br>第二版文字说明：</p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><pre><code>|--List:元素是有序的，元素可以重复。因为该集合体系有索引。
+        |--ArrayList:底层的数据结构使用的是数组结构。特点：查询速度很快。但是增删稍慢。线程不同步。
+        |--LinkedList:底层使用的链表数据结构。特点：增删速度很快，查询稍慢。线程不同步。
+        |--Vector:底层是数组数据结构。线程同步。被ArrayList替代了。因为效率低。(特有的： 枚举)
+
+|--Set：元素是无序(存入和取出的顺序不一定一致)，元素不可以重复。
+        |--HashSet:底层数据结构是哈希表。是线程不安全的。不同步。
+                HashSet是如何保证元素唯一性的呢？
+                是通过元素的两个方法，hashCode和equals来完成。
+                如果元素的HashCode值相同，才会判断equals是否为true。
+                如果元素的hashcode值不同，不会调用equals。
+                注意,对于判断元素是否存在，以及删除等操作，依赖的方法是元素的hashcode和equals方法。
+                Set集合的功能和Collection是一致的。
+        |--TreeSet：可以对Set集合中的元素进行排序。
+                底层数据结构是二叉树。
+                保证元素唯一性的依据：compareTo方法return 0.
+                TreeSet排序的第一种方式：
+                        让元素自身具备比较性。
+                        元素需要实现Comparable接口，覆盖compareTo方法。
+                        这种方式也称为元素的自然顺序，或者叫做默认顺序。
+                TreeSet的第二种排序方式：
+                        当元素自身不具备比较性时，或者具备的比较性不是所需要的。
+                        这时就需要让集合自身具备比较性。
+                        在集合初始化时，就有了比较方式
+</code></pre><h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><pre><code>|--Hashtable:底层是哈希表数据结构，不可以存入null键null值。该集合是线程同步的。jdk1.0.效率低。
+|--HashMap：底层是哈希表数据结构，允许使用 null 值和 null 键，该集合是不同步的。将hashtable替代，jdk1.2.效率高。
+|--TreeMap：底层是二叉树数据结构。线程不同步。可以用于给map集合中的键进行排序。
+</code></pre><h3 id="map集合的两种取出方式："><a href="#map集合的两种取出方式：" class="headerlink" title="map集合的两种取出方式："></a>map集合的两种取出方式：</h3><p>  1，Set<k> keySet：将map中所有的键存入到Set集合。因为set具备迭代器。<br>        所有可以迭代方式取出所有的键，在根据get方法。获取每一个键对应的值。</k></p>
+<pre><code>Map集合的取出原理：将map集合转成set集合。在通过迭代器取出。
+</code></pre><p>  2，Set<map.entry<k,v>&gt; entrySet：将map集合中的映射关系存入到了set集合中，<br>                                而这个关系的数据类型就是：Map.Entry<br>                                Entry其实就是Map中的一个static内部接口。<br>                                为什么要定义在内部呢？<br>                                因为只有有了Map集合，有了键值对，才会有键值的映射关系。<br>                                关系属于Map集合中的一个内部事物。<br>                                而且该事物在直接访问Map集合中的元素。</map.entry<k,v></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-第12章反射" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -292,43 +357,6 @@ public class ReflectTest {
  下面我们来看看动态绑定的内部实现机制。
 JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定。
 </code></pre>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-第8章封装" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第8章封装/">第8章封装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/第8章封装/" class="article-date">
-  <time datetime="2014-09-19T10:53:29.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="封装："><a href="#封装：" class="headerlink" title="封装："></a>封装：</h2><p>java为类中的成员提供了四种访问级别，按照访问权限由大到小排列<br>分别是：公用的（public）私有的(private)受保护的（protected）和默认的（default无访问修饰符）<br>通过用private 访问修饰符隐藏类中成员变量 称为封装，通过方法访问属性称为封装set[设置]/get[获取]</p>
-<h2 id="静态："><a href="#静态：" class="headerlink" title="静态："></a>静态：</h2><p>Static修饰符属于类的，用类名直接调用get或set<br>静态块：如果不加Static就用对象调用，如果加了Static就是用类调用set或get方法</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>封装 封装就是通过方法访问属性<br>静态 静态就是访问静态成员变量的时候用类名访问二不是用对象访问<br>静态块 静态块就是实例初始化块时在构造器之前执行</p>
-
       
 
       

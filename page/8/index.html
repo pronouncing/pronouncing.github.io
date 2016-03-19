@@ -34,6 +34,42 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-java日期类型在Hibernate中的处理" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/java日期类型在Hibernate中的处理/">java日期类型在Hibernate中的处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/java日期类型在Hibernate中的处理/" class="article-date">
+  <time datetime="2014-09-19T14:28:50.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java日期类型在Hibernate中的处理<br>java中的表示日期时间的类型很多，主要有下面一些：<br>java.util.Calendar（和区域有关，可表示年，月，日，时，分，秒）<br>java.util.Date（可表示年，月，日，时，分，秒）<br>java.sql.Date（可表示年，月，日）<br>java.sql.Time （可表示时，分，秒）<br>java.sql.Timestamp（可表示年，月，日，时，分，秒，纳秒）<br>在对象定义时，究竟定义为哪种类型，我们得要求项目需求来选择不同精度的类型。</p>
+<p>Hibernate对上面的时间类型都有很好的支持，但是，不同的类型，数据库中的字段也得选择相应的类型，以mysql为例，就存在date,time,datetime,timestamp等几种。<br>hibernate的映射书写时要注意，日期类型一般都要明确予以指定。如果你使用的是注解映射配置，类型选择的又是java.util.Calendar，java.util.Date，此时需要使用@Temporal 明确指定具体类型，对应的取值有TemporalType.DATE,TemporalType.TIME,TemporalType.TIMESTAMP几种。<br>最后，hibernate中以时间作为查询条件时，也需要明确指定传入参数类型，大家要选择带有3个参数的那个setParameter方法。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java的GC垃圾回收原理与机制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -185,45 +221,6 @@
 <p>五、图片等二进制类型的json转换<br>这个不用担心，jackson可直接完成转换，前提是：<br>你要用byte[]类型表示二进制数据，比如：private byte[] photo ;</p>
 <p>当然，上面的的代码都是在线手工操作下的示例，jackson也是支持注解的，比如：排除属性，日期格式的定义等，都可以用注解的方式去实现，请大家自己so一下吧。</p>
 
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-struts2的执行流程工作原理" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/struts2的执行流程工作原理/">struts2的执行流程工作原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/struts2的执行流程工作原理/" class="article-date">
-  <time datetime="2014-09-19T14:05:17.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><a href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。" class="headerlink" title="Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"></a>Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</h3><p>   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。核心控制器FilterDispatcher是Struts 2框架的基础，包含了框架内部的控制流程和处理机制。业务控制器Action和业务逻辑组件是需要用户来自己实现的。用户在开发Action和业务逻辑组件的同时，还需要编写相关的配置文件，供核心控制器FilterDispatcher来使用。 Struts 2的工作流程相对于Struts 1要简单，与WebWork框架基本相同，所以说Struts 2是WebWork的升级版本。基本简要流程如下：<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/09/19/struts2的执行流程工作原理/#more">More...</a>
-          </p>
-        
       
 
       
