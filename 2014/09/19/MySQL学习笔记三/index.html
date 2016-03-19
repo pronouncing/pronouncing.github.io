@@ -1,0 +1,447 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+
+    <title>MySQL学习笔记三 | lihao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="lihao">
+    
+    <meta name="description" content="? 注释
+select 1+1;     # 单行注释select 1+1;     – 单行注释select 1 / 多行注释 / + 1;? 基本数据类型操作
+字符串    select ‘hello’, ‘“hello”‘, ‘“”hello””‘, ‘hel’’lo’, ‘/‘hello’;">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="pronouncing" />
+    <meta name="twitter:title" content="MySQL学习笔记三 | lihao" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/logos.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">存档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/19/MySQL学习笔记三/" title="MySQL学习笔记三" itemprop="url">MySQL学习笔记三</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="lihao">lihao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-19T15:54:59.000Z" itemprop="datePublished">2014-09-19</time>
+    Updated:<time datetime="2014-09-19T15:56:22.444Z" itemprop="dateModified">2014-09-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<p>? 注释</p>
+<p>select 1+1;     # 单行注释<br>select 1+1;     – 单行注释<br>select 1 /<em> 多行注释 </em>/ + 1;<br>? 基本数据类型操作</p>
+<p>字符串<br>    select ‘hello’, ‘“hello”‘, ‘“”hello””‘, ‘hel’’lo’, ‘/‘hello’;<br>    select “hello”, “‘hello’”, “‘’hello’’”, “hel””lo”, “/“hello”;</p>
+<p>/n换行<br>    select ‘This/nIs/nFour/nLines’;</p>
+<p>/转义<br>    select ‘hello / world!’;<br>    select ‘hello /world!’;<br>    select ‘hello // world!’;<br>    select ‘hello /‘ world!’;<br>? 设置数据库mode模式</p>
+<p>SET sql_mode=’ANSI_QUOTES’;<br>create table t(a int);<br>create table “tt”(a int);<br>create table “t””t”(a int);<br>craate talbe tab(“a””b” int);<br>? 用户变量</p>
+<p>set @num1 = 0, @num2 = 2, @result = 0;</p>
+<p>select @result := (@num1 := 5) + @num2 := 3, @num1, @num2, @result;</p>
+<p>? 存储过程</p>
+<p>创建存储过程：<br>delimiter //<br>create procedure get(out result int)<br>begin<br> select max(age) into result from temp;<br>end//<br>调用存储过程：<br>call get(@temp);<br>查询结果：<br>select @temp;</p>
+<p>删除存储过程：<br>drop procedure get;</p>
+<p>查看存储过程创建语句：<br>show create procedure get;</p>
+<p>select…into 可以完成单行记录的赋值：<br>create procedure getRecord(sid int)<br>begin<br>    declare v_name varchar(20) default ‘jason’;<br>    declare v_age int;<br>    declare v_sex bit;<br>    select name, age, sex into v_name, v_age, v_sex from temp where id = sid;<br>    select v_name, v_age, v_sex;<br>end;<br>call getRecord(1);<br>? 函数</p>
+<p>函数类似于存储过程，只是调用方式不同<br>例如：select max(age) from temp;</p>
+<p>创建函数：<br>create function addAge(age int) returns int<br>     return age + 5;</p>
+<p>使用函数：<br>select addAge(age) from temp;</p>
+<p>删除函数：<br>drop function if exists addAge;<br>drop function addAge;</p>
+<p>显示创建语法：<br>show create function addAge;<br>? 游标</p>
+<p>声明游标：declare cur_Name cursor for select name from temp;<br>打开游标：open cur_Name;<br>Fetch游标：fetch cur_Name into @temp;<br>关闭游标：close cur_Name;</p>
+<p>示例：<br>CREATE PROCEDURE cur_show()<br>BEGIN<br>  DECLARE done INT DEFAULT 0;<br>  DECLARE v_id, v_age INT;<br>  DECLARE v_name varchar(20);<br>  DECLARE cur_temp CURSOR FOR SELECT id, name, age FROM temp;<br>  DECLARE CONTINUE HANDLER FOR SQLSTATE ‘02000’ SET done = 1;</p>
+<p>  OPEN cur_temp;</p>
+<p>  REPEAT<br>    FETCH cur_temp INTO v_id, v_name, v_age;<br>    IF NOT done THEN<br>       IF isnull(v_name) THEN<br>          update temp set name = concat(‘test-json’, v_id) where id = v_id;<br>       ELSEIF isnull(v_age) THEN<br>          update temp set age = 22 where id = v_id;<br>       END IF;<br>    END IF;<br>  UNTIL done END REPEAT;</p>
+<p>  CLOSE cur_temp;<br>END<br>? 触发器</p>
+<p>触发器分为insert、update、delete三种触发器事件类型<br>还有after、before触发时间<br>创建触发器：<br>create trigger trg_temp_ins<br>before insert<br>on temp for each row<br>begin<br>insert into temp_log values(NEW.id, NEW.name);<br>end//</p>
+<p>删除触发器：<br>drop trigger trg_temp_ins<br>版权维护转载hoojo博客的。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/09/19/MySQL学习笔记三/" data-title="MySQL学习笔记三 | lihao" data-tsina="pronouncing" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/19/MYSQL数据库总结篇/" title="MYSQL数据库总结篇">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  MYSQL数据库总结篇</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/19/MySQL学习笔记二/"  title="MySQL学习笔记二">
+ <strong>NEXT:</strong><br/> 
+ <span>MySQL学习笔记二
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/09/19/MySQL学习笔记三/" data-title="MySQL学习笔记三" data-url="http://yoursite.com/2014/09/19/MySQL学习笔记三/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"pronouncing"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+<!-- 百度统计公共JS代码 end -->
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
+		
+			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
+		
+			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
+		
+			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
+		
+			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
+		
+			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
+		
+			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
+		
+			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
+        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你好，我是LiHao <br/>
+			这是我的博客,信不信由你</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
+		
+		
+		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
+		
+        
+        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
+        
+	</div>
+		<p class="copyright"> © 2016
+		
+		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pronouncing"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+  </body>
+</html>

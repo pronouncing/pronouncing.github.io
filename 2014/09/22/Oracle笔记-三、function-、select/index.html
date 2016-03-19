@@ -1,0 +1,624 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+
+    <title>Oracle笔记 三、function 、select | lihao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="lihao">
+    
+    <meta name="description" content="Oracle笔记 三、function 、select
+Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；1、查看表结构用desc    desc emp;
+2、空表dual，最常用的空表，如：    select 2 * 4 from dual;    s">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="pronouncing" />
+    <meta name="twitter:title" content="Oracle笔记 三、function 、select | lihao" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/logos.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">存档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/22/Oracle笔记-三、function-、select/" title="Oracle笔记 三、function 、select" itemprop="url">Oracle笔记 三、function 、select</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="lihao">lihao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-22T03:09:42.000Z" itemprop="datePublished">2014-09-22</time>
+    Updated:<time datetime="2014-09-22T03:10:50.672Z" itemprop="dateModified">2014-09-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+		</div>
+		
+		<p>Oracle笔记 三、function 、select</p>
+<p>Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；<br>1、查看表结构用desc<br>    desc emp;</p>
+<p>2、空表dual，最常用的空表，如：<br>    select 2 * 4 from dual;<br>    select sysdate from dual;</p>
+<p>3、双引号能保持格式<br>    如：select sysdate “toDay 日 期” from dual;</p>
+<p>4、|| 字符串连接<br>    如：select 2*3 || 8 from dual;<br>    select ename || sal from scott.emp;<br>    select ename || ‘ORACLE’ from scott.emp;</p>
+<p>5、单引号，如：select 2 * 2 || ‘abc’’efg’ from dual;<br>    用两个单引号表示一个单引号</p>
+<p>6、去掉重复数据distinct<br>    select distinct deptno from scott.emp;<br>    去掉重复组合：select distinct deptno,job from scott.emp;</p>
+<p>7、where查询<br>    A、=查询，select * from scott.emp where sal = 1500;</p>
+<pre><code>B、比较&lt;、&gt;、&gt;=、&lt;=
+    select * from scott.emp where sal &gt; 1500;
+C、and or
+    select * from scott.emp where sal &gt; 1500 and sal &lt;= 5000 or deptno = 10;
+D、in、not in
+    select * from scott.emp where sal in (1500, 800) and deptno not in (10, 20)
+
+E、like模糊 escape 转义
+    Select * from scott.emp where ename like ‘%in%’;
+    Select * from scott.emp where ename like ‘%in\%k%’;
+    Select * from scott.emp where ename like ‘%in#%k%’ escape ‘#’;
+    表示like中的#号是转义字符，相当于\
+F、is null、is not null
+K、    order by
+    select sal, ename from scott.emp order by sal;
+    select sal, ename from scott.emp order by sal asc;
+    select sal, ename from scott.emp order by sal desc;
+    select sal, ename from scott.emp where sal &gt; 2000 order by sal desc;
+    select sal, deptno, ename from scott.emp order by sal,deptno desc;
+</code></pre><p>8、function<br>    A、lower、upper、substr<br>        select lower(‘abcABC’) from dual;<br>        select upper(‘abcABC’) from dual;<br>        substr(target, startIndex, length)<br>        select substr(‘abcABC’, 1, 3) from dual;</p>
+<pre><code>B、chr、ascii
+    将数字安装ascii值转换成字符：select char(65) from dual;
+    将字符转换成ascii值：select ascii(‘Z’) from dual;
+
+C、round、to_char
+    精确小数
+    select round(22.456) from dual;
+    保留2位小数：select round(22.456, 2) from dual;
+    精确到个位：select round(22.456, -1) from dual;
+
+    货币
+    设置货币格式，000前面不足就用0代替
+    select to_char(sal, &apos;$000,000.00&apos;) from scott.emp;
+    999就不会替换不足的地方，只会安装格式输出
+    select to_char(sal, &apos;$999,999.99&apos;) from scott.emp;
+    本地货币格式
+    select to_char(sal, &apos;L999,999.99&apos;) from scott.emp;
+
+    日期
+    日期格式 
+    格式控制 描述 
+    YYYY、YYY、YY 分别代表4位、3位、2位的数字年 
+    YEAR 年的拼写 
+    MM 数字月 
+    MONTH 月的全拼 
+    MON 月的缩写 
+    DD 数字日 
+    DAY 星期的全拼 
+    DY 星期的缩写 
+    AM 表示上午或者下午 
+    HH24、HH12 12小时制或24小时制 
+    MI 分钟 
+    SS 秒钟 
+    SP 数字的拼写 
+    TH 数字的序数词 
+
+    “特殊字符” 假如特殊字符 
+    HH24:MI:SS AM 15:43:20 PM
+    select to_char(sysdate, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_char(sysdate, &apos;YYYY-MM-DD HH24:MI:SS&apos;) from dual;
+
+ D、to_date、to_number、nvl
+    to_date(target, current_format)
+    select to_date(&apos;2011-4-2 17:55:55&apos;, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$999,999.99&apos;) + 10 from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$00,000.00&apos;) + 10 from dual;
+    select to_number(&apos;22.56&apos;) + 10 from dual;
+    nvl可以将某个字段的空值转换成指定的值
+    select ename, sal, nvl(comm, 1.00) from scott.emp;
+</code></pre><p>9、group function 组函数：min、max、avg、sum、count<br>        select max(sal) from scott.emp;<br>        select min(sal) from scott.emp;<br>        select avg(sal) from emp;<br>        select round(avg(sal), 2) from emp;<br>        select to_char(avg(sal), ‘L999,999.99’) from emp;<br>        select sum(sal) from emp;<br>        select count(comm) from emp;<br>        select count(distinct deptno) from emp;</p>
+<p>10、group by 分组<br>    select deptno, avg(sal) from emp group by deptno;<br>    select deptno, job, avg(sal) from emp group by deptno, job;<br>    求部门最高工资的所在部门的员工信息：<br>    select deptno, ename, sal from emp where sal in (select max(sal) from emp group by deptno);</p>
+<p>11、having 对分组数据进行过滤<br>    求部门评价工资：<br>    select * from (select avg(sal) sal, deptno from emp group by deptno) where sal &gt; 2000;<br>    select avg(sal) sal, deptno from emp group by deptno having avg(sal) &gt; 2000;</p>
+<p>12、子查询<br>    求部门分组后工资最高的员工信息<br>    select emp.ename, emp.sal, emp.deptno from emp, (select max(sal) max_sal, deptno from emp group by deptno) t where emp.sal = t.max_sal and emp.deptno = t.deptno;<br>    求部门平均工资等级<br>    select s.grade, t.deptno, t.avg_sal from scott.salgrade s, (select deptno, avg(sal) avg_sal from emp group by deptno) t where t.avg_sal &gt; s.losal and t.avg_sal &lt; s.hisal;（between）</p>
+<p>13、自连接<br>    select a.ename, b.ename mgr_name from emp a, emp b where a.empno = b.mgr;</p>
+<p>14、 连接查询<br>    select dname, ename from dept, emp where dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp using(deptno);<br>    select dname, ename from dept left join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept right join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept full join emp on dept.deptno = emp.deptno;<br>    select a.ename, b.ename mgr_name from emp a join emp b on a.mgr = b.empno;<br>    select a.ename, b.ename mgr_name from emp a left join emp b on a.mgr = b.empno;</p>
+<p>15、 Rownum<br>    select rounum, deptno, dname from dept;<br>    select <em> from (<br>         select rownum r, dept.</em> from dept<br>    ) t where  t.r &gt; 2;</p>
+<p>16、树状结构查询<br>    select level, empno, ename, mgr from emp<br>    connect by prior mgr = empno;</p>
+<p>17、排序函数<br>    –按部门分组，给出分组后的序号<br>    select row_number() over(partition by deptno order by sal), emp.* from emp;</p>
+<pre><code>--rank排序，空出相同部分
+select rank() over(partition by deptno order by sal), emp.* from emp;
+select rank() over(order by deptno), emp.* from emp;
+select rank() over(order by sal), emp.* from emp;
+
+--dense_rank排序给出相同序号,不空留序号
+select rank() over(order by sal), emp.* from emp;
+select dense_rank() over(order by sal), emp.* from emp;
+</code></pre><p>18、交集、并集、割集查询<br>    –并集：不带重复数据<br>    select <em> from emp<br>    union<br>    select </em> from emp2;</p>
+<pre><code>--并集：带重复数据
+select * from emp
+union all
+select * from emp2;        
+
+--割集,显示不同部分
+select * from emp
+minus
+select * from emp2;
+</code></pre><p>19、 查询系统表、视图<br>    select owner, object_name, object_type, status, dba_objects.* from dba_objects where object_type = ‘view’ and status = ‘invalid’;</p>
+<pre><code>select * from user_objects where object_type like &apos;PROCEDURE&apos;;
+</code></pre><p>20、练习题<br>    –部门最高薪资员工信息<br>    select ename, sal, deptno from emp<br>    where sal in (select max(sal) from emp group by deptno);</p>
+<pre><code>--部门最高薪资员工信息
+select ename, sal, emp.deptno from emp 
+join (select max(sal) max_sal, deptno from emp group by deptno) t 
+on emp.deptno = t.deptno and emp.sal = t.max_sal;
+
+--部门平均薪资等级
+select grade, losal, hisal, t.avg_sal from salgrade 
+join (select avg(sal) avg_sal, deptno from emp group by deptno) t
+on t.avg_sal between losal and hisal;
+
+--经理人
+select ename, job from emp where empno in (select mgr from emp);
+
+--不用分组函数，查询薪水最高值
+select * from (select sal, ename from emp order by sal desc) where rownum = 1;
+select distinct a.sal from emp a join emp b on a.sal &gt; b.sal where rownum = 1;
+select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal &lt; b.sal);
+
+--部门平均薪水最高的部门编号
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
+);
+
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg(sal)) max_sal from emp group by deptno
+);
+
+--部门平均薪水最高的部门名称
+select dname from dept where deptno = (
+ select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+ where avg_sal = (
+        select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
+ )
+);
+
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+    where avg_sal = (
+           select max(avg(sal)) from emp group by deptno
+    )
+);
+
+--平均薪水最低的部门的部门名称
+select dname from dept where deptno = (
+  select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+  where avg_sal = (
+    select min(avg_sal) min_sal from (
+           select avg(sal) avg_sal from emp group by deptno
+    )
+  )
+);
+
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+    where avg_sal = (    
+      select min(avg(sal)) avg_sal from emp group by deptno
+    )
+);
+
+--平均薪水等级最低的部门的部门名称
+select dname from dept where deptno = (
+select deptno from (
+     select grade, t.deptno from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+     ) t
+     on t.avg_sal between s.losal and s.hisal
+  )
+  where grade = (
+    select min(grade) from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+    ) t
+    on t.avg_sal between s.losal and s.hisal
+  )
+);
+
+--部门经理人中，平均薪水最低的部门名称
+select t.deptno, dname from (
+    select sal, deptno from emp where empno in (select distinct mgr from emp)
+) t join dept 
+on t.deptno = dept.deptno
+where sal = (
+    select min(sal) from emp where empno in (select distinct mgr from emp)
+);
+
+--比普通员工的最高薪水还要高的经理人名称
+select * from (
+    select empno, ename, sal from emp where empno in (select distinct mgr from emp where mgr is not null)
+) t
+where t.sal &gt; (
+    select max(sal) max_sal from emp where empno not in (
+     select distinct mgr from emp where mgr is not null
+    )
+);
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/oracle/">oracle</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/09/22/Oracle笔记-三、function-、select/" data-title="Oracle笔记 三、function 、select | lihao" data-tsina="pronouncing" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/22/Oracle笔记-四、增删改、事务/" title="Oracle笔记 四、增删改、事务">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Oracle笔记 四、增删改、事务</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/22/Oracle笔记-二、常用dba命令行/"  title="Oracle笔记 二、常用dba命令行">
+ <strong>NEXT:</strong><br/> 
+ <span>Oracle笔记 二、常用dba命令行
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/09/22/Oracle笔记-三、function-、select/" data-title="Oracle笔记 三、function 、select" data-url="http://yoursite.com/2014/09/22/Oracle笔记-三、function-、select/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"pronouncing"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+<!-- 百度统计公共JS代码 end -->
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
+		
+			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
+		
+			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
+		
+			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
+		
+			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
+		
+			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
+		
+			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
+		
+			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
+        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你好，我是LiHao <br/>
+			这是我的博客,信不信由你</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
+		
+		
+		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
+		
+        
+        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
+        
+	</div>
+		<p class="copyright"> © 2016
+		
+		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pronouncing"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+  </body>
+</html>

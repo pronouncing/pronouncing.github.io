@@ -1,0 +1,427 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+
+    <title>struts2的执行流程工作原理 | lihao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="lihao">
+    
+    <meta name="description" content="Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。核心控制器FilterDispatcher是Struts 2框架的基础，包含了框架内部的控制流程和处理机制。业务控制器Action和业务逻辑组件是需要用户来自己实现的。用户在开发Action和业务逻辑组件的同时，还需要编写相关的配置文件，供核心控制器FilterDispatcher来使用。 Struts 2的工作流程相对于Struts 1要简单，与WebWork框架基本相同，所以说Struts 2是WebWork的升级版本。基本简要流程如下：">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="pronouncing" />
+    <meta name="twitter:title" content="struts2的执行流程工作原理 | lihao" />
+      
+    
+    
+    <link rel="alternate" href="/atom.xml" title="lihao" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/logos.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logos.jpg" alt="lihao" title="lihao"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="lihao">lihao</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">存档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/19/struts2的执行流程工作原理/" title="struts2的执行流程工作原理" itemprop="url">struts2的执行流程工作原理</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="lihao">lihao</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-19T14:05:17.000Z" itemprop="datePublished">2014-09-19</time>
+    Updated:<time datetime="2014-09-19T14:10:13.526Z" itemprop="dateModified">2014-09-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><span class="toc-number">1.</span> <span class="toc-text">Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Struts工作机制？为什么要使用Struts？"><span class="toc-number">2.</span> <span class="toc-text">Struts工作机制？为什么要使用Struts？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用："><span class="toc-number">3.</span> <span class="toc-text">为什么要用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说下Struts的设计模式"><span class="toc-number">4.</span> <span class="toc-text">说下Struts的设计模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#struts1和struts2的区别其实并不是太大，两者的区别："><span class="toc-number">5.</span> <span class="toc-text">struts1和struts2的区别其实并不是太大，两者的区别：</span></a></li></ol>
+		</div>
+		
+		<h3 id="Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><a href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。" class="headerlink" title="Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"></a>Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</h3><p>   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。核心控制器FilterDispatcher是Struts 2框架的基础，包含了框架内部的控制流程和处理机制。业务控制器Action和业务逻辑组件是需要用户来自己实现的。用户在开发Action和业务逻辑组件的同时，还需要编写相关的配置文件，供核心控制器FilterDispatcher来使用。 Struts 2的工作流程相对于Struts 1要简单，与WebWork框架基本相同，所以说Struts 2是WebWork的升级版本。基本简要流程如下：<br><a id="more"></a><br>1、客户端浏览器发出HTTP请求。<br>2、根据web.xml配置，该请求被FilterDispatcher接收。<br>3、根据struts.xml配置，找到需要调用的Action类和方法， 并通过IoC方式，将值注入给Aciton。<br>4、Action调用业务逻辑组件处理业务逻辑，这一步包含表单验证。<br>5、Action执行完毕，根据struts.xml中的配置找到对应的返回结果result，并跳转到相应页面。<br>6、返回HTTP响应到客户端浏览器。</p>
+<h3 id="Struts工作机制？为什么要使用Struts？"><a href="#Struts工作机制？为什么要使用Struts？" class="headerlink" title="Struts工作机制？为什么要使用Struts？"></a>Struts工作机制？为什么要使用Struts？</h3><p>工作机制：<br>Struts的工作流程:<br>在web应用启动时就会加载初始化ActionServlet,ActionServlet从<br>struts-config.xml文件中读取配置信息,把它们存放到各种配置对象<br>当ActionServlet接收到一个客户请求时,将执行如下流程.<br>-(1)检索和用户请求匹配的ActionMapping实例,如果不存在,就返回请求路径无效信息;<br>-(2)如果ActionForm实例不存在,就创建一个ActionForm对象,把客户提交的表单数据保存到ActionForm对象中;<br>-(3)根据配置信息决定是否需要表单验证.如果需要验证,就调用ActionForm的validate()方法;<br>-(4)如果ActionForm的validate()方法返回null或返回一个不包含ActionMessage的ActuibErrors对象, 就表示表单验证成功;<br>-(5)ActionServlet根据ActionMapping所包含的映射信息决定将请求转发给哪个Action,如果相应的 Action实例不存在,就先创建这个实例,然后调用Action的execute()方法;<br>-(6)Action的execute()方法返回一个ActionForward对象,ActionServlet在把客户请求转发给 ActionForward对象指向的JSP组件;<br>-(7)ActionForward对象指向JSP组件生成动态网页,返回给客户; </p>
+<h3 id="为什么要用："><a href="#为什么要用：" class="headerlink" title="为什么要用："></a>为什么要用：</h3><p>JSP、Servlet、JavaBean技术的出现给我们构建强大的企业应用系统提供了可能。但用这些技术构建的系统非常的繁乱，所以在此之上，我们需要一个规则、一个把这些技术组织起来的规则，这就是框架，Struts便应运而生。 </p>
+<p>基于Struts开发的应用由3类组件构成：控制器组件、模型组件、视图组件 </p>
+<p>． Struts的validate框架是如何验证的？<br>在struts配置文件中配置具体的错误提示，再在FormBean中的validate()方法具体调用。 </p>
+<h3 id="说下Struts的设计模式"><a href="#说下Struts的设计模式" class="headerlink" title="说下Struts的设计模式"></a>说下Struts的设计模式</h3><p>MVC模式: web应用程序启动时就会加载并初始化ActionServler。用户提交表单时，一个配置好的ActionForm对象被创建，并被填入表单相应的数据，ActionServler根据Struts-config.xml文件配置好的设置决定是否需要表单验证，如果需要就调用ActionForm的 Validate（）验证后选择将请求发送到哪个Action，如果Action不存在，ActionServlet会先创建这个对象，然后调用 Action的execute（）方法。Execute（）从ActionForm对象中获取数据，完成业务逻辑，返回一个ActionForward对象，ActionServlet再把客户请求转发给ActionForward对象指定的jsp组件，ActionForward对象指定的jsp生成动态的网页，返回给客户。 </p>
+<h3 id="struts1和struts2的区别其实并不是太大，两者的区别："><a href="#struts1和struts2的区别其实并不是太大，两者的区别：" class="headerlink" title="struts1和struts2的区别其实并不是太大，两者的区别："></a>struts1和struts2的区别其实并不是太大，两者的区别：</h3><p>Action 类:<br>  ◆Struts1要求Action类继承一个抽象基类。Struts1的一个普遍问题是使用抽象类编程而不是接口。<br>  ◆Struts 2 Action类可以实现一个Action接口，也可实现其他接口，使可选和定制的服务成为可能。Struts2提供一个ActionSupport基类去实现 常用的接口。Action接口不是必须的，任何有execute标识的POJO对象都可以用作Struts2的Action对象。<br>  线程模式:<br>  ◆Struts1 Action是单例模式并且必须是线程安全的，因为仅有Action的一个实例来处理所有的请求。单例策略限制了Struts1 Action能作的事，并且要在开发时特别小心。Action资源必须是线程安全的或同步的。<br>  ◆Struts2 Action对象为每一个请求产生一个实例，因此没有线程安全问题。（实际上，servlet容器给每个请求产生许多可丢弃的对象，并且不会导致性能和垃圾回收问题）<br>  Servlet 依赖:<br>  ◆Struts1 Action 依赖于Servlet API ,因为当一个Action被调用时HttpServletRequest 和 HttpServletResponse 被传递给execute方法。<br>  ◆Struts 2 Action不依赖于容器，允许Action脱离容器单独被测试。如果需要，Struts2 Action仍然可以访问初始的request和response。但是，其他的元素减少或者消除了直接访问HttpServetRequest 和 HttpServletResponse的必要性。<br>  可测性:<br>  ◆测试Struts1 Action的一个主要问题是execute方法暴露了servlet API（这使得测试要依赖于容器）。一个第三方扩展－－Struts TestCase－－提供了一套Struts1的模拟对象（来进行测试）。<br>  ◆Struts 2 Action可以通过初始化、设置属性、调用方法来测试，“依赖注入”支持也使测试更容易。<br>  捕获输入:<br>  ◆Struts1 使用ActionForm对象捕获输入。所有的ActionForm必须继承一个基类。因为其他JavaBean不能用作ActionForm，开发者经常创建多余的类捕获输入。动态Bean（DynaBeans）可以作为创建传统ActionForm的选择，但是，开发者可能是在重新描述(创建)已经存在的JavaBean（仍然会导致有冗余的javabean）。<br>  ◆ Struts 2直接使用Action属性作为输入属性，消除了对第二个输入对象的需求。输入属性可能是有自己(子)属性的rich对象类型。Action属性能够通过web页面上的taglibs访问。Struts2也支持ActionForm模式。rich对象类型，包括业务对象，能够用作输入/输出对象。这种ModelDriven 特性简化了taglib对POJO输入对象的引用。<br>  表达式语言：<br>  ◆Struts1 整合了JSTL，因此使用JSTL EL。这种EL有基本对象图遍历，但是对集合和索引属性的支持很弱。<br>  ◆Struts2可以使用JSTL，但是也支持一个更强大和灵活的表达式语言－－”Object Graph Notation Language” (OGNL).<br>  绑定值到页面（view）:<br>  ◆ Struts 1使用标准JSP机制把对象绑定到页面中来访问。<br>  ◆Struts 2 使用 “ValueStack”技术，使taglib能够访问值而不需要把你的页面（view）和对象绑定起来。ValueStack策略允许通过一系列名称相同但类型不同的属性重用页面（view）。<br>  类型转换：<br>  ◆Struts 1 ActionForm 属性通常都是String类型。Struts1使用Commons-Beanutils进行类型转换。每个类一个转换器，对每一个实例来说是不可配置的。<br>  ◆Struts2 使用OGNL进行类型转换。提供基本和常用对象的转换器。<br>  校验：<br>  ◆Struts 1支持在ActionForm的validate方法中手动校验，或者通过Commons Validator的扩展来校验。同一个类可以有不同的校验内容，但不能校验子对象。<br>  ◆Struts2支持通过validate方法和XWork校验框架来进行校验。XWork校验框架使用为属性类类型定义的校验和内容校验，来支持chain校验子属性<br>  Action执行的控制：<br>  ◆Struts1支持每一个模块有单独的Request Processors（生命周期），但是模块中的所有Action必须共享相同的生命周期。<br>  ◆Struts2支持通过拦截器堆栈（Interceptor Stacks）为每一个Action创建不同的生命周期。堆栈能够根据需要和不同的Action一起使用。﻿</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/struts2/">struts2</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/09/19/struts2的执行流程工作原理/" data-title="struts2的执行流程工作原理 | lihao" data-tsina="pronouncing" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/19/使用jackson对json的操作/" title="使用jackson对json的操作">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  使用jackson对json的操作</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/19/OOAD总结二/"  title="OOAD总结二">
+ <strong>NEXT:</strong><br/> 
+ <span>OOAD总结二
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2014/09/19/struts2的执行流程工作原理/" data-title="struts2的执行流程工作原理" data-url="http://yoursite.com/2014/09/19/struts2的执行流程工作原理/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"pronouncing"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+<!-- 百度统计公共JS代码 end -->
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><span class="toc-number">1.</span> <span class="toc-text">Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Struts工作机制？为什么要使用Struts？"><span class="toc-number">2.</span> <span class="toc-text">Struts工作机制？为什么要使用Struts？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要用："><span class="toc-number">3.</span> <span class="toc-text">为什么要用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说下Struts的设计模式"><span class="toc-number">4.</span> <span class="toc-text">说下Struts的设计模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#struts1和struts2的区别其实并不是太大，两者的区别："><span class="toc-number">5.</span> <span class="toc-text">struts1和struts2的区别其实并不是太大，两者的区别：</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
+		
+			<li><a href="/tags/javaSE/" title="javaSE">javaSE<sup>21</sup></a></li>
+		
+			<li><a href="/tags/mysql/" title="mysql">mysql<sup>4</sup></a></li>
+		
+			<li><a href="/tags/ooad/" title="ooad">ooad<sup>10</sup></a></li>
+		
+			<li><a href="/tags/oracle/" title="oracle">oracle<sup>20</sup></a></li>
+		
+			<li><a href="/tags/servlet/" title="servlet">servlet<sup>2</sup></a></li>
+		
+			<li><a href="/tags/spring/" title="spring">spring<sup>2</sup></a></li>
+		
+			<li><a href="/tags/struts2/" title="struts2">struts2<sup>1</sup></a></li>
+		
+			<li><a href="/tags/分析/" title="分析">分析<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://pronouncing.github.io/" target="_blank" title="LiHao">LiHao's Blog</a></li>
+        <li><a href="http://hi.baidu.com/m_mayi" target="_blank" title="LiHao">LiHao百度空间文章's Blog</a></li>
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 你好，我是LiHao <br/>
+			这是我的博客,信不信由你</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1603769332" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/pronouncing" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/pronouncing" target="_blank" title="github"></a>
+		
+		
+		<a href="https://www.facebook.com/pronouncing" target="_blank" title="facebook"></a>
+		
+        
+        <a href="http://hi.baidu.com/m_mayi" target="_blank" title="baidu"></a>
+        
+	</div>
+		<p class="copyright"> © 2016
+		
+		<a href="http://yoursite.com" target="_blank" title="lihao">lihao</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pronouncing"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+  </body>
+</html>
