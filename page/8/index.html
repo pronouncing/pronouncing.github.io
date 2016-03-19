@@ -73,78 +73,78 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/19/Java的GC垃圾回收原理与机制/" title="Java的GC垃圾回收原理与机制" itemprop="url">
+    <a href="/2014/09/19/hibernate关系注解映射/" title="hibernate关系注解映射" itemprop="url">
   
-    <h1 itemprop="name">Java的GC垃圾回收原理与机制</h1>
+    <h1 itemprop="name">hibernate关系注解映射</h1>
     
      
-           <p itemprop="description" >ava的GC垃圾回收原理与机制JAVA中的对象是在堆上分配,而在堆上分配存储空间的方式是昂贵的.正是由于GC才使java在堆上的空间分配速度得以于其他语言在堆栈上分配速度相媲美.java对象也不再有作用域的概念.作用域是对于引用而言的.垃圾回收器通常是作为一个单独的低级别的线程运</p>
+           <p itemprop="description" >一对多(最好不要用单向关联，其实单向本身并无多大意义)：一方：@OneToMany(targetEntity=Order.class,cascade=CascadeType.ALL,fetch=FetchType.EAGER) @JoinColumn(name=”fk_custo</p>
         
     
-    <time datetime="2014-09-19T14:27:24.000Z" itemprop="datePublished">2014-09-19</time>
+    <time datetime="2014-09-19T14:54:52.000Z" itemprop="datePublished">2014-09-19</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/19/JSP九大内置对象/" title="JSP九大内置对象" itemprop="url">
+    <a href="/2014/09/19/hibernate二级缓存的实现/" title="hibernate二级缓存的实现" itemprop="url">
   
-    <h1 itemprop="name">JSP九大内置对象</h1>
+    <h1 itemprop="name">hibernate二级缓存的实现</h1>
     
      
-           <p itemprop="description" >内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 
-J</p>
+           <p itemprop="description" >对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.
+缓存就是数据库数据在内</p>
         
     
-    <time datetime="2014-09-19T14:21:09.000Z" itemprop="datePublished">2014-09-19</time>
+    <time datetime="2014-09-19T14:38:08.000Z" itemprop="datePublished">2014-09-19</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/19/PermGenSpace溢出解决方/" title="PermGenSpace溢出解决方" itemprop="url">
+    <a href="/2014/09/19/iBatis与Hibernate区别/" title="iBatis与Hibernate区别" itemprop="url">
   
-    <h1 itemprop="name">PermGenSpace溢出解决方</h1>
+    <h1 itemprop="name">iBatis与Hibernate区别</h1>
     
      
-           <p itemprop="description" >PermGen space溢出解决方法​tomcat在运行几天后，会出现PermGen space溢出错误而无法继续处理请求，解决方法是调整PermGen区域大小：JAVA_OPTS=”-server -XX:PermSize=64M -XX:MaxPermSize=128m”还</p>
+           <p itemprop="description" >相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与ja</p>
         
     
-    <time datetime="2014-09-19T14:19:04.000Z" itemprop="datePublished">2014-09-19</time>
+    <time datetime="2014-09-19T14:34:40.000Z" itemprop="datePublished">2014-09-19</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/19/使用jackson对json的操作/" title="使用jackson对json的操作" itemprop="url">
+    <a href="/2014/09/19/Hiberante_lazy延迟加载总结/" title="Hiberante_lazy延迟加载总结" itemprop="url">
   
-    <h1 itemprop="name">使用jackson对json的操作</h1>
+    <h1 itemprop="name">Hiberante_lazy延迟加载总结</h1>
     
      
-           <p itemprop="description" >jackson是一个开源的处理json的工具包，spring mvc中的json类型响应就是用这个东西实现的，性能比较优异。我以前最早的项目用的是json-lib，后来因效率问题改为gson，现在看来可以换成jackson了。下面给大家讲讲jackson的使用：一、简单对象转为j</p>
+           <p itemprop="description" >如果想对实体对象使用延迟加载，必须要在实体的映射配置文件中进行相应的配置，如下所示：123456789101112131415&amp;lt;hibernate-mapping&amp;gt;     &amp;lt;class name=”net.ftng.entity.user” table=”us</p>
         
     
-    <time datetime="2014-09-19T14:15:08.000Z" itemprop="datePublished">2014-09-19</time>
+    <time datetime="2014-09-19T14:32:48.000Z" itemprop="datePublished">2014-09-19</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/19/struts2的执行流程工作原理/" title="struts2的执行流程工作原理" itemprop="url">
+    <a href="/2014/09/19/java日期类型在Hibernate中的处理/" title="java日期类型在Hibernate中的处理" itemprop="url">
   
-    <h1 itemprop="name">struts2的执行流程工作原理</h1>
+    <h1 itemprop="name">java日期类型在Hibernate中的处理</h1>
     
      
-       <p itemprop="description" >Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务</p>
-      
+           <p itemprop="description" >java日期类型在Hibernate中的处理java中的表示日期时间的类型很多，主要有下面一些：java.util.Calendar（和区域有关，可表示年，月，日，时，分，秒）java.util.Date（可表示年，月，日，时，分，秒）java.sql.Date（可表示年，月，日</p>
+        
     
-    <time datetime="2014-09-19T14:05:17.000Z" itemprop="datePublished">2014-09-19</time>
+    <time datetime="2014-09-19T14:28:50.000Z" itemprop="datePublished">2014-09-19</time>
   </a>
 </section>
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
   </nav>
 
 </div>
@@ -160,6 +160,8 @@ J</p>
 <div class="tagslist">
 	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
 		
 			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
 		
@@ -199,7 +201,7 @@ J</p>
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
   </div>
 
 

@@ -73,80 +73,79 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-八、PLSQL跳转判断循环语句块/" title="Oracle笔记 八、PL/SQL跳转/判断/循环语句块" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-十三、PLSQL面向对象之package/" title="Oracle笔记 十三、PL/SQL面向对象之package" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 八、PL/SQL跳转/判断/循环语句块</h1>
+    <h1 itemprop="name">Oracle笔记 十三、PL/SQL面向对象之package</h1>
     
      
-           <p itemprop="description" >–goto跳转语句–在goto 后，跳转到相应的语句，然后执行该语句和后面所有语句begin     dbms_output.put_line(‘goto开始了’);     goto c;          –不被执行          dbms_output.put_line</p>
+           <p itemprop="description" >–将方法和过程用包定义create or replace package pkg_empas       –输入员工编号查询出员工信息       procedure pro_findInfo(         in_empno emp2.empno%type,         </p>
         
     
-    <time datetime="2014-09-22T09:19:02.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:27:42.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-七、PLSQL-异常处理/" title="Oracle笔记 七、PL/SQL 异常处理" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-十二、PLSQL-面向对象oop编程/" title="Oracle笔记 十二、PL/SQL 面向对象oop编程" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 七、PL/SQL 异常处理</h1>
+    <h1 itemprop="name">Oracle笔记 十二、PL/SQL 面向对象oop编程</h1>
     
      
-           <p itemprop="description" >Oracle笔记 七、PL/SQL 异常处理–异常处理declare  sNum number := 0;begin  sNum := 5 / sNum;  dbms_output.put_line(sNum);exception  when others then    dbm</p>
+           <p itemprop="description" >————————抽象数据类型———––创建地址类型，一定要加as object，还可以在类型中加过程或方法create or replace type address as object (       province varchar2(10), –省份属性       cit</p>
         
     
-    <time datetime="2014-09-22T09:14:32.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:26:14.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-六、PLSQL简单语句块、变量定义/" title="Oracle笔记 六、PL/SQL简单语句块、变量定义" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-十一、PLSQL函数和触发器/" title="Oracle笔记 十一、PL/SQL函数和触发器" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 六、PL/SQL简单语句块、变量定义</h1>
+    <h1 itemprop="name">Oracle笔记 十一、PL/SQL函数和触发器</h1>
     
      
-           <p itemprop="description" >1、简单SQL语句，HellWorld示例–输出信息begin  dbms_output.put_line(‘Oracle Hello World!’);end;
-2、变量的定义、使用–定义变量declare  sName varchar2(20);begin  sName :=</p>
+           <p itemprop="description" >–创建函数create or replace function add_sal(sSal number)       return numberisbegin  if (sSal &amp;gt; 5000) then    return sSal + 51;  elsif (sSal </p>
         
     
-    <time datetime="2014-09-22T09:12:49.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:25:11.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/" title="Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-十、PLSQL存储过程/" title="Oracle笔记 十、PL/SQL存储过程" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间</h1>
+    <h1 itemprop="name">Oracle笔记 十、PL/SQL存储过程</h1>
     
      
-           <p itemprop="description" >Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间alter table userInfo add(msn varchar2(20));
-1、建表    create table userInfo (       id number(6),       name</p>
+           <p itemprop="description" >–create or replace 创建或替换，如果存在就替换，不存在就创建create or replace procedure pis  cursor c  is  select * from dept2 for update;begin  for row_record i</p>
         
     
-    <time datetime="2014-09-22T09:11:20.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:23:56.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-四、增删改、事务/" title="Oracle笔记 四、增删改、事务" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-九、PLSQL-游标的使用/" title="Oracle笔记 九、PL/SQL 游标的使用" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 四、增删改、事务</h1>
+    <h1 itemprop="name">Oracle笔记 九、PL/SQL 游标的使用</h1>
     
      
-           <p itemprop="description" >Oracle笔记 四、增删改、事务
-1、插入    insert into dept values(50, ‘soft’, ‘Guangzhou’);    insert into dept(deptno, dname) values(60, ‘software test’); </p>
+           <p itemprop="description" >–演示隐式游标,系统自动声明，自动打开，自动使用并且自动关闭begin     update emp set sal = 1000;     dbms_output.put_line(‘影响的行数：’ || sql%rowcount);end;
+rollback;
+/游标的使用方</p>
         
     
-    <time datetime="2014-09-22T03:11:22.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:22:26.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </div>
@@ -162,6 +161,8 @@
 <div class="tagslist">
 	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
 		
 			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
 		
@@ -201,7 +202,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
   </div>
 
 

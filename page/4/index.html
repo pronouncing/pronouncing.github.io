@@ -73,89 +73,80 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-三、function-、select/" title="Oracle笔记 三、function 、select" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-八、PLSQL跳转判断循环语句块/" title="Oracle笔记 八、PL/SQL跳转/判断/循环语句块" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 三、function 、select</h1>
+    <h1 itemprop="name">Oracle笔记 八、PL/SQL跳转/判断/循环语句块</h1>
     
      
-           <p itemprop="description" >Oracle笔记 三、function 、select
-Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；1、查看表结构用desc    desc emp;
-2、空表dual，最常用的空表，如：    select 2 * 4 from </p>
+           <p itemprop="description" >–goto跳转语句–在goto 后，跳转到相应的语句，然后执行该语句和后面所有语句begin     dbms_output.put_line(‘goto开始了’);     goto c;          –不被执行          dbms_output.put_line</p>
         
     
-    <time datetime="2014-09-22T03:09:42.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:19:02.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/Oracle笔记-二、常用dba命令行/" title="Oracle笔记 二、常用dba命令行" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-七、PLSQL-异常处理/" title="Oracle笔记 七、PL/SQL 异常处理" itemprop="url">
   
-    <h1 itemprop="name">Oracle笔记 二、常用dba命令行</h1>
+    <h1 itemprop="name">Oracle笔记 七、PL/SQL 异常处理</h1>
     
      
-           <p itemprop="description" >Oracle笔记 二、常用dba命令行1、给用户解锁
-alter user scott account unlock;
-2、注销、断开、切换当前用户连接
-quit
-conn scott/tiger
-3、用户权限查询
-A .查看所有用户：
-select * from dba_use</p>
+           <p itemprop="description" >Oracle笔记 七、PL/SQL 异常处理–异常处理declare  sNum number := 0;begin  sNum := 5 / sNum;  dbms_output.put_line(sNum);exception  when others then    dbm</p>
         
     
-    <time datetime="2014-09-22T03:07:26.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:14:32.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/" title="第7章Oreacle开发PL/SQL子程序和包" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-六、PLSQL简单语句块、变量定义/" title="Oracle笔记 六、PL/SQL简单语句块、变量定义" itemprop="url">
   
-    <h1 itemprop="name">第7章Oreacle开发PL/SQL子程序和包</h1>
+    <h1 itemprop="name">Oracle笔记 六、PL/SQL简单语句块、变量定义</h1>
     
      
-           <p itemprop="description" >开发PL/SQL子程序和包总结子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.子程序可以具有声明部分 可执行部分和异常处理部分.PL/SQL支持两种类型的子程序 即过程和函数。过程用于执行特定任务，而函数用于执行任务并返回值。要将值传递给子程序，有3种参数（in i</p>
+           <p itemprop="description" >1、简单SQL语句，HellWorld示例–输出信息begin  dbms_output.put_line(‘Oracle Hello World!’);end;
+2、变量的定义、使用–定义变量declare  sName varchar2(20);begin  sName :=</p>
         
     
-    <time datetime="2014-09-22T02:52:07.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:12:49.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/第6章OreaclePLSQL动态SQL/" title="第6章OreaclePL/SQL动态SQL" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/" title="Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间" itemprop="url">
   
-    <h1 itemprop="name">第6章OreaclePL/SQL动态SQL</h1>
+    <h1 itemprop="name">Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间</h1>
     
      
-           <p itemprop="description" >动态SQL分为：早期绑定和晚期绑定编译 早期绑定（编译时就确定的对象）执行 晚期绑定（不确定性要通过执行之后才确定下来）12345678910111213141516execute immediae关键字执行动态SQL语句using是预编译返回create or replace </p>
+           <p itemprop="description" >Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间alter table userInfo add(msn varchar2(20));
+1、建表    create table userInfo (       id number(6),       name</p>
         
     
-    <time datetime="2014-09-22T02:51:19.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T09:11:20.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
   <section class="post" itemscope itemprop="blogPost">
   
-    <a href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/" title="第5章Oracle PL/SQL使用游标获取" itemprop="url">
+    <a href="/2014/09/22/Oracle笔记-四、增删改、事务/" title="Oracle笔记 四、增删改、事务" itemprop="url">
   
-    <h1 itemprop="name">第5章Oracle PL/SQL使用游标获取</h1>
+    <h1 itemprop="name">Oracle笔记 四、增删改、事务</h1>
     
      
-           <p itemprop="description" >### 1. 游标的概述 ###
-1. 隐式游标   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
-缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
-2. 显式游标显</p>
+           <p itemprop="description" >Oracle笔记 四、增删改、事务
+1、插入    insert into dept values(50, ‘soft’, ‘Guangzhou’);    insert into dept(deptno, dname) values(60, ‘software test’); </p>
         
     
-    <time datetime="2014-09-22T02:50:03.000Z" itemprop="datePublished">2014-09-22</time>
+    <time datetime="2014-09-22T03:11:22.000Z" itemprop="datePublished">2014-09-22</time>
   </a>
 </section>
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </div>
@@ -171,6 +162,8 @@ select * from dba_use</p>
 <div class="tagslist">
 	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
 		
 			<li><a href="/tags/hibernate/" title="hibernate">hibernate<sup>4</sup></a></li>
 		
@@ -210,7 +203,7 @@ select * from dba_use</p>
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">64</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">69</span></li></ul>
   </div>
 
 
