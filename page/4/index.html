@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Oracle笔记-八、PLSQL跳转判断循环语句块" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-三、function-、select" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,263 +42,337 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-八、PLSQL跳转判断循环语句块/">Oracle笔记 八、PL/SQL跳转/判断/循环语句块</a>
+      <a class="article-title" href="/2014/09/22/Oracle笔记-三、function-、select/">Oracle笔记 三、function 、select</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-八、PLSQL跳转判断循环语句块/" class="article-date">
-  <time datetime="2014-09-22T09:19:02.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/22/Oracle笔记-三、function-、select/" class="article-date">
+  <time datetime="2014-09-22T03:09:42.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>–goto跳转语句<br>–在goto 后，跳转到相应的语句，然后执行该语句和后面所有语句<br>begin<br>     dbms_output.put_line(‘goto开始了’);<br>     goto c;<br>          –不被执行<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>    &lt;<a>&gt;<br>           dbms_output.put_line(‘goto aaa’);<br>    &lt;<b>&gt;<br>           dbms_output.put_line(‘goto bbb’);<br>    &lt;<c>&gt;<br>           dbms_output.put_line(‘goto ccc’);<br>end;   </c></b></a></p>
-<p>–PL/SQL中的sql和rowcount属性：sql代表最近执行的sql语句，rowcount代表最近执行的sql语句影响的行数<br>declare<br>  vCount number;<br>  vDeptno dept2.deptno%type := 10;<br>begin<br>  –select count(<em>) into vCount from dept2;<br>  –update dept2 set dname = dname || ‘~.~’ where deptno = vDeptno;<br>  –delete from dept2 where deptno = 40;<br>  insert into dept2 select </em> from dept;<br>  dbms_output.put_line(‘count:’ || vCount);<br>  dbms_output.put_line(sql%rowcount || ‘行受影响’);<br>end;</p>
-<p>–PL/SQL执行sql语句<br>begin<br>  execute immediate ‘create table temp as select * from dept’;<br>end;</p>
-<p>–动态sql，把sql语句放到变量中并传递参数<br>declare<br>     sqlstr varchar2(100);<br>begin<br>     sqlstr := ‘insert into scott.dept values(12, :1, :abc)’;<br>     –变量是按照占位符顺序插入的<br>     execute immediate sqlstr using ‘教务部’, ‘武汉’;<br>end;</p>
-<p>select * from scott.dept;</p>
-<p>–动态sql,把查询结果赋值给变量<br>declare<br>       dept_row_data scott.dept%rowtype;<br>       sqlstr varchar2(100);<br>begin<br>     sqlstr := ‘select * from scott.dept where deptno = 11’;<br>     execute immediate sqlstr into dept_row_data;<br>     dbms_output.put_line(dept_row_data.deptno);<br>end;</p>
-<p>–if 语句<br>–select * from emp;<br>declare<br>     vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp where empno = 7566;<br>  if (vSal &lt; 1200) then<br>    dbms_output.put_line(‘小于1200’);<br>  elsif (vSal &lt; 2000) then<br>    dbms_output.put_line(‘小于2000’);<br>  else<br>    dbms_output.put_line(‘大于2000’);<br>  end if;<br>end;  </p>
-<p>–loop循环<br>declare<br>  i binary_integer := 10;<br>begin<br>  loop<br>    dbms_output.put_line(i);<br>    i := i - 1;<br>    exit when(i &lt; 1);<br>  end loop;<br>end;</p>
-<p>–while循环<br>declare<br>  i binary_integer := 1;<br>begin<br>  while i &lt; 11 loop<br>     dbms_output.put_line(i);<br>     i := i + 1;<br>  end loop;<br>end;</p>
-<p>–for 循环<br>begin<br>  for i in 1..10 loop<br>    dbms_output.put_line(i);<br>  end loop;<br>  for i in reverse 1..10 loop<br>    dbms_output.put_line(i);<br>  end loop;<br>end;<br>版权维护转载hoojo博客的。</p>
+        <p>Oracle笔记 三、function 、select</p>
+<p>Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；<br>1、查看表结构用desc<br>    desc emp;</p>
+<p>2、空表dual，最常用的空表，如：<br>    select 2 * 4 from dual;<br>    select sysdate from dual;</p>
+<p>3、双引号能保持格式<br>    如：select sysdate “toDay 日 期” from dual;</p>
+<p>4、|| 字符串连接<br>    如：select 2*3 || 8 from dual;<br>    select ename || sal from scott.emp;<br>    select ename || ‘ORACLE’ from scott.emp;</p>
+<p>5、单引号，如：select 2 * 2 || ‘abc’’efg’ from dual;<br>    用两个单引号表示一个单引号</p>
+<p>6、去掉重复数据distinct<br>    select distinct deptno from scott.emp;<br>    去掉重复组合：select distinct deptno,job from scott.emp;</p>
+<p>7、where查询<br>    A、=查询，select * from scott.emp where sal = 1500;</p>
+<pre><code>B、比较&lt;、&gt;、&gt;=、&lt;=
+    select * from scott.emp where sal &gt; 1500;
+C、and or
+    select * from scott.emp where sal &gt; 1500 and sal &lt;= 5000 or deptno = 10;
+D、in、not in
+    select * from scott.emp where sal in (1500, 800) and deptno not in (10, 20)
 
-      
+E、like模糊 escape 转义
+    Select * from scott.emp where ename like ‘%in%’;
+    Select * from scott.emp where ename like ‘%in\%k%’;
+    Select * from scott.emp where ename like ‘%in#%k%’ escape ‘#’;
+    表示like中的#号是转义字符，相当于\
+F、is null、is not null
+K、    order by
+    select sal, ename from scott.emp order by sal;
+    select sal, ename from scott.emp order by sal asc;
+    select sal, ename from scott.emp order by sal desc;
+    select sal, ename from scott.emp where sal &gt; 2000 order by sal desc;
+    select sal, deptno, ename from scott.emp order by sal,deptno desc;
+</code></pre><p>8、function<br>    A、lower、upper、substr<br>        select lower(‘abcABC’) from dual;<br>        select upper(‘abcABC’) from dual;<br>        substr(target, startIndex, length)<br>        select substr(‘abcABC’, 1, 3) from dual;</p>
+<pre><code>B、chr、ascii
+    将数字安装ascii值转换成字符：select char(65) from dual;
+    将字符转换成ascii值：select ascii(‘Z’) from dual;
 
-      
+C、round、to_char
+    精确小数
+    select round(22.456) from dual;
+    保留2位小数：select round(22.456, 2) from dual;
+    精确到个位：select round(22.456, -1) from dual;
 
-    </div>
-  </div>
-  
-</article>
+    货币
+    设置货币格式，000前面不足就用0代替
+    select to_char(sal, &apos;$000,000.00&apos;) from scott.emp;
+    999就不会替换不足的地方，只会安装格式输出
+    select to_char(sal, &apos;$999,999.99&apos;) from scott.emp;
+    本地货币格式
+    select to_char(sal, &apos;L999,999.99&apos;) from scott.emp;
 
+    日期
+    日期格式 
+    格式控制 描述 
+    YYYY、YYY、YY 分别代表4位、3位、2位的数字年 
+    YEAR 年的拼写 
+    MM 数字月 
+    MONTH 月的全拼 
+    MON 月的缩写 
+    DD 数字日 
+    DAY 星期的全拼 
+    DY 星期的缩写 
+    AM 表示上午或者下午 
+    HH24、HH12 12小时制或24小时制 
+    MI 分钟 
+    SS 秒钟 
+    SP 数字的拼写 
+    TH 数字的序数词 
 
-  
-    <article id="post-Oracle笔记-七、PLSQL-异常处理" class="article article-type-post" itemscope itemprop="blogPost">
+    “特殊字符” 假如特殊字符 
+    HH24:MI:SS AM 15:43:20 PM
+    select to_char(sysdate, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_char(sysdate, &apos;YYYY-MM-DD HH24:MI:SS&apos;) from dual;
 
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-七、PLSQL-异常处理/">Oracle笔记 七、PL/SQL 异常处理</a>
-    </h1>
-  
+ D、to_date、to_number、nvl
+    to_date(target, current_format)
+    select to_date(&apos;2011-4-2 17:55:55&apos;, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$999,999.99&apos;) + 10 from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$00,000.00&apos;) + 10 from dual;
+    select to_number(&apos;22.56&apos;) + 10 from dual;
+    nvl可以将某个字段的空值转换成指定的值
+    select ename, sal, nvl(comm, 1.00) from scott.emp;
+</code></pre><p>9、group function 组函数：min、max、avg、sum、count<br>        select max(sal) from scott.emp;<br>        select min(sal) from scott.emp;<br>        select avg(sal) from emp;<br>        select round(avg(sal), 2) from emp;<br>        select to_char(avg(sal), ‘L999,999.99’) from emp;<br>        select sum(sal) from emp;<br>        select count(comm) from emp;<br>        select count(distinct deptno) from emp;</p>
+<p>10、group by 分组<br>    select deptno, avg(sal) from emp group by deptno;<br>    select deptno, job, avg(sal) from emp group by deptno, job;<br>    求部门最高工资的所在部门的员工信息：<br>    select deptno, ename, sal from emp where sal in (select max(sal) from emp group by deptno);</p>
+<p>11、having 对分组数据进行过滤<br>    求部门评价工资：<br>    select * from (select avg(sal) sal, deptno from emp group by deptno) where sal &gt; 2000;<br>    select avg(sal) sal, deptno from emp group by deptno having avg(sal) &gt; 2000;</p>
+<p>12、子查询<br>    求部门分组后工资最高的员工信息<br>    select emp.ename, emp.sal, emp.deptno from emp, (select max(sal) max_sal, deptno from emp group by deptno) t where emp.sal = t.max_sal and emp.deptno = t.deptno;<br>    求部门平均工资等级<br>    select s.grade, t.deptno, t.avg_sal from scott.salgrade s, (select deptno, avg(sal) avg_sal from emp group by deptno) t where t.avg_sal &gt; s.losal and t.avg_sal &lt; s.hisal;（between）</p>
+<p>13、自连接<br>    select a.ename, b.ename mgr_name from emp a, emp b where a.empno = b.mgr;</p>
+<p>14、 连接查询<br>    select dname, ename from dept, emp where dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp using(deptno);<br>    select dname, ename from dept left join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept right join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept full join emp on dept.deptno = emp.deptno;<br>    select a.ename, b.ename mgr_name from emp a join emp b on a.mgr = b.empno;<br>    select a.ename, b.ename mgr_name from emp a left join emp b on a.mgr = b.empno;</p>
+<p>15、 Rownum<br>    select rounum, deptno, dname from dept;<br>    select <em> from (<br>         select rownum r, dept.</em> from dept<br>    ) t where  t.r &gt; 2;</p>
+<p>16、树状结构查询<br>    select level, empno, ename, mgr from emp<br>    connect by prior mgr = empno;</p>
+<p>17、排序函数<br>    –按部门分组，给出分组后的序号<br>    select row_number() over(partition by deptno order by sal), emp.* from emp;</p>
+<pre><code>--rank排序，空出相同部分
+select rank() over(partition by deptno order by sal), emp.* from emp;
+select rank() over(order by deptno), emp.* from emp;
+select rank() over(order by sal), emp.* from emp;
 
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-七、PLSQL-异常处理/" class="article-date">
-  <time datetime="2014-09-22T09:14:32.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Oracle笔记 七、PL/SQL 异常处理<br>–异常处理<br>declare<br>  sNum number := 0;<br>begin<br>  sNum := 5 / sNum;<br>  dbms_output.put_line(sNum);<br>exception<br>  when others then<br>    dbms_output.put_line(‘is Error!’);<br>end;</p>
-<p>–自定义异常<br>declare<br>       ex_custom_invaild_age exception; –自定义的异常myerr<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise ex_custom_invaild_age; –引发自定义异常<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>exception<br>      when ex_custom_invaild_age then<br>        dbms_output.put_line(‘非法的年龄’);<br>end;</p>
-<p>–引发应用程序异常<br>–raise_application_error(异常编号，说明);<br>declare<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise_application_error(-20500, ‘年龄不能为负数’);<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>end;</p>
-<p>–非预定义异常<br>declare<br>     ex_custom_error exception;<br>     pragma exception_init(ex_custom_error, -1); –把一个编号和一个自定义异常关联，<br>     –相当于把-1编号的异常命名为ex_custom_error，这样就可以捕获这种异常<br>begin<br>     insert into dept values(10, ‘aaa’, ‘bbb’);<br>     exception<br>       when ex_custom_error then<br>       dbms_output.put_line(‘部门编号已经存在’);<br>end;</p>
-<p>–异常处理<br>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp;<br>  exception<br>    when too_many_rows then<br>      dbms_output.put_line(‘多条数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
-<p>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp where empno = 1;<br>  exception<br>    when no_data_found then<br>      dbms_output.put_line(‘没有数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
-<p>–异常日志处理<br>create table errorLog (<br>       id number primary key,<br>       errCode number,<br>       errMsg varchar2(1024),<br>       errDate date<br>);<br>–创建序列，从1开始，每次加1<br>create sequence seq_errorLog_id start with 1 increment by 1;</p>
-<p>declare<br>       vDeptno dept.deptno%type := 10;<br>       vErrCode number;<br>       vErrMsg varchar2(1024);<br>begin<br>  delete from dept where deptno = vDeptno;<br>  commit;<br>  exception<br>    when others then<br>      rollback;<br>      vErrCode := SQLCODE;<br>      vErrMsg := SQLERRM;<br>      insert into errorLog values(seq_errorLog_id.nextval, vErrCode, vErrMsg, sysdate);<br>      commit;<br>end;</p>
-<p>select * from errorLog;</p>
-<p>版权维护转载hoojo博客的。</p>
+--dense_rank排序给出相同序号,不空留序号
+select rank() over(order by sal), emp.* from emp;
+select dense_rank() over(order by sal), emp.* from emp;
+</code></pre><p>18、交集、并集、割集查询<br>    –并集：不带重复数据<br>    select <em> from emp<br>    union<br>    select </em> from emp2;</p>
+<pre><code>--并集：带重复数据
+select * from emp
+union all
+select * from emp2;        
 
-      
+--割集,显示不同部分
+select * from emp
+minus
+select * from emp2;
+</code></pre><p>19、 查询系统表、视图<br>    select owner, object_name, object_type, status, dba_objects.* from dba_objects where object_type = ‘view’ and status = ‘invalid’;</p>
+<pre><code>select * from user_objects where object_type like &apos;PROCEDURE&apos;;
+</code></pre><p>20、练习题<br>    –部门最高薪资员工信息<br>    select ename, sal, deptno from emp<br>    where sal in (select max(sal) from emp group by deptno);</p>
+<pre><code>--部门最高薪资员工信息
+select ename, sal, emp.deptno from emp 
+join (select max(sal) max_sal, deptno from emp group by deptno) t 
+on emp.deptno = t.deptno and emp.sal = t.max_sal;
 
-      
+--部门平均薪资等级
+select grade, losal, hisal, t.avg_sal from salgrade 
+join (select avg(sal) avg_sal, deptno from emp group by deptno) t
+on t.avg_sal between losal and hisal;
 
-    </div>
-  </div>
-  
-</article>
+--经理人
+select ename, job from emp where empno in (select mgr from emp);
 
+--不用分组函数，查询薪水最高值
+select * from (select sal, ename from emp order by sal desc) where rownum = 1;
+select distinct a.sal from emp a join emp b on a.sal &gt; b.sal where rownum = 1;
+select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal &lt; b.sal);
 
-  
-    <article id="post-Oracle笔记-六、PLSQL简单语句块、变量定义" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-六、PLSQL简单语句块、变量定义/">Oracle笔记 六、PL/SQL简单语句块、变量定义</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-六、PLSQL简单语句块、变量定义/" class="article-date">
-  <time datetime="2014-09-22T09:12:49.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、简单SQL语句，HellWorld示例<br>–输出信息<br>begin<br>  dbms_output.put_line(‘Oracle Hello World!’);<br>end;</p>
-<p>2、变量的定义、使用<br>–定义变量<br>declare<br>  sName varchar2(20);<br>begin<br>  sName := ‘jack’;<br>  dbms_output.put_line(sName);<br>end;</p>
-<p>–常用类型<br>declare<br>    sNum number(1);<br>    sCount binary_integer := 0;<br>    sSal number(7, 2) := 5000.00;<br>    sDate date := sysdate;<br>    sPI number(3, 2) := 3.14;<br>    sValid boolean := true;<br>    sName varchar2(20) := ‘Jackson’;<br>begin<br>    dbms_output.put_line(‘sName:’ || sName);<br>    dbms_output.put_line(‘sCount:’ || sCount);<br>    dbms_output.put_line(‘sSal:’ || sSal);<br>    dbms_output.put_line(‘sDate:’ || sDate);<br>    dbms_output.put_line(‘sPI:’ || sPI);<br>    –dbms_output.put_line(‘sValid:’ || sValid);<br>    dbms_output.put_line(‘sName:’ || sName);<br>end;</p>
-<p>–定义Table变量类型<br>declare<br>  type type_table_emp_empno is table of emp.empno%type index by binary_integer;<br>  empnos type_table_emp_empno;<br>begin<br>  empnos(0) := 7369;<br>  empnos(2) := 6789;<br>  empnos(-1) := 6543;<br>  dbms_output.put_line(empnos(-1));<br>end;</p>
-<p>–定义record变量类型<br>declare<br>  type type_record_dept is record (<br>       deptno dept.deptno%type,<br>       dname dept.dname%type,<br>       loc dept.loc%type<br>  );<br>  temp type_record_dept;<br>begin<br>  temp.deptno := 56;<br>  temp.dname := ‘software’;<br>  temp.loc := ‘gz’;<br>  dbms_output.put_line(temp.deptno || ‘ ‘ || temp.dname  || ‘ ‘ || temp.loc);<br>end;</p>
-<p>–使用rowtype声明record变量<br>declare<br>  temp dept%rowtype;<br>begin<br>  temp.deptno := 57;<br>  temp.dname := ‘it’;<br>  temp.loc := ‘sz’;<br>  dbms_output.put_line(temp.deptno || ‘ ‘ || temp.dname  || ‘ ‘ || temp.loc);<br>end;</p>
-<p>–sql语句完成变量赋值<br>declare<br>  v$sal emp.sal%type;<br>  v$ename emp.ename%type;<br>begin<br>  select sal, ename into v$sal, v$ename from emp where rownum = 1;<br>  dbms_output.put_line(v$sal || ‘ ‘ || v$ename);<br>end;</p>
-<p>–sql语句完成rowtype变量赋值<br>declare<br>  v_row_emp emp%rowtype;<br>begin<br>  select * into v_row_emp from emp where empno = 7698;<br>  dbms_output.put_line(v_row_emp.sal || ‘ ‘ || v_row_emp.ename);<br>end;</p>
-<p>–sql语句完成变量插入数据<br>create table dept2 as select * from dept;<br>declare<br>   deptno dept.deptno%type := 57;<br>   dname dept.dname%type := ‘software’;<br>   loc dept.loc%type := ‘gz’;<br>begin<br>    insert into dept2 values(deptno, dname, loc);<br>      commit;<br>end;</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/">Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/" class="article-date">
-  <time datetime="2014-09-22T09:11:20.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间<br>alter table userInfo add(msn varchar2(20));</p>
-<p>1、建表<br>    create table userInfo (<br>       id number(6),<br>       name varchar2(20),<br>       sex number(1),<br>       age number(3),<br>       birthday date,<br>       address varchar2(50),<br>       email varchar2(25),<br>       tel number(11)<br>    );</p>
-<p>2、创建约束<br>    不带约束名称的：<br>    create table userInfo (<br>       id number(6) primary key,–主键<br>       name varchar2(20) not null,–非空<br>       sex number(1),<br>       age number(3) default 18,<br>       birthday date,<br>       address varchar2(50),<br>       email varchar2(25) unique,–唯一<br>       tel number(11),<br>       deptno number(2) references dept(deptno)—外键<br>    ); </p>
-<pre><code>带约束名称：
-create table userInfo (
-       id number(6) constraint id_pk primary key,
-       name varchar2(20) constraint name_nn not null,
-       sex number(1),
-       age number(3) default 18,
-       birthday date,
-       address varchar2(50),
-       email varchar2(25) constraint email_uqe unique,
-       tel number(11),
-       deptno number(2) constraint dept_deptno_ref references dept(deptno)
+--部门平均薪水最高的部门编号
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
 );
 
-列模式：
-create table userInfo (
-       id number(6),
-       name varchar2(20),
-       sex number(1),
-       age number(3) default 18,
-       birthday date,
-       address varchar2(50),
-       email varchar2(25),
-       tel number(11),
-       deptno number(2),
-       constraint id_pk primary key (id),--也可以两个以上，联合主键
-       constraint dept_deptno_ref foreign key (deptno) references dept(deptno),
-       constraint emial_name_uqe unique (email, name)
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg(sal)) max_sal from emp group by deptno
 );
-Alter模式：
-    alter table userInfo add(msn varchar2(20));
-    alter table userInfo modify(msn varchar2(25));
-    alter table userInfo drop(msn);
 
-    alter table userInfo drop constraint id_pk;
-    alter table userInfo add constraint id_pk primary key (id);
-</code></pre><p>3、创建视图<br>    create table v$_dept_view<br>    as<br>    select deptno, dname from dept;</p>
-<pre><code>--重新编译视图
-alter view v$_dept_view compile;
-提示：视图一般是一个表或多个表的查询或子查询，这样可以减少代码量，但同时增加了对数据库视图的维护程度，如：某个表字段被删除或是修改，视图也要重新创建或修改，同时占用了数据库的一部分空间；视图就是一个虚拟的表格；
-</code></pre><p>4、创建索引<br>    普通索引：create index idx_dpt_dname on dept(dname);<br>    联合索引：create index idx_dept_dname_deptno on dept(dname, deptno);<br>    –唯一索引<br>    create unique index idx_emp_ename on scott.emp(ename);<br>    –反向键索引<br>    create index idx_emp_rev_no on scott.emp(empno) reverse;<br>    –位图索引<br>    create bitmap index idx_emp_name on scott.emp(dname);<br>    –索引组织表,一定要有主键<br>    create table tab (<br>        id int primary key,<br>        name varchar2(20)<br>    )    organization index;<br>    –索引组织表的insert效率非常低</p>
-<pre><code>--分区表索引
-create index idx_name on table(col) local/global;
---索引分区
-提示：当给表创建主键或唯一键约束时，系统也会创建一个约束给该字段；同样创建索引也会占用数据库空间；索引在访问、查询的时候效率有提高，但是在修改表的时候效率就会降低；
-</code></pre><p>5、创建序列<br>    create sequence seq;<br>    select seq.nextval from dual;<br>    insert into tab values(sql.nextval, ‘music’);</p>
-<pre><code>create sequence seqtab
-start with 2 –从2开始
-increment by 3—每次加3
-nomaxvalue—没有最大值
-minvalue 1—最小值1
-nocycle—不循环
-nocache;--不缓存
+--部门平均薪水最高的部门名称
+select dname from dept where deptno = (
+ select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+ where avg_sal = (
+        select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
+ )
+);
 
---修改序列 ，不能修改起始值
-alter sequence seqtab
-maxvalue 1000;
-</code></pre><p>6、创建同义词<br>    同义词，顾名思义就是说别名、或是另一个名字。<br>    create synonym scott_emp for scott.emp;<br>    create public synonym scott_dept for scott.dept;</p>
-<pre><code>select * from scott_emp;
-select * from scott_dept;
-</code></pre><p>7、创建表空间<br>    create tablespace HooMS<br>    datafile ‘E:\HooMS.dbf’<br>    size 5M<br>    autoextend on next 2M maxsize 10M;</p>
-<pre><code>--创建用户、分配可以操作表空间
-create user hoo
-identified by hoo
-default tablespace  HooMS
-temporary tablespace temp;
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+    where avg_sal = (
+           select max(avg(sal)) from emp group by deptno
+    )
+);
 
---创建表空间
-create tablespace myMS
-datafile &apos;c:\myMS.dbf&apos;
-size 1M
-autoextend on;
+--平均薪水最低的部门的部门名称
+select dname from dept where deptno = (
+  select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+  where avg_sal = (
+    select min(avg_sal) min_sal from (
+           select avg(sal) avg_sal from emp group by deptno
+    )
+  )
+);
 
---扩展表空间--修改表空间大小
-alter database
-datafile &apos;c:\myMS.dbf&apos;
-resize 2M;
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+    where avg_sal = (    
+      select min(avg(sal)) avg_sal from emp group by deptno
+    )
+);
 
---扩展表空间--添加数据文件
-alter tablespace myMS
-add datafile &apos;c:\myMS_2.dbf&apos;
-size 1M;
+--平均薪水等级最低的部门的部门名称
+select dname from dept where deptno = (
+select deptno from (
+     select grade, t.deptno from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+     ) t
+     on t.avg_sal between s.losal and s.hisal
+  )
+  where grade = (
+    select min(grade) from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+    ) t
+    on t.avg_sal between s.losal and s.hisal
+  )
+);
 
---设置dbf文件自动增长
-alter database 
-datafile &apos;c:\myMS_2.dbf&apos;
-autoextend on next 2M maxsize 4M;
+--部门经理人中，平均薪水最低的部门名称
+select t.deptno, dname from (
+    select sal, deptno from emp where empno in (select distinct mgr from emp)
+) t join dept 
+on t.deptno = dept.deptno
+where sal = (
+    select min(sal) from emp where empno in (select distinct mgr from emp)
+);
 
---表空间重命名
-alter tablespace myMS
-rename to hooMS;
+--比普通员工的最高薪水还要高的经理人名称
+select * from (
+    select empno, ename, sal from emp where empno in (select distinct mgr from emp where mgr is not null)
+) t
+where t.sal &gt; (
+    select max(sal) max_sal from emp where empno not in (
+     select distinct mgr from emp where mgr is not null
+    )
+);
+</code></pre>
+      
 
---分离表空间（脱机）
-alter tablespace hooMS
-offline temporary;
+      
 
---归档模式下脱机
-alter tablespace hooMS
-offline immediate;
+    </div>
+  </div>
+  
+</article>
 
---使表空间联机
-alter tablespace hooMS online;
 
---删除无数据的表空间
-drop tablespace hooMS;
+  
+    <article id="post-Oracle笔记-二、常用dba命令行" class="article article-type-post" itemscope itemprop="blogPost">
 
---删除带数据的表空间
-drop tablespace hooMS
-including contents;
-</code></pre><p>版权维护转载hoojo博客的。</p>
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/22/Oracle笔记-二、常用dba命令行/">Oracle笔记 二、常用dba命令行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/22/Oracle笔记-二、常用dba命令行/" class="article-date">
+  <time datetime="2014-09-22T03:07:26.000Z" itemprop="datePublished">2014-09-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Oracle笔记 二、常用dba命令行<br>1、给用户解锁</p>
+<p>alter user scott account unlock;</p>
+<p>2、注销、断开、切换当前用户连接</p>
+<p>quit</p>
+<p>conn scott/tiger</p>
+<p>3、用户权限查询</p>
+<p>A .查看所有用户：</p>
+<p>select * from dba_users;</p>
+<p>select * from all_users;</p>
+<p>select * from user_users;</p>
+<p>B.查看用户或角色系统权限(直接赋值给用户或角色的系统权限)：</p>
+<p>select * from dba_sys_privs;</p>
+<p>select * from user_sys_privs;</p>
+<p>C.查看角色(只能查看登陆用户拥有的角色)所包含的权限</p>
+<p>select * from role_sys_privs;</p>
+<p>D.查看用户对象权限：</p>
+<p>select * from dba_tab_privs;</p>
+<p>select * from all_tab_privs;</p>
+<p>select * from user_tab_privs;</p>
+<p>E.查看所有角色：</p>
+<p>select * from dba_roles;</p>
+<p>F.查看用户或角色所拥有的角色：</p>
+<p>select * from dba_role_privs; s</p>
+<p>elect * from user_role_privs;</p>
+<p>G.查看哪些用户有sysdba或sysoper系统权限(查询时需要相应权限)</p>
+<p>select * from V$PWFILE_USERS</p>
+<p>4、用户管理</p>
+<p>A、创建用户</p>
+<p>create user username identified by password;</p>
+<p>create user username identified by password default tablespace users quota 10M on users;</p>
+<p>B、修改密码</p>
+<p>alter user username identified by pass;</p>
+<p>密码就从password改成pass了；同样登陆后输入password也可以修改密码</p>
+<p>C、删除用户</p>
+<p>drop user username;</p>
+<p>drop user username cascade;</p>
+<p>5、三种标准的角色（role）：CONNECT、RESOURCE和DBA。</p>
+<p>I、Connect连接、登陆权限</p>
+<p>II、Resource可以创建表、序列、过程（procedure）、触发器（trigger）、索引（index）和簇（cluster）。</p>
+<p>III、Dba管理员</p>
+<p>6、 用户权限</p>
+<p>A、给用户授权</p>
+<p>grant connect, resource to username;</p>
+<p>grant create session, create table, create view to username;</p>
+<p>B、撤销权限</p>
+<p>revoke connect from username;</p>
+<p>7、 角色管理</p>
+<p>A、创建角色</p>
+<p>create role LOGIN;</p>
+<p>B、删除角色</p>
+<p>drop role LOGIN;</p>
+<p>8、 导出角色资源</p>
+<p>A、 首先进入控制台cmd</p>
+<p>B、 进入某个目录，如：cd c:/userdir</p>
+<p>C、 输入命令，exp</p>
+<p>D、 提示输入用户名、口令，也就是即将导出角色的数据</p>
+<p>E、 以下直接默认，按回车enter键即可</p>
+<p>F、 导出完成后，即可看到导出的文件EXPDAT.DMP</p>
+<p>9、 导入角色数据</p>
+<p>A、 首先进入dos控制台</p>
+<p>B、 进入导出数据的目录，如：cd c:/userdir</p>
+<p>C、 输入命令，imp</p>
+<p>D、 输入用户名、口令，将此数据导入给的用户</p>
+<p>E、 后面一直回车，enter键即可</p>
+<p>F、 提示输入用户名、口令，这个是数据从哪个用户中导出的，就是那个用户的</p>
+<p>10、Sqlplus常用命令</p>
+<p>A、set lineSize 120可以设置sqlplus的显示缓冲区大小；</p>
+<p>B、set pageSize 20 可以设置每页显示大小</p>
+<p>C、edit 可以编辑当前sql语句，保存后输入/回车运行</p>
+<p>D、spool c:/temp.sql; 和 spool off 可以保存之间所有的显示内容；</p>
+<p>E、start [filepath]可以批量执行sql语句；</p>
+<p>F、desc tableName 可以查看指定表结构</p>
+<p>G、 show user 可以查看当前用户</p>
+<p>H、 set serveroutput on 运行dbms_output输出信息</p>
+<p>I、 show error 查看编译错误信息</p>
+<p>11、用户常用系统表、表字典</p>
+<p>select table_name from user_tables;</p>
+<p>select view_name from user_views;</p>
+<p>select constraint_name, constraint_type, table_name from user_constraints;</p>
+<p>select table_name from dictionary;</p>
+<p>select index_name from user_indexes;</p>
 
       
 
@@ -311,7 +385,7 @@ including contents;
 
 
   
-    <article id="post-Oracle笔记-四、增删改、事务" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第7章Oreacle开发PLSQL子程序和包" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -319,26 +393,127 @@ including contents;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-四、增删改、事务/">Oracle笔记 四、增删改、事务</a>
+      <a class="article-title" href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/">第7章Oreacle开发PL/SQL子程序和包</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-四、增删改、事务/" class="article-date">
-  <time datetime="2014-09-22T03:11:22.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/" class="article-date">
+  <time datetime="2014-09-22T02:52:07.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Oracle笔记 四、增删改、事务</p>
-<p>1、插入<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    insert into dept(deptno, dname) values(60, ‘software test’);<br>    insert into dept select * from dept where deptno = 20;</p>
-<p>2、删除<br>    delete from dept where deptno = 20;<br>    delete from dept;</p>
-<p>3、修改<br>    update dept set dname = dname || ‘ ^.^’ where deptno = 20;</p>
-<p>4、事务<br>    每个修改语句完成后都可以回滚或提交，即rollback、commit；<br>    eg:<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    rollback;<br>    这样就回滚了，等于上面的没有插入；如果commit就提交了，此后如果再rollback也无力回天了。<br>    下面这样也是无法回滚的：<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    create table temp as select * from dept;<br>    rollback;<br>    再次查询，发现无法回滚；同样增删改后面运行grant/create语句也是无法回滚的；</p>
-<p>版权维护转载hoojo博客的。</p>
+        <h2 id="开发PL-SQL子程序和包"><a href="#开发PL-SQL子程序和包" class="headerlink" title="开发PL/SQL子程序和包"></a>开发PL/SQL子程序和包</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.<br>子程序可以具有声明部分 可执行部分和异常处理部分.<br>PL/SQL支持两种类型的子程序 即过程和函数。<br>过程用于执行特定任务，而函数用于执行任务并返回值。<br>要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）<br>包是一种数据库对象，他是对相关PL/SQL类型。子程序。游标。异常。变量和常量的封装。<br>包由两部分组成：即包规范和包体。<br>在包体声明的项可视为“私有”，因为他们只限于包内使用。<br>在包规范中声明的项也可以在包之外使用。这样的项称为：“公用对象”。<br>包规范包含公用对象及其类型<br>PL/SQL允许两个或多个打包的子程序具有同一名称。在需要子程序接受属于不同数据类型的参数是，可以使用此选项此概念称为重载。<br>使用包的优点是：模块化 、更轻松的应用程序设计、信息的隐藏、新增功能以及性能更佳、</p>
+<p>/<em>包规范的创建关键字（package ）</em>/<br>create or replace package 包名 is<br>包接口定义、让包体去实现<br>procedure pro_test_pack(v_id in int);<br>end 包名;<br>/<em>包体实现包规范中定义的接口使用关键字（package body）</em>/<br>create or replace package body 包名 is<br>实现包规范中定义的接口<br>end;<br>end 包名；</p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p>/<em>包规范</em>/<br>create or replace packagepack_name is<br>v_var varchar2(100);<br>procedure pro_test_pack(v_id in int);<br>end pack_name;<br>/<em>创建包体</em>/<br>create or replace package bodypack_name is<br>procedure pro_test_pack(v_id in int) is<br>begin<br>v_var :=’adasf’;<br>dbms_output.put_line(v_var);<br>end;<br>end pack_name;<br>call pack_name.pro_test_pack(123);</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第6章OreaclePLSQL动态SQL" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/22/第6章OreaclePLSQL动态SQL/">第6章OreaclePL/SQL动态SQL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/22/第6章OreaclePLSQL动态SQL/" class="article-date">
+  <time datetime="2014-09-22T02:51:19.000Z" itemprop="datePublished">2014-09-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="动态SQL分为："><a href="#动态SQL分为：" class="headerlink" title="动态SQL分为："></a>动态SQL分为：</h3><p><strong>早期绑定和晚期绑定</strong><br>编译 早期绑定（编译时就确定的对象）<br>执行 晚期绑定（不确定性要通过执行之后才确定下来）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">execute immediae关键字执行动态SQL语句using是预编译返回</span><br><span class="line">create or replace procedure proc_sqlstring(empid in int)is</span><br><span class="line">begin</span><br><span class="line">execute immediate &apos;delete from emp where empno=:id&apos; using empid;</span><br><span class="line">end;</span><br><span class="line">call proc_sqlstring(7782);</span><br><span class="line">/*1、使用动态SQL完成创建一张表*/</span><br><span class="line">declare</span><br><span class="line">  str_sqltring varchar2(4000);</span><br><span class="line">begin</span><br><span class="line">  str_sqltring := &apos;create table t_table(</span><br><span class="line">id int primary key not null,</span><br><span class="line">name varchar2(100)</span><br><span class="line">)&apos;;</span><br><span class="line">  execute immediate str_sqltring;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/">第5章Oracle PL/SQL使用游标获取</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/" class="article-date">
+  <time datetime="2014-09-22T02:50:03.000Z" itemprop="datePublished">2014-09-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>### 1. 游标的概述 ###
+</code></pre><h3 id="1-隐式游标"><a href="#1-隐式游标" class="headerlink" title="1. 隐式游标"></a>1. 隐式游标</h3><pre><code>   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+</code></pre><h3 id="2-显式游标"><a href="#2-显式游标" class="headerlink" title="2. 显式游标"></a>2. 显式游标</h3><pre><code>显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭）
+</code></pre><h3 id="3-典型的查询操作"><a href="#3-典型的查询操作" class="headerlink" title="3. 典型的查询操作"></a>3. 典型的查询操作</h3><pre><code> a、 解析 （处理SQL语句的一个步骤是解析，确保SQL语句是有效的）
+ b、 绑定（将PL/SQL程序中的变量与绑定变量关联）
+  c、打开（打开游标）
+ d、 执行（从SQL引擎中运行SQL语句）
+ e、 提取（在游标的结果集中获取下一行）
+ f、 关闭（关闭 游标）
+游标获取数据库中的数据集合，然后打开提取每次提取后都会定位到下一行，然后从SGA中将数据拿到程序变量中，在此过程中是由Oracle自动将绑定变量与程序变量相关联。
+</code></pre><h3 id="4-游标属性"><a href="#4-游标属性" class="headerlink" title="4. 游标属性"></a>4. 游标属性</h3><pre><code>      a、%found      如果记录成功获取，返回true，否则返回false
+      b、%notfound   如果记录获取失败，返回true，否则返回false
+      c、%rowcount   返回从游标中获取的记数
+      d、%isopen     如果游标是打开的，返回true，否则返回false
+      e、bulk_rowcount 返回forall语句更改的每个集合元素的记录数
+      f、bulk_exception 返回forall语句更改的每个集合元素的记录的异常信息
+注意：可以在PL/SQL代码中引用游标属性，不能在SQL语句中使用这些属性。
+</code></pre><h3 id="2-使用显式游标"><a href="#2-使用显式游标" class="headerlink" title="2. 使用显式游标"></a>2. 使用显式游标</h3><pre><code>1. 声明显示游标
+      cursor 游标名     is select 语句 for update;
+                 游标名 指向的影响这一行类型%rowtype或type类型
+2. 打开显式游标
+      open 显式游标名；
+3. 从显式游标中提取记录
+      fetch 游标名 into 记录或变量列表；
+4. 关闭显式游标
+      close 游标名
+</code></pre><ol>
+<li>游标for循环<pre><code>for 记录 in 游标名 loop
+   执行语句
+end loop；
+</code></pre><h3 id="使用引用游标"><a href="#使用引用游标" class="headerlink" title="使用引用游标:"></a>使用引用游标:</h3>create or replace procedure proc_info(id in int) is<br>type cur_info is ref cursor; –类型type   游标名   IS   ref cursor引用游标<br>cur_emp cur_info;             –游标标量<br>cur_emp_info emp%rowtype;   –影响的整列的数据<br>begin<br>open cur_emp for                     – 打开游标<br>select <em> from emp where empno=id;<br>loop<br>fetch cur_emp into cur_emp_info;    –从游标中提取数据<br>exit when cur_emp%notfound;        –退出条件没有记录就退出<br>dbms_output.put_line(‘ID：’||cur_emp_info.empno|| ‘姓名：’||cur_emp_info.ename ||’工资：’||v_vv.sal);<br>end loop;<br>close cur_emp;                                   –关闭游标<br>end;<br>call v_v(7499);<br>select </em> from emp;</li>
+</ol>
 
       
 
@@ -353,7 +528,7 @@ including contents;
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </section>

@@ -130,7 +130,7 @@
 
 
   
-    <article id="post-hexo搭建GitHub博客(5)之markdown逼格程序员练就大师写法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OOAD设计原则思维导图总结篇" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -138,118 +138,21 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/23/hexo搭建GitHub博客(5)之markdown逼格程序员练就大师写法/">hexo搭建GitHub博客(5)之markdown逼格程序员练就大师写法</a>
+      <a class="article-title" href="/2014/09/22/OOAD设计原则思维导图总结篇/">OOAD设计原则思维导图总结篇</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/23/hexo搭建GitHub博客(5)之markdown逼格程序员练就大师写法/" class="article-date">
-  <time datetime="2014-09-22T17:08:06.000Z" itemprop="datePublished">2014-09-23</time>
+      <a href="/2014/09/22/OOAD设计原则思维导图总结篇/" class="article-date">
+  <time datetime="2014-09-22T11:53:48.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="总结大师写法"><a href="#总结大师写法" class="headerlink" title="总结大师写法"></a>总结大师写法</h1><p>markdown博客使用方式我总结的很短没有那么臃肿。</p>
-<pre><code>代码注释
-
-public void start main(){
-println(&quot;hello word~!&quot;);
-}
-
-标题 H1 
-#  #
-标题 H2
-##  ##
-标题 H1
-### ###
-
-超链接 
-[lihao](http://www.pronouncing.github.io)
-
-图片
-![](XXX.XXX.png)
-![](http://i.imgur.com/SLXZcj7.png)
-
-无序列表
-- 
-
-有序列表
-1. 
-2. 
-
-水平标尺线
-----------
-
-粗体
-**大师**
-
-斜体
-**
-
-引号
-&gt;
-</code></pre>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hexo搭建GitHub博客(4)hexo博客优化技巧" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/23/hexo搭建GitHub博客(4)hexo博客优化技巧/">hexo搭建GitHub博客(4)hexo博客优化技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/23/hexo搭建GitHub博客(4)hexo博客优化技巧/" class="article-date">
-  <time datetime="2014-09-22T16:09:20.000Z" itemprop="datePublished">2014-09-23</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一节中我们已经学会了用hexo发布博客，这里再介绍一些小技巧对博客站点进行优化，实现更加丰富的功能。</p>
-<h2 id="添加类5块总结"><a href="#添加类5块总结" class="headerlink" title="添加类5块总结"></a>添加类5块总结</h2><ol>
-<li>主页文章显示摘要。</li>
-<li>添加分类标签云标签云widget。</li>
-<li>添加友情链接widget。</li>
-<li>添加“多说”评论。</li>
-<li>添加百度统计功能。</li>
-</ol>
-<h3 id="主页文章显示摘要"><a href="#主页文章显示摘要" class="headerlink" title="主页文章显示摘要"></a>主页文章显示摘要</h3><p>编辑md文件的时候，在要作为摘要的文字后面添加 “more” 即可。</p>
-<h3 id="添加分类、标签云widget"><a href="#添加分类、标签云widget" class="headerlink" title="添加分类、标签云widget"></a>添加分类、标签云widget</h3><p>很简单，在themes/pacman/_config.yml中，添加如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">widgets:</span><br><span class="line">- category ##类别</span><br><span class="line">- tag      ##标记</span><br><span class="line">- links    ##连接</span><br><span class="line">- rss      ##订阅</span><br><span class="line">- archive  ##归档</span><br></pre></td></tr></table></figure></p>
-<h3 id="添加友情链接widget"><a href="#添加友情链接widget" class="headerlink" title="添加友情链接widget"></a>添加友情链接widget</h3><p>很简单，在themes/layout/widget/links.ejs中，添加如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;linkslist&quot;&gt;</span><br><span class="line">  &lt;p class=&quot;asidetitle&quot;&gt;&lt;%= __(&apos;links&apos;) %&gt;&lt;/p&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li&gt;&lt;a href=&quot;http://pronouncing.github.io/&quot; target=&quot;_blank&quot; title=&quot;LiHao&quot;&gt;LiHao&apos;s Blog&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;&lt;a href=&quot;http://hi.baidu.com/m_mayi&quot; target=&quot;_blank&quot; title=&quot;LiHao&quot;&gt;LiHao百度空间文章&apos;s Blog&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="添加“多说”评论"><a href="#添加“多说”评论" class="headerlink" title="添加“多说”评论"></a>添加“多说”评论</h3><p>hexo默认使用国外比较流行的disqus，不过，按照“因地制宜”的原则，我们修改为国内用的多又好用的“多说”评论系统。步骤非常简单：</p>
-<ol>
-<li>在多说进行注册，获得通用代码。</li>
-<li>将通用代码粘贴到themes\pacman\layout_partial\post\comment.ejs里面，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.duoshuo.enable &amp;&amp; page.comments)&#123; %&gt;</span><br><span class="line">&lt;!-- 多说评论框 start 把你默认配置中的修改成 data-thread-key=&quot;&lt;%= page.path %&gt;&quot; data-title=&quot;&lt;%= page.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt; 我这句 下面的&lt;script type=&quot;text/javascript&quot;&gt;...这中间的代码是你从多说中复制出来的每个人的都不同复制自己的就好~ &lt;/script&gt;--&gt;	</span><br><span class="line">	&lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= page.path %&gt;&quot; data-title=&quot;&lt;%= page.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;!-- 多说评论框 end --&gt;</span><br><span class="line">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">var duoshuoQuery = &#123;short_name:&quot;pronouncing&quot;&#125;;</span><br><span class="line">	(function() &#123;</span><br><span class="line">		var ds = document.createElement(&apos;script&apos;);</span><br><span class="line">		ds.type = &apos;text/javascript&apos;;ds.async = true;</span><br><span class="line">		ds.src = (document.location.protocol == &apos;https:&apos; ? &apos;https:&apos; : &apos;http:&apos;) + &apos;//static.duoshuo.com/embed.js&apos;;</span><br><span class="line">		ds.charset = &apos;UTF-8&apos;;</span><br><span class="line">		(document.getElementsByTagName(&apos;head&apos;)[0] </span><br><span class="line">		 || document.getElementsByTagName(&apos;body&apos;)[0]).appendChild(ds);</span><br><span class="line">	&#125;)();</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;!-- 多说公共JS代码 end --&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>很多网友反映自己使用的非 pacman 主题中找不到相应的文件。我的这些修改都是在 pacman主题中，其他主题都是照葫芦画瓢是一样的道理举一反三，各位只好自己探索了。</p>
-<h3 id="添加百度统计功能"><a href="#添加百度统计功能" class="headerlink" title="添加百度统计功能"></a>添加百度统计功能</h3><ol>
-<li>在<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>首页进行注册，获得通用代码。</li>
-<li>将通用代码粘贴到themes\pacman\layout_partial\post\comment.ejs里面你可以跟多说一样放到他的下面就行了，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.duoshuo.enable &amp;&amp; page.comments)&#123; %&gt;</span><br><span class="line">&lt;!-- 多说评论框 start --&gt;</span><br><span class="line">	&lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;&lt;%= page.path %&gt;&quot; data-title=&quot;&lt;%= page.title %&gt;&quot; data-url=&quot;&lt;%= page.permalink %&gt;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;!-- 多说评论框 end --&gt;</span><br><span class="line">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">var duoshuoQuery = &#123;short_name:&quot;pronouncing&quot;&#125;;</span><br><span class="line">	(function() &#123;</span><br><span class="line">		var ds = document.createElement(&apos;script&apos;);</span><br><span class="line">		ds.type = &apos;text/javascript&apos;;ds.async = true;</span><br><span class="line">		ds.src = (document.location.protocol == &apos;https:&apos; ? &apos;https:&apos; : &apos;http:&apos;) + &apos;//static.duoshuo.com/embed.js&apos;;</span><br><span class="line">		ds.charset = &apos;UTF-8&apos;;</span><br><span class="line">		(document.getElementsByTagName(&apos;head&apos;)[0] </span><br><span class="line">		 || document.getElementsByTagName(&apos;body&apos;)[0]).appendChild(ds);</span><br><span class="line">	&#125;)();</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;!-- 上面是多说公共JS代码 end --&gt;</span><br><span class="line">&lt;!-- 下面是百度统计公共JS代码 end --&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line">&lt;!-- 百度统计公共JS代码 end --&gt;</span><br><span class="line">&lt;% if (theme.baidu_tongji)&#123; %&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    var _bdhmProtocol = ((&quot;https:&quot; == document.location.protocol) ? &quot; https://&quot; : &quot; http://&quot;);</span><br><span class="line">    document.write(unescape(&quot;%3Cscript src=&apos;&quot; + _bdhmProtocol + &quot;hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a&apos; type=&apos;text/javascript&apos;%3E%3C/script%3E&quot;));</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>~！OK 教程写到这里对于博客的优化添加控件已经讲完了，话说对于优化这块是无止境的…。<br>先写到这里，如果你们需要其他功能后续的东西也可以放，根据自己的爱好打造一个逼格程序员博客。</p>
-<p>现在我来谈谈对于搭建(hexo+Github+markdown)写作方式，提升自己的总结能力..有兴趣的朋友来我们继续下一篇走起，我相信能看到这个阶段的朋友应该都是性情中人，对于（自由+逼格+高大上）有一定的追求。</p>
+        <p>这是OOAD设计原则的总结思维图,有想学习OOAD思想的可以看看我的截图结合文章看更好。如果需要源码实例请在下方留言。时间就像一张网，撒在哪里，就在哪里收获。<br><img src="http://i.imgur.com/25TZKd5.jpg" alt=""><br><img src="http://i.imgur.com/vbuKkCJ.jpg" alt=""><br><img src="http://i.imgur.com/xr2VxFY.jpg" alt=""><br><img src="http://i.imgur.com/mHK0sQ5.jpg" alt=""><br><img src="http://i.imgur.com/ihcc1gt.jpg" alt=""></p>
 
       
 
@@ -262,7 +165,7 @@ println(&quot;hello word~!&quot;);
 
 
   
-    <article id="post-hexo搭建GitHub博客(3)hexo博客的配置和使用操作" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JavaSE核心总结思维导图篇" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -270,27 +173,59 @@ println(&quot;hello word~!&quot;);
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/hexo搭建GitHub博客(3)hexo博客的配置和使用操作/">hexo搭建GitHub博客(3)hexo博客的配置和使用操作</a>
+      <a class="article-title" href="/2014/09/22/JavaSE核心总结思维导图篇/">JavaSE核心总结思维导图篇</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/hexo搭建GitHub博客(3)hexo博客的配置和使用操作/" class="article-date">
-  <time datetime="2014-09-22T15:28:23.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/22/JavaSE核心总结思维导图篇/" class="article-date">
+  <time datetime="2014-09-22T11:45:42.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在上一节中，我们在本地和github搭建起了自己的hexo博客站点，但是还未发表过文章，站点的配置还是原来的默认值。在本节，我们来进行个性化的设置，将站点打造成自己的，同时介绍下怎么撰文和发表。<br>站点配置用到两个文件，一个是对整站的配置D:\hexo_config.yml，另一个是对主题的配置D:\hexo\themes_config.yml，我们来分别介绍。</p>
-<p>先来介绍对整站配置：  D:\hexo\ _config.yml<br>下面是对整站的配置信息我从我源码中复制出来的，你们如果喜欢 pacman 吃豆人的主题可以下载的跟我一样我用的这个因为兼容性不错尤其对Android平台的兼容。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: http://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line">#站点信息</span><br><span class="line"># Site</span><br><span class="line">title: Mr_李</span><br><span class="line">subtitle: 把一件简单的事，做到极致，便是一种美，更是一种疯狂。</span><br><span class="line">description: 把一件简单的事，做到极致，便是一种美，更是一种疯狂。</span><br><span class="line">author: Li Hao</span><br><span class="line">email: pronouncing@163.com</span><br><span class="line">language: zh-CN</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://pronouncing.github.io/</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">permalink_defaults:</span><br><span class="line">#文件目录</span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">#写博客配置</span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: false</span><br><span class="line">relative_link: false</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  tab_replace:</span><br><span class="line">#目录和标题</span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line">#归档设置</span><br><span class="line"># Archives</span><br><span class="line">## 2: Enable pagination</span><br><span class="line">## 1: Disable pagination</span><br><span class="line">## 0: Fully Disable</span><br><span class="line">archive: 2</span><br><span class="line">category: 2</span><br><span class="line">tag: 2</span><br><span class="line"># 服务器设置</span><br><span class="line"># Server</span><br><span class="line">## Hexo uses Connect as a server</span><br><span class="line">## You can customize the logger format as defined in</span><br><span class="line">## http://www.senchalabs.org/connect/logger.html</span><br><span class="line">port: 4000</span><br><span class="line">server_ip: localhost</span><br><span class="line">logger: false</span><br><span class="line">logger_format: dev</span><br><span class="line"># 时间和日期格式</span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: MMM D YYYY</span><br><span class="line">time_format: H:mm:ss</span><br><span class="line"># 分页设置</span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10 #每1页10显示10篇文章</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Disqus  ##社会化评论disqus，我使用多说，在主题中配置disqus_shortname: XXX是你多少的username</span><br><span class="line">disqus_shortname: pronouncing</span><br><span class="line"># 插件和皮肤</span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://github.com/hexojs/hexo/wiki/Plugins</span><br><span class="line">## Themes: https://github.com/tommy351/hexo/wiki/Themes</span><br><span class="line">theme: pacman</span><br><span class="line">exclude_generator:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Deployment   #站点部署到github要配置，上一节中已经讲过</span><br><span class="line">## Docs: http://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: github</span><br><span class="line">  repository: https://github.com/pronouncing/pronouncing.github.io.git</span><br><span class="line">  branch: master`</span><br><span class="line">现在可以hexo generate，hexo server，简写方式（hexo g，hexo s）打开localhost:4000查看效果了。</span><br></pre></td></tr></table></figure></p>
-<p>接下来是themes主题的配置介绍<br>D:\hexo\themes\pacman_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">##### Menu</span><br><span class="line">menu:</span><br><span class="line">  首页: /</span><br><span class="line">  存档: /archives</span><br><span class="line">  关于: /about</span><br><span class="line"></span><br><span class="line">## you can create `tags` and `categories` folders in `../source`.</span><br><span class="line">## And create a `index.md` file in each of them.</span><br><span class="line">## set `front-matter`as</span><br><span class="line">## layout: tags (or categories)</span><br><span class="line">## title: tags (or categories)</span><br><span class="line">## ---</span><br><span class="line"></span><br><span class="line">#### Widgets</span><br><span class="line">widgets: </span><br><span class="line">- category ##类别</span><br><span class="line">- tag      ##标记</span><br><span class="line">- links    ##连接</span><br><span class="line">- rss      ##订阅</span><br><span class="line">- archive  ##归档</span><br><span class="line">## provide six widgets:category,tag,rss,archive,tagcloud,links.</span><br><span class="line">## modify links in `/layout/_widget/links.ejs`.</span><br><span class="line"></span><br><span class="line">##Rss订阅配置这个配置需要先安装 ##Rss订阅配置这个配置需要先安装RSS插件，将上述命令中的 npm install &lt;hexo-generator-feed&gt;一旦安装完成，你可以在配置显示你站点的RSS，文件路径中写上： &quot;/atom.xml&quot;</span><br><span class="line">#### RSS </span><br><span class="line">rss: &quot;/atom.xml&quot; ## RSS address.</span><br><span class="line">#### archive</span><br><span class="line">archive: &quot;java&quot;</span><br><span class="line"></span><br><span class="line">#### Image 这个是自己博客头像可以根据自己的需要修改图片路径</span><br><span class="line">imglogo:</span><br><span class="line">  enable: true             ## display image logo true/false.</span><br><span class="line">  src: img/logos.jpg        ## `.svg` and `.png` are recommended,please put image into the theme folder `/pacman/source/img`.</span><br><span class="line">favicon: img/logos.jpg   ## size:32px*32px,`.ico` is recommended,please put image into the theme folder `/pacman/source/img`.     </span><br><span class="line">apple_icon: img/pacman.jpg ## size:114px*114px,please put image into the theme folder `/pacman/source/img`.</span><br><span class="line"></span><br><span class="line">#### Author Avatar Picture</span><br><span class="line">author_img_enable: true ## display author avatar picture</span><br><span class="line">dataURI: false</span><br><span class="line">## if the picture&apos;s format is dataURI please set the value to true,otherwise set the value to false.</span><br><span class="line">## convert an image into base 64 data URIs http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/ .</span><br><span class="line">author_img_data: &apos;&apos;</span><br><span class="line">## paste the dataURI in ONE LINE and included it by &apos;&apos;.</span><br><span class="line">author_img: img/authors.jpg ## size:220px*220px.</span><br><span class="line">## if the picture&apos;s format is `.png` or `.jpg`  instead of dataURI,you should set the `dataURI` value to false.</span><br><span class="line"></span><br><span class="line">#### Font   ##字体有JS能力的人可以尝试修改成自己喜欢的字体</span><br><span class="line">ShowCustomFont: true</span><br><span class="line">## you can change custom font in `variable.styl` and `font.styl` which in the theme folder `/pacman/source/css`.</span><br><span class="line"></span><br><span class="line">#### Toc</span><br><span class="line">toc:</span><br><span class="line">  article: true   ## show contents in article.</span><br><span class="line">  aside: true     ## show contents in aside.</span><br><span class="line">## you can set both of the value to true of neither of them.</span><br><span class="line">## if you don&apos;t want display contents in a specified post,you can modify `front-matter` and add `toc: false`.</span><br><span class="line"></span><br><span class="line">#### Fancybox  ##图片效果，默认</span><br><span class="line">fancybox: true</span><br><span class="line">## if you use gallery post or want use fancybox please set the value to true.</span><br><span class="line">## if you want use fancybox in ANY post please copy the file `fancybox.js`.</span><br><span class="line">## in theme folder `/pacman/scripts` to your hexo blog folder `../scritps`.</span><br><span class="line"></span><br><span class="line">#### Author information</span><br><span class="line">author:</span><br><span class="line">  google_plus:    ## eg:116338260303228776998 for https://plus.google.com/u/0/116338260303228776998</span><br><span class="line">  intro_line1: &quot;你好，我是LiHao&quot; ## eg: &quot;Hello ,I&apos;m Larry Page in Google.&quot;</span><br><span class="line">  intro_line2: &quot;这是我的博客,信不信由你&quot; ## eg: &quot;This is my blog,believe it or not.&quot;</span><br><span class="line">  weibo: &quot;1603769332&quot;  ## e.g. 436062867 for http://weibo.com/436062867</span><br><span class="line">  twitter: &quot;pronouncing&quot; ## e.g. yangjiansky for https://twitter.com/yangjiansky</span><br><span class="line">  github: &quot;pronouncing&quot; ## e.g. A-limon for https://github.com/A-limon</span><br><span class="line">  facebook: &quot;pronouncing&quot; ## e.g. yangjian for https://favebook.com/yangjian</span><br><span class="line">  tsina: &quot;pronouncing&quot; ## e.g. 1664838973  Your weibo ID,It will be used in share button.</span><br><span class="line">  baidu: &quot;m_mayi&quot;</span><br><span class="line"></span><br><span class="line">#### Comment</span><br><span class="line">duoshuo: </span><br><span class="line">  enable: true  ## duoshuo.com</span><br><span class="line">  short_name: pronouncing     ## duoshuo short name.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 百度统计功能、这个是我自己加的代码可以统计有多人访问，访问了些什么内容之类的很详细。</span><br><span class="line">baidu_tongji: ture</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### Share button</span><br><span class="line">jiathis:</span><br><span class="line">  enable: false ## if you use jiathis as your share tool,the built-in share tool won&apos;t be display.</span><br><span class="line">  id:    ## e.g. 1501277 your jiathis ID. </span><br><span class="line">  tsina: ## e.g. 1664838973 Your weibo id,It will be used in share button.</span><br><span class="line"></span><br><span class="line">#### Analytics</span><br><span class="line">google_analytics:</span><br><span class="line">  enable: false</span><br><span class="line">  id:   ## e.g. UA-1766729-8 your google analytics ID.</span><br><span class="line">  site: ## e.g. yangjian.me your google analytics site or set the value as auto.</span><br><span class="line">## You MUST upgrade to Universal Analytics first!</span><br><span class="line">## https://developers.google.com/analytics/devguides/collection/upgrade/?hl=zh_CN</span><br><span class="line"></span><br><span class="line">#### Custom Search</span><br><span class="line">google_cse: </span><br><span class="line">  enable: false</span><br><span class="line">  cx:  ## e.g. 000561263943549425496:mrzrm0gr4kg your Custom Search ID</span><br><span class="line">## https://www.google.com/cse/ </span><br><span class="line">## To enable the custom search You must create a &quot;search&quot; folder in &apos;/source&apos; and a &quot;index.md&quot; file</span><br><span class="line">## set the &apos;front-matter&apos; as</span><br><span class="line">## layout: search </span><br><span class="line">## title: search</span><br><span class="line">## ---</span><br></pre></td></tr></table></figure></p>
-<p>上面改动的不多，后面我会介绍修改方法。好了，站点配置好了。</p>
-<h3 id="我想发表一篇文章，怎么做呢？"><a href="#我想发表一篇文章，怎么做呢？" class="headerlink" title="我想发表一篇文章，怎么做呢？"></a>我想发表一篇文章，怎么做呢？</h3><p>title：#可以改成中文的，如“如何成为大师”<br>date： #发表日期，让他默认就好。<br>tags:  #文章的标签比如： Android、java、、nodejs、进行分类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">title: hexo搭建GitHub博客(2)搭建hexo博客  </span><br><span class="line">date: 2014-09-22 22:57:44</span><br><span class="line">tags: hexo</span><br><span class="line"></span><br><span class="line">下面就是正文内容比如：</span><br><span class="line">	用markdown工具舒写，大师是如何炼成的....</span><br></pre></td></tr></table></figure></p>
-<p>hexo server，简写方式：（hexo s）访问localhost:4000预览效果。（退出server用Ctrl+c）<br>hexo deploy，简写方式：（hexo d）同步到github。访问网站看看效果。</p>
-<p>现在为止，我们已经搭建起博客，进行一些基本配置，并学会了怎么发表文章。后面你就可以正常发表文章了，如果你对主题或者某个地方不爽可以自行修改，如果你对JS操作不熟悉就只能这个样子了。后面的文章你可以不看，如果你喜欢折腾的话可以跟我来看看后续的动作。</p>
+        <p>博客针对Java这块核心总结我已经总结成了思维导图，如果你是新手的话正好想学习这块内容，可以看看我这个图可以跟着这个流程学习，时间就像一张网，撒在哪里，就在哪里收获。<br><img src="http://i.imgur.com/J0mbhfX.jpg" alt=""><br><img src="http://i.imgur.com/XupBoYy.jpg" alt=""><br><img src="http://i.imgur.com/3ijlJa1.jpg" alt=""><br><img src="http://i.imgur.com/YuABbtu.jpg" alt=""><br><img src="http://i.imgur.com/Oex15FS.jpg" alt=""><br><img src="http://i.imgur.com/UmXt8lz.jpg" alt=""></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Oracle笔记-十四、查询XML操作、操作系统文件" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/22/Oracle笔记-十四、查询XML操作、操作系统文件/">Oracle笔记 十四、查询XML操作、操作系统文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/22/Oracle笔记-十四、查询XML操作、操作系统文件/" class="article-date">
+  <time datetime="2014-09-22T09:28:47.000Z" itemprop="datePublished">2014-09-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>–1.随机数<br>select dbms_random.value from dual;<br>select mod(dbms_random.random, 10) from dual;<br>–0-9随机数<br>select abs(mod(dbms_random.random, 10)) from dual;<br>–40-49随机数<br>select 40 + abs(mod(dbms_random.random, 10)) from dual;</p>
+<p>–2.Xml<br>declare<br>       words clob;<br>       xmlStr varchar2(32767);<br>       line varchar2(2000);<br>       line_no number := 1;<br>begin<br>     words := dbms_xmlquery.getXML(‘select * from scott.emp’);<br>     xmlStr := dbms_lob.substr(words, 32767);<br>     loop<br>         exit when (xmlStr is null);<br>         line := substr(xmlStr, 1, instr(xmlStr, chr(10)) - 1);<br>         dbms_output.put_line(line_no || ‘:’ || line);<br>         xmlStr := substr(xmlStr, instr(xmlStr, chr(10)) + 1);<br>         line_no := line_no + 1;<br>     end loop;<br>end;</p>
+<p>–3.文件<br>–定义文件夹 命名必须大写<br>create directory MY_DIR as ‘D:\TEMP’;<br>–读文件<br>declare<br>       inputfile UTL_FILE.file_type; –文件对象<br>       input varchar2(2000);<br>begin<br>     –指定文件<br>     –3个参数依次为:文件夹 文件 打开方式[r(读) w(写) a(追加)]<br>     inputfile := UTL_FILE.fopen(‘MY_DIR’, ‘demo.txt’, ‘r’);<br>     loop<br>         UTL_FILE.get_line(inputfile, input);<br>         dbms_output.put_line(input);<br>     end loop;<br>     –关闭文件<br>     UTL_FILE.fclose(inputfile);<br>     exception<br>       when no_data_found then dbms_output.put_line(‘文件末尾!’);<br>end;</p>
+<p>–写文件<br>declare<br>       inputfile UTL_FILE.file_type; –文件对象<br>       input varchar2(2000) := ‘Hello World!’;<br>begin<br>     –指定文件<br>     –3个参数依次为:文件夹 文件 打开方式[r(读) w(写) a(追加)]<br>     inputfile := UTL_FILE.fopen(‘MY_DIR’, ‘mydemo.txt’, ‘a’);<br>     –写入数据<br>     UTL_FILE.put_line(inputfile, input);<br>     –关闭文件<br>     UTL_FILE.fclose(inputfile);<br>     exception<br>       when no_data_found then dbms_output.put_line(‘文件末尾!’);<br>end;<br>版权维护转载hoojo博客的。</p>
 
       
 
@@ -305,7 +240,7 @@ println(&quot;hello word~!&quot;);
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </section>

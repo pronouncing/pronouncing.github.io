@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Oracle笔记-三、function-、select" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,337 +42,61 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-三、function-、select/">Oracle笔记 三、function 、select</a>
+      <a class="article-title" href="/2014/09/22/第4章Oracle-在PLSQL中更改数据和管理事物/">第4章Oracle 在PL/SQL中更改数据和管理事物</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-三、function-、select/" class="article-date">
-  <time datetime="2014-09-22T03:09:42.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/22/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
+  <time datetime="2014-09-22T02:47:43.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Oracle笔记 三、function 、select</p>
-<p>Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；<br>1、查看表结构用desc<br>    desc emp;</p>
-<p>2、空表dual，最常用的空表，如：<br>    select 2 * 4 from dual;<br>    select sysdate from dual;</p>
-<p>3、双引号能保持格式<br>    如：select sysdate “toDay 日 期” from dual;</p>
-<p>4、|| 字符串连接<br>    如：select 2*3 || 8 from dual;<br>    select ename || sal from scott.emp;<br>    select ename || ‘ORACLE’ from scott.emp;</p>
-<p>5、单引号，如：select 2 * 2 || ‘abc’’efg’ from dual;<br>    用两个单引号表示一个单引号</p>
-<p>6、去掉重复数据distinct<br>    select distinct deptno from scott.emp;<br>    去掉重复组合：select distinct deptno,job from scott.emp;</p>
-<p>7、where查询<br>    A、=查询，select * from scott.emp where sal = 1500;</p>
-<pre><code>B、比较&lt;、&gt;、&gt;=、&lt;=
-    select * from scott.emp where sal &gt; 1500;
-C、and or
-    select * from scott.emp where sal &gt; 1500 and sal &lt;= 5000 or deptno = 10;
-D、in、not in
-    select * from scott.emp where sal in (1500, 800) and deptno not in (10, 20)
+        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
 
-E、like模糊 escape 转义
-    Select * from scott.emp where ename like ‘%in%’;
-    Select * from scott.emp where ename like ‘%in\%k%’;
-    Select * from scott.emp where ename like ‘%in#%k%’ escape ‘#’;
-    表示like中的#号是转义字符，相当于\
-F、is null、is not null
-K、    order by
-    select sal, ename from scott.emp order by sal;
-    select sal, ename from scott.emp order by sal asc;
-    select sal, ename from scott.emp order by sal desc;
-    select sal, ename from scott.emp where sal &gt; 2000 order by sal desc;
-    select sal, deptno, ename from scott.emp order by sal,deptno desc;
-</code></pre><p>8、function<br>    A、lower、upper、substr<br>        select lower(‘abcABC’) from dual;<br>        select upper(‘abcABC’) from dual;<br>        substr(target, startIndex, length)<br>        select substr(‘abcABC’, 1, 3) from dual;</p>
-<pre><code>B、chr、ascii
-    将数字安装ascii值转换成字符：select char(65) from dual;
-    将字符转换成ascii值：select ascii(‘Z’) from dual;
-
-C、round、to_char
-    精确小数
-    select round(22.456) from dual;
-    保留2位小数：select round(22.456, 2) from dual;
-    精确到个位：select round(22.456, -1) from dual;
-
-    货币
-    设置货币格式，000前面不足就用0代替
-    select to_char(sal, &apos;$000,000.00&apos;) from scott.emp;
-    999就不会替换不足的地方，只会安装格式输出
-    select to_char(sal, &apos;$999,999.99&apos;) from scott.emp;
-    本地货币格式
-    select to_char(sal, &apos;L999,999.99&apos;) from scott.emp;
-
-    日期
-    日期格式 
-    格式控制 描述 
-    YYYY、YYY、YY 分别代表4位、3位、2位的数字年 
-    YEAR 年的拼写 
-    MM 数字月 
-    MONTH 月的全拼 
-    MON 月的缩写 
-    DD 数字日 
-    DAY 星期的全拼 
-    DY 星期的缩写 
-    AM 表示上午或者下午 
-    HH24、HH12 12小时制或24小时制 
-    MI 分钟 
-    SS 秒钟 
-    SP 数字的拼写 
-    TH 数字的序数词 
-
-    “特殊字符” 假如特殊字符 
-    HH24:MI:SS AM 15:43:20 PM
-    select to_char(sysdate, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
-    select to_char(sysdate, &apos;YYYY-MM-DD HH24:MI:SS&apos;) from dual;
-
- D、to_date、to_number、nvl
-    to_date(target, current_format)
-    select to_date(&apos;2011-4-2 17:55:55&apos;, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
-    select to_number(&apos;$12,322.56&apos;, &apos;$999,999.99&apos;) + 10 from dual;
-    select to_number(&apos;$12,322.56&apos;, &apos;$00,000.00&apos;) + 10 from dual;
-    select to_number(&apos;22.56&apos;) + 10 from dual;
-    nvl可以将某个字段的空值转换成指定的值
-    select ename, sal, nvl(comm, 1.00) from scott.emp;
-</code></pre><p>9、group function 组函数：min、max、avg、sum、count<br>        select max(sal) from scott.emp;<br>        select min(sal) from scott.emp;<br>        select avg(sal) from emp;<br>        select round(avg(sal), 2) from emp;<br>        select to_char(avg(sal), ‘L999,999.99’) from emp;<br>        select sum(sal) from emp;<br>        select count(comm) from emp;<br>        select count(distinct deptno) from emp;</p>
-<p>10、group by 分组<br>    select deptno, avg(sal) from emp group by deptno;<br>    select deptno, job, avg(sal) from emp group by deptno, job;<br>    求部门最高工资的所在部门的员工信息：<br>    select deptno, ename, sal from emp where sal in (select max(sal) from emp group by deptno);</p>
-<p>11、having 对分组数据进行过滤<br>    求部门评价工资：<br>    select * from (select avg(sal) sal, deptno from emp group by deptno) where sal &gt; 2000;<br>    select avg(sal) sal, deptno from emp group by deptno having avg(sal) &gt; 2000;</p>
-<p>12、子查询<br>    求部门分组后工资最高的员工信息<br>    select emp.ename, emp.sal, emp.deptno from emp, (select max(sal) max_sal, deptno from emp group by deptno) t where emp.sal = t.max_sal and emp.deptno = t.deptno;<br>    求部门平均工资等级<br>    select s.grade, t.deptno, t.avg_sal from scott.salgrade s, (select deptno, avg(sal) avg_sal from emp group by deptno) t where t.avg_sal &gt; s.losal and t.avg_sal &lt; s.hisal;（between）</p>
-<p>13、自连接<br>    select a.ename, b.ename mgr_name from emp a, emp b where a.empno = b.mgr;</p>
-<p>14、 连接查询<br>    select dname, ename from dept, emp where dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp using(deptno);<br>    select dname, ename from dept left join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept right join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept full join emp on dept.deptno = emp.deptno;<br>    select a.ename, b.ename mgr_name from emp a join emp b on a.mgr = b.empno;<br>    select a.ename, b.ename mgr_name from emp a left join emp b on a.mgr = b.empno;</p>
-<p>15、 Rownum<br>    select rounum, deptno, dname from dept;<br>    select <em> from (<br>         select rownum r, dept.</em> from dept<br>    ) t where  t.r &gt; 2;</p>
-<p>16、树状结构查询<br>    select level, empno, ename, mgr from emp<br>    connect by prior mgr = empno;</p>
-<p>17、排序函数<br>    –按部门分组，给出分组后的序号<br>    select row_number() over(partition by deptno order by sal), emp.* from emp;</p>
-<pre><code>--rank排序，空出相同部分
-select rank() over(partition by deptno order by sal), emp.* from emp;
-select rank() over(order by deptno), emp.* from emp;
-select rank() over(order by sal), emp.* from emp;
-
---dense_rank排序给出相同序号,不空留序号
-select rank() over(order by sal), emp.* from emp;
-select dense_rank() over(order by sal), emp.* from emp;
-</code></pre><p>18、交集、并集、割集查询<br>    –并集：不带重复数据<br>    select <em> from emp<br>    union<br>    select </em> from emp2;</p>
-<pre><code>--并集：带重复数据
-select * from emp
-union all
-select * from emp2;        
-
---割集,显示不同部分
-select * from emp
-minus
-select * from emp2;
-</code></pre><p>19、 查询系统表、视图<br>    select owner, object_name, object_type, status, dba_objects.* from dba_objects where object_type = ‘view’ and status = ‘invalid’;</p>
-<pre><code>select * from user_objects where object_type like &apos;PROCEDURE&apos;;
-</code></pre><p>20、练习题<br>    –部门最高薪资员工信息<br>    select ename, sal, deptno from emp<br>    where sal in (select max(sal) from emp group by deptno);</p>
-<pre><code>--部门最高薪资员工信息
-select ename, sal, emp.deptno from emp 
-join (select max(sal) max_sal, deptno from emp group by deptno) t 
-on emp.deptno = t.deptno and emp.sal = t.max_sal;
-
---部门平均薪资等级
-select grade, losal, hisal, t.avg_sal from salgrade 
-join (select avg(sal) avg_sal, deptno from emp group by deptno) t
-on t.avg_sal between losal and hisal;
-
---经理人
-select ename, job from emp where empno in (select mgr from emp);
-
---不用分组函数，查询薪水最高值
-select * from (select sal, ename from emp order by sal desc) where rownum = 1;
-select distinct a.sal from emp a join emp b on a.sal &gt; b.sal where rownum = 1;
-select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal &lt; b.sal);
-
---部门平均薪水最高的部门编号
-select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-where avg_sal = (
-    select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
-);
-
-select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-where avg_sal = (
-    select max(avg(sal)) max_sal from emp group by deptno
-);
-
---部门平均薪水最高的部门名称
-select dname from dept where deptno = (
- select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
- where avg_sal = (
-        select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
- )
-);
-
-select dname from dept where deptno = (
-    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-    where avg_sal = (
-           select max(avg(sal)) from emp group by deptno
-    )
-);
-
---平均薪水最低的部门的部门名称
-select dname from dept where deptno = (
-  select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
-  where avg_sal = (
-    select min(avg_sal) min_sal from (
-           select avg(sal) avg_sal from emp group by deptno
-    )
-  )
-);
-
-select dname from dept where deptno = (
-    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
-    where avg_sal = (    
-      select min(avg(sal)) avg_sal from emp group by deptno
-    )
-);
-
---平均薪水等级最低的部门的部门名称
-select dname from dept where deptno = (
-select deptno from (
-     select grade, t.deptno from salgrade s join (
-        select avg(sal) avg_sal, deptno from emp group by deptno
-     ) t
-     on t.avg_sal between s.losal and s.hisal
-  )
-  where grade = (
-    select min(grade) from salgrade s join (
-        select avg(sal) avg_sal, deptno from emp group by deptno
-    ) t
-    on t.avg_sal between s.losal and s.hisal
-  )
-);
-
---部门经理人中，平均薪水最低的部门名称
-select t.deptno, dname from (
-    select sal, deptno from emp where empno in (select distinct mgr from emp)
-) t join dept 
-on t.deptno = dept.deptno
-where sal = (
-    select min(sal) from emp where empno in (select distinct mgr from emp)
-);
-
---比普通员工的最高薪水还要高的经理人名称
-select * from (
-    select empno, ename, sal from emp where empno in (select distinct mgr from emp where mgr is not null)
-) t
-where t.sal &gt; (
-    select max(sal) max_sal from emp where empno not in (
-     select distinct mgr from emp where mgr is not null
-    )
-);
-</code></pre>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Oracle笔记-二、常用dba命令行" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-二、常用dba命令行/">Oracle笔记 二、常用dba命令行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-二、常用dba命令行/" class="article-date">
-  <time datetime="2014-09-22T03:07:26.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Oracle笔记 二、常用dba命令行<br>1、给用户解锁</p>
-<p>alter user scott account unlock;</p>
-<p>2、注销、断开、切换当前用户连接</p>
-<p>quit</p>
-<p>conn scott/tiger</p>
-<p>3、用户权限查询</p>
-<p>A .查看所有用户：</p>
-<p>select * from dba_users;</p>
-<p>select * from all_users;</p>
-<p>select * from user_users;</p>
-<p>B.查看用户或角色系统权限(直接赋值给用户或角色的系统权限)：</p>
-<p>select * from dba_sys_privs;</p>
-<p>select * from user_sys_privs;</p>
-<p>C.查看角色(只能查看登陆用户拥有的角色)所包含的权限</p>
-<p>select * from role_sys_privs;</p>
-<p>D.查看用户对象权限：</p>
-<p>select * from dba_tab_privs;</p>
-<p>select * from all_tab_privs;</p>
-<p>select * from user_tab_privs;</p>
-<p>E.查看所有角色：</p>
-<p>select * from dba_roles;</p>
-<p>F.查看用户或角色所拥有的角色：</p>
-<p>select * from dba_role_privs; s</p>
-<p>elect * from user_role_privs;</p>
-<p>G.查看哪些用户有sysdba或sysoper系统权限(查询时需要相应权限)</p>
-<p>select * from V$PWFILE_USERS</p>
-<p>4、用户管理</p>
-<p>A、创建用户</p>
-<p>create user username identified by password;</p>
-<p>create user username identified by password default tablespace users quota 10M on users;</p>
-<p>B、修改密码</p>
-<p>alter user username identified by pass;</p>
-<p>密码就从password改成pass了；同样登陆后输入password也可以修改密码</p>
-<p>C、删除用户</p>
-<p>drop user username;</p>
-<p>drop user username cascade;</p>
-<p>5、三种标准的角色（role）：CONNECT、RESOURCE和DBA。</p>
-<p>I、Connect连接、登陆权限</p>
-<p>II、Resource可以创建表、序列、过程（procedure）、触发器（trigger）、索引（index）和簇（cluster）。</p>
-<p>III、Dba管理员</p>
-<p>6、 用户权限</p>
-<p>A、给用户授权</p>
-<p>grant connect, resource to username;</p>
-<p>grant create session, create table, create view to username;</p>
-<p>B、撤销权限</p>
-<p>revoke connect from username;</p>
-<p>7、 角色管理</p>
-<p>A、创建角色</p>
-<p>create role LOGIN;</p>
-<p>B、删除角色</p>
-<p>drop role LOGIN;</p>
-<p>8、 导出角色资源</p>
-<p>A、 首先进入控制台cmd</p>
-<p>B、 进入某个目录，如：cd c:/userdir</p>
-<p>C、 输入命令，exp</p>
-<p>D、 提示输入用户名、口令，也就是即将导出角色的数据</p>
-<p>E、 以下直接默认，按回车enter键即可</p>
-<p>F、 导出完成后，即可看到导出的文件EXPDAT.DMP</p>
-<p>9、 导入角色数据</p>
-<p>A、 首先进入dos控制台</p>
-<p>B、 进入导出数据的目录，如：cd c:/userdir</p>
-<p>C、 输入命令，imp</p>
-<p>D、 输入用户名、口令，将此数据导入给的用户</p>
-<p>E、 后面一直回车，enter键即可</p>
-<p>F、 提示输入用户名、口令，这个是数据从哪个用户中导出的，就是那个用户的</p>
-<p>10、Sqlplus常用命令</p>
-<p>A、set lineSize 120可以设置sqlplus的显示缓冲区大小；</p>
-<p>B、set pageSize 20 可以设置每页显示大小</p>
-<p>C、edit 可以编辑当前sql语句，保存后输入/回车运行</p>
-<p>D、spool c:/temp.sql; 和 spool off 可以保存之间所有的显示内容；</p>
-<p>E、start [filepath]可以批量执行sql语句；</p>
-<p>F、desc tableName 可以查看指定表结构</p>
-<p>G、 show user 可以查看当前用户</p>
-<p>H、 set serveroutput on 运行dbms_output输出信息</p>
-<p>I、 show error 查看编译错误信息</p>
-<p>11、用户常用系统表、表字典</p>
-<p>select table_name from user_tables;</p>
-<p>select view_name from user_views;</p>
-<p>select constraint_name, constraint_type, table_name from user_constraints;</p>
-<p>select table_name from dictionary;</p>
-<p>select index_name from user_indexes;</p>
+         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
+                   例：
+                          begin
+                                  update emp set sal = 3100 where enpno = 7788;
+                                   if sql%found then
+                                         dbms_output.put_line(&apos;记录修改成功&apos;);
+                                     end if ;
+                           end;                                    
+         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
+                    例：
+                           begin
+                                   delete from emp where sal &gt;= 2000;
+                                     if SQL%FOUND then
+                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
+                                     end if;
+                             end;
+         SQL%ROWCOUNT-----返回从游标中获取的记录数、
+</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
+      declare
+                 v_name varchar(50);
+      begin
+                 for col in (select empno, ename from emp) loop;
+                       update emp set ename = &apos;temp&apos; where empno = col.empno
+                  retuening ename into v_name;
+                  dbms_output.put_line(）；
+                 end loop;
+      end;
+</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
+       事物不是一个可以分割的单元
+ 2. 一致性
+       事物必须使系统从一个一致性状态变换到另一个一致性状态
+3. 隔离性
+       每个事物必须独立与其他事务执行
+4.持久性
+       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
+</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
 
       
 
@@ -385,7 +109,7 @@ where t.sal &gt; (
 
 
   
-    <article id="post-第7章Oreacle开发PLSQL子程序和包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第3章oreaclePLSQL程序结构控制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -393,23 +117,26 @@ where t.sal &gt; (
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/">第7章Oreacle开发PL/SQL子程序和包</a>
+      <a class="article-title" href="/2014/09/22/第3章oreaclePLSQL程序结构控制/">第3章oreaclePL/SQL程序结构控制</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/" class="article-date">
-  <time datetime="2014-09-22T02:52:07.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/22/第3章oreaclePLSQL程序结构控制/" class="article-date">
+  <time datetime="2014-09-22T02:30:23.000Z" itemprop="datePublished">2014-09-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="开发PL-SQL子程序和包"><a href="#开发PL-SQL子程序和包" class="headerlink" title="开发PL/SQL子程序和包"></a>开发PL/SQL子程序和包</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.<br>子程序可以具有声明部分 可执行部分和异常处理部分.<br>PL/SQL支持两种类型的子程序 即过程和函数。<br>过程用于执行特定任务，而函数用于执行任务并返回值。<br>要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）<br>包是一种数据库对象，他是对相关PL/SQL类型。子程序。游标。异常。变量和常量的封装。<br>包由两部分组成：即包规范和包体。<br>在包体声明的项可视为“私有”，因为他们只限于包内使用。<br>在包规范中声明的项也可以在包之外使用。这样的项称为：“公用对象”。<br>包规范包含公用对象及其类型<br>PL/SQL允许两个或多个打包的子程序具有同一名称。在需要子程序接受属于不同数据类型的参数是，可以使用此选项此概念称为重载。<br>使用包的优点是：模块化 、更轻松的应用程序设计、信息的隐藏、新增功能以及性能更佳、</p>
-<p>/<em>包规范的创建关键字（package ）</em>/<br>create or replace package 包名 is<br>包接口定义、让包体去实现<br>procedure pro_test_pack(v_id in int);<br>end 包名;<br>/<em>包体实现包规范中定义的接口使用关键字（package body）</em>/<br>create or replace package body 包名 is<br>实现包规范中定义的接口<br>end;<br>end 包名；</p>
-<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p>/<em>包规范</em>/<br>create or replace packagepack_name is<br>v_var varchar2(100);<br>procedure pro_test_pack(v_id in int);<br>end pack_name;<br>/<em>创建包体</em>/<br>create or replace package bodypack_name is<br>procedure pro_test_pack(v_id in int) is<br>begin<br>v_var :=’adasf’;<br>dbms_output.put_line(v_var);<br>end;<br>end pack_name;<br>call pack_name.pro_test_pack(123);</p>
+        <h2 id="oreaclePL-SQL程序结构控制"><a href="#oreaclePL-SQL程序结构控制" class="headerlink" title="oreaclePL/SQL程序结构控制"></a>oreaclePL/SQL程序结构控制</h2><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.<br>PL/SQL中的【条件控制】语句有IF语句、CASE语句、<br>PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.<br>当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程就会转到当前块的异常处理部分来处理异常. 异常处理完成后，程序就马上跳出PL/SQL块。<br>PL/SQL异常分为系统异常和自定义异常两只类型<br>异常处理的流程包括定义异常、抛出异常和处理异常三个步骤。<br>异常的定义可以通过exeception关键字定义，此外还可以通过：异常名exeception_int 和exeception关键字来定义<br>使用raise语句可以抛出自定义异常或系统异常.而使用Oreacle的内置过程处理抛出的异常，我们必须在异常处理部分编写异常处理器。<br>下面详细写下用法：<br>条件控制:<br>if   条件1  then<br>如果条件1为真就返回ture<br>elsif  条件2  then<br>如果条件1为假就执行条件2返回true<br>else<br>以上条件都不为真就执行else语句<br>end if;<br>CASE 语句和CASE表达式:<br>case<br>when 10 then<br>如果等于10的条件为真就是true<br>when 20 then<br>如果等于20的条件为真就是true<br>when 30 then<br>如果等于30的条件为真就是true<br>end case;<br>CASE第二中表达式：<br>case<br>when 10 then<br>else<br>如果条件10不成立就执行else中的语句<br>end;</p>
+<h3 id="循环控制："><a href="#循环控制：" class="headerlink" title="循环控制："></a>循环控制：</h3><p>基本循环<br>LOOP<br>v_int :=v_int+1;<br>exit when v_nt&gt;15;  循环退出条件必须：exit when关键字<br>end loop;</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p>只有条件为trun的时候才执行体内的语句<br>when 条件1 loop<br>条件为真的是才执行循环体内的语句<br>end loop;</p>
+<h3 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h3><p>for    i变量       in  1..100循环         loop<br>dbms_output.put_line(‘i’);<br>end    loop;</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理:"></a>异常处理:</h3><p>定义异常<br>declare<br>v-info int exeception;   定义异常<br>v_info1 int exeception;   抛出异常<br>begin<br>raise v_info1 抛出<br>exception<br>when  others   then<br>dbms_out.put_line(‘定义的异常others异常的父类关键字’);<br>end;<br>exeption<br>when    v_info1     then<br>dbms_out.put_line(‘抛出v_info1异常处理’);<br>end;</p>
+<h3 id="系统异常"><a href="#系统异常" class="headerlink" title="系统异常"></a>系统异常</h3><p>人为抛出的系统异常raize_pplication_error关键字<br>declare<br>begin<br>if   条件1  then<br>raize_pplication_error(-20001,’该部门不存在！’);<br>end if;<br>end;</p>
 
       
 
@@ -422,7 +149,7 @@ where t.sal &gt; (
 
 
   
-    <article id="post-第6章OreaclePLSQL动态SQL" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第2章PLSQL编程基础" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -430,90 +157,167 @@ where t.sal &gt; (
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第6章OreaclePLSQL动态SQL/">第6章OreaclePL/SQL动态SQL</a>
+      <a class="article-title" href="/2014/09/20/第2章PLSQL编程基础/">第2章PL/SQL编程基础</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第6章OreaclePLSQL动态SQL/" class="article-date">
-  <time datetime="2014-09-22T02:51:19.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/09/20/第2章PLSQL编程基础/" class="article-date">
+  <time datetime="2014-09-19T16:15:58.000Z" itemprop="datePublished">2014-09-20</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="动态SQL分为："><a href="#动态SQL分为：" class="headerlink" title="动态SQL分为："></a>动态SQL分为：</h3><p><strong>早期绑定和晚期绑定</strong><br>编译 早期绑定（编译时就确定的对象）<br>执行 晚期绑定（不确定性要通过执行之后才确定下来）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">execute immediae关键字执行动态SQL语句using是预编译返回</span><br><span class="line">create or replace procedure proc_sqlstring(empid in int)is</span><br><span class="line">begin</span><br><span class="line">execute immediate &apos;delete from emp where empno=:id&apos; using empid;</span><br><span class="line">end;</span><br><span class="line">call proc_sqlstring(7782);</span><br><span class="line">/*1、使用动态SQL完成创建一张表*/</span><br><span class="line">declare</span><br><span class="line">  str_sqltring varchar2(4000);</span><br><span class="line">begin</span><br><span class="line">  str_sqltring := &apos;create table t_table(</span><br><span class="line">id int primary key not null,</span><br><span class="line">name varchar2(100)</span><br><span class="line">)&apos;;</span><br><span class="line">  execute immediate str_sqltring;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/">第5章Oracle PL/SQL使用游标获取</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/" class="article-date">
-  <time datetime="2014-09-22T02:50:03.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>### 1. 游标的概述 ###
-</code></pre><h3 id="1-隐式游标"><a href="#1-隐式游标" class="headerlink" title="1. 隐式游标"></a>1. 隐式游标</h3><pre><code>   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
-缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
-</code></pre><h3 id="2-显式游标"><a href="#2-显式游标" class="headerlink" title="2. 显式游标"></a>2. 显式游标</h3><pre><code>显式游标用在需要获取多行记录的情况下
-必须在手动的在PL/SQL块的声明部分定义
-手动执行每个操作（打开、提取、数据、关闭）
-</code></pre><h3 id="3-典型的查询操作"><a href="#3-典型的查询操作" class="headerlink" title="3. 典型的查询操作"></a>3. 典型的查询操作</h3><pre><code> a、 解析 （处理SQL语句的一个步骤是解析，确保SQL语句是有效的）
- b、 绑定（将PL/SQL程序中的变量与绑定变量关联）
-  c、打开（打开游标）
- d、 执行（从SQL引擎中运行SQL语句）
- e、 提取（在游标的结果集中获取下一行）
- f、 关闭（关闭 游标）
-游标获取数据库中的数据集合，然后打开提取每次提取后都会定位到下一行，然后从SGA中将数据拿到程序变量中，在此过程中是由Oracle自动将绑定变量与程序变量相关联。
-</code></pre><h3 id="4-游标属性"><a href="#4-游标属性" class="headerlink" title="4. 游标属性"></a>4. 游标属性</h3><pre><code>      a、%found      如果记录成功获取，返回true，否则返回false
-      b、%notfound   如果记录获取失败，返回true，否则返回false
-      c、%rowcount   返回从游标中获取的记数
-      d、%isopen     如果游标是打开的，返回true，否则返回false
-      e、bulk_rowcount 返回forall语句更改的每个集合元素的记录数
-      f、bulk_exception 返回forall语句更改的每个集合元素的记录的异常信息
-注意：可以在PL/SQL代码中引用游标属性，不能在SQL语句中使用这些属性。
-</code></pre><h3 id="2-使用显式游标"><a href="#2-使用显式游标" class="headerlink" title="2. 使用显式游标"></a>2. 使用显式游标</h3><pre><code>1. 声明显示游标
-      cursor 游标名     is select 语句 for update;
-                 游标名 指向的影响这一行类型%rowtype或type类型
-2. 打开显式游标
-      open 显式游标名；
-3. 从显式游标中提取记录
-      fetch 游标名 into 记录或变量列表；
-4. 关闭显式游标
-      close 游标名
-</code></pre><ol>
-<li>游标for循环<pre><code>for 记录 in 游标名 loop
-   执行语句
-end loop；
-</code></pre><h3 id="使用引用游标"><a href="#使用引用游标" class="headerlink" title="使用引用游标:"></a>使用引用游标:</h3>create or replace procedure proc_info(id in int) is<br>type cur_info is ref cursor; –类型type   游标名   IS   ref cursor引用游标<br>cur_emp cur_info;             –游标标量<br>cur_emp_info emp%rowtype;   –影响的整列的数据<br>begin<br>open cur_emp for                     – 打开游标<br>select <em> from emp where empno=id;<br>loop<br>fetch cur_emp into cur_emp_info;    –从游标中提取数据<br>exit when cur_emp%notfound;        –退出条件没有记录就退出<br>dbms_output.put_line(‘ID：’||cur_emp_info.empno|| ‘姓名：’||cur_emp_info.ename ||’工资：’||v_vv.sal);<br>end loop;<br>close cur_emp;                                   –关闭游标<br>end;<br>call v_v(7499);<br>select </em> from emp;</li>
+        <p><img src="http://i.imgur.com/FW8XAQc.jpg" alt=""><br>PL/SQL编程基础<br>PL/SQL简介 </p>
+<p> PL/SQL块的基础结构：<br>                    declare<br> 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常<br>                    begin<br>                  执行部分– PL/SQL语句和SQL语句<br>                    exception<br>                  异常处理部分–处理运行错误<br>                     end<br>                   块结束标记<br>     编写PL/SQL语句时，执行部分是必须的，而其它两个部分是可选的。<br>2、PL/SQL块的类型<br> a、匿名块<br>    既可以内嵌到应用程序中，也可以在交互环境中直接使用<br>       例 ：<br>             declare<br>               v_name varchar2(50);<br>             begin<br>               dbms_output.put_line(‘wwww’);<br>             end;<br> b、子程序<br>    a.过程<br>          例：<br>             create or replace procedure pro_name is<br>             v_name varchar2(50);<br>              begin<br>              dbms_output.put_line(‘过程’);<br>     b.函数<br>         例：<br>            create or replace function fun_name return varchar2 as<br>            v_name varchar2(50);<br>             begin<br>            v_funvar:= “函数变量”；<br>            dbms_output.put_line(‘函数’)；<br>            return v_funvar;<br> ```<br>    c.包<br>/<em>包规范</em>/<br>create or replace package 包名is<br>/<em>包方法定义</em>/<br>   procedure proc_name_sal_info(id in int);<br> end 包名;<br>/<em>包体</em>/<br> create or replace package body pack_info is<br>/<em>包规范中定义的方法在包体中实现</em>/<br>  procedure proc_name_sal_info(id in int) is<br>  type cur_name is ref cursor;<br>  cur_info cur_name;<br>  cur_name_sal emp%rowtype;<br>  begin<br>  open cur_info for select <em> from emp where empno=id;<br>  loop<br>  fetch cur_info into cur_name_sal;<br>  exit when cur_info%notfound;<br>  dbms_output.put_line(‘ID：’||cur_name_sal.empno|| ‘姓名：’||cur_name_sal.ename ||’工资：’ ||cur_name_sal.sal);<br>  end loop;<br>  close cur_info;<br>  end;<br>  end pack_info;<br>  /</em>call测试<em>/<br>  call pack_info.proc_name_sal_info(7369);<br>  /</em>匿名块测试<em>/<br>  declare<br>  begin<br>  pack_info.proc_name_sal_info(7369);<br>  end;<br> c、触发器<br>/</em>触发器*/<br>  create or replace trigger 触发器名称<br>  before insert on t_dempt     – 在什么之前关键字before或之后关键字after on是哪张表表名<br>  for each row                          –行级触发器默认不填是语句级触发器<br>  begin<br>  select id_seq.nextval into :new.id from dual;<br>  end;<br>3.数据类型与变量</p>
+<ol>
+<li>标量变量<br>指只能存入单个数值的变量<br>varchar2（n）、char（n）、number(m,n)(m表示精度，表示指定数子的总位数，n表示小数点后面数字的位数)、date<br>2.使用%TYPE属性<pre><code>例：
+    declare
+    v_loc dept.loc%type;
+    begin
+     select loc into v_loc from dept where deptno = 10;
+    dbms_output.put_line(v_loc);
+    end;
+</code></pre></li>
 </ol>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第1章oreacle数据库基本概念" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/20/第1章oreacle数据库基本概念/">第1章oreacle数据库基本概念</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/20/第1章oreacle数据库基本概念/" class="article-date">
+  <time datetime="2014-09-19T16:10:48.000Z" itemprop="datePublished">2014-09-20</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一章oreacle数据库基本概念</p>
+<ol>
+<li>Oracle发展史<br>1977年6月     SDL—-软件开发实验室<br>1979年        SDL更名为RSI—-关系型有限公司<br>1979年        发布第一个商用SQL关系型数据库管理系统（不稳定，缺少很多重要功能）<br>1983年3月     Oracle 第3版  （具有了“可移植性”的功能）<br>1984年10月    Oracle 第4版  （稳定性得到增强）<br>1985年        Oracle 第5版  （可以在C/S模式下运行的RDBMS产品）<br>1988年        Oracle 第6版  （BUG众多、不稳定、差点破产）<br>1992年6月     Oracle 第7版   （真正出色的传品，取得重大成功，引入一种新的优化器）<br>1997年6月     Oracle 第8版  （为支持INRERNET，网络计算机奠定了基础）<br>1998年9月     Oracle 第8i版 (为数据库用户提供了全方位的JAVA支持)<br>2001年6月     Oracle 第9i版（最重要应用集群服务器）<br>2003年9月     Oracle 第10g （加入了网格计算的功能）<br>2007年7月     Oracle 第11g （在性能、可升级性、可管理性以及可诊断性上有了提升）<br>2.PL/SQL<br>PL/SQL新功能<ol>
+<li>变量定义</li>
+<li>控制结构</li>
+<li>自定义的子程序</li>
+<li>对象类型<br>PL/SQL优点<br>1、提高应用程序性能 （）<br>2、提供模块化程序开发能力（可以将业务逻辑集成到PL/SQL命名块（存储工程、函数、触发器、包）中）<br>3、具有良好的兼容性（不同的Oracle工具都可以用相同的PL/SQL脚本）<br>4、允许定义标识符（可以在PL/SQL中定义变量、常量、游标、异常等各种标识符）<br>5、提供了程序控制结构（可以在PL/SQL中使用选择语句、循环语句等结构化编程语言的控制结构）<br>6、提供了异常处理（通过PL/SQL提供的异常处理机制，可以处理各种Oracle和PL/SQL异常）</li>
+</ol>
+</li>
+<li><p>Oracle数据库体系架构<br>  指Oracle数据库管理系统的组成部分和这些组成部分之间的相互关系，包括内存结构、后台进程、物理与逻辑结构等。<br> 1、 Oracle内存结构</p>
+<pre><code>1、共享内存区（主要由SGA （System Global Area）组成）
+SGA：（划定一个区域，存储每个用户所需要存取的数据，以及ORACLE运行时所必备的系统信息 此区域称为系统全局区）
+    a、数据库缓存区 （database buffer cache）
+       用来存放读取自数据文件的数据块副本，或者用户曾经处理过的数据
+
+    b、重做日志缓冲区（redo log buffer）
+      记录数据库内所有数据修改的内存区域
+    c、共享池(shared pool)
+       a、库缓存 （library cache）
+       b、数据词典缓存（dictionary cache）
+    d、其他区域
+
+2、非共享内存区（主要由PGA（Program Global Area）组成）
+PGA：（用户存放服务器进程的数据和控制信息）
+    a、排序区（sort area）
+       用于存放排序操作所产生的临时数据
+     b、会话信息（session informatio）
+       存放会话所具有的的权限、角色以及会话的性能统计信息
+    c、游标状态（cursor state）
+       运行SQL语句在共享池中为SQL语句分配上下文区，该上下文区的指针就是指游标
+    d、堆栈空间（stack space）
+       用户存放会话的变量信息
+</code></pre><ol>
+<li>Oracle 后台进程<pre><code>a、数据写进程（DBWR）
+    将数据库缓存区内改动过的数据块写入到硬盘内的数据文件
+b、日志写进程(LGW仄R)
+    将冲工作日志缓冲区中的更改写入重做日志文件
+c、系统监控(SMON)
+     数据库不正常关闭，下一次开启数据库时由系统监控修复数据库
+d、进程监控(PMON) 
+    进程失败时清理资源
+e、检查点进程(CKPT)
+    告诉缓存中的更改永久的巨鹿在数据库中，更新控制文件和数据文件中的数据库状态信息
+f、归档进程(ARCH)
+     把已满的日志组进行备份或归档
+</code></pre></li>
+<li>Oracle逻辑和物理结构<ol>
+<li>Oracle数据库逻辑结构<br>  a、表空间<pre><code>存放不同类型的数据与数据库对象
+</code></pre>  b、块<pre><code>数据库中最小的存储单元
+</code></pre>  c、段<pre><code>在数据表空间能划分出不同区域，存放不同数据，此区域就称为段
+</code></pre>  d、区<pre><code>连续的数据块
+</code></pre><ol>
+<li>Oracle物理逻辑结构<br>a、数据文件（data file）<pre><code>数据表、索引
+</code></pre>b、重做日志文件（redo log file）<ol>
+<li>联机重做日志文件<br> 数据库正常运行所必须的</li>
+<li>归档重做日志文件<br> 只有在数据库运行在归档方式下才生成<br>c、控制文件（control file）<br> 记录与描述数据库试题结构<br>d、初始化参数文件（initialization parameter file）<br>e、口令文件（password file）</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>序列的创建<br>create sequence  序列名 increment by 增加 start with 起始数字</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/19/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/19/MYSQL数据库总结篇/" class="article-date">
+  <time datetime="2014-09-19T15:58:56.000Z" itemprop="datePublished">2014-09-19</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>– 第一章<br>/<em><br> 数据库分类<br> 1 网状<br> 2 层次<br> 3 关系<br> 4 对象<br>关系型数据库<br> 表之间的关系: 1 一对一<br>        2 一对多<br>        3 多对多<br> SQL语句：1.DDL<br>   2.DQL<br>   3.DML<br>   4,DCL<br>– 第二章<br>创建数据库、表<br>create database 库名<br>create table 表名<br>修改表名、删除列名、修改列名、添加列、备份<br>增加列 ALTER TABLE t_class ADD COLUMN 列名 类型 – column可省略<br>修改列 ALTER TABLE t_class CHANGE 列名 新列名 新列类型<br>删除列 ALTER TABLE t_class DROP COLUMN nam – column可省略<br>备份表 CREATE TABLE 新表名 SELECT</em>FROM 旧表名<br>数据类型<br>decimal(m,n) 总长度和小数点后长度<br>char 默认长度为1  最大长度为16<br>varchar()后面必须跟参数<br>– 第三章<br>数据完整性<br> 1 实体完整性<br> 2 域完整性<br> 3 引用完整性<br> 4 自定义完整性<br>constraint foreign key 列 references 列<br>必须申明表的类型 engine=innodb<br>还有字符的编码集 charset=’utf8‘；<br>– 第四章<br>添加、删除、修改<br>delete from 表名<br>truncate table 表名<br>– 第五章<br>select * from 表名<br>模糊查询 where like’_%’<br>         and or not<br>在什么与什么之间 between and<br>           in<br>      运算符<br>order by 列名 asc<br>              desc<br>      limit<br>select distinct 列 from 表   去重复<br>AS<br>– 第六章<br> MAX() 求最大值<br> Min() 求最小值<br> count() 统计所有数据<br> sum() 求总和<br> avg() 求平均值<br>Group by 分组<br>having   （having可以使用聚合函数的过滤条件 where不能使用聚合函数可以使用比较运算符===having和where都是过滤条件)<br>SQL执行顺序<br>select  1.from      某张表<br> 2.where     进行条件筛选<br> 3.group by  条件筛选完后进行那一列的分组<br> 4.select    分组之后执行查询某张表某一列的数据<br> 5.having    进行函数过滤进行条件<br> 6.order by  进行排序操作 <asc如果不写就是正序排列>和<desc倒叙排列><br> 7.limit     返回这张表需要显示多少行<br>– 第七章<br>组合查询<br>子查询<br>union  两张表进行连接以列的形式显示数据<br>exists() 存在 结果为真就真，假为假<br>all() 满足所有数据<br>any() 满足任意数据<br>– 第八章<br>  多表的连接<br>  内连接：where<br>  外连接: 表1 left join 表2 on 条件<br>   表1 right join 表2 on 条件</desc倒叙排列></asc如果不写就是正序排列></p>
 
       
 
@@ -528,7 +332,7 @@ end loop；
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </section>

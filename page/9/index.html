@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Java的GC垃圾回收原理与机制" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OOAD总结二" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,24 +42,23 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Java的GC垃圾回收原理与机制/">Java的GC垃圾回收原理与机制</a>
+      <a class="article-title" href="/2014/09/19/OOAD总结二/">OOAD总结二</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Java的GC垃圾回收原理与机制/" class="article-date">
-  <time datetime="2014-09-19T14:27:24.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/19/OOAD总结二/" class="article-date">
+  <time datetime="2014-09-19T14:00:04.000Z" itemprop="datePublished">2014-09-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="ava的GC垃圾回收原理与机制"><a href="#ava的GC垃圾回收原理与机制" class="headerlink" title="ava的GC垃圾回收原理与机制"></a>ava的GC垃圾回收原理与机制</h3><p>JAVA中的对象是在堆上分配,而在堆上分配存储空间的方式是昂贵的.正是由于GC才使java在堆上的空间分配速度得以于其他语言在堆栈上分配速度相媲美.java对象也不再有作用域的概念.作用域是对于引用而言的.垃圾回收器通常是作为一个单独的低级别的线程运行，不可预知的情况下对内存堆中已经死亡的或者长时间没有使用的对象进行清楚和回收，程序员不能实时的调用垃圾回收器对某个对象或所有对象进行垃圾回收.程序可以用System.gc() 或Runtime.getRuntime().gc()    请求垃圾回收,但并不保证立即执行垃圾回收.</p>
-<h3 id="GC的工作原理-引用计数-标记复制"><a href="#GC的工作原理-引用计数-标记复制" class="headerlink" title="GC的工作原理: 引用计数,标记复制"></a>GC的工作原理: 引用计数,标记复制</h3><p>“引用计数”是一种简单但速度很慢的垃圾回收技术.所有对象都有一个引用计数器,当有引用连接时计数器加1,当引用离开作用域时或者被置于NULL时,计数器-1,垃圾回收器会在所以包含对象引用的列表上进行遍历,当发现某个对象的引用计数为0时,就释放占用的空间.</p>
-<p>“标记复制”的运行机制,垃圾回收器遍历包含所有引用的列表,当发现存活的对象引用时做上标记,这样当遍历完所有对象引用并做上标记的时候,执行垃圾回收,将没有标记的对象堆空间释放.</p>
-<h3 id="垃圾回收机制的优点"><a href="#垃圾回收机制的优点" class="headerlink" title="垃圾回收机制的优点:"></a>垃圾回收机制的优点:</h3><p>Java的垃圾回收机制是的程序员不用担心内存空间的分配,减少了内存溢出.但同时也牺牲了一定的性能.</p>
+        <p>三层架构模式：<br>1.表现层:负责用户与系统的交互<br>2.业务层：维护业务逻辑系统的核心部分<br>3.数据访问层：负责与数据库交互</p>
+<p>数据访问层：持久层  JDBC+DAO模式（数据访问对象）<br>业务层：业务逻辑 Service<br>表示层：界面 MVC<br>表示层中的三个组件：<br>M:Model 用于封装数据<br>V:View 显示数据和用于交互<br>C:Controler 控制器，接受用户请求</p>
+<p>业务层的架构模式：<br>事务脚本模式：是按照传统的过程化方式组织业务逻辑<br>领域模型模式：按照面向对象的方式组织业务逻辑</p>
 
       
 
@@ -72,7 +71,7 @@
 
 
   
-    <article id="post-JSP九大内置对象" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OOAD总结一" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -80,31 +79,29 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/JSP九大内置对象/">JSP九大内置对象</a>
+      <a class="article-title" href="/2014/09/19/OOAD总结一/">OOAD总结一</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/JSP九大内置对象/" class="article-date">
-  <time datetime="2014-09-19T14:21:09.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/19/OOAD总结一/" class="article-date">
+  <time datetime="2014-09-19T13:56:03.000Z" itemprop="datePublished">2014-09-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 </p>
-<h3 id="JSP中九大内置对象为："><a href="#JSP中九大内置对象为：" class="headerlink" title="JSP中九大内置对象为："></a>JSP中九大内置对象为：</h3><p>请求对象request　              类型 javax.servlet.ServletRequest          作用域     Request<br>响应对象response               类型 javax.servlet.SrvletResponse          作用域  Page<br>页面上下文对象pageContext       类型 javax.servlet.jsp.PageContext         作用域  Page<br>会话对象session                   类型 javax.servlet.http.HttpSession        作用域   Session<br>应用程序对象application        类型 javax.servlet.ServletContext           作用域  Application<br>输出对象out                   类型 javax.servlet.jsp.JspWriter             作用域  Page<br>配置对象config                类型 javax.servlet.ServletConfig             作用域  Page<br>页面对象page                  类型 javax.lang.Object                       作用域  Page<br>例外对象exception             类型 javax.lang.Throwable                    作用域  page </p>
-<p>request对象代表的是来自客户端的请求，例如我们在FORM表单中填写的信息等；使用它的目的是引用传递给jspService()方法的当前请求。 </p>
-<p>response对象代表的是对客户端的响应，也就是说可以通过response 对象来组织发送到客户端的数据；使用它的目的是引用发送给客户机的响应；也把它传递给jspService()方法。 </p>
-<p>pageContext对象代表的是当前页面运行的一些属性；它提供了某些便利方法和对隐式对象的存储引用。 </p>
-<p>session对象就是会话对象的使用 </p>
-<p>application对象负责提供应用程序在服务器中运行时的一些全局信息；使用它的目的是引用执行JSP所在的 Web 应用程序的环境。 </p>
-<p>out 对象代表了向客户端发送数据的对象；使用它的目的是引用JSP页面的输出流。 </p>
-<p>config对象提供一些配置信息；可以从它获取部署描述符中给定的初始化参数。 </p>
-<p>page对象，使用它的目的是引用JSP页面生成的 servlet的当前实例。 </p>
-<p>exception对象可用于把page指令属性isErrorPage设为true 的页面。它可用于异常处理。</p>
+        <p>软件工程三大要素:方法、过程、工具</p>
+<p>软件生命周期6个阶段：<br>可行性分析阶段<br>需求分析阶段<br>系统设计阶<br>系统实现阶段<br>测试阶段<br>维护阶段</p>
+<p>使用类图表示关系：接口与类（实现关系）、对象与对象之间（泛化关系、关联关系）。<br>关联关系有分为：聚合关系、组合关系、依赖关系<br><img src="http://i.imgur.com/Wg4U30j.jpg" alt=""></p>
+<p>高内聚：一个类或一个方法只负责一项任务，<br>低耦合：模块之间联系越紧密，其耦合性就越强，模块的独立性则越差</p>
+<p>面向对象基础设计原则：<br>单一职责原则<br>开闭原则<br>里氏替换原则<br>依赖倒转原则<br>组合/聚合复用原则<br>接口隔离原则<br>迪米特法则</p>
+<p>模式的分类：<br>架构模式、设计模式</p>
+<p>创建型模式分类：<br>工厂模式：简单工厂、工厂方法、抽象工厂<br>单例模式：懒汉模式、饿汉模式<br>原型模式：浅度克隆（实现cloneable接口）、深度克隆（实现serialiable接口）</p>
+<p>行为型模式：行为模式关注的是对象的行为。该类型的模式需要做的是对可能变化的行为进行抽象，通过封装达到整个架构的可扩展性</p>
+<p>模版模式：模板方法模式是通过把不变行为搬移到超类，变化的抽象<br>观察者模式：分为主题与观察者，主题要继承Observable类，观察者要实现Observer接口<br>命令模式：算法与逻辑解耦 </p>
 
       
 
@@ -117,7 +114,7 @@
 
 
   
-    <article id="post-PermGenSpace溢出解决方" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ooad第七天" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -125,21 +122,25 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/PermGenSpace溢出解决方/">PermGenSpace溢出解决方</a>
+      <a class="article-title" href="/2014/09/19/ooad第七天/">ooad第七天</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/PermGenSpace溢出解决方/" class="article-date">
-  <time datetime="2014-09-19T14:19:04.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/19/ooad第七天/" class="article-date">
+  <time datetime="2014-09-19T13:50:51.000Z" itemprop="datePublished">2014-09-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>PermGen space溢出解决方法​<br>tomcat在运行几天后，会出现PermGen space溢出错误而无法继续处理请求，解决方法是调整PermGen区域大小：<br>JAVA_OPTS=”-server -XX:PermSize=64M -XX:MaxPermSize=128m”<br>还有一种说法是使用Jrockit代替sun实现的jdk，但我没有试验。<br>下面来看看对PermGen space的解释：<br>PermGen space的全称是Permanent Generation space，是指内存的永久保存区域，这个内存区域用于：<br>（1）这一部分用于存放Class和Meta的信息，Class在被 Load的时候被放入PermGen space区域，它和和存放Instance的Heap区域不同。<br>（2） GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的APP会LOAD很多CLASS的话,就很可能出现PermGen space错误。<br>这种错误常见在web服务器对JSP进行pre compile的时候。<br>如果你的WEB APP下都用了大量的第三方jar，其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
+        <h3 id="业务层架构模式"><a href="#业务层架构模式" class="headerlink" title="业务层架构模式"></a>业务层架构模式</h3><p>业务层的架构模式有多种，根据业务逻辑组织的方式，可以分为事务脚本模式和领域模型模式两种。</p>
+<p>事务脚本模式：是按照传统的过程化方式组织业务逻辑<br>领域模型模式：按照面向对象的方式组织业务逻辑</p>
+<p>事务脚本模式设计步骤：<br>1.识别事务脚本<br>2.实现事务脚本<br>3.实现DTO  (DTO：事务脚本类操作DTO（Data Transfer Object，数据传输对象))<br>4.实现DAO  (DAO：事务脚本使用DAO访问数据库)</p>
+<p>领域模型模式：领域模型架构模式采用面向对象分析和设计技术来实现整个业务逻辑，这种设计方法也称为领域驱动设计（Domain Driven Design，简称DDD）</p>
+<p>领域模型中类按照角色分为五种类型，分别是：<br>实体（Entity）：具有唯一业务标识的对象，且该标识与对象的属性值分离<br>值对象（Value Object）：由属性值定义的对象，没有唯一标识<br>工厂（Factory）：定义创建实体的方法<br>仓库（Repository）：管理实体的结婚，并封装持久层<br>领域服务（Domain Service）：实现无法指派给单个类的责任，并封装领域模型</p>
 
       
 
@@ -152,7 +153,7 @@
 
 
   
-    <article id="post-使用jackson对json的操作" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ooad第六天" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -160,30 +161,23 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/使用jackson对json的操作/">使用jackson对json的操作</a>
+      <a class="article-title" href="/2014/09/19/ooad第六天/">ooad第六天</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/使用jackson对json的操作/" class="article-date">
-  <time datetime="2014-09-19T14:15:08.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/19/ooad第六天/" class="article-date">
+  <time datetime="2014-09-19T13:47:50.000Z" itemprop="datePublished">2014-09-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>jackson是一个开源的处理json的工具包，spring mvc中的json类型响应就是用这个东西实现的，性能比较优异。我以前最早的项目用的是json-lib，后来因效率问题改为gson，现在看来可以换成jackson了。<br>下面给大家讲讲jackson的使用：<br>一、简单对象转为json<br>ObjectMapper om = new ObjectMapper();<br>StringWriter result = new StringWriter();<br>om.writeValue(result, 【这个参数是你要转换的东西，对象或集合都是可以的】);</p>
-<p>当然，如果你不想用StringWriter的话，你可以直接用om.writeValueAsString(obj)直接输出字符串。</p>
-<p>二、日期的处理<br>默认情况下，jackson会把日期处理为毫秒，如果你想处理成字符串，可以：<br>ObjectMapper om = new ObjectMapper();<br>om.setDateFormat(new SimpleDateFormat(“yyyy-MM-dd”));</p>
-<p>三、排除不想要的属性<br>这个主要是用来解决对象间循环关联的情况的，使用如下：<br>SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(“不要的属性名”);<br>SimpleFilterProvider fp = new SimpleFilterProvider();<br>fp.addFilter(“user_json”, filter);</p>
-<p>om.setFilters(fp);<br>当然，这个设置将对全局的ObjectMapper都起作用，我们也可以使用下面这种：<br>om.writer(fp).writeValueAsString(obj)；<br>每次使用前再设置，这个也是全局作用域。</p>
-<p>如果仅仅想要自己需要的属性，如下写法：<br>SimpleBeanPropertyFilter.filterOutAllExcept(“id”, “title”);</p>
-<p>注意：addFilter的第一个参数，要用注解指写，比如：<br>@JsonFilter(“user_json”)<br>public class User {}<br>如果持久层使用的是hibernate，需要将hibernateLazyInitializer属性也排除。</p>
-<p>四、反序列化<br>反序列化用的没有序列化多。我们先看普通对象的处理：<br>User u = om.readValue(json_str, User.class);<br>集合对象，处理方式不同，请看list的处理方式：<br>List<user> uss = om.readValue(json_str, new TypeReference<list<user>&gt;() {});</list<user></user></p>
-<p>五、图片等二进制类型的json转换<br>这个不用担心，jackson可直接完成转换，前提是：<br>你要用byte[]类型表示二进制数据，比如：private byte[] photo ;</p>
-<p>当然，上面的的代码都是在线手工操作下的示例，jackson也是支持注解的，比如：排除属性，日期格式的定义等，都可以用注解的方式去实现，请大家自己so一下吧。</p>
+        <h2 id="分层与表现层架构模式"><a href="#分层与表现层架构模式" class="headerlink" title="分层与表现层架构模式"></a>分层与表现层架构模式</h2><p>C/S client/server   客户端/服务器<br>B/S browser/server   浏览器/服务器</p>
+<h2 id="JAVAEE-三层架构"><a href="#JAVAEE-三层架构" class="headerlink" title="JAVAEE 三层架构"></a>JAVAEE 三层架构</h2><p>三层架构模式：<br>1.表现层:负责用户与系统的交互<br>2.业务层：维护业务逻辑系统的核心部分<br>3.数据访问层：负责与数据库交互</p>
+<p>数据访问层：持久层  JDBC+DAO模式（数据访问对象）<br>业务层：业务逻辑 Service<br>表示层：界面 MVC<br>表示层中的三个组件：<br>M:Model 用于封装数据<br>V:View 显示数据和用于交互<br>C:Controler 控制器，接受用户请求</p>
 
       
 
@@ -196,7 +190,7 @@
 
 
   
-    <article id="post-struts2的执行流程工作原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ooad第五天" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -204,24 +198,25 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/struts2的执行流程工作原理/">struts2的执行流程工作原理</a>
+      <a class="article-title" href="/2014/09/19/ooad第五天/">ooad第五天</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/struts2的执行流程工作原理/" class="article-date">
-  <time datetime="2014-09-19T14:05:17.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/19/ooad第五天/" class="article-date">
+  <time datetime="2014-09-19T13:42:39.000Z" itemprop="datePublished">2014-09-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><a href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。" class="headerlink" title="Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"></a>Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</h3><p>   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。核心控制器FilterDispatcher是Struts 2框架的基础，包含了框架内部的控制流程和处理机制。业务控制器Action和业务逻辑组件是需要用户来自己实现的。用户在开发Action和业务逻辑组件的同时，还需要编写相关的配置文件，供核心控制器FilterDispatcher来使用。 Struts 2的工作流程相对于Struts 1要简单，与WebWork框架基本相同，所以说Struts 2是WebWork的升级版本。基本简要流程如下：<br>
+        <h2 id="行为型设计模式"><a href="#行为型设计模式" class="headerlink" title="行为型设计模式"></a>行为型设计模式</h2><p>行为型模式：行为模式关注的是对象的行为。该类型的模式需要做的是对可能变化的行为进行抽象，通过封装达到整个架构的可扩展性。</p>
+<p>模版模式：模板方法模式是通过把不变行为搬移到超类，去除子类中的重复代码来体现他的优势的，提供一个很好的代码复用平台（变化的抽象、不变得封装）。<br>
         
           <p class="article-more-link">
-            <a href="/2014/09/19/struts2的执行流程工作原理/#more">More...</a>
+            <a href="/2014/09/19/ooad第五天/#more">More...</a>
           </p>
         
       
@@ -237,7 +232,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
     </nav>
   
 </section>

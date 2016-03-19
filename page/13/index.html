@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-第12章反射" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第7章继承" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,133 +42,26 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第12章反射/">第12章反射</a>
+      <a class="article-title" href="/2014/09/18/第7章继承/">第7章继承</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第12章反射/" class="article-date">
-  <time datetime="2014-09-19T11:32:47.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/18/第7章继承/" class="article-date">
+  <time datetime="2014-09-18T15:52:01.000Z" itemprop="datePublished">2014-09-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="反射加载类与垃圾回收"><a href="#反射加载类与垃圾回收" class="headerlink" title="反射加载类与垃圾回收"></a>反射加载类与垃圾回收</h2><h3 id="1-类的加载机制："><a href="#1-类的加载机制：" class="headerlink" title="1 类的加载机制："></a>1 类的加载机制：</h3><p>类的加载→连接→ 初始化<br>java类文件通过类加载器加载到内存中. 类加载器包括底层<br>[类加载器↔扩展类加载器↔应用类加载器]<br>1 JVM运行底层加载器，该加载器加载java核心API<br>2 扩展类加载器：加载搜索 JAVA_HOME/jre/lib/ext目录，加载扩展API<br>3 应用类加载器：加载搜索CLASSPATH目录，加载我们要运行的类<br>javaAPI中还提供了一个对应的Class对象有一个ClassLoader抽象类，可以通过继承ClassLoader基类来创建自定义的类加载器</p>
-<h3 id="2-反射："><a href="#2-反射：" class="headerlink" title="2 反射："></a>2 反射：</h3><p>使用反射查看类的信息<br>在java程序中获得Class对象的方式有3种<br>第一种 知道类的名称时：在编译期不知道类名，但在运行期可以获得该类名的时候使用Class类的forName()静态方法可以获得Class对象例如： Class c=Class.forName(“全限定类名”);<br>Class c=Class.forName(“java.lang.System”);这是第一种知道类的名称时.</p>
-<p>第二种 在编译时知道类的名称：如果在编译期知道类名的情况，可以调用该类的class属性来获得该类对象的Class对象 例如：Class c = 类名.Class;<br>Class c= Student.Class 这是第二种在编译时知道类的名称来获取信息</p>
-<p>第三种 知道对象的时候：如果一个类的实例对象以及得到，则调用该对象的getClass()方法返回该对象所属类对应的Class对象。getClass()方法是java.lang.Object类的方法之一，所以所有对象都可以调用该方法. 例如：Class c= 对象名.getClass(); 这是知道对象的时候用对象名称调用，比如说一个类的实例new扭了一个Student对象 Class c=Student.getClass();</p>
-<h3 id="3垃圾回收："><a href="#3垃圾回收：" class="headerlink" title="3垃圾回收："></a>3垃圾回收：</h3><p>在java中，当对象被创建后，就会拥有一块内存。在程序运行时，JVM会陆续创很多对象，如果所有对象都永久占用内存，那么系统内存有可能很快被消耗，最好引发内存空间不足必须采用某种方法及时回收哪些无用对象的内存，以保证内存可以被重复利用。finalize()方法对象的finalize()方法可以帮助我们完成一些释放对象所占用的资源等收尾工作但是垃圾回收器是否会执行finalize方法以及何时执行该方法，都是不确定的.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">publicclassA</span><br><span class="line">&#123;</span><br><span class="line">public void finalize()</span><br><span class="line">&#123;</span><br><span class="line">System.out.println(&quot;A finalized&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><h3 id="使用反射查看信息有3种方法"><a href="#使用反射查看信息有3种方法" class="headerlink" title="使用反射查看信息有3种方法"></a>使用反射查看信息有3种方法</h3><p>第1种知道类的名称时<br>第2种在编译时知道类的名称<br>第3种知道对象的时候<br>垃圾回收没有实例指向对象的时候就被回收 ###</p>
-<h2 id="反射的工作原理"><a href="#反射的工作原理" class="headerlink" title="反射的工作原理"></a>反射的工作原理</h2><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。<br>Java的反射机制的实现要借助于4个类：class，Constructor，Field，Method；其中class代表的是类对 象，Constructor－类的构造器对象，Field－类的属性对象，Method－类的方法对象。通过这四个对象我们可以粗略的看到一个类的各个组 成部分。<br>Reflection 是 Java 程序开发语言的特征之一，它允许运行中的 Java 程序对自身进行检查，或者说“自审”，并能直接操作程序的内部属性。<br>reflection的工作机制，如下简单的例子<br>Java代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.Method;  </span><br><span class="line">public class ReflectTest &#123;  </span><br><span class="line">       public static void main(String args[]) throws ClassNotFoundException &#123;  </span><br><span class="line">              Class c = Class.forName(&quot;java.util.ArrayList&quot;);  </span><br><span class="line">              Method[] m = c.getDeclaredMethods();  </span><br><span class="line">              for (Method method : m) &#123;  </span><br><span class="line">                     System.out.println(method.toString());  </span><br><span class="line">              &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个程序使用 Class.forName 载入指定的类，然后调用 getDeclaredMethods 来获取这个类中定义了的方法列表。java.lang.reflect.Methods 是用来描述某个类中单个方法的一个类。</p>
-<h3 id="Java类反射中的主要方法："><a href="#Java类反射中的主要方法：" class="headerlink" title="Java类反射中的主要方法："></a>Java类反射中的主要方法：</h3><h3 id="构造函数："><a href="#构造函数：" class="headerlink" title="构造函数："></a>构造函数：</h3><p>Constructor getConstructor(Class[] params) – 获得使用特殊的参数类型的公共构造函数，<br>Constructor[] getConstructors() – 获得类的所有公共构造函数<br>Constructor getDeclaredConstructor(Class[] params) – 获得使用特定参数类型的构造函数(与接入级别无关)<br>Constructor[] getDeclaredConstructors() – 获得类的所有构造函数(与接入级别无关)</p>
-<h3 id="字段："><a href="#字段：" class="headerlink" title="字段："></a>字段：</h3><p>Field getField(String name) – 获得命名的公共字段<br>Field[] getFields() – 获得类的所有公共字段<br>Field getDeclaredField(String name) – 获得类声明的命名的字段<br>Field[] getDeclaredFields() – 获得类声明的所有字段</p>
-<h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p>Method getMethod(String name, Class[] params) – 使用特定的参数类型，获得命名的公共方法<br>Method[] getMethods() – 获得类的所有公共方法<br>Method getDeclaredMethod(String name, Class[] params) – 使用特写的参数类型，获得类声明的命名的方法<br>Method[] getDeclaredMethods() – 获得类声明的所有方法<br>JDK1.5以后关于注解的：<br>Annotation[] getAnnotations() – 获得所有公共注解<br>Annotation[] getDeclaredAnnotations() – 获得声明的所有注解<br>AnnotationType getAnnotationType() – 获得注解的类型<br>用于 reflection 的类，如 Method，可以在 java.lang.relfect 包中找到。使用这些类的时候必须要遵循三个步骤：</p>
-<p>获得你想操作的类的 java.lang.Class 对象。<br>调用诸如 getDeclaredMethods 的方法，以取得该类中定义的所有方法的列表。<br>使用 reflection API 来操作这些信息。</p>
-<h3 id="反射的安全性："><a href="#反射的安全性：" class="headerlink" title="反射的安全性："></a>反射的安全性：</h3><p>在处理反射时安全性是一个较复杂的问题。反射经常由框架型代码使用，由于这一点，我们可能希望框架能够全面接入代码，无需考虑常规的接入限制。但是，在其它情况下，不受控制的接入会带来严重的安全性风险，例如当代码在不值得信任的代码共享的环境中运行时。由于这些互相矛盾的需求，Java编程语言定义一种多级别方法来处理反射的安全性。基本模式是对反射实施与应用于源代码接入相同的限制：<br>从任意位置到类公共组件的接入<br>类自身外部无任何到私有组件的接入<br>受保护和打包（缺省接入）组件的有限接入<br>不过至少有些时候，围绕这些限制还有一种简单的方法。我们可以在我们所写的类中，扩展一个普通的基本类 java.lang.reflect.AccessibleObject 类。这个类定义了一种setAccessible方法，使我们能够启动或关闭对这些类中其中一个类的实例的接入检测。唯一的问题在于如果使用了安全性管理 器，它将检测正在关闭接入检测的代码是否许可了这样做。如果未许可，安全性管理器抛出一个例外。<br>下面是一段程序：<br>Java代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String args[]) throws ClassNotFoundException &#123;  </span><br><span class="line">       try &#123;  </span><br><span class="line">              String test = &quot;&quot;;  </span><br><span class="line">              Class clas = test.getClass();  </span><br><span class="line">              Field field = clas.getDeclaredField(&quot;count&quot;);  </span><br><span class="line">              // field.setAccessible(true);  </span><br><span class="line">              System.out.println(field.get(&quot;test&quot;));  </span><br><span class="line">       &#125; catch(Exception e) &#123;  </span><br><span class="line">              System.out.println(&quot;Exception&quot;);  </span><br><span class="line">              e.printStackTrace(System.out);  </span><br><span class="line">       &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果我们编译这一程序时，不使用任何特定参数直接运行，它将在field .get(“test”)调用中抛出一个IllegalAccessException异常。如果我们不注释 field.setAccessible(true)代码行，那么重新编译并重新运行该代码，它将编译成功。最后，如果我们在命令行添加了JVM参数 -Djava.security.manager以实现安全性管理器，它仍然将不能通过编译，除非我们定义了ReflectSecurity类的许可权 限。</p>
-<h3 id="反射的性能："><a href="#反射的性能：" class="headerlink" title="反射的性能："></a>反射的性能：</h3><p>写了个简单的测试程序，如下：<br>Java代码  </p>
-<pre><code>import java.lang.reflect.Method;  
-
-public class ReflectTest {  
-    String name;  
-    int age;  
-    public static void main(String args[])  throws Exception {  
-
-        Object o2 = javaCreate();  
-
-        ReflectTest my = new ReflectTest();  
-
-        long a = System.currentTimeMillis();  
-        long b = System.currentTimeMillis();  
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-            javaCreate();  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;javaCreate : &quot; + (b - a));  
-
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-            manualCreate();  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;manualCreate : &quot; + (b - a));  
-
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-            javaSet(o2);  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;javaSet : &quot; + (b - a));  
-
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-            manualSet(my);  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;manualSet : &quot; + (b - a));  
-
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-            javaGet(o2);  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;javaGet : &quot; + (b - a));  
-
-        a = System.currentTimeMillis();  
-        for (int i = 0; i &lt; 5000; i++) {  
-             manualGet(my);  
-        }  
-        b = System.currentTimeMillis();  
-        System.out.println(&quot;manualGet : &quot; + (b - a));  
-    }  
-
-    // ===============下面是 java自身的直接反射的方法  
-    public static Object javaCreate()  throws Exception {  
-        Object ob = ReflectTest.class.newInstance();  
-        return ob;  
-    }  
-    public static void javaSet(Object ob)  throws Exception {  
-        Method m = ReflectTest.class.getDeclaredMethod(&quot;setName&quot;,  
-                new Class[] { String.class });  
-        m.invoke(ob, new Object[] { &quot;旺旺旺&quot; });  
-    }  
-    public static void javaGet(Object ob) throws Exception {  
-        Method m = ReflectTest.class.getDeclaredMethod(&quot;getName&quot;, new Class[0]);  
-        m.invoke(ob, new Object[0]);  
-    }  
-    // ===============下面是 手动的创建对象  
-    public static ReflectTest manualCreate() {  
-        ReflectTest my = new ReflectTest();  
-        return my;  
-    }  
-
-    public static void manualSet(ReflectTest my) {  
-        my.setName(&quot;旺旺旺&quot;);  
-    }  
-    public static void manualGet(ReflectTest my) {  
-        my.getName();  
-    }  
-    public int getAge() {  
-        return age;  
-    }  
-    public void setAge(int age) {  
-        this.age = age;  
-    }  
-    public String getName() {  
-        return name;  
-    }  
-    public void setName(String name) {  
-        this.name = name;  
-    }  
-}
-</code></pre><p>运行结果： 写道<br>javaCreate : 22<br>manualCreate : 0<br>javaSet : 40<br>manualSet : 0<br>javaGet : 9<br>manualGet : 0</p>
-<p>由此可见，反射对性能的影响。</p>
-<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><p>Java语言反射提供一种动态链接程序组件的多功能方法。它允许程序创建和控制任何类的对象(根据安全性限制)，无需提前硬编码目标类。这些特性使得反射 特别适用于创建以非常普通的方式与对象协作的库。例如，反射经常在持续存储对象为数据库、XML或其它外部格式的框架中使用。Java reflection 非常有用，它使类和数据结构能按名称动态检索相关信息，并允许在运行着的程序中操作这些信息。Java 的这一特性非常强大，并且是其它一些常用语言，如 C、C++、Fortran 或者 Pascal 等都不具备的。<br>但反射有两个缺点。第一个是性能问题。用于字段和方法接入时反射要远慢于直接代码。性能问题的程度取决于程序中是如何使用反射的。如果它作为程序运行中相 对很少涉及的部分，缓慢的性能将不会是一个问题。即使测试中最坏情况下的计时图显示的反射操作只耗用几微秒。仅反射在性能关键的应用的核心逻辑中使用时性 能问题才变得至关重要。<br>许多应用中更严重的一个缺点是使用反射会模糊程序内部实际要发生的事情。程序人员希望在源代码中看到程序的逻辑，反射等绕过了源代码的技术会带来维护问 题。反射代码比相应的直接代码更复杂，正如性能比较的代码实例中看到的一样。解决这些问题的最佳方案是保守地使用反射——仅在它可以真正增加灵活性的地方 ——记录其在目标类中的使用。</p>
+        <h2 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h2><p>我们由员工类Employee派生出2个新类:计时工Hourly和合同工Salary,使用extends关键字让它们继承自Employee<br>我们称Employee为父类(基类),Hourly和Salary为Employee的子类(派生类)<br>可以通过扩展一个已有的类，并继承该类的属性和行为，来创建一个新的类，这种方式称为继承使用extends关键字</p>
+<h2 id="单继承与多继承："><a href="#单继承与多继承：" class="headerlink" title="单继承与多继承："></a>单继承与多继承：</h2><p>一个java类中只能有一个父类<br>某些OOP语言（例如C++）允许子类有多个父类。<br>但在Java中这是不允许的。在Java中，一个类只能有一个父类。  </p>
+<h2 id="方法重写："><a href="#方法重写：" class="headerlink" title="方法重写："></a>方法重写：</h2><p>1子类可以重写从父类继承的方法，从而允许子类添加或者改变父类中方法的行为。这称为方法重写，是OOP的特征之一。<br>2当子类重写父类的方法时，必须遵循如下的规则：<br>子类的方法的返回值的类型、方法名和形式参数列表，必须和父类中的是相同的。如果子类中的方法与父类中的方法同名，但是子类的方法改变了形式参数列表，那么这是方法重载，而不是方法重写。不要混淆这两个概念，二者的用法是完全不同的。<br>访问修饰符必须不小于父类中的访问修饰符。例如，如果父类的方法是public，那么子类的必须是public。如果父类的方法是protected，那么子类必须是protected或public（public比protected访问权更大）。<br>子类中重写的异常不能抛出比父类更多的异常<br>2方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>3方法重载：一个类中的方法与另一个方法相同，参数列表不同<br>2重写体现的是父类与子类方法之间的关系；重载体现的是一个类的内部方法之间的关系。<br>4构造方法与继承<br>不象一个超类的成员，超类的构造方法不能被它的子类继承.<br>你必须为一个子类定义构造方法，或者使用缺省的构造方法.</p>
+<h2 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字:"></a>super关键字:</h2><h3 id="super的两种用法："><a href="#super的两种用法：" class="headerlink" title="super的两种用法："></a>super的两种用法：</h3><p>1:super.<strong><em>或super.</em></strong>()代表每个类中指向父类对象部分的引用.<br>2:super()代表调用父类中指定的构造器。<br>注意：<br>super()只能放在构造器的第一句！<br>super关键字执行过程：<br>super 先调用父类构造方法，再调用子类构造方法.<br>子类构造方法的名称与类的名称相同.</p>
+<h2 id="final关键字："><a href="#final关键字：" class="headerlink" title="final关键字："></a>final关键字：</h2><p>我们可以使用一个叫final的修饰符来实现。<br>public final class Test{<br>}<br>本类使用final修饰符修饰，表示不可以有继承的子类，所以称为终态类。<br>final 1变量不能修改 2类不可被继承 3方法不能被重写。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><strong>继承：子类继续父类的属性和行为<br>单继承和多继承：java中只能有一个父类C++中可以有多个父类<br>方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>super: 代表每个类中指向父类对象部分的引用，代表调用父类中指定的构造器<br>final: final 变量不能修改 类不可被继承 方法不能被重写</strong></p>
 
       
 
@@ -181,7 +74,7 @@ public class ReflectTest {
 
 
   
-    <article id="post-11章异常处理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第5章对象的行为" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -189,21 +82,30 @@ public class ReflectTest {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/11章异常处理/">11章异常处理</a>
+      <a class="article-title" href="/2014/09/18/第5章对象的行为/">第5章对象的行为</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/11章异常处理/" class="article-date">
-  <time datetime="2014-09-19T11:16:27.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/18/第5章对象的行为/" class="article-date">
+  <time datetime="2014-09-18T15:44:27.000Z" itemprop="datePublished">2014-09-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="异常"><a href="#异常" class="headerlink" title="异常:"></a>异常:</h2><p>Thowable类有两个子类:运行时异常Exception和错误Error<br> 异常的父类：Exception类<br>  异常的常用关键字：throw、throws、 try catch 、finally<br>  throw和throws是抛出异常，throw 是把新建的异常对象抛给调用者，而throws是把已经存在的异常抛给调用者去处理。<br>  finally必须接在try catch 后面，try是用来捕获异常，catch是处理try捕获的异常，finally表示不管有没有执行try catch 语句，都要执行finally后面的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">try&#123; </span><br><span class="line">eq(s); </span><br><span class="line">&#125; </span><br><span class="line">catch(Exception e)&#123; </span><br><span class="line">String t=e.getMessage(); </span><br><span class="line">System.out.println(&quot;s不是ioexception&quot;); </span><br><span class="line">e.printStackTrace(); </span><br><span class="line">&#125; </span><br><span class="line">finally&#123; </span><br><span class="line">System.out.println(&quot;执行了finally语句&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">public void eq(String s) throws Exception&#123;         //throws已经存在的异常抛给调用者去处理</span><br><span class="line">if(s.equals(&quot;ioexception&quot;)) System.out.println(&quot;s是&quot;+s); </span><br><span class="line">else&#123; </span><br><span class="line">Exception e=new Exception(s); </span><br><span class="line">throw e; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <h2 id="1-this："><a href="#1-this：" class="headerlink" title="1 this："></a>1 this：</h2><p>表示当前对象同时注意事项</p>
+<h2 id="2-方法调用栈"><a href="#2-方法调用栈" class="headerlink" title="2 方法调用栈"></a>2 方法调用栈</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">主方法先进入栈，后进先出：</span><br><span class="line">┌──────────┐</span><br><span class="line">│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙</span><br><span class="line">│──────────│↑                                                 </span><br><span class="line">│ name3              │↖name1方法第三个先进   ↘依次在出去name3               ↙    </span><br><span class="line">│──────────│ ↑</span><br><span class="line">│ name2              │↖name1方法第二个先进   ↘依次在出去name2         ↙</span><br><span class="line">│──────────│  ↑</span><br><span class="line">│ name1              │↖name1方法第一个先进   ↘依次在出去name2     ↙</span><br><span class="line">│──────────│   ↑                  </span><br><span class="line">│ main()             │↖第一个先进入的主方法  ↘返回main方法结束↙</span><br><span class="line">└──────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="3方法的重载："><a href="#3方法的重载：" class="headerlink" title="3方法的重载："></a>3方法的重载：</h2><p>方法的名称相同参数列不同就构成方法重载.  体现参数列：表示 个数不同–类型不同–顺序不同.</p>
+<h3 id="顺序不同类型："><a href="#顺序不同类型：" class="headerlink" title="顺序不同类型："></a>顺序不同类型：</h3><p>public void name(int a long b) //  2个形式参数<br>        ↖这样就构成2个方法名称相同参数 顺序不同 就构成方法重载成功<br>      ↙<br>public void name(long a int b) //  2个形式参数</p>
+<h3 id="个数不同类型"><a href="#个数不同类型" class="headerlink" title="个数不同类型"></a>个数不同类型</h3><p>public void name(int a long b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 个数不同 就构成方法重载成功<br>      ↙<br>public void name(long a) //  1个形式参数    </p>
+<h3 id="类型不同类型"><a href="#类型不同类型" class="headerlink" title="类型不同类型"></a>类型不同类型</h3><p>public void name(String a int b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 类型不同 就构成方法重载成功<br>      ↙<br>public void name(long a short b) //  2个形式参数   </p>
+<h2 id="4访问修饰符："><a href="#4访问修饰符：" class="headerlink" title="4访问修饰符："></a>4访问修饰符：</h2><h3 id="访问修饰符有3种修饰符类型："><a href="#访问修饰符有3种修饰符类型：" class="headerlink" title="访问修饰符有3种修饰符类型："></a>访问修饰符有3种修饰符类型：</h3><p>public    公共修饰符的作用：最大权限在任何地方都可以访问这个方法或属性。<br>private   似有修饰符的作用：只有在类的方法中访问，如果不在同一个类中是无法访问的权限是只有在这个类中才能访问这个方法或属性。<br>protected 受保护修饰符作用：权限是在同一个包下才能访问，如果不在同一个包就不能访问权限不够因为他是受保护的。<br>default   默认修饰符的作用：默认修饰符权限跟受保护修饰符是一样的必须在同一个包里面才能调用这个方法或属性，但是权限没有受保护权限高。</p>
+<h2 id="5形参和实参"><a href="#5形参和实参" class="headerlink" title="5形参和实参"></a>5形参和实参</h2><p>当你在定义一个方法的时候,比如 void setter(int i){};<br>其中的参数i就是形参 形参是这个方法的局部变量 只能在方法体中使用<br>当你调用这个方法的时候,比如setter(a);<br>此时a就是实参 实参a把他的值传递给形参i<br>基本数据类型实参传递给形参的是值<br>对象实参传递给形参的是对象的引用</p>
+<h2 id="6构造器"><a href="#6构造器" class="headerlink" title="6构造器"></a>6构造器</h2><p>构造器是类中的一个特殊的方法，该方法在对象实例化时被调用，构造器的用途是当对象实例化时，初始化对象中的成员变量<br>构造器的名称必须要和类的名称相同.<br>不能有返回值，void也不行.<br>构造器的参数可有可无，可有一个也可有多个参数</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>this引用：<br>2 方法调用栈：<br>3方法的重载：<br>4访问修饰符：<br>5形参和实参：<br>6构造器：</p>
 
       
 
@@ -216,7 +118,7 @@ public class ReflectTest {
 
 
   
-    <article id="post-第10章接口" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第4章类对象和包" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -224,28 +126,23 @@ public class ReflectTest {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第10章接口/">第10章接口</a>
+      <a class="article-title" href="/2014/09/18/第4章类对象和包/">第4章类对象和包</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第10章接口/" class="article-date">
-  <time datetime="2014-09-19T11:02:30.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/18/第4章类对象和包/" class="article-date">
+  <time datetime="2014-09-18T15:38:42.000Z" itemprop="datePublished">2014-09-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
-<p>　　在Java语言规范中，一个方法的特征仅包括方法的名字，参数的数目和种类，而不包括方法的返回类<br>型，参数的名字以及所抛出来的异常。在Java编译器检查方法的重载时，会根据这些条件判断两个方法是<br>否是重载方法。但在Java编译器检查方法的置换时，则会进一步检查两个方法(分处超类型和子类型)的返<br>还类型和抛出的异常是否相同。</p>
-<p>　　接口继承和实现继承的规则不同，一个类只有一个直接父类，但可以实现多个接口。<br>　　Java接口本身没有任何实现，因为Java接口不涉及表象，而只描述public行为，所以Java接口比Java<br>抽象类更抽象化。<br>　　Java接口的方法只能是抽象的和公开的，Java接口不能有构造器，Java接口可以有public，静态的和<br>final属性。<br>　　接口把方法的特征和方法的实现分割开来。这种分割体现在接口常常代表一个角色，它包装与该角色<br>相关的操作和属性，而实现这个接口的类便是扮演这个角色的演员。一个角色由不同的演员来演，而不同<br>的演员之间除了扮演一个共同的角色之外，并不要求其它的共同之处。<br>为什么使用接口？<br>　　两个类中的两个类似的功能，调用他们的类动态的决定一种实现，那他们提供一个抽象父类，子类分<br>别实现父类所定义的方法。<br>　　问题的出现：Java是一种单继承的语言，一般情况下，哪个具体类可能已经有了一个超类，解决是给<br>它的父类加父类，或者给它父类的父类加父类，只到移动到类等级结构的最顶端。这样一来，对一个具体<br>类的可插入性的设计，就变成了对整个等级结构中所有类的修改。<br>　　接口是可插入性的保证。<br>　　在一个等级结构中的任何一个类都可以实现一个接口，这个接口会影响到此类的所有子类，但不会影<br>响到此类的任何超类。此类将不得不实现这个接口所规定的方法，而其子类可以从此类自动继承这些方法<br>，当然也可以选择置换掉所有的这些方法，或者其中的某一些方法，这时候，这些子类具有了可插入性(<br>并且可以用这个接口类型装载，传递实现了他的所有子类)。<br>　　我们关心的不是那一个具体的类，而是这个类是否实现了我们需要的接口。<br>　　接口提供了关联以及方法调用上的可插入性，软件系统的规模越大，生命周期越长，接口使得软件系<br>统的灵活性和可扩展性，可插入性方面得到保证。<br>　　类型<br>　　使用Java接口将软件单位与内部和外部耦合起来。使用Java接口不是具体的类进行变量的类型声明，<br>方法的返还类型声明，参量的类型声明，以及数据类型的转换。<br>　　在理想的情况下，一个具体的Java类应当只实现Java接口和抽象Java类中声明的方法，而不应当给多<br>余方法。</p>
-<h2 id="类型等级结构"><a href="#类型等级结构" class="headerlink" title="　　类型等级结构"></a>　　类型等级结构</h2><p>　　Java接口(以及抽象类)一般用来作为一个类型的等级结构的起点。<br>　　如果一个类已经有了一个主要的超类型，那么通过实现一个接口，这个类可以拥有另一个次要的超类型，<br>这种次要的超类型叫做混合类型。<br>Java接口常用方法</p>
-<h2 id="单方法接口"><a href="#单方法接口" class="headerlink" title="　　单方法接口"></a>　　单方法接口</h2><p>　　以下是引用片段：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　public interface Actionlistener&#123; </span><br><span class="line">　　public abstract void actionPerformed(ActionEvent event); </span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　　仅且只有一个方法，只有实现了这个接口(重写这个接口中的唯一一个方法)，你才有资格去事件监听<br>器列表里注册(参数为Actionlistener类型)，当事件源变动时，自动调用这个唯一的actionPerformed方<br>法.<br>　　## 标识接口 ##<br>　　是没有任何方法和属性的接口。标识接口不对实现它的类有任何语意上的要求，它仅仅表明了实现它<br>的类属于一个特定的类型(传递)。<br>　　不推荐过多的使用标识接口。<br>　　## 常量接口 ##<br>　　用Java接口来声明一些常量，然后由实现这个接口的类使用这些常量。</p>
-<p>接口提供了规范和标准，接口不能被实例化，接口不包含任何构造器，接口中的所有方法都是抽象的，<br>接口可以定义静态常量，是异构集合.<br>一个接口能继承多个接口 public class b extends A<br>一个类可以实现多个接口<br>声明一个接口关键字是public interface A<br>实现一个接口的方法用public class H implements A,B,C</p>
-<h2 id="为什么使用接口"><a href="#为什么使用接口" class="headerlink" title="为什么使用接口:"></a>为什么使用接口:</h2><p><strong>抽象中有2个缺陷.<br>1抽象是单项继承————接口是多项实现<br>2抽象而破坏了安全性————而接口保证了安全性<br>抽象——[标准]——接口<br>抽象方法——[安全]——抽象方法<br>抽象是指向子类对象——不能被实例——而接口指向实现对象<br>总结：<br> Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，</strong></p>
+        <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；<br>对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。<br>    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋<br>初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量名=new 引用类型（）；对象创建好后，如何访问成员变量与方法，我们可以使用点运算符。<br>    在Java中我们可以引入包机制，因为它会组织类，且为包中类提供了以命名的空间。如果我们不显示的讲<br>一个类声明在包之中，那么这个类就属于默认包。包必须放在注释之外的第一条语句。如果我们要使用或访问不同包的成员或方法，我们就需要导入与之对应的包。语句是import 包名.*;或者import 包名.类名；</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是来约束对象的属性和行为<br>类是对象的描述，对象是类得实例<br>对象由属性和行为组成，属性是对象所具有的特征，而行为是对象可以做的动作。<br>对象的每个属性被表示为类中的成员变量，对象的每个行为成为类中的一个方法。<br>访问修饰符：<br>访问修饰符 可以是public公有 private私有 protected受保护<br>实例化对象：<br>内存分配：堆划分为4块<br>堆是存放类，栈存放对象的全局变量和局部变量。<br>       栈         堆<br>┌────────────────<br>│局部变量     │数据区：存放String静态变量和字符串常量。<br>│全局变量     │代码区：存放方法。<br>│            │new对象<br>│            │<br>│            │<br>└────────────────<br>访问对象的属性和方法：<br>(.)点运算符用于与对象的一个引用一起访问对象的成员变量和方法。<br>this<br>每个对象有一个对自身的引用，这个引用称为this 引用。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包  关键字 package<br>包是java中组织和管理类的一种机制，同时可以防止类命名冲突</p>
 
       
 
@@ -258,7 +155,7 @@ public class ReflectTest {
 
 
   
-    <article id="post-第9章多态和抽象" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第3章程序流程控制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -266,32 +163,38 @@ public class ReflectTest {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第9章多态和抽象/">第9章多态和抽象</a>
+      <a class="article-title" href="/2014/09/18/第3章程序流程控制/">第3章程序流程控制</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第9章多态和抽象/" class="article-date">
-  <time datetime="2014-09-19T10:58:35.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/18/第3章程序流程控制/" class="article-date">
+  <time datetime="2014-09-18T14:27:54.000Z" itemprop="datePublished">2014-09-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="多态："><a href="#多态：" class="headerlink" title="多态："></a>多态：</h2><p>对于父类而言他的子类有独特的行为和特征，<br>多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.</p>
-<h2 id="抽象："><a href="#抽象：" class="headerlink" title="抽象："></a>抽象：</h2><p>abstartic关键字在public 修饰符和void返回值中间<br>abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法<br>抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。<br>抽象如果子类继承了父类父类中的抽象方法在子类中实现</p>
-<p>其实，我们如果要全面了解多态，我觉得只要把握好以下几个方面就可以：多态是什么，他的具体表现是什么，多态使用的前提，多态使用好处，多态具体如何应用。<br>首先，何谓多态，我们可以有两方面理解，就属性而言，他是事物存在的多种形态。就方法而言，它是一种方法，多种实现，如重写。<br>其次，如果父类的引用指向了子类的对象 ，这就是其表现形式。<br>再者，我们在什么时候使用多态呢，这个就体现在类与类之间的关系上，要么是子类与父类关系，要么类与接口的关系。<br>再次，如何实现呢，他具体涉及两个方面内容，第一是静态多态，在编译的是时候系统就知道要指执行那个方法，主要体现在方法重载。第二是动态多态，系统在运行是才知道要调用哪个方法，主要的实现方式是方法重写。还有个体现是动态绑定。动态绑定是动态多态的技术基础之一。运行时根据父类的变量引用所指向的实际类型执行相应子类方法，从而实现多态性。还有两个技术基础，分别是向上转型和instancof关键字的使用。多态绑定还可以这么理解：在多态中，如果成员方法非静态，在编译时，参阅引用引用变量是否有调用方法，如果有编译通过，否则一定失败。如果运行，就看子类，子类如果有，就运行子类，子类没有就运行父类，父类没有就运行失败。但是如果方法都是静态的，无论运行还是编译都参考左边，其特点跟成员变量是相通得。<br>最后，多态有何好处，多态可以大大的提高扩展性。</p>
-<h2 id="一、多态的概念"><a href="#一、多态的概念" class="headerlink" title="一、多态的概念"></a>一、多态的概念</h2><pre><code>多态即“一个接口，多种实现”，在父类中声明的方法，可以在子类中进行覆盖（声明为finial的除外），这样，父类的引用在引用子类对象的时候可以做出不同的响应。所以，多态也可以说成是：相同的消息被发送到子类或父类对象上，将导致完全不同的行为。
-多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定。
-</code></pre><h2 id="二、多态存在的条件"><a href="#二、多态存在的条件" class="headerlink" title="二、多态存在的条件"></a>二、多态存在的条件</h2><pre><code>1、必须存在继承关系。
-2、子类必须覆盖父类中声明过的方法。
-</code></pre><h2 id="三、java多态的实现机制"><a href="#三、java多态的实现机制" class="headerlink" title="三、java多态的实现机制"></a>三、java多态的实现机制</h2><pre><code>java多态是由动态绑定技术来实现的，动态绑定即运行时绑定（以之对应的有静态绑定，即编译时绑定），在java语言中，除了声明为finial的方法外（声明为private的方法默认为finial）其余都是采用动态绑定来调用的，过程如下：
-当程序运行时，需要动态的调用方法时，则是虚拟机的工作，虚拟机将依照具体环境首先拟定出一张方法表，列举出可能的方法调用，继而在实现调用的时候，可以节省寻找函数方法所带来的时间开销，其将调用最合适及最合理的方法，在派生类中能调用相应的重名函数的则调用该新方法，不能则调用超类（父类）方法，同时应注意一点，若虚拟机放弃对本类的相应方法调用，那么虚拟机将搜索超类的方法表，依次类同，若都没有相应的处理来响应，则程序运行出错，一般来说在编译阶段，编译器将作出相应的控制。
- 下面我们来看看动态绑定的内部实现机制。
-JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定。
-</code></pre>
+        <p>程序的执行，默认由上而下顺序执行。<br>有三种情况可以改变程序的顺序执行：<br>1、方法的调用<br>2、选择语句<br>3、循环语句<br>选择和循环语句都需要用到布尔表达式，所以我们先介绍布尔表达式。</p>
+<h2 id="布尔逻辑："><a href="#布尔逻辑：" class="headerlink" title="布尔逻辑："></a>布尔逻辑：</h2><p>布尔值：true和false</p>
+<h2 id="组合布尔逻辑分四种："><a href="#组合布尔逻辑分四种：" class="headerlink" title="组合布尔逻辑分四种："></a>组合布尔逻辑分四种：</h2><p>1、和—两个表达式均为true，组合表达式为真<br>2、或—两个表达式中一个为true，组合为真<br>3、异或—两个表达式不同，则整个表达式为真<br>4、非—非真为假，非假为真</p>
+<h2 id="逻辑运算符："><a href="#逻辑运算符：" class="headerlink" title="逻辑运算符："></a>逻辑运算符：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、和： &amp;&amp;     &amp;</span><br><span class="line">2、或： ||     |</span><br><span class="line">3、异或：^</span><br><span class="line">4、非： !       ~</span><br></pre></td></tr></table></figure>
+<p>if语句是JAVA语言选择控制或分支控制语句之一，用来对给定条件进行判定，并根据判定的结果（真或假）决定执行给出的两种操作之一。</p>
+<h2 id="if语句包括三种形式："><a href="#if语句包括三种形式：" class="headerlink" title="if语句包括三种形式："></a>if语句包括三种形式：</h2><h3 id="单分支if语句："><a href="#单分支if语句：" class="headerlink" title="单分支if语句："></a>单分支if语句：</h3><p>语句的格式：<br>if(条件表达式){<br> 语句块<br>}<br>首先执行条件表达式，如果表达式结果为真，执行语句；否则，不执行语句，而执行语句的下一条语句。</p>
+<h3 id="双分支if语句："><a href="#双分支if语句：" class="headerlink" title="双分支if语句："></a>双分支if语句：</h3><p>格式：<br> if(条件表达式){<br>  语句块1<br> }else{<br>    语句块2<br> }<br>如果条件表达式为真，则执行语句块1；否则，执行语句块2</p>
+<h3 id="多分支if语句："><a href="#多分支if语句：" class="headerlink" title="多分支if语句："></a>多分支if语句：</h3><p>语句格式<br>if(条件表达式1){语句块1}<br>else if(条件表达式2){语句块2}<br>else if(条件表达式3){语句块3}<br>…<br>else if(条件表达式m-1){语句块m-1}<br>else{语句块m}<br>首先执行条件表达式1，如果表达式1结果为真，执行语句块1；否则执行条件表达式2，如果表达式2结果为真，执行语句块2；以此类推；如果条件表达式都不成立，则执行语句块m。</p>
+<h2 id="switch语句格式："><a href="#switch语句格式：" class="headerlink" title="switch语句格式："></a>switch语句格式：</h2><h3 id="语句格式："><a href="#语句格式：" class="headerlink" title="语句格式："></a>语句格式：</h3><p>switch(算术表达式){<br>  case 常量表达式1 ：语句块1<br>                     break;<br>  case 常量表达式2 ：语句块2<br>                     break;<br>  …<br>  default ：    语句块m<br>                     break;<br>}</p>
+<h3 id="switch语句特性："><a href="#switch语句特性：" class="headerlink" title="switch语句特性："></a>switch语句特性：</h3><p>switch后面括弧的“算术表达式 ”的数据类型必须是字符型、字节型、短型整数、整数。<br>每一个case的常量表达式的值必须互不相同，否则就会出现相互矛盾的现象。<br>case和default的放置没有顺序。</p>
+<h2 id="循环结构："><a href="#循环结构：" class="headerlink" title="循环结构："></a>循环结构：</h2><p>在JAVA中可用以下语句实现循环：</p>
+<h3 id="while语句"><a href="#while语句" class="headerlink" title="while语句"></a>while语句</h3><h3 id="do-while语句"><a href="#do-while语句" class="headerlink" title="do-while语句"></a>do-while语句</h3><h3 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h3><p>根据判断循环结束的条件所放位置的不同分为：<br>          先验循环、后验循环</p>
+<h3 id="while循环："><a href="#while循环：" class="headerlink" title="while循环："></a>while循环：</h3><p>while语句是先验循环<br>它可以执行0次或更多次。如果在循环开始部分的条件不为真的话，循环代码永远不能执行。<br>while循环的一般格式：<br> while（布尔表达式）{<br>   循环体<br> }</p>
+<h3 id="do-while循环："><a href="#do-while循环：" class="headerlink" title="do-while循环："></a>do-while循环：</h3><p>do-while语句是后验循环<br>它可以执行1次或更多次。无论循环后面的判断部分的条件是否为真，循环代码至少要执行一次，然后再判断是否满足继续循环的条件。<br>do-while循环的一般格式：<br> do{<br>         循环体<br>    }while( 布尔表达式);</p>
+<h2 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h2><p>for循环是循环控制结构中使用最广泛的一种循环控制语句。它是一种先验循环。</p>
+<h3 id="for循环的一般格式为："><a href="#for循环的一般格式为：" class="headerlink" title="for循环的一般格式为："></a>for循环的一般格式为：</h3><p>for(表达式1；表达式2；表达式3){<br>  循环体<br>}<br>break和continue：<br>break:<br> 用break语句可以跳出switch语句体，程序继续执行switch语句体下面的程序。<br> 在循环结构中，也可以用break语句跳出本层循环体，从而提前结束层循环。<br>continue：<br> continue的作用是结束本次循环（即跳过本次循环中余下尚未执行的语句），接着再一次进行循环条件的判定。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p>1、方法的调用<br>2、选择语句<br>单分支if语句<br>双分子if语句<br>多分子if语句<br>switch语句格式<br>break和continue<br>3、循环语句<br>while语句<br>do-while语句<br>for语句</p>
+
       
 
       
@@ -303,7 +206,7 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
 
 
   
-    <article id="post-第8章封装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-如果你要组建一个团队，你将如何利用好团队角色分析？" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -311,23 +214,28 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第8章封装/">第8章封装</a>
+      <a class="article-title" href="/2014/09/18/如果你要组建一个团队，你将如何利用好团队角色分析？/">如果你要组建一个团队，你将如何利用好团队角色分析？</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第8章封装/" class="article-date">
-  <time datetime="2014-09-19T10:53:29.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2014/09/18/如果你要组建一个团队，你将如何利用好团队角色分析？/" class="article-date">
+  <time datetime="2014-09-18T14:13:50.000Z" itemprop="datePublished">2014-09-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="封装："><a href="#封装：" class="headerlink" title="封装："></a>封装：</h2><p>java为类中的成员提供了四种访问级别，按照访问权限由大到小排列<br>分别是：公用的（public）私有的(private)受保护的（protected）和默认的（default无访问修饰符）<br>通过用private 访问修饰符隐藏类中成员变量 称为封装，通过方法访问属性称为封装set[设置]/get[获取]</p>
-<h2 id="静态："><a href="#静态：" class="headerlink" title="静态："></a>静态：</h2><p>Static修饰符属于类的，用类名直接调用get或set<br>静态块：如果不加Static就用对象调用，如果加了Static就是用类调用set或get方法</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>封装 封装就是通过方法访问属性<br>静态 静态就是访问静态成员变量的时候用类名访问二不是用对象访问<br>静态块 静态块就是实例初始化块时在构造器之前执行</p>
+        <h2 id="团队中的八种角色"><a href="#团队中的八种角色" class="headerlink" title="团队中的八种角色"></a>团队中的八种角色</h2><p>团队中有了创新者，他可以不断地给团队未来的发展、管理以及信息技术方面带来创新，使这个团队能不断地吸纳新的内容往前走；团队中有了监督者，使得团队规则的维护、成员之间的正常交流，以及管理是否得当有了人的监督。完美者的挑剔，可以使工作能够非常完美。对八种不同的角色的研究表明：每一种角色的作用是不同的，但他们的工作推动着团队走向完美。</p>
+<h3 id="团队角色的启示：每一个角色都很重要"><a href="#团队角色的启示：每一个角色都很重要" class="headerlink" title="团队角色的启示：每一个角色都很重要"></a>团队角色的启示：每一个角色都很重要</h3><p>在一个团队中，每一种角色都十分重要。团队成员不能因为某一种角色人数多，或在某一时间“给力了”，就认为自己重要，别人不重要。团队角色是平等的，是没有等级之分的。</p>
+<h3 id="一个人不可能完美，但团队可以"><a href="#一个人不可能完美，但团队可以" class="headerlink" title="一个人不可能完美，但团队可以"></a>一个人不可能完美，但团队可以</h3><p>团队中的角色没有一个事完美的，总表现出来这样或那样的缺点不尽如人意，让人遗憾。一个人不可能具有以上八个角色的多种特征，所以，一个人不可能承担团队中的全部角色。但是，团队可以通过不同角色的组合而达到完美。</p>
+<h2 id="尊重团队的角色差异"><a href="#尊重团队的角色差异" class="headerlink" title="尊重团队的角色差异"></a>尊重团队的角色差异</h2><p>一个完美的团队既然是由不同角色组成，既然离不开各种又有优点又有缺点的团队的角色组成，那么，要组建高绩效的团队，团队领导就必须要用人之长、容人之短。团队是由一群并不完美的人组成的，团队领导并不是让团队成员没有缺点，而是设法如何发挥团队成员各自的优点。这不仅是真正的团队，而且是一支高绩效的团队。</p>
+<h3 id="合作可以弥补不足"><a href="#合作可以弥补不足" class="headerlink" title="合作可以弥补不足"></a>合作可以弥补不足</h3><p>团队的成员各有差异，正因为不同才需要合作，通过合作来弥补各自的不足。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>团队角色是塑造高绩效团队的一个重要话题。团队一般是由哪些角色组成，他们各自起着什么作用呢？从对这些角色的分析中，得到了哪些启示呢？最重要的启示应该是尊重角色的差异，因为有差异才可以互补，团队中每一个角色都很重要，合作才能创造完美的团队</p>
+<h2 id="二、-如果你加入一个团队，你将如何定位自己的团队角色？"><a href="#二、-如果你加入一个团队，你将如何定位自己的团队角色？" class="headerlink" title="二、   如果你加入一个团队，你将如何定位自己的团队角色？"></a>二、   如果你加入一个团队，你将如何定位自己的团队角色？</h2><p>既然我身为一组组长，我就从这个组长的身份来定位自己的团队角色。首先是凝聚者，我觉得这是作为组长需要的最基本的角色。作为组长首要的任务是把组员凝聚到一起，促进团队成员之间的相互合作。<br>第二是协调者，当团队遇到突如其来的事情发生时组长要表现得沉着、冷静，正如人们经常所说遇事不慌。组长需要比较愿意虚心听取来自各方的对工作有价值的意见和建议，能够做到对来自其他人的意见，不带任何偏见地兼收并蓄。我认为这是组长需要的第二个角色。<br>第三是创新者，没有创新就没有发展，世界变化太快，特别是IT行业，现代社会竞争要求一个团队也必须是一个创新型团队。作为组长要不断更新自己的知识，不断的创新，让自己的团队成为一个创新的团队。<br>优秀的团队成员总能够在不同的团队角色之间灵活地转换。我想一个合格的组长需要在这三个不同的角色之间灵活的转换。</p>
+<h2 id="三、-谈谈你对团队合作的认识："><a href="#三、-谈谈你对团队合作的认识：" class="headerlink" title="三、   谈谈你对团队合作的认识："></a>三、   谈谈你对团队合作的认识：</h2><p>我所理解的团队合作是由不同角色组建的团队，虽然也有分歧、有矛盾，但是，他们有着共同的目标和信念，不同角色之间互补，最终才能更好的完成目标。</p>
 
       
 
@@ -342,7 +250,7 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
     </nav>
   
 </section>
