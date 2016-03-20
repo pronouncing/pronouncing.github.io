@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL学习笔记二 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="function 函数
+函数的作用比较大，一般多用在select查询语句和where条件语句之后。按照函数返回的结果，可以分为：多行函数和单行函数；所谓的单行函数就是将每条数据进行独立的计算，然后每条数据得到一条结果。如：字符串函数；而多行函数，就是多条记录同时计算，得到最终只有一条结果记录。如：sum、avg等多行函数也称为聚集函数、分组函数，主要用于完成一些统计功能。MySQL的单行函数有如下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记二">
+<meta property="og:url" content="http://yoursite.com/2012/03/04/MySQL学习笔记二/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="function 函数
+函数的作用比较大，一般多用在select查询语句和where条件语句之后。按照函数返回的结果，可以分为：多行函数和单行函数；所谓的单行函数就是将每条数据进行独立的计算，然后每条数据得到一条结果。如：字符串函数；而多行函数，就是多条记录同时计算，得到最终只有一条结果记录。如：sum、avg等多行函数也称为聚集函数、分组函数，主要用于完成一些统计功能。MySQL的单行函数有如下">
+<meta property="og:updated_time" content="2016-03-20T05:39:07.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL学习笔记二">
+<meta name="twitter:description" content="function 函数
+函数的作用比较大，一般多用在select查询语句和where条件语句之后。按照函数返回的结果，可以分为：多行函数和单行函数；所谓的单行函数就是将每条数据进行独立的计算，然后每条数据得到一条结果。如：字符串函数；而多行函数，就是多条记录同时计算，得到最终只有一条结果记录。如：sum、avg等多行函数也称为聚集函数、分组函数，主要用于完成一些统计功能。MySQL的单行函数有如下">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-MySQL学习笔记二" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL学习笔记二
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/03/04/MySQL学习笔记二/" class="article-date">
+  <time datetime="2012-03-04T15:51:19.000Z" itemprop="datePublished">2012-03-04</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>function 函数</p>
+<p>函数的作用比较大，一般多用在select查询语句和where条件语句之后。按照函数返回的结果，<br>可以分为：多行函数和单行函数；所谓的单行函数就是将每条数据进行独立的计算，然后每条数据得到一条结果。<br>如：字符串函数；而多行函数，就是多条记录同时计算，得到最终只有一条结果记录。如：sum、avg等<br>多行函数也称为聚集函数、分组函数，主要用于完成一些统计功能。MySQL的单行函数有如下特征：<br>单行函数的参数可以是变量、常量或数据列。单行函数可以接受多个参数，但返回一个值。<br>单行函数就是它会对每一行单独起作用，每一行（可能包含多个参数）返回一个结果。<br>单行函数可以改变参数的数据类型。单行函数支持嵌套使用：内层函数的返回值是外层函数的参数。</p>
+<p>单行函数可以分为：<br>类型转换函数；<br>位函数；<br>流程控制语句；<br>加密解密函数；<br>信息函数</p>
+<p>单行函数</p>
+<p>1、    char_length字符长度<br>select char_length(tel) from user;</p>
+<p>2、    sin函数<br>select sin(age) from user;<br>select sin(1.57);</p>
+<p>3、    添加日期函数<br>select date_add(‘2010-06-21’, interval 2 month);<br>interval是一个关键字，2 month是2个月的意思，2是数值，month是单位<br>select addDate(‘2011-05-28’, 2);<br>在前面的日期上加上后面的天数</p>
+<p>4、    获取当前系统时间、日期<br>select curdate();<br>select curtime();</p>
+<p>5、    加密函数<br>select md5(‘zhangsan’);</p>
+<p>6、    Null 处理函数<br>select ifnull(birthday, ‘is null birthday’) from user;<br>如果birthday为null，就返回后面的字符串</p>
+<p>select nullif(age, 245) from user;<br>如果age等于245就返回null，不等就返回age</p>
+<p>select isnull(birthday) from user;<br>判断birthday是否为null</p>
+<p>select if(isnull(birthday), ‘birthday is null’, ‘birthday not is null’) from user;<br>如果birthday为null或是0就返回birthday is null，否则就返回birthday not is null；类似于三目运算符</p>
+<p>7、    case 流程函数<br>case函数是一个流程控制函数，可以接受多个参数，但最终只会返回一个结果。<br>select name,<br>age,<br>(case sex<br>    when 1 then ‘男’<br>    when 0 then ‘女’<br>    else ‘火星人’<br>    end<br>) sex<br>from user;</p>
+<p>组函数</p>
+<p>组函数就是多行函数，组函数是完成一行或多行结果集的运算，最后返回一个结果，而不是每条记录返回一个结果。</p>
+<p>1、    avg平均值运算<br>select avg(age) from user;<br>select avg(distinct age) from user;</p>
+<p>2、    count 记录条数统计<br>select count(*), count(age), count(distinct age) from user;</p>
+<p>3、    max 最大值<br>select max(age), max(distinct age) from user;</p>
+<p>4、    min 最小值<br>select min(age), min(distinct age) from user;</p>
+<p>5、    sum 求和、聚和<br>select sum(age), sum(distinct age) from user;<br>select sum(ifnull(age, 0)) from user;</p>
+<p>6、    group by 分组<br>select count(<em>), sex from user group by sex;<br>select count(</em>) from user group by age;<br>select * from user group by sex, age;</p>
+<p>7、    having进行条件过滤<br>不能在where子句中过滤组，where子句仅用于过滤行。过滤group by需要having<br>不能在where子句中用组函数，having中才能用组函数<br>select count(*) from user group by sex having sex &lt;&gt; 2;</p>
+<p>? 多表查询和子查询</p>
+<p>数据库的查询功能最为丰富，很多时候需要用到查询完成一些事物，而且不是单纯的对一个表进行操作。而是对多个表进行联合查询，<br>MySQL中多表连接查询有两种规范，较早的SQL92规范支持，如下几种表连接查询：<br>    等值连接<br>    非等值连接<br>    外连接<br>    广义笛卡尔积<br>SQL99规则提供了可读性更好的多表连接语法，并提供了更多类型的连接查询，SQL99支持如下几种多表连接查询：<br>    交叉连接<br>    自然连接<br>    使用using子句的连接<br>    使用on子句连接<br>    全部连接或者左右外连接</p>
+<p>SQL92的连接查询<br>SQL92的连接查询语法比较简单，多将多个table放置在from关键字之后，多个table用“，”隔开；<br>连接的条件放在where条件之后，与查询条件直接用and逻辑运算符进行连接。如果条件中使用的是相等，<br>则称为等值连接，相反则称为非等值，如果没有任何条件则称为广义笛卡尔积。<br>广义笛卡尔积：select s.<em>, c.</em> from student s, classes c;<br>等值：select s.<em>, c.</em> from student s, classes c where s.cid = c.id;<br>非等值：select s.<em>, c.</em> from student s, classes c where s.cid &lt;&gt; c.id;<br>select s.*, c.name classes from classes c, student s where c.id = s.classes_id and s.name is not null;</p>
+<p>SQL99连接查询<br>1、交叉连接cross join，类似于SQL92的笛卡尔积查询，无需条件。如：<br>select s.*, c.name from student s cross join classes c;</p>
+<p>2、自然连接 natural join查询，无需条件，默认条件是将2个table中的相同字段作为连接条件，如果没有相同字段，查询的结果就是空。<br>select s.*, c.name from student s natural join classes c;</p>
+<p>3、using子句连接查询：using的子句可以是一列或多列，显示的指定两个表中同名列作为连接条件。<br>如果用natural join的连接查询，会把所有的相同字段作为连接查询。而using可以指定相同列及个数。<br>select s.*, c.name from student s join classes c using(id);</p>
+<p>4、    join … on连接查询，查询条件在on中完成，每个on语句只能指定一个条件。<br>select s.*, c.name from student s join classes c on s.classes_id = c.id;</p>
+<p>5、    左右外连接：3种外连接，left [outer] join、right [outer] join，连接条件都是通过用on子句来指定，条件可以等值、非等值。<br>select s.<em>, c.name from student s left join classes c on s.classes_id = c.id;<br>select s.</em>, c.name from student s right join classes c on s.classes_id = c.id;</p>
+<pre><code>子查询
+子查询就是指在查询语句中嵌套另一个查询，子查询可以支持多层嵌套。子查询可以出现在2个位置：
+from关键字之后，被当做一个表来进行查询，这种用法被称为行内视图，因为该子查询的实质就是一个临时视图
+出现在where条件之后作为过滤条件的值
+</code></pre><p>子查询注意点：<br>    子查询用括号括起来，特别情况下需要起一个临时名称<br>    子查询当做临时表时（在from之后的子查询），可以为该子查询起别名，尤其是要作为前缀来限定数据列名时<br>    子查询用作过滤条件时，将子查询放在比较运算符的右边，提供可读性<br>    子查询作为过滤条件时，单行子查询使用单行运算符，多行子查询用多行运算符</p>
+<p>将from后面的子查询当做一个table来用：<br>select <em> from (select id, name from classes) s where s.id in (1, 2);<br>当做条件来用：<br>select </em> from student s where s.classes_id in (select id from classes);<br>select <em> from student s where s.classes_id = any (select id from classes);<br>select </em> from student s where s.classes_id &gt; any (select id from classes);<br>? 操作符和函数</p>
+<p>1、    boolean只判断<br>select 1 is true, 0 is false, null is unknown;<br>select 1 is not unknown, 0 is not unknown, null is not unknown;</p>
+<p>2、    coalesce函数，返回第一个非null的值<br>select coalesce(null, 1);<br>select coalesce(1, 1);<br>select coalesce(null, 1);<br>select coalesce(null, null);</p>
+<p>3、    当有2个或多个参数时，返回最大的那个参数值<br>select greatest(2, 3);<br>select greatest(2, 3, 1, 9, 55, 23);<br>select greatest(‘D’, ‘A’, ‘B’);</p>
+<p>4、    Least函数，返回最小值，如果有null就返回null值<br>select least(2, 0);<br>select least(2, 0, null);<br>select least(2, 10, 22.2, 35.1, 1.1);</p>
+<p>5、    控制流函数<br>select case 1 when 1 then ‘is 1’ when 2 then ‘is 2’ else ‘none’ end;<br>select case when 1 &gt; 2 then ‘yes’ else ‘no’ end;</p>
+<p>6、    ascii字符串函数<br>select ascii(‘A’);<br>select ascii(‘1’);</p>
+<p>7、    二进制函数<br>select bin(22);</p>
+<p>8、    返回二进制字符串长度<br>select bit_length(11);</p>
+<p>9、    char将值转换成字符，小数取整四舍五入<br>select char(65);<br>select char(65.4);<br>select char(65.5);<br>select char(65.6);<br>select char(65, 66, 67.4, 68.5, 69.6, ‘55.5’, ‘97.3’);</p>
+<p>10、    using改变字符集<br>select charset(char(0<em>65)), charset(char(0</em>65 using utf8));</p>
+<p>11、    得到字符长度char_length,character_length<br>select char_length(‘abc’);<br>select character_length(‘eft’);</p>
+<p>12、    compress压缩字符串、uncompress解压缩<br>select compress(‘abcedf’);<br>select uncompress(compress(‘abcedf’));</p>
+<p>13、    concat_ws分隔字符串<br>select concat_ws(‘#’, ‘first’, ‘second’, ‘last’);<br>select concat_ws(‘#’, ‘first’, ‘second’, null, ‘last’);<br>? 事务处理</p>
+<p>动作<br>    开始事务：start transaction<br>    提交事务：commit<br>    回滚事务：rollback<br>    设置自动提交：set autocommit 1 | 0<br>    atuoCommit系统默认是1立即提交模式；如果要手动控制事务，需要设置set autoCommit 0;<br>    这样我们就可以用commit、rollback来控制事务了。</p>
+<p>在一段语句块中禁用autocommit 而不是set autocommit<br>start transaction;<br>select @result := avg(age) from temp;<br>update temp set age = @result where id = 2;<br>select <em> from temp where id = 2;//值被改变<br>rollback;//回滚<br>select </em> from temp where id = 2;//变回来了<br>在此期间只有遇到commit、rollback，start Transaction的禁用autocommit才会结束。然后就恢复到原来的autocommit模式；</p>
+<p>不能回滚的语句<br>    有些语句不能被回滚。通常，这些语句包括数据定义语言（DDL）语句，比如创建或取消数据库的语句，<br>    和创建、取消或更改表或存储的子程序的语句。<br>    您在设计事务时，不应包含这类语句。如果您在事务的前部中发布了一个不能被回滚的语句，<br>    则后部的其它语句会发生错误，在这些情况下，通过发布ROLLBACK语句不能 回滚事务的全部效果。</p>
+<p>一些操作也会隐式的提交事务<br>如alter、create、drop、rename table、lock table、set autocommit、start transaction、truncate table 等等,<br>在事务中出现这些语句也会提交事务的<br>    事务不能嵌套事务<br>    事务的保存点<br>Savepoint pointName/Rollback to savepoint pointName<br>一个事务可以设置多个保存点，rollback可以回滚到指定的保存点，恢复保存点后面的操作。<br>如果有后面的保存点和前面的同名，则删除前面的保存点。<br>Release savepoint会删除一个保存点，如果在一段事务中执行commit或rollback，则事务结束，所以保存点删除。</p>
+<p> Set Transaction设计数据库隔离级别<br>SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL<br>{ READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE }<br>本语句用于设置事务隔离等级，用于下一个事务，或者用于当前会话。<br>在默认情况下，SET TRANSACTION会为下一个事务（还未开始）设置隔离等级。<br>如果您使用GLOBAL关键词，则语句会设置全局性的默认事务等级，<br>用于从该点以后创建的所有新连接。原有的连接不受影响。使用SESSION关键测可以设置默认事务等级，<br>用于对当前连接执行的所有将来事务。<br>默认的等级是REPEATABLE READ全局隔离等级。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/03/05/MySQL学习笔记三/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL学习笔记三
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/03/03/MySQL学习笔记一/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL学习笔记一</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/03/04/MySQL学习笔记二/" data-title="MySQL学习笔记二" data-url="http://yoursite.com/2012/03/04/MySQL学习笔记二/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

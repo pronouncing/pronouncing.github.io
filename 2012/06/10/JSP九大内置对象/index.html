@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JSP九大内置对象 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 
+JSP中九大内置对象为：请求对象request　              类型 javax.servlet.Servle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP九大内置对象">
+<meta property="og:url" content="http://yoursite.com/2012/06/10/JSP九大内置对象/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 
+JSP中九大内置对象为：请求对象request　              类型 javax.servlet.Servle">
+<meta property="og:updated_time" content="2016-03-20T05:13:36.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP九大内置对象">
+<meta name="twitter:description" content="内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 
+JSP中九大内置对象为：请求对象request　              类型 javax.servlet.Servle">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-JSP九大内置对象" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JSP九大内置对象
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/06/10/JSP九大内置对象/" class="article-date">
+  <time datetime="2012-06-10T14:21:09.000Z" itemprop="datePublished">2012-06-10</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 </p>
+<h3 id="JSP中九大内置对象为："><a href="#JSP中九大内置对象为：" class="headerlink" title="JSP中九大内置对象为："></a>JSP中九大内置对象为：</h3><p>请求对象request　              类型 javax.servlet.ServletRequest          作用域     Request<br>响应对象response               类型 javax.servlet.SrvletResponse          作用域  Page<br>页面上下文对象pageContext       类型 javax.servlet.jsp.PageContext         作用域  Page<br>会话对象session                   类型 javax.servlet.http.HttpSession        作用域   Session<br>应用程序对象application        类型 javax.servlet.ServletContext           作用域  Application<br>输出对象out                   类型 javax.servlet.jsp.JspWriter             作用域  Page<br>配置对象config                类型 javax.servlet.ServletConfig             作用域  Page<br>页面对象page                  类型 javax.lang.Object                       作用域  Page<br>例外对象exception             类型 javax.lang.Throwable                    作用域  page </p>
+<p>request对象代表的是来自客户端的请求，例如我们在FORM表单中填写的信息等；使用它的目的是引用传递给jspService()方法的当前请求。 </p>
+<p>response对象代表的是对客户端的响应，也就是说可以通过response 对象来组织发送到客户端的数据；使用它的目的是引用发送给客户机的响应；也把它传递给jspService()方法。 </p>
+<p>pageContext对象代表的是当前页面运行的一些属性；它提供了某些便利方法和对隐式对象的存储引用。 </p>
+<p>session对象就是会话对象的使用 </p>
+<p>application对象负责提供应用程序在服务器中运行时的一些全局信息；使用它的目的是引用执行JSP所在的 Web 应用程序的环境。 </p>
+<p>out 对象代表了向客户端发送数据的对象；使用它的目的是引用JSP页面的输出流。 </p>
+<p>config对象提供一些配置信息；可以从它获取部署描述符中给定的初始化参数。 </p>
+<p>page对象，使用它的目的是引用JSP页面生成的 servlet的当前实例。 </p>
+<p>exception对象可用于把page指令属性isErrorPage设为true 的页面。它可用于异常处理。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/06/22/使用jackson对json的操作/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用jackson对json的操作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/06/05/Servlet中forward和redirect的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Servlet中forward和redirect的区别</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/06/10/JSP九大内置对象/" data-title="JSP九大内置对象" data-url="http://yoursite.com/2012/06/10/JSP九大内置对象/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

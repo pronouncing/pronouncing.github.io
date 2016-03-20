@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-使用jackson对json的操作" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,21 +42,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
+      <a class="article-title" href="/2012/06/22/使用jackson对json的操作/">使用jackson对json的操作</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/MYSQL数据库总结篇/" class="article-date">
-  <time datetime="2014-09-19T15:58:56.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/06/22/使用jackson对json的操作/" class="article-date">
+  <time datetime="2012-06-22T14:15:08.000Z" itemprop="datePublished">2012-06-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>– 第一章<br>/<em><br> 数据库分类<br> 1 网状<br> 2 层次<br> 3 关系<br> 4 对象<br>关系型数据库<br> 表之间的关系: 1 一对一<br>        2 一对多<br>        3 多对多<br> SQL语句：1.DDL<br>   2.DQL<br>   3.DML<br>   4,DCL<br>– 第二章<br>创建数据库、表<br>create database 库名<br>create table 表名<br>修改表名、删除列名、修改列名、添加列、备份<br>增加列 ALTER TABLE t_class ADD COLUMN 列名 类型 – column可省略<br>修改列 ALTER TABLE t_class CHANGE 列名 新列名 新列类型<br>删除列 ALTER TABLE t_class DROP COLUMN nam – column可省略<br>备份表 CREATE TABLE 新表名 SELECT</em>FROM 旧表名<br>数据类型<br>decimal(m,n) 总长度和小数点后长度<br>char 默认长度为1  最大长度为16<br>varchar()后面必须跟参数<br>– 第三章<br>数据完整性<br> 1 实体完整性<br> 2 域完整性<br> 3 引用完整性<br> 4 自定义完整性<br>constraint foreign key 列 references 列<br>必须申明表的类型 engine=innodb<br>还有字符的编码集 charset=’utf8‘；<br>– 第四章<br>添加、删除、修改<br>delete from 表名<br>truncate table 表名<br>– 第五章<br>select * from 表名<br>模糊查询 where like’_%’<br>         and or not<br>在什么与什么之间 between and<br>           in<br>      运算符<br>order by 列名 asc<br>              desc<br>      limit<br>select distinct 列 from 表   去重复<br>AS<br>– 第六章<br> MAX() 求最大值<br> Min() 求最小值<br> count() 统计所有数据<br> sum() 求总和<br> avg() 求平均值<br>Group by 分组<br>having   （having可以使用聚合函数的过滤条件 where不能使用聚合函数可以使用比较运算符===having和where都是过滤条件)<br>SQL执行顺序<br>select  1.from      某张表<br> 2.where     进行条件筛选<br> 3.group by  条件筛选完后进行那一列的分组<br> 4.select    分组之后执行查询某张表某一列的数据<br> 5.having    进行函数过滤进行条件<br> 6.order by  进行排序操作 <asc如果不写就是正序排列>和<desc倒叙排列><br> 7.limit     返回这张表需要显示多少行<br>– 第七章<br>组合查询<br>子查询<br>union  两张表进行连接以列的形式显示数据<br>exists() 存在 结果为真就真，假为假<br>all() 满足所有数据<br>any() 满足任意数据<br>– 第八章<br>  多表的连接<br>  内连接：where<br>  外连接: 表1 left join 表2 on 条件<br>   表1 right join 表2 on 条件</desc倒叙排列></asc如果不写就是正序排列></p>
+        <p>jackson是一个开源的处理json的工具包，spring mvc中的json类型响应就是用这个东西实现的，性能比较优异。我以前最早的项目用的是json-lib，后来因效率问题改为gson，现在看来可以换成jackson了。<br>下面给大家讲讲jackson的使用：<br>一、简单对象转为json<br>ObjectMapper om = new ObjectMapper();<br>StringWriter result = new StringWriter();<br>om.writeValue(result, 【这个参数是你要转换的东西，对象或集合都是可以的】);</p>
+<p>当然，如果你不想用StringWriter的话，你可以直接用om.writeValueAsString(obj)直接输出字符串。</p>
+<p>二、日期的处理<br>默认情况下，jackson会把日期处理为毫秒，如果你想处理成字符串，可以：<br>ObjectMapper om = new ObjectMapper();<br>om.setDateFormat(new SimpleDateFormat(“yyyy-MM-dd”));</p>
+<p>三、排除不想要的属性<br>这个主要是用来解决对象间循环关联的情况的，使用如下：<br>SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(“不要的属性名”);<br>SimpleFilterProvider fp = new SimpleFilterProvider();<br>fp.addFilter(“user_json”, filter);</p>
+<p>om.setFilters(fp);<br>当然，这个设置将对全局的ObjectMapper都起作用，我们也可以使用下面这种：<br>om.writer(fp).writeValueAsString(obj)；<br>每次使用前再设置，这个也是全局作用域。</p>
+<p>如果仅仅想要自己需要的属性，如下写法：<br>SimpleBeanPropertyFilter.filterOutAllExcept(“id”, “title”);</p>
+<p>注意：addFilter的第一个参数，要用注解指写，比如：<br>@JsonFilter(“user_json”)<br>public class User {}<br>如果持久层使用的是hibernate，需要将hibernateLazyInitializer属性也排除。</p>
+<p>四、反序列化<br>反序列化用的没有序列化多。我们先看普通对象的处理：<br>User u = om.readValue(json_str, User.class);<br>集合对象，处理方式不同，请看list的处理方式：<br>List<user> uss = om.readValue(json_str, new TypeReference<list<user>&gt;() {});</list<user></user></p>
+<p>五、图片等二进制类型的json转换<br>这个不用担心，jackson可直接完成转换，前提是：<br>你要用byte[]类型表示二进制数据，比如：private byte[] photo ;</p>
+<p>当然，上面的的代码都是在线手工操作下的示例，jackson也是支持注解的，比如：排除属性，日期格式的定义等，都可以用注解的方式去实现，请大家自己so一下吧。</p>
 
       
 
@@ -69,7 +78,7 @@
 
 
   
-    <article id="post-MySQL学习笔记三" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JSP九大内置对象" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -77,45 +86,31 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/MySQL学习笔记三/">MySQL学习笔记三</a>
+      <a class="article-title" href="/2012/06/10/JSP九大内置对象/">JSP九大内置对象</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/MySQL学习笔记三/" class="article-date">
-  <time datetime="2014-09-19T15:54:59.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/06/10/JSP九大内置对象/" class="article-date">
+  <time datetime="2012-06-10T14:21:09.000Z" itemprop="datePublished">2012-06-10</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>? 注释</p>
-<p>select 1+1;     # 单行注释<br>select 1+1;     – 单行注释<br>select 1 /<em> 多行注释 </em>/ + 1;<br>? 基本数据类型操作</p>
-<p>字符串<br>    select ‘hello’, ‘“hello”‘, ‘“”hello””‘, ‘hel’’lo’, ‘/‘hello’;<br>    select “hello”, “‘hello’”, “‘’hello’’”, “hel””lo”, “/“hello”;</p>
-<p>/n换行<br>    select ‘This/nIs/nFour/nLines’;</p>
-<p>/转义<br>    select ‘hello / world!’;<br>    select ‘hello /world!’;<br>    select ‘hello // world!’;<br>    select ‘hello /‘ world!’;<br>? 设置数据库mode模式</p>
-<p>SET sql_mode=’ANSI_QUOTES’;<br>create table t(a int);<br>create table “tt”(a int);<br>create table “t””t”(a int);<br>craate talbe tab(“a””b” int);<br>? 用户变量</p>
-<p>set @num1 = 0, @num2 = 2, @result = 0;</p>
-<p>select @result := (@num1 := 5) + @num2 := 3, @num1, @num2, @result;</p>
-<p>? 存储过程</p>
-<p>创建存储过程：<br>delimiter //<br>create procedure get(out result int)<br>begin<br> select max(age) into result from temp;<br>end//<br>调用存储过程：<br>call get(@temp);<br>查询结果：<br>select @temp;</p>
-<p>删除存储过程：<br>drop procedure get;</p>
-<p>查看存储过程创建语句：<br>show create procedure get;</p>
-<p>select…into 可以完成单行记录的赋值：<br>create procedure getRecord(sid int)<br>begin<br>    declare v_name varchar(20) default ‘jason’;<br>    declare v_age int;<br>    declare v_sex bit;<br>    select name, age, sex into v_name, v_age, v_sex from temp where id = sid;<br>    select v_name, v_age, v_sex;<br>end;<br>call getRecord(1);<br>? 函数</p>
-<p>函数类似于存储过程，只是调用方式不同<br>例如：select max(age) from temp;</p>
-<p>创建函数：<br>create function addAge(age int) returns int<br>     return age + 5;</p>
-<p>使用函数：<br>select addAge(age) from temp;</p>
-<p>删除函数：<br>drop function if exists addAge;<br>drop function addAge;</p>
-<p>显示创建语法：<br>show create function addAge;<br>? 游标</p>
-<p>声明游标：declare cur_Name cursor for select name from temp;<br>打开游标：open cur_Name;<br>Fetch游标：fetch cur_Name into @temp;<br>关闭游标：close cur_Name;</p>
-<p>示例：<br>CREATE PROCEDURE cur_show()<br>BEGIN<br>  DECLARE done INT DEFAULT 0;<br>  DECLARE v_id, v_age INT;<br>  DECLARE v_name varchar(20);<br>  DECLARE cur_temp CURSOR FOR SELECT id, name, age FROM temp;<br>  DECLARE CONTINUE HANDLER FOR SQLSTATE ‘02000’ SET done = 1;</p>
-<p>  OPEN cur_temp;</p>
-<p>  REPEAT<br>    FETCH cur_temp INTO v_id, v_name, v_age;<br>    IF NOT done THEN<br>       IF isnull(v_name) THEN<br>          update temp set name = concat(‘test-json’, v_id) where id = v_id;<br>       ELSEIF isnull(v_age) THEN<br>          update temp set age = 22 where id = v_id;<br>       END IF;<br>    END IF;<br>  UNTIL done END REPEAT;</p>
-<p>  CLOSE cur_temp;<br>END<br>? 触发器</p>
-<p>触发器分为insert、update、delete三种触发器事件类型<br>还有after、before触发时间<br>创建触发器：<br>create trigger trg_temp_ins<br>before insert<br>on temp for each row<br>begin<br>insert into temp_log values(NEW.id, NEW.name);<br>end//</p>
-<p>删除触发器：<br>drop trigger trg_temp_ins<br>版权维护转载hoojo博客的。</p>
+        <p>内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 </p>
+<h3 id="JSP中九大内置对象为："><a href="#JSP中九大内置对象为：" class="headerlink" title="JSP中九大内置对象为："></a>JSP中九大内置对象为：</h3><p>请求对象request　              类型 javax.servlet.ServletRequest          作用域     Request<br>响应对象response               类型 javax.servlet.SrvletResponse          作用域  Page<br>页面上下文对象pageContext       类型 javax.servlet.jsp.PageContext         作用域  Page<br>会话对象session                   类型 javax.servlet.http.HttpSession        作用域   Session<br>应用程序对象application        类型 javax.servlet.ServletContext           作用域  Application<br>输出对象out                   类型 javax.servlet.jsp.JspWriter             作用域  Page<br>配置对象config                类型 javax.servlet.ServletConfig             作用域  Page<br>页面对象page                  类型 javax.lang.Object                       作用域  Page<br>例外对象exception             类型 javax.lang.Throwable                    作用域  page </p>
+<p>request对象代表的是来自客户端的请求，例如我们在FORM表单中填写的信息等；使用它的目的是引用传递给jspService()方法的当前请求。 </p>
+<p>response对象代表的是对客户端的响应，也就是说可以通过response 对象来组织发送到客户端的数据；使用它的目的是引用发送给客户机的响应；也把它传递给jspService()方法。 </p>
+<p>pageContext对象代表的是当前页面运行的一些属性；它提供了某些便利方法和对隐式对象的存储引用。 </p>
+<p>session对象就是会话对象的使用 </p>
+<p>application对象负责提供应用程序在服务器中运行时的一些全局信息；使用它的目的是引用执行JSP所在的 Web 应用程序的环境。 </p>
+<p>out 对象代表了向客户端发送数据的对象；使用它的目的是引用JSP页面的输出流。 </p>
+<p>config对象提供一些配置信息；可以从它获取部署描述符中给定的初始化参数。 </p>
+<p>page对象，使用它的目的是引用JSP页面生成的 servlet的当前实例。 </p>
+<p>exception对象可用于把page指令属性isErrorPage设为true 的页面。它可用于异常处理。</p>
 
       
 
@@ -128,7 +123,7 @@
 
 
   
-    <article id="post-MySQL学习笔记二" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Servlet中forward和redirect的区别" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -136,75 +131,28 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/MySQL学习笔记二/">MySQL学习笔记二</a>
+      <a class="article-title" href="/2012/06/05/Servlet中forward和redirect的区别/">Servlet中forward和redirect的区别</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/MySQL学习笔记二/" class="article-date">
-  <time datetime="2014-09-19T15:51:19.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/06/05/Servlet中forward和redirect的区别/" class="article-date">
+  <time datetime="2012-06-05T12:57:36.000Z" itemprop="datePublished">2012-06-05</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>function 函数</p>
-<p>函数的作用比较大，一般多用在select查询语句和where条件语句之后。按照函数返回的结果，<br>可以分为：多行函数和单行函数；所谓的单行函数就是将每条数据进行独立的计算，然后每条数据得到一条结果。<br>如：字符串函数；而多行函数，就是多条记录同时计算，得到最终只有一条结果记录。如：sum、avg等<br>多行函数也称为聚集函数、分组函数，主要用于完成一些统计功能。MySQL的单行函数有如下特征：<br>单行函数的参数可以是变量、常量或数据列。单行函数可以接受多个参数，但返回一个值。<br>单行函数就是它会对每一行单独起作用，每一行（可能包含多个参数）返回一个结果。<br>单行函数可以改变参数的数据类型。单行函数支持嵌套使用：内层函数的返回值是外层函数的参数。</p>
-<p>单行函数可以分为：<br>类型转换函数；<br>位函数；<br>流程控制语句；<br>加密解密函数；<br>信息函数</p>
-<p>单行函数</p>
-<p>1、    char_length字符长度<br>select char_length(tel) from user;</p>
-<p>2、    sin函数<br>select sin(age) from user;<br>select sin(1.57);</p>
-<p>3、    添加日期函数<br>select date_add(‘2010-06-21’, interval 2 month);<br>interval是一个关键字，2 month是2个月的意思，2是数值，month是单位<br>select addDate(‘2011-05-28’, 2);<br>在前面的日期上加上后面的天数</p>
-<p>4、    获取当前系统时间、日期<br>select curdate();<br>select curtime();</p>
-<p>5、    加密函数<br>select md5(‘zhangsan’);</p>
-<p>6、    Null 处理函数<br>select ifnull(birthday, ‘is null birthday’) from user;<br>如果birthday为null，就返回后面的字符串</p>
-<p>select nullif(age, 245) from user;<br>如果age等于245就返回null，不等就返回age</p>
-<p>select isnull(birthday) from user;<br>判断birthday是否为null</p>
-<p>select if(isnull(birthday), ‘birthday is null’, ‘birthday not is null’) from user;<br>如果birthday为null或是0就返回birthday is null，否则就返回birthday not is null；类似于三目运算符</p>
-<p>7、    case 流程函数<br>case函数是一个流程控制函数，可以接受多个参数，但最终只会返回一个结果。<br>select name,<br>age,<br>(case sex<br>    when 1 then ‘男’<br>    when 0 then ‘女’<br>    else ‘火星人’<br>    end<br>) sex<br>from user;</p>
-<p>组函数</p>
-<p>组函数就是多行函数，组函数是完成一行或多行结果集的运算，最后返回一个结果，而不是每条记录返回一个结果。</p>
-<p>1、    avg平均值运算<br>select avg(age) from user;<br>select avg(distinct age) from user;</p>
-<p>2、    count 记录条数统计<br>select count(*), count(age), count(distinct age) from user;</p>
-<p>3、    max 最大值<br>select max(age), max(distinct age) from user;</p>
-<p>4、    min 最小值<br>select min(age), min(distinct age) from user;</p>
-<p>5、    sum 求和、聚和<br>select sum(age), sum(distinct age) from user;<br>select sum(ifnull(age, 0)) from user;</p>
-<p>6、    group by 分组<br>select count(<em>), sex from user group by sex;<br>select count(</em>) from user group by age;<br>select * from user group by sex, age;</p>
-<p>7、    having进行条件过滤<br>不能在where子句中过滤组，where子句仅用于过滤行。过滤group by需要having<br>不能在where子句中用组函数，having中才能用组函数<br>select count(*) from user group by sex having sex &lt;&gt; 2;</p>
-<p>? 多表查询和子查询</p>
-<p>数据库的查询功能最为丰富，很多时候需要用到查询完成一些事物，而且不是单纯的对一个表进行操作。而是对多个表进行联合查询，<br>MySQL中多表连接查询有两种规范，较早的SQL92规范支持，如下几种表连接查询：<br>    等值连接<br>    非等值连接<br>    外连接<br>    广义笛卡尔积<br>SQL99规则提供了可读性更好的多表连接语法，并提供了更多类型的连接查询，SQL99支持如下几种多表连接查询：<br>    交叉连接<br>    自然连接<br>    使用using子句的连接<br>    使用on子句连接<br>    全部连接或者左右外连接</p>
-<p>SQL92的连接查询<br>SQL92的连接查询语法比较简单，多将多个table放置在from关键字之后，多个table用“，”隔开；<br>连接的条件放在where条件之后，与查询条件直接用and逻辑运算符进行连接。如果条件中使用的是相等，<br>则称为等值连接，相反则称为非等值，如果没有任何条件则称为广义笛卡尔积。<br>广义笛卡尔积：select s.<em>, c.</em> from student s, classes c;<br>等值：select s.<em>, c.</em> from student s, classes c where s.cid = c.id;<br>非等值：select s.<em>, c.</em> from student s, classes c where s.cid &lt;&gt; c.id;<br>select s.*, c.name classes from classes c, student s where c.id = s.classes_id and s.name is not null;</p>
-<p>SQL99连接查询<br>1、交叉连接cross join，类似于SQL92的笛卡尔积查询，无需条件。如：<br>select s.*, c.name from student s cross join classes c;</p>
-<p>2、自然连接 natural join查询，无需条件，默认条件是将2个table中的相同字段作为连接条件，如果没有相同字段，查询的结果就是空。<br>select s.*, c.name from student s natural join classes c;</p>
-<p>3、using子句连接查询：using的子句可以是一列或多列，显示的指定两个表中同名列作为连接条件。<br>如果用natural join的连接查询，会把所有的相同字段作为连接查询。而using可以指定相同列及个数。<br>select s.*, c.name from student s join classes c using(id);</p>
-<p>4、    join … on连接查询，查询条件在on中完成，每个on语句只能指定一个条件。<br>select s.*, c.name from student s join classes c on s.classes_id = c.id;</p>
-<p>5、    左右外连接：3种外连接，left [outer] join、right [outer] join，连接条件都是通过用on子句来指定，条件可以等值、非等值。<br>select s.<em>, c.name from student s left join classes c on s.classes_id = c.id;<br>select s.</em>, c.name from student s right join classes c on s.classes_id = c.id;</p>
-<pre><code>子查询
-子查询就是指在查询语句中嵌套另一个查询，子查询可以支持多层嵌套。子查询可以出现在2个位置：
-from关键字之后，被当做一个表来进行查询，这种用法被称为行内视图，因为该子查询的实质就是一个临时视图
-出现在where条件之后作为过滤条件的值
-</code></pre><p>子查询注意点：<br>    子查询用括号括起来，特别情况下需要起一个临时名称<br>    子查询当做临时表时（在from之后的子查询），可以为该子查询起别名，尤其是要作为前缀来限定数据列名时<br>    子查询用作过滤条件时，将子查询放在比较运算符的右边，提供可读性<br>    子查询作为过滤条件时，单行子查询使用单行运算符，多行子查询用多行运算符</p>
-<p>将from后面的子查询当做一个table来用：<br>select <em> from (select id, name from classes) s where s.id in (1, 2);<br>当做条件来用：<br>select </em> from student s where s.classes_id in (select id from classes);<br>select <em> from student s where s.classes_id = any (select id from classes);<br>select </em> from student s where s.classes_id &gt; any (select id from classes);<br>? 操作符和函数</p>
-<p>1、    boolean只判断<br>select 1 is true, 0 is false, null is unknown;<br>select 1 is not unknown, 0 is not unknown, null is not unknown;</p>
-<p>2、    coalesce函数，返回第一个非null的值<br>select coalesce(null, 1);<br>select coalesce(1, 1);<br>select coalesce(null, 1);<br>select coalesce(null, null);</p>
-<p>3、    当有2个或多个参数时，返回最大的那个参数值<br>select greatest(2, 3);<br>select greatest(2, 3, 1, 9, 55, 23);<br>select greatest(‘D’, ‘A’, ‘B’);</p>
-<p>4、    Least函数，返回最小值，如果有null就返回null值<br>select least(2, 0);<br>select least(2, 0, null);<br>select least(2, 10, 22.2, 35.1, 1.1);</p>
-<p>5、    控制流函数<br>select case 1 when 1 then ‘is 1’ when 2 then ‘is 2’ else ‘none’ end;<br>select case when 1 &gt; 2 then ‘yes’ else ‘no’ end;</p>
-<p>6、    ascii字符串函数<br>select ascii(‘A’);<br>select ascii(‘1’);</p>
-<p>7、    二进制函数<br>select bin(22);</p>
-<p>8、    返回二进制字符串长度<br>select bit_length(11);</p>
-<p>9、    char将值转换成字符，小数取整四舍五入<br>select char(65);<br>select char(65.4);<br>select char(65.5);<br>select char(65.6);<br>select char(65, 66, 67.4, 68.5, 69.6, ‘55.5’, ‘97.3’);</p>
-<p>10、    using改变字符集<br>select charset(char(0<em>65)), charset(char(0</em>65 using utf8));</p>
-<p>11、    得到字符长度char_length,character_length<br>select char_length(‘abc’);<br>select character_length(‘eft’);</p>
-<p>12、    compress压缩字符串、uncompress解压缩<br>select compress(‘abcedf’);<br>select uncompress(compress(‘abcedf’));</p>
-<p>13、    concat_ws分隔字符串<br>select concat_ws(‘#’, ‘first’, ‘second’, ‘last’);<br>select concat_ws(‘#’, ‘first’, ‘second’, null, ‘last’);<br>? 事务处理</p>
-<p>动作<br>    开始事务：start transaction<br>    提交事务：commit<br>    回滚事务：rollback<br>    设置自动提交：set autocommit 1 | 0<br>    atuoCommit系统默认是1立即提交模式；如果要手动控制事务，需要设置set autoCommit 0;<br>    这样我们就可以用commit、rollback来控制事务了。</p>
-<p>在一段语句块中禁用autocommit 而不是set autocommit<br>start transaction;<br>select @result := avg(age) from temp;<br>update temp set age = @result where id = 2;<br>select <em> from temp where id = 2;//值被改变<br>rollback;//回滚<br>select </em> from temp where id = 2;//变回来了<br>在此期间只有遇到commit、rollback，start Transaction的禁用autocommit才会结束。然后就恢复到原来的autocommit模式；</p>
-<p>不能回滚的语句<br>    有些语句不能被回滚。通常，这些语句包括数据定义语言（DDL）语句，比如创建或取消数据库的语句，<br>    和创建、取消或更改表或存储的子程序的语句。<br>    您在设计事务时，不应包含这类语句。如果您在事务的前部中发布了一个不能被回滚的语句，<br>    则后部的其它语句会发生错误，在这些情况下，通过发布ROLLBACK语句不能 回滚事务的全部效果。</p>
-<p>一些操作也会隐式的提交事务<br>如alter、create、drop、rename table、lock table、set autocommit、start transaction、truncate table 等等,<br>在事务中出现这些语句也会提交事务的<br>    事务不能嵌套事务<br>    事务的保存点<br>Savepoint pointName/Rollback to savepoint pointName<br>一个事务可以设置多个保存点，rollback可以回滚到指定的保存点，恢复保存点后面的操作。<br>如果有后面的保存点和前面的同名，则删除前面的保存点。<br>Release savepoint会删除一个保存点，如果在一段事务中执行commit或rollback，则事务结束，所以保存点删除。</p>
-<p> Set Transaction设计数据库隔离级别<br>SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL<br>{ READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE }<br>本语句用于设置事务隔离等级，用于下一个事务，或者用于当前会话。<br>在默认情况下，SET TRANSACTION会为下一个事务（还未开始）设置隔离等级。<br>如果您使用GLOBAL关键词，则语句会设置全局性的默认事务等级，<br>用于从该点以后创建的所有新连接。原有的连接不受影响。使用SESSION关键测可以设置默认事务等级，<br>用于对当前连接执行的所有将来事务。<br>默认的等级是REPEATABLE READ全局隔离等级。</p>
+        <p>forward方式：request.getRequestDispatcher(“/somePage.jsp”).forwardrequest, response);<br>redirect方式：response.sendRedirect(“/somePage.jsp”);<br>forward是服务器内部重定向，程序收到请求后重新定向到另一个程序，客户机并不知道；redirect则是服务器收到请求后发送一个状态头给客户，客户将再请求一次，这里多了两次网络通信的来往。当然forward也有缺点，就是forward的页面的路径如果是相对路径就会有些问题了。    forward 会将 request state , bean 等等信息带往下一个 jsp<br>redirect 是送到 client 端后再一次 request , 所以资料不被保留.<br>使用 forward 你就可以用 getAttribute() 来取的前一个 jsp 所放入的 bean 等等资料</p>
+<p>在网上看到一些帖子，总结了一些区别，可以从以下几个方面来看：</p>
+<h3 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h3><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
+<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.所以redirect等于客户端向服务器端发出两次request，同时也接受两次response。</p>
+<h3 id="2-从数据共享来说"><a href="#2-从数据共享来说" class="headerlink" title="2.从数据共享来说"></a>2.从数据共享来说</h3><p>forward:转发页面和转发到的页面可以共享request里面的数据.<br>redirect:不能共享数据.</p>
+<p>redirect不仅可以重定向到当前应用程序的其他资源,还可以重定向到同一个站点上的其他应用程序中的资源,甚至是使用绝对URL重定向到其他站点的资源.</p>
+<p>forward,方法只能在同一个Web应用程序内的资源之间转发请求.forward 是服务器内部的一种操作.<br>redirect 是服务器通知客户端,让客户端重新发起请求.<br>所以,你可以说 redirect 是一种间接的请求, 但是你不能说”一个请求是属于forward还是redirect “</p>
+<h3 id="3-从运用地方来说"><a href="#3-从运用地方来说" class="headerlink" title="3.从运用地方来说"></a>3.从运用地方来说</h3><p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.<br>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
 
       
 
@@ -217,7 +165,7 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
 
 
   
-    <article id="post-MySQL学习笔记一" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Servlet请求转发和重定向总结" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -225,139 +173,47 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/MySQL学习笔记一/">MySQL学习笔记一</a>
+      <a class="article-title" href="/2012/06/01/Servlet请求转发和重定向总结/">Servlet请求转发和重定向总结</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/MySQL学习笔记一/" class="article-date">
-  <time datetime="2014-09-19T15:29:32.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/06/01/Servlet请求转发和重定向总结/" class="article-date">
+  <time datetime="2012-06-01T12:53:19.000Z" itemprop="datePublished">2012-06-01</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、数据库简单介绍"><a href="#一、数据库简单介绍" class="headerlink" title="一、数据库简单介绍"></a>一、数据库简单介绍</h2><p>1、 按照数据库的发展时间顺序，主要出现了以下类型数据库系统：</p>
-<p>? 网状型数据库</p>
-<p>? 层次型数据库</p>
-<p>? 关系型数据库</p>
-<p>? 面向对象数据库</p>
-<p>上面4中数据库系统中，关系型数据库使用最为广泛。面向对象数据库则是由面向对象语言催生的新型数据库，目前的一些数据库系统，如：SQL Server 2005、Oracle10g等都开始增加面向对象的特性。</p>
-<h2 id="二、常用基本SQL语句-语法"><a href="#二、常用基本SQL语句-语法" class="headerlink" title="二、常用基本SQL语句/语法"></a>二、常用基本SQL语句/语法</h2><p>? SQL语句基础理论</p>
-<p>SQL是操作和检索关系型数据库的标准语言，标准SQL语句可用于操作然后关系型数据库。</p>
-<p>标准的SQL语句通常划分为以下类型：</p>
-<p>查询语句：主要由于select关键字完成，查询语句是SQL语句中最复杂，功能最丰富的语句。</p>
-<p>DML（Data Munipulation Language，数据操作语言）语句，这组DML语句修改后数据将保持较好的一致性；操作表的语句，如插入、修改、删除等；</p>
-<p>DDL（Data Definition Language，数据定义语言）语句，操作数据对象的语言，有create、alter、drop。</p>
-<p>DCL（Data Control Language，数据控制语言）语句，主要有grant、revoke语句。</p>
-<p>事务控制语句：主要有commit、rollback和savepoint三个关键字完成</p>
-<p>DDL语句</p>
-<p>DDL语句是操作数据库对象的语句，包括创建create、删除drop、修改alter数据库对象。</p>
-<h2 id="常见数据库对象"><a href="#常见数据库对象" class="headerlink" title="常见数据库对象"></a>常见数据库对象</h2><p>1、表（Table ）</p>
-<p>数据库中的表与我们日常生活中使用的表格类似，它也是由行（Row） 和列（Column）组成的。列由同类的信息组成，每列又称为一个字段，每列的标题称为字段名。行包括了若干列信息项。一行数据称为一个或一条记录，它表达有一定意义的信息组合。一个数据库表由一条或多条记录组成，没有记录的表称为空表。每个表中通常都有一个主关键字，用于惟一地确定一条记录。</p>
-<p>2、索引（Index）</p>
-<p>索引是根据指定的数据库表列建立起来的顺序。它提供了快速访问数据的途径，并且可监督表的数据，使其索引所指向的列中的数据不重复。</p>
-<p>3、视图（View）</p>
-<p>视图看上去同表似乎一模一样，具有一组命名的字段和数据项，但它其实是一个虚拟的表，在数据库中并不实际存。在视图是由查询数据库表产生的，它限制了用户能看到和修改的数据。由此可见，视图可以用来控制用户对数据的访问，并能简化数据的显示，即通过视图只显示那些需要的数据信息。</p>
-<p>4、图表（Diagram）</p>
-<p>图表其实就是数据库表之间的关系示意图。利用它可以编辑表与表之间的关系。</p>
-<p>5、缺省值（Default）</p>
-<p>缺省值是当在表中创建列或插入数据时，对没有指定其具体值的列或列数据项赋予事先设定好的值。</p>
-<p>6、规则（Rule）</p>
-<p>规则是对数据库表中数据信息的限制。它限定的是表的列。</p>
-<p>7、触发器（Trigger）</p>
-<p>触发器是一个用户定义的SQL事务命令的集合。当对一个表进行插入、更改、删除时，这组命令就会自动执行。</p>
-<p>8、存储过程（Stored Procedure）</p>
-<p>存储过程是为完成特定的功能而汇集在一起的一组SQL 程序语句，经编译后存储在数据库中的SQL程序。</p>
-<p>9、用户（User）</p>
-<p>所谓用户就是有权限访问数据库的人。</p>
-<h2 id="常用查询"><a href="#常用查询" class="headerlink" title="? 常用查询"></a>? 常用查询</h2><p>MySQL结束符是“；”结束。</p>
-<p>1、    显示所有数据库<br>show databases;</p>
-<p>2、    删除数据库<br>drop database dbName;</p>
-<p>3、    创建数据库<br>create database [if not exists] dbName;<br>中括号部分可选的，判断该数据不存在就创建</p>
-<p>4、    切换、使用指定数据库<br>use dbName;</p>
-<p>5、    显示当前使用数据库所有的表对象<br>show tables；</p>
-<p>6、    显示表结构describe（desc）<br>desc tableName;</p>
-<p>7、    创建一张表<br>create table user (<br>        –int 整型<br>        uId int,<br>        –小数<br>        uPrice decimal,<br>        –普通长度文本，default设置默认值<br>        uName varchar(255) default ‘zhangsan’,<br>        –超长文本<br>        uRemark text,<br>        –图片<br>        uPhoto blob,<br>        –日期<br>        uBirthday datetime<br>);</p>
-<p>8、    子查询建表方法<br>部分列名匹配模式：<br>create table userInfo (<br>name varchar(20),<br>sex char<br>)<br>as<br>select name, sex from user;<br>上面的列名和子查询的列名以及类型要对应</p>
-<p>全部列名模式：<br>create table userInfo<br>as<br>select * from user;<br>直接将整个表的类型和数据备份到新表userInfo中</p>
-<p>9、    添加表字段<br>添加单列<br>alter table user add tel varchar(11) default ‘02012345678’;</p>
-<p>添加多列<br>alter table user<br>add (<br>photo blob,<br>birthday date<br>);<br>上面就同时增加了多列字段</p>
-<p>10、    修改表字段<br>修改tel列<br>alter table user modify tel varchar(15) default ‘02087654321’;<br>修改tel列的位置，在第一列显示<br>alter table user modify tel varchar(15) default ‘02087654321’ first;<br>修改tel列的位置，在指定列之后显示<br>alter table user modify tel varchar(15) default ‘02087654321’ after age;<br>注意：alter modify不支持一次修改多个列，但是Oracle支持多列修改<br>但是MySQL可以通过多个modify的方式完成：<br>alter table user<br>modify tel varchar(15) default ‘02087654321’ first,<br>modify name varchar(20) after tel;</p>
-<p>11、    删除指定字段<br>alter table user drop photo;</p>
-<p>12、    重命名表数据<br>表重命名<br>alter table user rename to users;</p>
-<p>字段重命名<br>alter table users change name u_name varchar(10);<br>alter table users change sex u_sex varchar(10) after u_name;<br>如果需要改变列名建议使用change，如果需要改变数据类型和显示位置可以使用modify<br>13、 删除表</p>
-<p>drop table users;<br>drop删除表会删除表结构，表对象将不存在数据中；数据也不会存在；表内的对象也不存在，如：索引、视图、约束；</p>
-<p>truncate删除表<br>truncate都被当成DDL出来，truncate的作用就是删除该表里的全部数据，保留表结构。相当于DDL中的delete语句，<br>但是truncate比delete语句的速度要快得多。但是truncate不能带条件删除指定数据，只会删除所有的数据。如果删除的表有外键，<br>删除的速度类似于delete。但新版本的MySQL中truncate的速度比delete速度快。<br>? 约束</p>
-<p>MySQL中约束保存在information_schema数据库的table_constraints中，可以通过该表查询约束信息；</p>
-<p>约束主要完成对数据的检验，保证数据库数据的完整性；如果有相互依赖数据，保证该数据不被删除。</p>
-<p>常用五类约束：<br>not null：非空约束，指定某列不为空<br>unique： 唯一约束，指定某列和几列组合的数据不能重复<br>primary key：主键约束，指定某列的数据不能重复、唯一<br>foreign key：外键，指定该列记录属于主表中的一条记录，参照另一条数据<br>check：检查，指定一个表达式，用于检验指定数据<br>MySQL不支持check约束，但可以使用check约束，而没有任何效果；</p>
-<p>根据约束数据列限制，约束可分为：<br>单列约束：每个约束只约束一列<br>多列约束：每个约束约束多列数据</p>
-<p>MySQL中约束保存在information_schema数据库的table_constraints中，可以通过该表查询约束信息；<br>1、    not null约束<br>非空约束用于确保当前列的值不为空值，非空约束只能出现在表对象的列上。<br>Null类型特征：<br>所有的类型的值都可以是null，包括int、float等数据类型<br>空字符串“”是不等于null，0也不等于null<br>create table temp(<br>        id int not null,<br>        name varchar(255) not null default ‘abc’,<br>        sex char null<br>)<br>上面的table加上了非空约束，也可以用alter来修改或增加非空约束<br>增加非空约束<br>alter table temp<br>modify sex varchar(2) not null;</p>
-<p>取消非空约束<br>alter table temp modify sex varchar(2) null;</p>
-<p>取消非空约束，增加默认值<br>alter table temp modify sex varchar(2) default ‘abc’ null;</p>
-<p>2、    unique<br>唯一约束是指定table的列或列组合不能重复，保证数据的唯一性。虽然唯一约束不允许出现重复的值，但是可以为多个null<br>同一个表可以有多个唯一约束，多个列组合的约束。在创建唯一约束的时候，如果不给唯一约束名称，就默认和列名相同。<br>唯一约束不仅可以在一个表内创建，而且可以同时多表创建组合唯一约束。<br>MySQL会给唯一约束的列上默认创建一个唯一索引；<br>create table temp (<br>        id int not null,<br>        name varchar(25),<br>        password varchar(16),<br>        –使用表级约束语法，<br>        constraint uk_name_pwd unique(name, password)<br>);<br>表示用户名和密码组合不能重复<br>添加唯一约束<br>alter table temp add unique(name, password);<br>alter table temp modify name varchar(25) unique;<br>删除约束<br>alter table temp drop index name;</p>
-<p>3、    primary key<br>主键约束相当于唯一约束+非空约束的组合，主键约束列不允许重复，也不允许出现空值；如果的多列组合的主键约束，<br>那么这些列都不允许为空值，并且组合的值不允许重复。<br>每个表最多只允许一个主键，建立主键约束可以在列级别创建，也可以在表级别上创建。MySQL的主键名总是PRIMARY，<br>当创建主键约束时，系统默认会在所在的列和列组合上建立对应的唯一索引。<br>列模式：<br>create table temp(<br>    /<em>主键约束</em>/<br>    id int primary key,<br>    name varchar(25)<br>);</p>
-<p>create table temp2(<br>    id int not null,<br>    name varchar(25),<br>    pwd varchar(15),<br>    constraint pk_temp_id primary key(id)<br>);</p>
-<p>组合模式：<br>create table temp2(<br>    id int not null,<br>    name varchar(25),<br>    pwd varchar(15),<br>    constraint pk_temp_id primary key(name, pwd)<br>);</p>
-<p>alter删除主键约束<br>alter table temp drop primary key;</p>
-<p>alter添加主键<br>alter table temp add primary key(name, pwd);</p>
-<p>alter修改列为主键<br>alter table temp modify id int primary key;</p>
-<p>设置主键自增<br>create table temp(<br>        id int auto_increment primary key,<br>        name varchar(20),<br>        pwd varchar(16)<br>);<br>auto_increment自增模式，设置自增后在插入数据的时候就不需要给该列插入值了。</p>
-<p>4、    foreign key 约束<br>外键约束是保证一个或两个表之间的参照完整性，外键是构建于一个表的两个字段或是两个表的两个字段之间的参照关系。<br>也就是说从表的外键值必须在主表中能找到或者为空。<br>当主表的记录被从表参照时，主表的记录将不允许删除，如果要删除数据，需要先删除从表中依赖该记录的数据，<br>然后才可以删除主表的数据。还有一种就是级联删除子表数据。<br>注意：外键约束的参照列，在主表中引用的只能是主键或唯一键约束的列，假定引用的主表列不是唯一的记录，<br>那么从表引用的数据就不确定记录的位置。同一个表可以有多个外键约束。<br>创建外键约束：<br>主表<br>create table classes(<br>        id int auto_increment primary key,<br>        name varchar(20)<br>);<br>从表<br>create table student(<br>        id int auto_increment,<br>        name varchar(22),<br>        constraint pk_id primary key(id),<br>        classes_id int references classes(id)<br>);</p>
-<p>通常先建主表，然后再建从表，这样从表的参照引用的表才存在。<br>表级别创建外键约束：<br>create table student(<br>        id int auto_increment primary key,<br>        name varchar(25),<br>        classes_id int,<br>        foreign key(classes_id) references classes(id)<br>);<br>上面的创建外键的方法没有指定约束名称，系统会默认给外键约束分配外键约束名称，命名为student_ibfk_n，<br>其中student是表名，n是当前约束从1开始的整数。</p>
-<p>指定约束名称：<br>create table student(<br>        id int auto_increment primary key,<br>        name varchar(25),<br>        classes_id int,<br>        /<em>指定约束名称</em>/<br>        constraint fk_classes_id foreign key(classes_id) references classes(id)<br>);</p>
-<p>多列外键组合，必须用表级别约束语法：<br>create table classes(<br>        id int,<br>        name varchar(20),<br>        number int,<br>        primary key(name, number)<br>);<br>create table student(<br>        id int auto_increment primary key,<br>        name varchar(20),<br>        classes_name varchar(20),<br>        classes_number int,<br>        /<em>表级别联合外键</em>/<br>        foreign key(classes_name, classes_number) references classes(name, number)<br>);</p>
-<p>删除外键约束：<br>alter table student drop foreign key student_ibfk_1;<br>alter table student drop foreign key fk_student_id;</p>
-<p>增加外键约束<br>alter table student add foreign key(classes_name, classes_number) references classes(name, number);</p>
-<p>自引用、自关联（递归表、树状表）<br>create table tree(<br>        id int auto_increment primary key,<br>        name varchar(50),<br>        parent_id int,<br>        foreign key(parent_id) references tree(id)<br>);</p>
-<p>级联删除：删除主表的数据时，关联的从表数据也删除，则需要在建立外键约束的后面增加on delete cascade<br>或on delete set null，前者是级联删除，后者是将从表的关联列的值设置为null。<br>create table student(<br>        id int auto_increment primary key,<br>        name varchar(20),<br>        classes_name varchar(20),<br>        classes_number int,<br>        /<em>表级别联合外键</em>/<br>        foreign key(classes_name, classes_number) references classes(name, number) on delete cascade<br>);</p>
-<p>5、    check约束<br>MySQL可以使用check约束，但check约束对数据验证没有任何作用。<br>create table temp(<br>        id int auto_increment,<br>        name varchar(20),<br>        age int,<br>        primary key(id),<br>/<em>check约束</em>/<br>check(age &gt; 20)<br>);<br>上面check约束要求age必须大于0，但没有任何作用。但是创建table的时候没有任何错误或警告。</p>
-<p>? 索引</p>
-<p>索引是存放在模式（schema）中的一个数据库对象，索引的作用就是提高对表的检索查询速度，<br>索引是通过快速访问的方法来进行快速定位数据，从而减少了对磁盘的读写操作。<br>索引是数据库的一个对象，它不能独立存在，必须对某个表对象进行依赖。<br>提示：索引保存在information_schema数据库里的STATISTICS表中。</p>
-<p>创建索引方式：<br>自动：当表上定义主键约束、唯一、外键约束时，该表会被系统自动添加上索引。<br>手动：手动在相关表或列上增加索引，提高查询速度。</p>
-<p>删除索引方式：<br>自动：当表对象被删除时，该表上的索引自动被删除<br>手动：手动删除指定表对象的相关列上的索引<br>索引类似于书籍的目录，可以快速定位到相关的数据，一个表可以有多个索引。</p>
-<p>创建索引：<br>create index idx_temp_name on temp(name);</p>
-<p>组合索引：<br>create index idx_temp_name$pwd on temp(name, pwd);</p>
-<p>删除索引：<br>drop index idx_temp_name on temp;</p>
-<p>? 视图</p>
-<p>视图就是一个表或多个表的查询结果，它是一张虚拟的表，因为它并不能存储数据。<br>视图的作用、优点：<br>限制对数据的访问<br>让复杂查询变得简单<br>提供数据的独立性<br>可以完成对相同数据的不同显示</p>
-<p>创建、修改视图<br>create or replace view view_temp<br>as<br>    select name, age from temp;<br>通常我们并不对视图的数据做修改操作，因为视图是一张虚拟的表，它并不存储实际数据。如果想让视图不被修改，可以用with check option来完成限制。<br>create or replace view view_temp<br>as<br>    select * from temp<br>with check option;</p>
-<p>修改视图：<br>alter view view_temp<br>as<br>    select id, name from temp;</p>
-<p>删除视图：<br>drop view view_temp;</p>
-<p>显示创建语法：<br>show create view v_temp;</p>
-<p>? DML语句</p>
-<p>DML主要针对数据库表对象的数据而言的，一般DML完成：<br>插入新数据<br>修改已添加的数据<br>删除不需要的数据<br>1、    insert into 插入语句<br>insert into temp values(null, ‘jack’, 25);<br>主键自增可以不插入，所以用null代替</p>
-<p>指定列<br>insert into temp(name, age) values(‘jack’, 22);<br>在表面后面带括号，括号中写列名，values中写指定列名的值即可。当省略列名就表示插入全部数据，<br>注意插入值的顺序和列的顺序需要保持一致。<br>Set方式插入，也可以指定列<br>insert into temp set id = 7, name = ‘jason’;</p>
-<p>MySQL中外键的table的外键引用列可以插入数据可以为null，不参照主表的数据。</p>
-<p>使用子查询插入数据<br>insert into temp(name) select name from classes;</p>
-<p>多行插入<br>insert into temp values(null, ‘jack’, 22), (null, ‘jackson’ 23);</p>
-<p>2、    update 修改语句<br>update主要完成对数据的修改操作，可以修改一条或多条数据。修改多条或指定条件的数据，需要用where条件来完成。<br>修改所有数据<br>update temp set name = ‘jack2’;<br>所有的数据的name会被修改，如果修改多列用“,”分开<br>update temp set name = ‘jack’, age = 22;<br>修改指定条件的记录需要用where<br>update temp set name = ‘jack’ where age &gt; 22;</p>
-<p>3、    delete 删除语句<br>删除table中的数据，可以删除所有，带条件可以删除指定的记录。<br>删除所有数据<br>delete from temp;<br>删除指定条件数据<br>delete from temp where age &gt; 20;</p>
-<p>? select 查询、function 函数</p>
-<p>select查询语句用得最广泛、功能也最丰富。可以完成单条记录、多条记录、单表、多表、子查询等。<br>1、    查询某张表所有数据<br>select <em> from temp;
-</em>代表所有列，temp代表表名，不带条件就查询所有数据</p>
-<p>2、    查询指定列和条件的数据<br>select name, age from temp where age = 22;<br>查询name和age这两列，age 等于22的数据。</p>
-<p>3、    对查询的数据进行运算操作<br>select age + 2, age / 2, age – 2, age * 2 from temp where age – 2 &gt; 22;</p>
-<p>4、    concat函数，字符串连接<br>select concat(name, ‘-eco’) from temp;<br>concat和null进行连接，会导致连接后的数据成为null</p>
-<p>5、    as 对列重命名<br>select name as ‘名称’ from temp;<br>as也可以省略不写，效果一样<br>如果重命名的列名出现特殊字符，如“‘”单引号，那就需要用双引号引在外面<br>select name as “名’称” from temp;</p>
-<p>6、    也可以给table去别名<br>select t.name Name from temp as t;</p>
-<p>7、    查询常量<br>类似于SQL Server<br>select 5 + 2;<br>select concat(‘a’, ‘bbb’);</p>
-<p>8、    distinct 去掉重复数据<br>select distinct id from temp;<br>多列将是组合的重复数据<br>select distinct id, age from temp;</p>
-<p>9、    where 条件查询<br>大于&gt;、大于等于&gt;=、小于&lt;、小于等于&lt;=、等于=、不等于&lt;&gt;<br>都可以出现在where语句中<br>select * from t where a &gt; 2 or a &gt;= 3 or a &lt; 5 or a &lt;= 6 or a = 7 or a &lt;&gt; 0;</p>
-<p>10、    and 并且<br>select * from temp where age &gt; 20 and name = ‘jack’;<br>查询名称等于jack并且年龄大于20的</p>
-<p>11、    or 或者<br>满足一个即可<br>select * from tmep where name = ‘jack’ or name = ‘jackson’;</p>
-<p>12、    between v and v2<br>大于等于v且小于等于v2<br>select * form temp where age between 20 and 25; </p>
-<p>13、    in 查询<br>可以多个条件 类似于or<br>select * from temp where id in (1, 2, 3);<br>查询id在括号中出现的数据</p>
-<p>14、    like 模糊查询<br>查询name以j开头的<br>select * from temp where name like ‘j%’;</p>
-<p>查询name包含k的<br>select * from temp where name like ‘%k%’;</p>
-<p>escape转义<br>select * from temp where name like ‘/<em>%’ escape ‘/’;<br>指定/为转义字符，上面的就可以查询name中包含“</em>”的数据</p>
-<p>15、    is null、is not null<br>查询为null的数据<br>select <em> from temp where name is null;<br>查询不为null的数据<br>select </em> from temp where name is not null;</p>
-<p>16、    not<br>select <em> from temp where not (age &gt; 20);<br>取小于等于20的数据<br>select </em> from temp where id not in(1, 2);</p>
-<p>17、    order by<br>排序，有desc、asc升序、降序<br>select <em> from temp order by id;<br>默认desc排序<br>select </em> from temp order by id asc;<br>多列组合<br>select * from temp order by id, age;</p>
-<p>版权维护转载hoojo博客的。</p>
+        <p>Servlet中forward redirect （请求转发 重定向）自己总结<br>forward：请求转发<br>redirect: 重定向<br>1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。<br>2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致方法获得RequestDisapatcher对象 然后用其forward方法来进行请求转发：<br>RequestDisapatcher rd=reqest.getRequestDisapatcher();<br>rd.forward(req,resp); //用这里的方法来进行转发</p>
+<p>3.HttpServletResponse 对象的SendRequest（String location）方法称作重定向，如果location地址前面加上“/ ”,则表示相对于servlet容器的根来请求，即<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> ,如果location地址前没有加上“/”，则表示当前请求的URI来寻找地址(就是当前的项目目录中)。<br>4.RequestDispather的forward（request,response)方法称为请求转发。<br>5.请求转发和重定向的区别：<br>a.请求转发：整个过程在同一个请求当中。所以在用getParameter的时候的值可以随时拿到。<br>b. 重定向：实际上客户端会向服务器发送两个请求。第一个请求是请求serlvet，第二个请求是服务器将结果发送到请求页面。所以getParameter是不可能得到同一个请求参数的。所以最总是是用response对象中的sendRedirect方法来重定向，也即服务器响应对象来进行重定向的.<br>c.RequestDisapatcher是通过调用HttpServletRequest对象的getRequestDisapatcher方法得到的。是属于请求对象的方法。<br>d.sendRedirect方法是属于HttpServletResposne对象的方法，即响应对象的方法，既然调用了响应对象的方法，那就表明整个请求过程已经结束了，服务器开始向客户端返回执行的结果。</p>
+<p>6.重定向在firebug中的会有两个请求 而请求转发只有一个。本源就是请求个数。</p>
+<p>前后两个页面 有数据传递 用请求转发，没有则用重定向。<br>比如servlet查询了数据需要在页面显示，就用请求转发。<br>比如servlet做了update操作跳转到其他页面，就用重定向。</p>
+<p>=======================================================</p>
+<h2 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h2><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
+<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.</p>
+<p>2.从数据共享来说</p>
+<p>forward:转发页面和转发到的页面可以共享request里面的数据.</p>
+<p>redirect:不能共享数据.</p>
+<p>3.从运用地方来说</p>
+<p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.</p>
+<p>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
+<p>4.从效率来说</p>
+<p>forward:高.</p>
+<p>redirect:低.</p>
+<p>本质区别</p>
+<h2 id="解释一"><a href="#解释一" class="headerlink" title="解释一"></a>解释一</h2><p>一句话，转发是服务器行为，重定向是客户端行为。为什么这样说呢，这就要看两个动作的工作流程：</p>
+<p>转发过程：客户浏览器发送http请求—-》web服务器接受此请求–》调用内部的一个方法在容器内部完成请求处理和转发动作—-》将目标资源发送给客户;在这里，转发的路径必须是同一个web容器下的url，其不能转向到其他的web路径上去，中间传递的是自己的容器内的request。在客户浏览器路径栏显示的仍然是其第一次访问的路径，也就是说客户是感觉不到服务器做了转发的。转发行为是浏览器只做了一次访问请求。</p>
+<p>重定向过程：客户浏览器发送http请求—-》web服务器接受后发送302状态码响应及对应新的location给客户浏览器–》客户浏览器发现是302响应，则自动再发送一个新的http请求，请求url是新的location地址—-》服务器根据此请求寻找资源并发送给客户。在这里 location可以重定向到任意URL，既然是浏览器重新发出了请求，则就没有什么request传递的概念了。在客户浏览器路径栏显示的是其重定向的路径，客户可以观察到地址的变化的。重定向行为是浏览器做了至少两次的访问请求的。</p>
+<h3 id="解释二"><a href="#解释二" class="headerlink" title="解释二"></a>解释二</h3><p>重定向，其实是两次request,</p>
+<p>第一次，客户端request A,服务器响应，并response回来，告诉浏览器，你应该去B。这个时候IE可以看到地址变了，而且历史的回退按钮也亮了。重定向可以访问自己web应用以外的资源。在重定向的过程中，传输的信息会被丢失。</p>
+<p>例子：</p>
+<p>请求转发是服务器内部把对一个request/response的处理权，移交给另外一个</p>
+<p>对于客户端而言，它只知道自己最早请求的那个A，而不知道中间的B，甚至C、D。 传输的信息不会丢失。</p>
+<h3 id="解释三："><a href="#解释三：" class="headerlink" title="解释三："></a>解释三：</h3><p>转发是服务器行为，重定向是客户端行为。 </p>
+<p>两者的内部机制有很大的区别：<br>1 请求转发只能将请求转发给同一个WEB应用中的组件，<br>而重定向还可以重新定向到同一站点不同应用程序中的资源，甚至可以定向到一绝对的URL。<br>2 重定向可以看见目标页面的URL，<br>转发只能看见第一次访问的页面URL，以后的工作都是有服务器来做的。<br>3 请求响应调用者和被调用者之间共享相同的request对象和response对象，<br>重定向调用者和被调用者属于两个独立访问请求和响应过程。<br>4 重定向跳转后必须加上return，要不然页面虽然跳转了，<br>但是还会执行跳转后面的语句，<br>转发是执行了跳转页面，下面的代码就不会在执行了。 </p>
 
       
 
@@ -370,7 +226,7 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
 
 
   
-    <article id="post-Spring原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第19章jdbc数据库编程" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -378,54 +234,24 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Spring原理/">Spring原理</a>
+      <a class="article-title" href="/2012/05/18/第19章jdbc数据库编程/">第19章jdbc数据库编程</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Spring原理/" class="article-date">
-  <time datetime="2014-09-19T15:07:01.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/18/第19章jdbc数据库编程/" class="article-date">
+  <time datetime="2012-05-18T12:47:08.000Z" itemprop="datePublished">2012-05-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、-IoC-Inversion-of-control-控制反转"><a href="#一、-IoC-Inversion-of-control-控制反转" class="headerlink" title="一、 IoC(Inversion of control): 控制反转"></a>一、 IoC(Inversion of control): 控制反转</h2><p>概念：控制权由对象本身转向容器；由容器根据配置文件去创建实例并创建各个实例之间的依赖关系<br>核心：bean工厂；在Spring中，bean工厂创建的各个实例称作bean </p>
-<p>内部最核心的就是IOC<br>动态注入，让一个对象的创建不用new了，可以自动的生产，这其实就是利用java里的反射<br>反射其实就是在运行时动态的去创建、调用对象，Spring就是在运行时，跟xml  Spring的配置 文件来动态的创建对象，和调用对象里的方法的 。 </p>
-<h2 id="二、AOP-Aspect-Oriented-Programming-面向方面编程"><a href="#二、AOP-Aspect-Oriented-Programming-面向方面编程" class="headerlink" title="二、AOP(Aspect-Oriented Programming): 面向方面编程"></a>二、AOP(Aspect-Oriented Programming): 面向方面编程</h2><p>1、 代理的两种方式：<br>静态代理：<br> 针对每个具体类分别编写代理类；<br> 针对一个接口编写一个代理类；<br>动态代理：<br>针对一个方面编写一个InvocationHandler，然后借用JDK反射包中的Proxy类为各种接口动态生成相应的代理类<br>2、 AOP的主要原理：动态代理 </p>
-<p>另一个核心就是AOP </p>
-<p>这个就是面向切面编程，可以为某一类对象 进行监督和控制（也就是在调用这类对象的具体方法的前后去调用你指定的 模块）从而达到对一个模块扩充的功能。这些都是通过配置类达到的。<br>Spring目的：就是让对象与对象（模块与模块）之间的关系没有通过代码来关联，都是通过配置类说明<br>管理的（Spring根据这些配置 内部通过反射去动态的组装对象）<br>要记住：Spring是一个容器，凡是在容器里的对象才会有Spring所提供的这些服务和功能。<br>Spring里用的最经典的一个设计模式就是：模板方法模式。  Spring里的配置是很多的，很难都记住，但是Spring里的精华也无非就是以上的两点，把以上两点跟理解了<br>也就基本上掌握了Spring.  </p>
-<h2 id="三、spring原理"><a href="#三、spring原理" class="headerlink" title="三、spring原理"></a>三、spring原理</h2><p>spring的最大作用ioc/di,将类与类的依赖关系写在配置文件中，程序在运行时根据配置文件动态加载依赖的类，降低的类与类之间的藕合度。它的原理是在applicationContext.xml加入bean标记,在bean标记中通过class属性说明具体类名、通过property标签说明,该类的属性名、通过constructor-args说明构造子的参数。其一切都是返射，当通过applicationContext.getBean(“id名称”)得到一个类实例时，就是以bean标签的类名、属性名、构造子的参数为准，通过反射实例对象,唤起对象的set方法设置属性值、通过构造子的newInstance实例化得到对象。正因为spring一切都是反射，反射比直接调用的处理速度慢，所以这也是spring 的一个问题。spring第二大作用就是aop，其机理来自于代理模式，代理模式 有三个角色分别是通用接口、代理、真实对象 代理、真实对象实现的是同一接口，将真实对象作为代理的一个属性，向客户端公开的是代理，当客户端调用代理的方法时，代理找到真实对象，调用真实对象方法，在调用之前之后提供相关的服务，如事务、安全、日志。其名词分别是代理、真实对象、装备、关切点、连接点。</p>
-<h2 id="四、动态代理"><a href="#四、动态代理" class="headerlink" title="四、动态代理:"></a>四、动态代理:</h2><p>不用写代理类，虚拟机根据真实对象实现的接口产生一个类，通过类实例化一个动态代理，在实例化动态代理时将真实对象及装备注入到动态代理中，向客户端公开的是动态代理，当客户端调用动态代理方法时，动态代理根据类的返射得到真实对象的Method,调用装备的invoke方法，将动态代理、Method、方法参数传与装备的invoke方法，invoke方法在唤起method方法前或后做一些处理。     </p>
-<pre><code>1、产生动态代理的类: 
-
-        java.lang.refect.Proxy 
-
-2、装备必须实现InvocationHandler接口实现invoke方法 
-</code></pre><p>java代理有jdk动态代理、cglib代理，这里只说下jdk动态代理，jdk动态代理主要使用的是java反射机制（既java.lang.reflect包）<br>原理是（歌手、经纪人做例子）：<br>建立一个公共的接口，比如：歌手public interface Singer；<br>用具体的类实现接口，比如：周杰伦，他是歌手所以实现Singer这个类，class MySinger implements Singer<br>建立代理类，这里也就是经纪人，他需要实现InvocationHandler类，并重写invoke方法<br>这样当有什么事情，要找周杰伦（具体类）的时候，就必须先到经纪人（代理类）那里处理，代理人在决定要不要与你见面（该方法要不要执行）<br>1、歌手接口<br>复制代码代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public interface Singer &#123; </span><br><span class="line"></span><br><span class="line">public abstract void sing(); </span><br><span class="line"></span><br><span class="line">public abstract String s(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">2、具体的歌手 </span><br><span class="line">复制代码代码如下:</span><br><span class="line"></span><br><span class="line">public class MySinger implements Singer &#123; </span><br><span class="line">public void sing() &#123; </span><br><span class="line">// TODO Auto-generated method stub </span><br><span class="line">System.err.println(&quot;唱歌。。。。&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">3、代理类（经纪人） </span><br><span class="line">复制代码代码如下:</span><br><span class="line"></span><br><span class="line">public class agent implements InvocationHandler&#123; </span><br><span class="line">public Object target; </span><br><span class="line"></span><br><span class="line">//绑定 </span><br><span class="line">public Object bind(Object target)&#123; </span><br><span class="line">this.target=target; </span><br><span class="line">//必须放回Proxy </span><br><span class="line">return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">//重新 </span><br><span class="line">public Object invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">throws Throwable &#123; </span><br><span class="line">Object o =null; </span><br><span class="line">System.out.println(&quot;开始事务&quot;); </span><br><span class="line">System.out.println(&quot;判断权限&quot;); </span><br><span class="line"></span><br><span class="line">o = method.invoke(target, args);//执行方法 </span><br><span class="line"></span><br><span class="line">System.out.println(&quot;结束事务&quot;); </span><br><span class="line">return o; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4、测试（为什么要间接口能，下面你会发现代理返回的是他们的接口类，这要一个代理类，就可以代理多个类，只要该类是同个一个接口的是实现）<br>复制代码代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123; </span><br><span class="line">public static void main(String[] args) &#123; </span><br><span class="line">// </span><br><span class="line">agent a =new agent(); </span><br><span class="line">Singer s= (Singer) a.bind(new MySinger()); </span><br><span class="line">s.sing(); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="五、反射："><a href="#五、反射：" class="headerlink" title="五、反射："></a>五、反射：</h2><p>什么是类的返射? </p>
-<p>通过类说明可以得到类的父类、实现的接口、内部类、构造函数、方法、属性并可以根据构造器实例化一个对象，唤起一个方法，取属性值，改属性值。 </p>
-<p>如何得到一个类说明? </p>
-<p>  Class cls=类.class; </p>
-<p>  Class cls=对象.getClass(); </p>
-<p>  Class.forName(“类路径”); </p>
-<p>如何得到一个方法并唤起它?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class cls=类.class; </span><br><span class="line"></span><br><span class="line"> Constructor cons=cls.getConstructor(new Class[]&#123;String.class&#125;); </span><br><span class="line"></span><br><span class="line"> Object obj=cons.newInstance(new Object[]&#123;&quot;aaa&quot;&#125;); </span><br><span class="line"></span><br><span class="line">  Method method=cls.getMethod(&quot;方法名&quot;,new Class[]&#123;String.class,Integer.class&#125;); </span><br><span class="line"></span><br><span class="line">                      method.invoke(obj,new Object[]&#123;&quot;aa&quot;,new Integer(1)&#125;);</span><br></pre></td></tr></table></figure></p>
-<h2 id="六、spring的三种注入方式"><a href="#六、spring的三种注入方式" class="headerlink" title="六、spring的三种注入方式"></a>六、spring的三种注入方式</h2><pre><code>setter 
-
-interface 
-
-constructor 
-</code></pre><h2 id="七、spring的核心接口及核类配置文件"><a href="#七、spring的核心接口及核类配置文件" class="headerlink" title="七、spring的核心接口及核类配置文件"></a>七、spring的核心接口及核类配置文件</h2><pre><code>FactoryBean:工厂bean主要实现ioc/di 
-
-
-
-        ApplicationContext ac=new FileXmlApplicationContext(&quot;applicationContext.xml&quot;); 
-
-        Object obj=ac.getBean(&quot;id值&quot;);
-</code></pre>
+        <h2 id="java数据库编程驱动类型："><a href="#java数据库编程驱动类型：" class="headerlink" title="java数据库编程驱动类型："></a>java数据库编程驱动类型：</h2><p>JAVA数据库编程有4种驱动分类常用的就只有2种类型<br>（可以连接不同数据库的 JDBC）——网络协议纯java驱动<br>（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序</p>
+<p>url格式：<br>[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）<br>Oracle              jdbc:oracle:thin:@主机名:端口号：数据库名<br>SQL Server       jdbc:Sqlserver://主机名：端口号：databaseName=数据库名]</p>
+<p>driver 驱动<br>Connection 连接<br>createStatement 连接对象<br>Reultset 结果集<br>executeupdate 修改数据库</p>
+<h2 id="书写标准固定格式代码："><a href="#书写标准固定格式代码：" class="headerlink" title="书写标准固定格式代码："></a>书写标准固定格式代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package Jdbc;</span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">public class Jdbc &#123;</span><br><span class="line"> Connection conn; //声明</span><br><span class="line"> Statement statme;</span><br><span class="line"> ResultSet rus;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  String url=&quot;jdbc:mysql://localhost:3306/lihao&quot;; //连接mysql 主机名+端口号+库名</span><br><span class="line">  String user=&quot;root&quot;;</span><br><span class="line">  String pawss=&quot;pronouncing&quot;;</span><br><span class="line">  String sql=&quot;select * from t_student &quot;; //查询</span><br><span class="line">  </span><br><span class="line">  try &#123;</span><br><span class="line">   Class.forName(&quot;com.mysql.jdbc.Driver&quot;);//连接驱动</span><br><span class="line">   Connection conn=DriverManager.getConnection(url,user,pawss);//连接</span><br><span class="line">   Statement statme=conn.createStatement();//创建连接对象</span><br><span class="line">   ResultSet rus=statme.executeQuery(sql);//结果集（查询或执行 SQL语句）</span><br><span class="line">   </span><br><span class="line">   while(rus.next()) &#123;        //邮标从第1行开始</span><br><span class="line">    String name=rus.getString(&quot;_name&quot;);</span><br><span class="line">    String age=rus.getString(&quot;_age&quot;);</span><br><span class="line">    String sex=rus.getString(&quot;_sex&quot;);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    System.out.println(name);         //打印数据查询出来的内容  </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">   &#125;</span><br><span class="line">  &#125;catch(SQLException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;catch(ClassNotFoundException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -448,7 +274,7 @@ constructor
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -458,7 +284,7 @@ constructor
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第3章oreaclePL/SQL程序结构控制 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="oreaclePL/SQL程序结构控制总结：PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.PL/SQL中的【条件控制】语句有IF语句、CASE语句、PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第3章oreaclePL/SQL程序结构控制">
+<meta property="og:url" content="http://yoursite.com/2012/04/06/第3章oreaclePLSQL程序结构控制/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="oreaclePL/SQL程序结构控制总结：PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.PL/SQL中的【条件控制】语句有IF语句、CASE语句、PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程">
+<meta property="og:updated_time" content="2016-03-20T05:43:19.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第3章oreaclePL/SQL程序结构控制">
+<meta name="twitter:description" content="oreaclePL/SQL程序结构控制总结：PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.PL/SQL中的【条件控制】语句有IF语句、CASE语句、PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第3章oreaclePLSQL程序结构控制" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第3章oreaclePL/SQL程序结构控制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/06/第3章oreaclePLSQL程序结构控制/" class="article-date">
+  <time datetime="2012-04-06T02:30:23.000Z" itemprop="datePublished">2012-04-06</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="oreaclePL-SQL程序结构控制"><a href="#oreaclePL-SQL程序结构控制" class="headerlink" title="oreaclePL/SQL程序结构控制"></a>oreaclePL/SQL程序结构控制</h2><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.<br>PL/SQL中的【条件控制】语句有IF语句、CASE语句、<br>PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.<br>当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程就会转到当前块的异常处理部分来处理异常. 异常处理完成后，程序就马上跳出PL/SQL块。<br>PL/SQL异常分为系统异常和自定义异常两只类型<br>异常处理的流程包括定义异常、抛出异常和处理异常三个步骤。<br>异常的定义可以通过exeception关键字定义，此外还可以通过：异常名exeception_int 和exeception关键字来定义<br>使用raise语句可以抛出自定义异常或系统异常.而使用Oreacle的内置过程处理抛出的异常，我们必须在异常处理部分编写异常处理器。<br>下面详细写下用法：<br>条件控制:<br>if   条件1  then<br>如果条件1为真就返回ture<br>elsif  条件2  then<br>如果条件1为假就执行条件2返回true<br>else<br>以上条件都不为真就执行else语句<br>end if;<br>CASE 语句和CASE表达式:<br>case<br>when 10 then<br>如果等于10的条件为真就是true<br>when 20 then<br>如果等于20的条件为真就是true<br>when 30 then<br>如果等于30的条件为真就是true<br>end case;<br>CASE第二中表达式：<br>case<br>when 10 then<br>else<br>如果条件10不成立就执行else中的语句<br>end;</p>
+<h3 id="循环控制："><a href="#循环控制：" class="headerlink" title="循环控制："></a>循环控制：</h3><p>基本循环<br>LOOP<br>v_int :=v_int+1;<br>exit when v_nt&gt;15;  循环退出条件必须：exit when关键字<br>end loop;</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p>只有条件为trun的时候才执行体内的语句<br>when 条件1 loop<br>条件为真的是才执行循环体内的语句<br>end loop;</p>
+<h3 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h3><p>for    i变量       in  1..100循环         loop<br>dbms_output.put_line(‘i’);<br>end    loop;</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理:"></a>异常处理:</h3><p>定义异常<br>declare<br>v-info int exeception;   定义异常<br>v_info1 int exeception;   抛出异常<br>begin<br>raise v_info1 抛出<br>exception<br>when  others   then<br>dbms_out.put_line(‘定义的异常others异常的父类关键字’);<br>end;<br>exeption<br>when    v_info1     then<br>dbms_out.put_line(‘抛出v_info1异常处理’);<br>end;</p>
+<h3 id="系统异常"><a href="#系统异常" class="headerlink" title="系统异常"></a>系统异常</h3><p>人为抛出的系统异常raize_pplication_error关键字<br>declare<br>begin<br>if   条件1  then<br>raize_pplication_error(-20001,’该部门不存在！’);<br>end if;<br>end;</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第4章Oracle 在PL/SQL中更改数据和管理事物
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/05/第2章PLSQL编程基础/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第2章PL/SQL编程基础</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/06/第3章oreaclePLSQL程序结构控制/" data-title="第3章oreaclePL/SQL程序结构控制" data-url="http://yoursite.com/2012/04/06/第3章oreaclePLSQL程序结构控制/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

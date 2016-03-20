@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hibernate二级缓存的实现" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,55 +42,173 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/">第5章Oracle PL/SQL使用游标获取</a>
+      <a class="article-title" href="/2012/07/10/hibernate二级缓存的实现/">hibernate二级缓存的实现</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第5章Oracle-PLSQL使用游标获取/" class="article-date">
-  <time datetime="2014-09-22T02:50:03.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/10/hibernate二级缓存的实现/" class="article-date">
+  <time datetime="2012-07-10T14:38:08.000Z" itemprop="datePublished">2012-07-10</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <pre><code>### 1. 游标的概述 ###
-</code></pre><h3 id="1-隐式游标"><a href="#1-隐式游标" class="headerlink" title="1. 隐式游标"></a>1. 隐式游标</h3><pre><code>   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
-缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
-</code></pre><h3 id="2-显式游标"><a href="#2-显式游标" class="headerlink" title="2. 显式游标"></a>2. 显式游标</h3><pre><code>显式游标用在需要获取多行记录的情况下
-必须在手动的在PL/SQL块的声明部分定义
-手动执行每个操作（打开、提取、数据、关闭）
-</code></pre><h3 id="3-典型的查询操作"><a href="#3-典型的查询操作" class="headerlink" title="3. 典型的查询操作"></a>3. 典型的查询操作</h3><pre><code> a、 解析 （处理SQL语句的一个步骤是解析，确保SQL语句是有效的）
- b、 绑定（将PL/SQL程序中的变量与绑定变量关联）
-  c、打开（打开游标）
- d、 执行（从SQL引擎中运行SQL语句）
- e、 提取（在游标的结果集中获取下一行）
- f、 关闭（关闭 游标）
-游标获取数据库中的数据集合，然后打开提取每次提取后都会定位到下一行，然后从SGA中将数据拿到程序变量中，在此过程中是由Oracle自动将绑定变量与程序变量相关联。
-</code></pre><h3 id="4-游标属性"><a href="#4-游标属性" class="headerlink" title="4. 游标属性"></a>4. 游标属性</h3><pre><code>      a、%found      如果记录成功获取，返回true，否则返回false
-      b、%notfound   如果记录获取失败，返回true，否则返回false
-      c、%rowcount   返回从游标中获取的记数
-      d、%isopen     如果游标是打开的，返回true，否则返回false
-      e、bulk_rowcount 返回forall语句更改的每个集合元素的记录数
-      f、bulk_exception 返回forall语句更改的每个集合元素的记录的异常信息
-注意：可以在PL/SQL代码中引用游标属性，不能在SQL语句中使用这些属性。
-</code></pre><h3 id="2-使用显式游标"><a href="#2-使用显式游标" class="headerlink" title="2. 使用显式游标"></a>2. 使用显式游标</h3><pre><code>1. 声明显示游标
-      cursor 游标名     is select 语句 for update;
-                 游标名 指向的影响这一行类型%rowtype或type类型
-2. 打开显式游标
-      open 显式游标名；
-3. 从显式游标中提取记录
-      fetch 游标名 into 记录或变量列表；
-4. 关闭显式游标
-      close 游标名
-</code></pre><ol>
-<li>游标for循环<pre><code>for 记录 in 游标名 loop
-   执行语句
-end loop；
-</code></pre><h3 id="使用引用游标"><a href="#使用引用游标" class="headerlink" title="使用引用游标:"></a>使用引用游标:</h3>create or replace procedure proc_info(id in int) is<br>type cur_info is ref cursor; –类型type   游标名   IS   ref cursor引用游标<br>cur_emp cur_info;             –游标标量<br>cur_emp_info emp%rowtype;   –影响的整列的数据<br>begin<br>open cur_emp for                     – 打开游标<br>select <em> from emp where empno=id;<br>loop<br>fetch cur_emp into cur_emp_info;    –从游标中提取数据<br>exit when cur_emp%notfound;        –退出条件没有记录就退出<br>dbms_output.put_line(‘ID：’||cur_emp_info.empno|| ‘姓名：’||cur_emp_info.ename ||’工资：’||v_vv.sal);<br>end loop;<br>close cur_emp;                                   –关闭游标<br>end;<br>call v_v(7499);<br>select </em> from emp;</li>
-</ol>
+        <p>对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.</p>
+<pre><code>缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存管理策略,在缓存中查找相关数据,如发现所需的数据,则直接将此数据作为结果加以利用,从而避免了数据库调用性能的开销.而相对内存操作而言,数据库调用是一个代价高昂的过程.
+
+一般来讲ORM中的缓存分为以下几类:
+
+    1.事务级缓存:即在当前事务范围内的数据缓存.就Hibernate来讲,事务级缓存是基于Session的生命周期实现的,每个Session内部会存在一个数据缓存,它随着Session的创建而存在,随着Session的销毁而灭亡,因此也称为Session Level Cache.
+
+    2.应用级缓存:即在某个应用中或应用中某个独立数据库访问子集中的共享缓存,此缓存可由多个事务共享(数据库事务或应用事务),事务之间的缓存共享策略与应用的事务隔离机制密切相关.在Hibernate中,应用级缓存由SessionFactory实现,所有由一个SessionFactory创建的Session实例共享此缓存,因此也称为SessionFactory Level Cache.
+
+    3.分布式缓存:即在多个应用实例,多个JVM间共享的缓存策略.分布式缓存由多个应用级缓存实例组成,通过某种远程机制(RMI,JMS)实现各个缓存实例间的数据同步,任何一个实例的数据修改,将导致整个集群间的数据状态同步.
+
+Hibernate数据缓存:
+
+    1.内部缓存(Session Level Cache也称一级缓存):
+
+    举例说明:
+</code></pre><p>java 代码<br>public class Test {    </p>
+<pre><code>public void get(){     
+
+      Session session = HibernateSessionFactory.getSession();    
+      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
+      System.out.println(t.getName());    
+      session.close();    
+      }    
+</code></pre><p>}    </p>
+<pre><code>       进行测试:在控制台打印出一条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=? 说明进行了一次数据库的调用.
+
+代码更改如下:
+</code></pre><p>public class Test {    </p>
+<pre><code>public void get(){    
+
+      Session session = HibernateSessionFactory.getSession();    
+      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
+      System.out.println(t.getName());    
+      TUser tt = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
+      System.out.println(tt.getName());    
+      session.close();    
+
+}    
+</code></pre><p>}    </p>
+<pre><code>再进行测试:进行了两次查询,控制台仍然只打出一条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=?  说明还是只进行了一次数据库的调用.
+
+再将代码更改如下:
+</code></pre><p>public class Test {    </p>
+<pre><code>public void get(){     
+
+      Session session = HibernateSessionFactory.getSession();    
+      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
+      System.out.println(t.getName());    
+      session.close();    
+      Session session1 = HibernateSessionFactory.getSession();    
+      TUser tt = (TUser)session1.get(&quot;hibernate.TUser&quot;, 2);    
+      System.out.println(tt.getName());    
+      session1.close();    
+
+}    
+</code></pre><p>}    </p>
+<pre><code>继续测试:进行两次查询控制台打印两条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=?
+</code></pre><p>Hibernate: select tuser0_.id as id0<em>0</em>, tuser0_.name as name0<em>0</em>, tuser0_.<strong><em> as </em></strong>0<em>0</em> from test.t<em>user tuser0</em> where tuser0_.id=?</p>
+<pre><code>结论:Hibernate进行查询时总是先在缓存中进行查询,如缓存中没有所需数据才进行数据库的查询.Hibernate的内部缓存是基于Session的生命周期的,也就是说存在于每个Session内部,它随着Session的创建而存在,随着Session的销毁而灭亡,内部缓存一般由Hibernate自动维护,不需要人为干预,当然我们也可以根据需要进行相应操作:Session.evict(Object)(将指定对象从内部缓存清除),Session.clear()(清空内部缓存).(如在两次查询间加入Session.clear()将会清空内部缓存,使得一个Sesion内部的两次相同的查询要对数据库进行两次操作).
+
+2.二级缓存:(有时称为SessionFactory Level Cache)
+
+Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基于HashTable的简单缓存以供调试),这里我使用的是第三方缓存组件:EHcache.Hibernate的二级缓存实现需要进行以下配置(Hibernate3):
+
+首先在hibernate.cfg.xml内添加: 
+</code></pre><property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property><br><property name="hibernate.cache.use_query_cache">true</property>   
+
+<p>然后在映射文件中添加:</p>
+<cache usage="read-only">   
+
+<pre><code>测试上面代码:控制台输出多了这样一句[ WARN] (CacheFactory.java:43) - read-only cache configured for mutable class: hibernate.TUser,二级缓存启用成功!!       
+</code></pre><p>java 代码<br>public class Test {    </p>
+<pre><code> public void executeQuery(){    
+
+       List list = new ArrayList();    
+       Session session = HibernateSessionFactory.getSession();    
+       Query query = session.createQuery(&quot;from TUser t&quot;);    
+       query.setCacheable(true);//激活查询缓存    
+       list = query.list();    
+       session.close();    
+
+ }    
+ public void get(){    
+
+       Session session = HibernateSessionFactory.getSession();    
+       TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
+       System.out.println(t.getName());    
+       session.close();    
+
+}    
+</code></pre><p>}    </p>
+<pre><code>测试:控制台只输出一条SQL语句:Hibernate: select tuser0_.id as id0_, tuser0_.name as name0_, tuser0_.*** as ***0_ from test.t_user tuser0_(即Query query = session.createQuery(&quot;from TUser t&quot;)这句代码所对应的SQL).  executeQuery()方法与get()方法使用的是不同的Session!!可是executeQuery()方法与get()方法只对数据库进行了一次操作,这就是二级缓存在起作用了.   
+
+结论:Hibernate二级缓存是SessionFactory级的缓存,它允许多个Session间共享,使用时需要使用第三方的缓存组件,新版Hibernate将EHcache作为默认的二级缓存实现.
+
+缓存同步策略:缓存同步策略决定了数据对象在缓存中的存取规则,我们必须为每个实体类指定相应的缓存同步策略.Hibernate中提供了4种不同的缓存同步策略:(暂时只记个概念吧)
+
+1.read-only:只读.对于不会发生改变的数据可使用（对数据只能查询，其他的增删改都会报错不关是1或2缓存中）.
+
+2.nonstrict-read-write:如果程序对并发访问下的数据同步要求不严格,且数据更新频率较低,采用本缓存同步策略可获得较好性能.(不能在二级缓存进行增删改都会报错)
+
+3.read-write:严格的读写缓存.基于时间戳判定机制,实现了&quot;read committed&quot;事务隔离等级.用于对数据同步要求的情况,但不支持分布式缓存,实际应用中使用最多的缓存同步策略.（都可以比较常用的）
+
+4.transactional:事务型缓存,必须运行在JTA事务环境中.此缓存中,缓存的相关操作被添加到事务中(此缓存类似于一个内存数据库),如事务失败,则缓冲池的数据会一同回滚到事务的开始之前的状态.事务型缓存实现了&quot;Repeatable read&quot;事务隔离等级,有效保证了数据的合法性,适应于对关键数据的缓存,Hibernate内置缓存中,只有JBossCache支持事务型缓存.
+</code></pre><p>Hibernate获取数据的方式有不同的几种，其与缓存结合使用的效果也不尽相同，而Hibernate中具体怎么使用缓存其实是我们很关心的一个问题，直接涉及到性能方面。<br>缓存在Hibernate中主要有三个方面：一级缓存、二级缓存和查询缓存；一级缓存在Hibernate中对应的即为session范围的缓存，也就是当session关闭时缓存即被清除，一级缓存在Hibernate中是不可配置的部分；二级缓存在Hibernate中对应的即为SessionFactory范围的缓存，通常来讲SessionFactory的生命周期和应用的生命周期相同，所以可以看成是进程缓存或集群缓存，二级缓存在Hibernate中是可以配置的，可以通过class-cache配置类粒度级别的缓存(class-cache在class中数据发生任何变化的情况下自动更新)，同时也可通过collection-cache配置集合粒度级别的缓存(collection-cache仅在 collection中增加了元素或者删除了元素的情况下才自动更新，也就是当collection中元素发生值的变化的情况下它是不会自动更新的)，缓存自然会带来并发的访问问题，这个时候相应的就要根据应用来设置缓存所采用的事务隔离级别，和数据库的事务隔离级别概念基本一样，没什么多介绍的， ^<em>^；查询缓存在Hibernate同样是可配置的，默认是关闭的，可以通过设置cache.use</em> query<em>cache为true来打开查询缓存。根据缓存的通常实现策略，我们可以来理解Hibernate的这三种缓存，缓存的实现通过是通过key/value的Map方式来实现，在 Hibernate的一级、二级和查询缓存也同样如此，一级、二级缓存使用的key均为po的主键ID，value即为po实例对象，查询缓存使用的则为查询的条件、查询的参数、查询的页数，value有两种情况，如果采用的是select po.property这样的方式那么value为整个结果集，如采用的是from这样的方式那么value为获取的结果集中各po对象的主键ID，这样的作用很明显，节省内存，^</em>^<br>简单介绍完Hibernate的缓存后，再结合Hibernate的获取数据方式来说明缓存的具体使用方式，在Hibernate中获取数据常用的方式主要有四种：Session.load、Session.get、Query.list、Query.iterator。<br>1、Session.load<br>      在执行session.load时，Hibernate首先从当前session的一级缓存中获取id对应的值，在获取不到的情况下，将根据该对象是否配置了二级缓存来做相应的处理，如配置了二级缓存，则从二级缓存中获取id对应的值，如仍然获取不到则还需要根据是否配置了延迟加载来决定如何执行，如未配置延迟加载则从数据库中直接获取，在从数据库获取到数据的情况下，Hibernate会相应的填充一级缓存和二级缓存，如配置了延迟加载则直接返回一个代理类，只有在触发代理类的调用时才进行数据库查询的操作。<br>      在这样的情况下我们就可以看到，在session一直打开的情况下，要注意在适当的时候对一级缓存进行刷新操作，通常是在该对象具有单向关联维护的时候，在Hibernate中可以使用象session.clear、session.evict的方式来强制刷新一级缓存。<br>      二级缓存则在数据发生任何变化(新增、更新、删除)的情况下都会自动的被更新。<br>2、Session.get<br>      在执行Session.get时，和Session.load不同的就是在当从缓存中获取不到时，直接从数据库中获取id对应的值。<br>3、Query.list<br>      在执行Query.list时，Hibernate的做法是首先检查是否配置了查询缓存，如配置了则从查询缓存中查找key为查询语句+查询参数+分页条件的值，如获取不到则从数据库中进行获取，从数据库获取到后Hibernate将会相应的填充一级、二级和查询缓存，如获取到的为直接的结果集，则直接返回，如获取到的为一堆id的值，则再根据id获取相应的值(Session.load)，最后形成结果集返回，可以看到，在这样的情况下，list也是有可能造成N次的查询的。<br>      查询缓存在数据发生任何变化的情况下都会被自动的清空。<br>4、Query.iterator<br>      在执行Query.iterator时，和Query.list的不同的在于从数据库获取的处理上，Query.iterator向数据库发起的是 select id from这样的语句，也就是它是先获取符合查询条件的id，之后在进行iterator.next调用时才再次发起session.load的调用获取实际的数据。<br>      可见，在拥有二级缓存并且查询参数多变的情况下，Query.iterator会比Query.list更为高效。</p>
+<p>这四种获取数据的方式都各有适用的场合，要根据实际情况做相应的决定，^_^，最好的方式无疑就是打开show_sql选项看看执行的情况来做分析，系统结构上只用保证这种调整是容易实现的就好了，在cache这个方面的调整自然是非常的容易，只需要调整配置文件里的设置，而查询的方式则可对外部进行屏蔽，这样要根据实际情况调整也非常容易。</p>
+</cache>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hibernate关系注解映射" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/07/07/hibernate关系注解映射/">hibernate关系注解映射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/07/07/hibernate关系注解映射/" class="article-date">
+  <time datetime="2012-07-07T14:54:52.000Z" itemprop="datePublished">2012-07-07</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一对多-最好不要用单向关联，其实单向本身并无多大意义-："><a href="#一对多-最好不要用单向关联，其实单向本身并无多大意义-：" class="headerlink" title="一对多(最好不要用单向关联，其实单向本身并无多大意义)："></a>一对多(最好不要用单向关联，其实单向本身并无多大意义)：</h2><p>一方：<br>@OneToMany(targetEntity=Order.class,cascade=CascadeType.ALL,fetch=FetchType.EAGER)<br> @JoinColumn(name=”fk_customer_id”)</p>
+<p>如果一方加了fetch=FetchType.EAGER，查单一的多方对象时，会多产生一条sql<br>targetEntity也可以写成mappedBy=”customer”（这里写的是多多中对一方的引用属性），表示由对方去维护外键关系。<br>注：一般会将fetch=FetchType.LAZY</p>
+<p>多方：<br>@ManyToOne<br> @JoinColumn(name=”fk_customer_id”)<br>注：一般需要会将fetch=FetchType.LAZY，默认情况下多方会主动加载一方数据的。</p>
+<p>配置实例（客户–&gt;客户订单）：<br>客户中的集合：<br>@OneToMany(targetEntity=Order.class,cascade=CascadeType.ALL)<br>@JoinColumn(name=”fk_customer_id”)<br>private Set<order> orders = new HashSet<order>();<br>客户订单中的客户：<br>//订单所属客户<br>@ManyToOne(fetch=FetchType.LAZY)<br>@JoinColumn(name=”fk_customer_id”)<br>private Customer customer;</order></order></p>
+<h2 id="二、多对一"><a href="#二、多对一" class="headerlink" title="二、多对一"></a>二、多对一</h2><p>比较简单，示例：注册用户—-&gt;城市<br>@ManyToOne(targetEntity=City.class, fetch=FetchType.LAZY)<br>@JoinColumn(name=”fk_city_id”)<br>private City city;</p>
+<h2 id="三、多对多"><a href="#三、多对多" class="headerlink" title="三、多对多"></a>三、多对多</h2><p>示例：游戏用户，用户组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//用户参加的组</span><br><span class="line">@ManyToMany(fetch=FetchType.LAZY)</span><br><span class="line">@Cascade(value=&#123;org.hibernate.annotations.CascadeType.SAVE_UPDATE&#125;)</span><br><span class="line">@JoinTable(name=&quot;t_user_group&quot;,joinColumns=&#123;@JoinColumn(name=&quot;fk_user_id&quot;)&#125;</span><br><span class="line">            ,inverseJoinColumns=&#123;@JoinColumn(name=&quot;fk_group_id&quot;)&#125;</span><br><span class="line">        )</span><br><span class="line">private Set&lt;Group&gt; groups = new HashSet&lt;Group&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>而在用户组中：<br>//该小组 中所包含的用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    @ManyToMany(mappedBy=&quot;groups&quot;)</span><br><span class="line">    @Cascade(value=&#123;org.hibernate.annotations.CascadeType.SAVE_UPDATE&#125;)</span><br><span class="line">    @JoinTable(name=&quot;t_user_group&quot;,joinColumns=&#123;@JoinColumn(name=&quot;fk_group_id&quot;)&#125;</span><br><span class="line">                ,inverseJoinColumns=&#123;@JoinColumn(name=&quot;fk_user_id&quot;)&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h3 id="三、一对一惟一外键关联"><a href="#三、一对一惟一外键关联" class="headerlink" title="三、一对一惟一外键关联"></a>三、一对一惟一外键关联</h3><p>示例：husband—-&gt;wife<br>而husband中（外键在t_husband表中）：<br>@OneToOne(cascade=CascadeType.ALL)<br>    @JoinColumn(name=”fk_wife_id”,unique=true)<br>    private Wife wife;</p>
+<p>wife对象中：<br>@OneToOne(mappedBy=”wife”,cascade=CascadeType.ALL)<br> private Husband husband;</p>
+<p>注解方式与spring的整合：<br><!--  配置sessionFactory--><br>    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"><br>        <property name="..............</property"><br>        <property name="packagesToScan"><br>            <list><br>                <value>com.lovo.edu.model</value><br>                <value>com.lovo.edu.test</value><br>            </list><br>        </property><br>    </property></bean></p>
+<p>关于序列类型主键的配置示例：<br>@Id<br>    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator=”student_id”)<br>    @SequenceGenerator(name=”student_id”, allocationSize=1, initialValue=1,sequenceName=”seq_student_id”)<br>    private Long sid;<br>其它的一些主键生成方式：<br>@Id<br>@GenericGenerator(name=”idGenerator”, strategy=”uuid”)<br>@GeneratedValue(generator=”idGenerator”) //使用uuid的生成策略<br>同理：使用assigned策略则在strategy中指定 =”assigned”</p>
+<p>枚举映射示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">@Table(name=&quot;t_husband&quot;)</span><br><span class="line">public class Husband &#123;</span><br><span class="line">    </span><br><span class="line">    //状态</span><br><span class="line">    public enum State &#123;</span><br><span class="line">        haveMoney, noMoney</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //状态</span><br><span class="line">    @Enumerated</span><br><span class="line">    @Column(name=&quot;f_state&quot;)</span><br><span class="line">    private State state = State.noMoney;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -103,7 +221,7 @@ end loop；
 
 
   
-    <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Spring原理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -111,62 +229,54 @@ end loop；
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第4章Oracle-在PLSQL中更改数据和管理事物/">第4章Oracle 在PL/SQL中更改数据和管理事物</a>
+      <a class="article-title" href="/2012/07/05/Spring原理/">Spring原理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
-  <time datetime="2014-09-22T02:47:43.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/05/Spring原理/" class="article-date">
+  <time datetime="2012-07-05T15:07:01.000Z" itemprop="datePublished">2012-07-05</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
- 隐式游标：
-       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
-隐式游标的属性：
+        <h2 id="一、-IoC-Inversion-of-control-控制反转"><a href="#一、-IoC-Inversion-of-control-控制反转" class="headerlink" title="一、 IoC(Inversion of control): 控制反转"></a>一、 IoC(Inversion of control): 控制反转</h2><p>概念：控制权由对象本身转向容器；由容器根据配置文件去创建实例并创建各个实例之间的依赖关系<br>核心：bean工厂；在Spring中，bean工厂创建的各个实例称作bean </p>
+<p>内部最核心的就是IOC<br>动态注入，让一个对象的创建不用new了，可以自动的生产，这其实就是利用java里的反射<br>反射其实就是在运行时动态的去创建、调用对象，Spring就是在运行时，跟xml  Spring的配置 文件来动态的创建对象，和调用对象里的方法的 。 </p>
+<h2 id="二、AOP-Aspect-Oriented-Programming-面向方面编程"><a href="#二、AOP-Aspect-Oriented-Programming-面向方面编程" class="headerlink" title="二、AOP(Aspect-Oriented Programming): 面向方面编程"></a>二、AOP(Aspect-Oriented Programming): 面向方面编程</h2><p>1、 代理的两种方式：<br>静态代理：<br> 针对每个具体类分别编写代理类；<br> 针对一个接口编写一个代理类；<br>动态代理：<br>针对一个方面编写一个InvocationHandler，然后借用JDK反射包中的Proxy类为各种接口动态生成相应的代理类<br>2、 AOP的主要原理：动态代理 </p>
+<p>另一个核心就是AOP </p>
+<p>这个就是面向切面编程，可以为某一类对象 进行监督和控制（也就是在调用这类对象的具体方法的前后去调用你指定的 模块）从而达到对一个模块扩充的功能。这些都是通过配置类达到的。<br>Spring目的：就是让对象与对象（模块与模块）之间的关系没有通过代码来关联，都是通过配置类说明<br>管理的（Spring根据这些配置 内部通过反射去动态的组装对象）<br>要记住：Spring是一个容器，凡是在容器里的对象才会有Spring所提供的这些服务和功能。<br>Spring里用的最经典的一个设计模式就是：模板方法模式。  Spring里的配置是很多的，很难都记住，但是Spring里的精华也无非就是以上的两点，把以上两点跟理解了<br>也就基本上掌握了Spring.  </p>
+<h2 id="三、spring原理"><a href="#三、spring原理" class="headerlink" title="三、spring原理"></a>三、spring原理</h2><p>spring的最大作用ioc/di,将类与类的依赖关系写在配置文件中，程序在运行时根据配置文件动态加载依赖的类，降低的类与类之间的藕合度。它的原理是在applicationContext.xml加入bean标记,在bean标记中通过class属性说明具体类名、通过property标签说明,该类的属性名、通过constructor-args说明构造子的参数。其一切都是返射，当通过applicationContext.getBean(“id名称”)得到一个类实例时，就是以bean标签的类名、属性名、构造子的参数为准，通过反射实例对象,唤起对象的set方法设置属性值、通过构造子的newInstance实例化得到对象。正因为spring一切都是反射，反射比直接调用的处理速度慢，所以这也是spring 的一个问题。spring第二大作用就是aop，其机理来自于代理模式，代理模式 有三个角色分别是通用接口、代理、真实对象 代理、真实对象实现的是同一接口，将真实对象作为代理的一个属性，向客户端公开的是代理，当客户端调用代理的方法时，代理找到真实对象，调用真实对象方法，在调用之前之后提供相关的服务，如事务、安全、日志。其名词分别是代理、真实对象、装备、关切点、连接点。</p>
+<h2 id="四、动态代理"><a href="#四、动态代理" class="headerlink" title="四、动态代理:"></a>四、动态代理:</h2><p>不用写代理类，虚拟机根据真实对象实现的接口产生一个类，通过类实例化一个动态代理，在实例化动态代理时将真实对象及装备注入到动态代理中，向客户端公开的是动态代理，当客户端调用动态代理方法时，动态代理根据类的返射得到真实对象的Method,调用装备的invoke方法，将动态代理、Method、方法参数传与装备的invoke方法，invoke方法在唤起method方法前或后做一些处理。     </p>
+<pre><code>1、产生动态代理的类: 
 
-         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
-                   例：
-                          begin
-                                  update emp set sal = 3100 where enpno = 7788;
-                                   if sql%found then
-                                         dbms_output.put_line(&apos;记录修改成功&apos;);
-                                     end if ;
-                           end;                                    
-         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
-                    例：
-                           begin
-                                   delete from emp where sal &gt;= 2000;
-                                     if SQL%FOUND then
-                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
-                                     end if;
-                             end;
-         SQL%ROWCOUNT-----返回从游标中获取的记录数、
-</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
-      declare
-                 v_name varchar(50);
-      begin
-                 for col in (select empno, ename from emp) loop;
-                       update emp set ename = &apos;temp&apos; where empno = col.empno
-                  retuening ename into v_name;
-                  dbms_output.put_line(）；
-                 end loop;
-      end;
-</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
-       事物不是一个可以分割的单元
- 2. 一致性
-       事物必须使系统从一个一致性状态变换到另一个一致性状态
-3. 隔离性
-       每个事物必须独立与其他事务执行
-4.持久性
-       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
-</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
+        java.lang.refect.Proxy 
 
+2、装备必须实现InvocationHandler接口实现invoke方法 
+</code></pre><p>java代理有jdk动态代理、cglib代理，这里只说下jdk动态代理，jdk动态代理主要使用的是java反射机制（既java.lang.reflect包）<br>原理是（歌手、经纪人做例子）：<br>建立一个公共的接口，比如：歌手public interface Singer；<br>用具体的类实现接口，比如：周杰伦，他是歌手所以实现Singer这个类，class MySinger implements Singer<br>建立代理类，这里也就是经纪人，他需要实现InvocationHandler类，并重写invoke方法<br>这样当有什么事情，要找周杰伦（具体类）的时候，就必须先到经纪人（代理类）那里处理，代理人在决定要不要与你见面（该方法要不要执行）<br>1、歌手接口<br>复制代码代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public interface Singer &#123; </span><br><span class="line"></span><br><span class="line">public abstract void sing(); </span><br><span class="line"></span><br><span class="line">public abstract String s(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">2、具体的歌手 </span><br><span class="line">复制代码代码如下:</span><br><span class="line"></span><br><span class="line">public class MySinger implements Singer &#123; </span><br><span class="line">public void sing() &#123; </span><br><span class="line">// TODO Auto-generated method stub </span><br><span class="line">System.err.println(&quot;唱歌。。。。&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">3、代理类（经纪人） </span><br><span class="line">复制代码代码如下:</span><br><span class="line"></span><br><span class="line">public class agent implements InvocationHandler&#123; </span><br><span class="line">public Object target; </span><br><span class="line"></span><br><span class="line">//绑定 </span><br><span class="line">public Object bind(Object target)&#123; </span><br><span class="line">this.target=target; </span><br><span class="line">//必须放回Proxy </span><br><span class="line">return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">//重新 </span><br><span class="line">public Object invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">throws Throwable &#123; </span><br><span class="line">Object o =null; </span><br><span class="line">System.out.println(&quot;开始事务&quot;); </span><br><span class="line">System.out.println(&quot;判断权限&quot;); </span><br><span class="line"></span><br><span class="line">o = method.invoke(target, args);//执行方法 </span><br><span class="line"></span><br><span class="line">System.out.println(&quot;结束事务&quot;); </span><br><span class="line">return o; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4、测试（为什么要间接口能，下面你会发现代理返回的是他们的接口类，这要一个代理类，就可以代理多个类，只要该类是同个一个接口的是实现）<br>复制代码代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123; </span><br><span class="line">public static void main(String[] args) &#123; </span><br><span class="line">// </span><br><span class="line">agent a =new agent(); </span><br><span class="line">Singer s= (Singer) a.bind(new MySinger()); </span><br><span class="line">s.sing(); </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="五、反射："><a href="#五、反射：" class="headerlink" title="五、反射："></a>五、反射：</h2><p>什么是类的返射? </p>
+<p>通过类说明可以得到类的父类、实现的接口、内部类、构造函数、方法、属性并可以根据构造器实例化一个对象，唤起一个方法，取属性值，改属性值。 </p>
+<p>如何得到一个类说明? </p>
+<p>  Class cls=类.class; </p>
+<p>  Class cls=对象.getClass(); </p>
+<p>  Class.forName(“类路径”); </p>
+<p>如何得到一个方法并唤起它?<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class cls=类.class; </span><br><span class="line"></span><br><span class="line"> Constructor cons=cls.getConstructor(new Class[]&#123;String.class&#125;); </span><br><span class="line"></span><br><span class="line"> Object obj=cons.newInstance(new Object[]&#123;&quot;aaa&quot;&#125;); </span><br><span class="line"></span><br><span class="line">  Method method=cls.getMethod(&quot;方法名&quot;,new Class[]&#123;String.class,Integer.class&#125;); </span><br><span class="line"></span><br><span class="line">                      method.invoke(obj,new Object[]&#123;&quot;aa&quot;,new Integer(1)&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="六、spring的三种注入方式"><a href="#六、spring的三种注入方式" class="headerlink" title="六、spring的三种注入方式"></a>六、spring的三种注入方式</h2><pre><code>setter 
+
+interface 
+
+constructor 
+</code></pre><h2 id="七、spring的核心接口及核类配置文件"><a href="#七、spring的核心接口及核类配置文件" class="headerlink" title="七、spring的核心接口及核类配置文件"></a>七、spring的核心接口及核类配置文件</h2><pre><code>FactoryBean:工厂bean主要实现ioc/di 
+
+
+
+        ApplicationContext ac=new FileXmlApplicationContext(&quot;applicationContext.xml&quot;); 
+
+        Object obj=ac.getBean(&quot;id值&quot;);
+</code></pre>
       
 
       
@@ -178,7 +288,7 @@ end loop；
 
 
   
-    <article id="post-第3章oreaclePLSQL程序结构控制" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-struts2的执行流程工作原理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -186,27 +296,26 @@ end loop；
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第3章oreaclePLSQL程序结构控制/">第3章oreaclePL/SQL程序结构控制</a>
+      <a class="article-title" href="/2012/07/02/struts2的执行流程工作原理/">struts2的执行流程工作原理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第3章oreaclePLSQL程序结构控制/" class="article-date">
-  <time datetime="2014-09-22T02:30:23.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/02/struts2的执行流程工作原理/" class="article-date">
+  <time datetime="2012-07-02T14:05:17.000Z" itemprop="datePublished">2012-07-02</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="oreaclePL-SQL程序结构控制"><a href="#oreaclePL-SQL程序结构控制" class="headerlink" title="oreaclePL/SQL程序结构控制"></a>oreaclePL/SQL程序结构控制</h2><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.<br>PL/SQL中的【条件控制】语句有IF语句、CASE语句、<br>PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.<br>当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程就会转到当前块的异常处理部分来处理异常. 异常处理完成后，程序就马上跳出PL/SQL块。<br>PL/SQL异常分为系统异常和自定义异常两只类型<br>异常处理的流程包括定义异常、抛出异常和处理异常三个步骤。<br>异常的定义可以通过exeception关键字定义，此外还可以通过：异常名exeception_int 和exeception关键字来定义<br>使用raise语句可以抛出自定义异常或系统异常.而使用Oreacle的内置过程处理抛出的异常，我们必须在异常处理部分编写异常处理器。<br>下面详细写下用法：<br>条件控制:<br>if   条件1  then<br>如果条件1为真就返回ture<br>elsif  条件2  then<br>如果条件1为假就执行条件2返回true<br>else<br>以上条件都不为真就执行else语句<br>end if;<br>CASE 语句和CASE表达式:<br>case<br>when 10 then<br>如果等于10的条件为真就是true<br>when 20 then<br>如果等于20的条件为真就是true<br>when 30 then<br>如果等于30的条件为真就是true<br>end case;<br>CASE第二中表达式：<br>case<br>when 10 then<br>else<br>如果条件10不成立就执行else中的语句<br>end;</p>
-<h3 id="循环控制："><a href="#循环控制：" class="headerlink" title="循环控制："></a>循环控制：</h3><p>基本循环<br>LOOP<br>v_int :=v_int+1;<br>exit when v_nt&gt;15;  循环退出条件必须：exit when关键字<br>end loop;</p>
-<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p>只有条件为trun的时候才执行体内的语句<br>when 条件1 loop<br>条件为真的是才执行循环体内的语句<br>end loop;</p>
-<h3 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h3><p>for    i变量       in  1..100循环         loop<br>dbms_output.put_line(‘i’);<br>end    loop;</p>
-<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理:"></a>异常处理:</h3><p>定义异常<br>declare<br>v-info int exeception;   定义异常<br>v_info1 int exeception;   抛出异常<br>begin<br>raise v_info1 抛出<br>exception<br>when  others   then<br>dbms_out.put_line(‘定义的异常others异常的父类关键字’);<br>end;<br>exeption<br>when    v_info1     then<br>dbms_out.put_line(‘抛出v_info1异常处理’);<br>end;</p>
-<h3 id="系统异常"><a href="#系统异常" class="headerlink" title="系统异常"></a>系统异常</h3><p>人为抛出的系统异常raize_pplication_error关键字<br>declare<br>begin<br>if   条件1  then<br>raize_pplication_error(-20001,’该部门不存在！’);<br>end if;<br>end;</p>
-
+        <h3 id="Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"><a href="#Struts-2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。" class="headerlink" title="Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。"></a>Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。</h3><p>   Struts 2框架本身大致可以分为3个部分：核心控制器FilterDispatcher、业务控制器Action和用户实现的企业业务逻辑组件。核心控制器FilterDispatcher是Struts 2框架的基础，包含了框架内部的控制流程和处理机制。业务控制器Action和业务逻辑组件是需要用户来自己实现的。用户在开发Action和业务逻辑组件的同时，还需要编写相关的配置文件，供核心控制器FilterDispatcher来使用。 Struts 2的工作流程相对于Struts 1要简单，与WebWork框架基本相同，所以说Struts 2是WebWork的升级版本。基本简要流程如下：<br>
+        
+          <p class="article-more-link">
+            <a href="/2012/07/02/struts2的执行流程工作原理/#more">More...</a>
+          </p>
+        
       
 
       
@@ -218,7 +327,7 @@ end loop；
 
 
   
-    <article id="post-第2章PLSQL编程基础" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-PermGenSpace溢出解决方" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -226,132 +335,21 @@ end loop；
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/20/第2章PLSQL编程基础/">第2章PL/SQL编程基础</a>
+      <a class="article-title" href="/2012/06/23/PermGenSpace溢出解决方/">PermGenSpace溢出解决方</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/20/第2章PLSQL编程基础/" class="article-date">
-  <time datetime="2014-09-19T16:15:58.000Z" itemprop="datePublished">2014-09-20</time>
+      <a href="/2012/06/23/PermGenSpace溢出解决方/" class="article-date">
+  <time datetime="2012-06-23T14:19:04.000Z" itemprop="datePublished">2012-06-23</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://i.imgur.com/FW8XAQc.jpg" alt=""><br>PL/SQL编程基础<br>PL/SQL简介 </p>
-<p> PL/SQL块的基础结构：<br>                    declare<br> 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常<br>                    begin<br>                  执行部分– PL/SQL语句和SQL语句<br>                    exception<br>                  异常处理部分–处理运行错误<br>                     end<br>                   块结束标记<br>     编写PL/SQL语句时，执行部分是必须的，而其它两个部分是可选的。<br>2、PL/SQL块的类型<br> a、匿名块<br>    既可以内嵌到应用程序中，也可以在交互环境中直接使用<br>       例 ：<br>             declare<br>               v_name varchar2(50);<br>             begin<br>               dbms_output.put_line(‘wwww’);<br>             end;<br> b、子程序<br>    a.过程<br>          例：<br>             create or replace procedure pro_name is<br>             v_name varchar2(50);<br>              begin<br>              dbms_output.put_line(‘过程’);<br>     b.函数<br>         例：<br>            create or replace function fun_name return varchar2 as<br>            v_name varchar2(50);<br>             begin<br>            v_funvar:= “函数变量”；<br>            dbms_output.put_line(‘函数’)；<br>            return v_funvar;<br> ```<br>    c.包<br>/<em>包规范</em>/<br>create or replace package 包名is<br>/<em>包方法定义</em>/<br>   procedure proc_name_sal_info(id in int);<br> end 包名;<br>/<em>包体</em>/<br> create or replace package body pack_info is<br>/<em>包规范中定义的方法在包体中实现</em>/<br>  procedure proc_name_sal_info(id in int) is<br>  type cur_name is ref cursor;<br>  cur_info cur_name;<br>  cur_name_sal emp%rowtype;<br>  begin<br>  open cur_info for select <em> from emp where empno=id;<br>  loop<br>  fetch cur_info into cur_name_sal;<br>  exit when cur_info%notfound;<br>  dbms_output.put_line(‘ID：’||cur_name_sal.empno|| ‘姓名：’||cur_name_sal.ename ||’工资：’ ||cur_name_sal.sal);<br>  end loop;<br>  close cur_info;<br>  end;<br>  end pack_info;<br>  /</em>call测试<em>/<br>  call pack_info.proc_name_sal_info(7369);<br>  /</em>匿名块测试<em>/<br>  declare<br>  begin<br>  pack_info.proc_name_sal_info(7369);<br>  end;<br> c、触发器<br>/</em>触发器*/<br>  create or replace trigger 触发器名称<br>  before insert on t_dempt     – 在什么之前关键字before或之后关键字after on是哪张表表名<br>  for each row                          –行级触发器默认不填是语句级触发器<br>  begin<br>  select id_seq.nextval into :new.id from dual;<br>  end;<br>3.数据类型与变量</p>
-<ol>
-<li>标量变量<br>指只能存入单个数值的变量<br>varchar2（n）、char（n）、number(m,n)(m表示精度，表示指定数子的总位数，n表示小数点后面数字的位数)、date<br>2.使用%TYPE属性<pre><code>例：
-    declare
-    v_loc dept.loc%type;
-    begin
-     select loc into v_loc from dept where deptno = 10;
-    dbms_output.put_line(v_loc);
-    end;
-</code></pre></li>
-</ol>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-第1章oreacle数据库基本概念" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/20/第1章oreacle数据库基本概念/">第1章oreacle数据库基本概念</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/20/第1章oreacle数据库基本概念/" class="article-date">
-  <time datetime="2014-09-19T16:10:48.000Z" itemprop="datePublished">2014-09-20</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一章oreacle数据库基本概念</p>
-<ol>
-<li>Oracle发展史<br>1977年6月     SDL—-软件开发实验室<br>1979年        SDL更名为RSI—-关系型有限公司<br>1979年        发布第一个商用SQL关系型数据库管理系统（不稳定，缺少很多重要功能）<br>1983年3月     Oracle 第3版  （具有了“可移植性”的功能）<br>1984年10月    Oracle 第4版  （稳定性得到增强）<br>1985年        Oracle 第5版  （可以在C/S模式下运行的RDBMS产品）<br>1988年        Oracle 第6版  （BUG众多、不稳定、差点破产）<br>1992年6月     Oracle 第7版   （真正出色的传品，取得重大成功，引入一种新的优化器）<br>1997年6月     Oracle 第8版  （为支持INRERNET，网络计算机奠定了基础）<br>1998年9月     Oracle 第8i版 (为数据库用户提供了全方位的JAVA支持)<br>2001年6月     Oracle 第9i版（最重要应用集群服务器）<br>2003年9月     Oracle 第10g （加入了网格计算的功能）<br>2007年7月     Oracle 第11g （在性能、可升级性、可管理性以及可诊断性上有了提升）<br>2.PL/SQL<br>PL/SQL新功能<ol>
-<li>变量定义</li>
-<li>控制结构</li>
-<li>自定义的子程序</li>
-<li>对象类型<br>PL/SQL优点<br>1、提高应用程序性能 （）<br>2、提供模块化程序开发能力（可以将业务逻辑集成到PL/SQL命名块（存储工程、函数、触发器、包）中）<br>3、具有良好的兼容性（不同的Oracle工具都可以用相同的PL/SQL脚本）<br>4、允许定义标识符（可以在PL/SQL中定义变量、常量、游标、异常等各种标识符）<br>5、提供了程序控制结构（可以在PL/SQL中使用选择语句、循环语句等结构化编程语言的控制结构）<br>6、提供了异常处理（通过PL/SQL提供的异常处理机制，可以处理各种Oracle和PL/SQL异常）</li>
-</ol>
-</li>
-<li><p>Oracle数据库体系架构<br>  指Oracle数据库管理系统的组成部分和这些组成部分之间的相互关系，包括内存结构、后台进程、物理与逻辑结构等。<br> 1、 Oracle内存结构</p>
-<pre><code>1、共享内存区（主要由SGA （System Global Area）组成）
-SGA：（划定一个区域，存储每个用户所需要存取的数据，以及ORACLE运行时所必备的系统信息 此区域称为系统全局区）
-    a、数据库缓存区 （database buffer cache）
-       用来存放读取自数据文件的数据块副本，或者用户曾经处理过的数据
-
-    b、重做日志缓冲区（redo log buffer）
-      记录数据库内所有数据修改的内存区域
-    c、共享池(shared pool)
-       a、库缓存 （library cache）
-       b、数据词典缓存（dictionary cache）
-    d、其他区域
-
-2、非共享内存区（主要由PGA（Program Global Area）组成）
-PGA：（用户存放服务器进程的数据和控制信息）
-    a、排序区（sort area）
-       用于存放排序操作所产生的临时数据
-     b、会话信息（session informatio）
-       存放会话所具有的的权限、角色以及会话的性能统计信息
-    c、游标状态（cursor state）
-       运行SQL语句在共享池中为SQL语句分配上下文区，该上下文区的指针就是指游标
-    d、堆栈空间（stack space）
-       用户存放会话的变量信息
-</code></pre><ol>
-<li>Oracle 后台进程<pre><code>a、数据写进程（DBWR）
-    将数据库缓存区内改动过的数据块写入到硬盘内的数据文件
-b、日志写进程(LGW仄R)
-    将冲工作日志缓冲区中的更改写入重做日志文件
-c、系统监控(SMON)
-     数据库不正常关闭，下一次开启数据库时由系统监控修复数据库
-d、进程监控(PMON) 
-    进程失败时清理资源
-e、检查点进程(CKPT)
-    告诉缓存中的更改永久的巨鹿在数据库中，更新控制文件和数据文件中的数据库状态信息
-f、归档进程(ARCH)
-     把已满的日志组进行备份或归档
-</code></pre></li>
-<li>Oracle逻辑和物理结构<ol>
-<li>Oracle数据库逻辑结构<br>  a、表空间<pre><code>存放不同类型的数据与数据库对象
-</code></pre>  b、块<pre><code>数据库中最小的存储单元
-</code></pre>  c、段<pre><code>在数据表空间能划分出不同区域，存放不同数据，此区域就称为段
-</code></pre>  d、区<pre><code>连续的数据块
-</code></pre><ol>
-<li>Oracle物理逻辑结构<br>a、数据文件（data file）<pre><code>数据表、索引
-</code></pre>b、重做日志文件（redo log file）<ol>
-<li>联机重做日志文件<br> 数据库正常运行所必须的</li>
-<li>归档重做日志文件<br> 只有在数据库运行在归档方式下才生成<br>c、控制文件（control file）<br> 记录与描述数据库试题结构<br>d、初始化参数文件（initialization parameter file）<br>e、口令文件（password file）</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p>序列的创建<br>create sequence  序列名 increment by 增加 start with 起始数字</p>
+        <p>PermGen space溢出解决方法​<br>tomcat在运行几天后，会出现PermGen space溢出错误而无法继续处理请求，解决方法是调整PermGen区域大小：<br>JAVA_OPTS=”-server -XX:PermSize=64M -XX:MaxPermSize=128m”<br>还有一种说法是使用Jrockit代替sun实现的jdk，但我没有试验。<br>下面来看看对PermGen space的解释：<br>PermGen space的全称是Permanent Generation space，是指内存的永久保存区域，这个内存区域用于：<br>（1）这一部分用于存放Class和Meta的信息，Class在被 Load的时候被放入PermGen space区域，它和和存放Instance的Heap区域不同。<br>（2） GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的APP会LOAD很多CLASS的话,就很可能出现PermGen space错误。<br>这种错误常见在web服务器对JSP进行pre compile的时候。<br>如果你的WEB APP下都用了大量的第三方jar，其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
 
       
 
@@ -375,7 +373,7 @@ f、归档进程(ARCH)
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -385,7 +383,7 @@ f、归档进程(ARCH)
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

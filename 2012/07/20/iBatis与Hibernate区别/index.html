@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iBatis与Hibernate区别 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用quer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iBatis与Hibernate区别">
+<meta property="og:url" content="http://yoursite.com/2012/07/20/iBatis与Hibernate区别/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用quer">
+<meta property="og:updated_time" content="2016-03-20T05:32:42.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iBatis与Hibernate区别">
+<meta name="twitter:description" content="相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用quer">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-iBatis与Hibernate区别" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iBatis与Hibernate区别
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/07/20/iBatis与Hibernate区别/" class="article-date">
+  <time datetime="2012-07-20T14:34:40.000Z" itemprop="datePublished">2012-07-20</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。<br>jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。<br>ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用queryForObject返回单个对象；提供了自动将实体对象的属性传递给sql语句的参数。</p>
+<p>Hibernate是一个全自动的orm映射工具，它可以自动生成sql语句,ibatis需要我们自己在xml配置文件中写sql语句，hibernate要比ibatis功能负责和强大很多。因为hibernate自动生成sql语句，我们无法控制该语句，我们就无法去写特定的高效率的sql。对于一些不太复杂的sql查询，hibernate可以很好帮我们完成，但是，对于特别复杂的查询，hibernate就很难适应了，这时候用ibatis就是不错的选择，因为ibatis还是由我们自己写sql语句。</p>
+<h3 id="总结叉子可以理解："><a href="#总结叉子可以理解：" class="headerlink" title="总结叉子可以理解："></a>总结叉子可以理解：</h3><p>hibernate 是一个ORM框架，就是java对象和数据库表中记录相映射是它是主要的一个特点<br>比如，一个java类，和一个数据库的表相对应，java类的成员变量和表的字段对应<br>而 ibatis 是一个sql map框架，就是sql语句和java对象相映射的特点 比如，sql语句，<br>select * from XX,这个返回的字段数据和java对象的成员变量相映射。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/22/Hiberante_lazy延迟加载总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hiberante_lazy延迟加载总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/16/java日期类型在Hibernate中的处理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java日期类型在Hibernate中的处理</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/07/20/iBatis与Hibernate区别/" data-title="iBatis与Hibernate区别" data-url="http://yoursite.com/2012/07/20/iBatis与Hibernate区别/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

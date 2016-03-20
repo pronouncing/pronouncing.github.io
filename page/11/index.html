@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Servlet中forward和redirect的区别" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-八、PLSQL跳转判断循环语句块" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,28 +42,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Servlet中forward和redirect的区别/">Servlet中forward和redirect的区别</a>
+      <a class="article-title" href="/2012/04/21/Oracle笔记-八、PLSQL跳转判断循环语句块/">Oracle笔记 八、PL/SQL跳转/判断/循环语句块</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Servlet中forward和redirect的区别/" class="article-date">
-  <time datetime="2014-09-19T12:57:36.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/21/Oracle笔记-八、PLSQL跳转判断循环语句块/" class="article-date">
+  <time datetime="2012-04-21T09:19:02.000Z" itemprop="datePublished">2012-04-21</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>forward方式：request.getRequestDispatcher(“/somePage.jsp”).forwardrequest, response);<br>redirect方式：response.sendRedirect(“/somePage.jsp”);<br>forward是服务器内部重定向，程序收到请求后重新定向到另一个程序，客户机并不知道；redirect则是服务器收到请求后发送一个状态头给客户，客户将再请求一次，这里多了两次网络通信的来往。当然forward也有缺点，就是forward的页面的路径如果是相对路径就会有些问题了。    forward 会将 request state , bean 等等信息带往下一个 jsp<br>redirect 是送到 client 端后再一次 request , 所以资料不被保留.<br>使用 forward 你就可以用 getAttribute() 来取的前一个 jsp 所放入的 bean 等等资料</p>
-<p>在网上看到一些帖子，总结了一些区别，可以从以下几个方面来看：</p>
-<h3 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h3><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
-<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.所以redirect等于客户端向服务器端发出两次request，同时也接受两次response。</p>
-<h3 id="2-从数据共享来说"><a href="#2-从数据共享来说" class="headerlink" title="2.从数据共享来说"></a>2.从数据共享来说</h3><p>forward:转发页面和转发到的页面可以共享request里面的数据.<br>redirect:不能共享数据.</p>
-<p>redirect不仅可以重定向到当前应用程序的其他资源,还可以重定向到同一个站点上的其他应用程序中的资源,甚至是使用绝对URL重定向到其他站点的资源.</p>
-<p>forward,方法只能在同一个Web应用程序内的资源之间转发请求.forward 是服务器内部的一种操作.<br>redirect 是服务器通知客户端,让客户端重新发起请求.<br>所以,你可以说 redirect 是一种间接的请求, 但是你不能说”一个请求是属于forward还是redirect “</p>
-<h3 id="3-从运用地方来说"><a href="#3-从运用地方来说" class="headerlink" title="3.从运用地方来说"></a>3.从运用地方来说</h3><p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.<br>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
+        <p>–goto跳转语句<br>–在goto 后，跳转到相应的语句，然后执行该语句和后面所有语句<br>begin<br>     dbms_output.put_line(‘goto开始了’);<br>     goto c;<br>          –不被执行<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>          dbms_output.put_line(‘goto’);<br>    &lt;<a>&gt;<br>           dbms_output.put_line(‘goto aaa’);<br>    &lt;<b>&gt;<br>           dbms_output.put_line(‘goto bbb’);<br>    &lt;<c>&gt;<br>           dbms_output.put_line(‘goto ccc’);<br>end;   </c></b></a></p>
+<p>–PL/SQL中的sql和rowcount属性：sql代表最近执行的sql语句，rowcount代表最近执行的sql语句影响的行数<br>declare<br>  vCount number;<br>  vDeptno dept2.deptno%type := 10;<br>begin<br>  –select count(<em>) into vCount from dept2;<br>  –update dept2 set dname = dname || ‘~.~’ where deptno = vDeptno;<br>  –delete from dept2 where deptno = 40;<br>  insert into dept2 select </em> from dept;<br>  dbms_output.put_line(‘count:’ || vCount);<br>  dbms_output.put_line(sql%rowcount || ‘行受影响’);<br>end;</p>
+<p>–PL/SQL执行sql语句<br>begin<br>  execute immediate ‘create table temp as select * from dept’;<br>end;</p>
+<p>–动态sql，把sql语句放到变量中并传递参数<br>declare<br>     sqlstr varchar2(100);<br>begin<br>     sqlstr := ‘insert into scott.dept values(12, :1, :abc)’;<br>     –变量是按照占位符顺序插入的<br>     execute immediate sqlstr using ‘教务部’, ‘武汉’;<br>end;</p>
+<p>select * from scott.dept;</p>
+<p>–动态sql,把查询结果赋值给变量<br>declare<br>       dept_row_data scott.dept%rowtype;<br>       sqlstr varchar2(100);<br>begin<br>     sqlstr := ‘select * from scott.dept where deptno = 11’;<br>     execute immediate sqlstr into dept_row_data;<br>     dbms_output.put_line(dept_row_data.deptno);<br>end;</p>
+<p>–if 语句<br>–select * from emp;<br>declare<br>     vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp where empno = 7566;<br>  if (vSal &lt; 1200) then<br>    dbms_output.put_line(‘小于1200’);<br>  elsif (vSal &lt; 2000) then<br>    dbms_output.put_line(‘小于2000’);<br>  else<br>    dbms_output.put_line(‘大于2000’);<br>  end if;<br>end;  </p>
+<p>–loop循环<br>declare<br>  i binary_integer := 10;<br>begin<br>  loop<br>    dbms_output.put_line(i);<br>    i := i - 1;<br>    exit when(i &lt; 1);<br>  end loop;<br>end;</p>
+<p>–while循环<br>declare<br>  i binary_integer := 1;<br>begin<br>  while i &lt; 11 loop<br>     dbms_output.put_line(i);<br>     i := i + 1;<br>  end loop;<br>end;</p>
+<p>–for 循环<br>begin<br>  for i in 1..10 loop<br>    dbms_output.put_line(i);<br>  end loop;<br>  for i in reverse 1..10 loop<br>    dbms_output.put_line(i);<br>  end loop;<br>end;<br>版权维护转载hoojo博客的。</p>
 
       
 
@@ -76,7 +78,7 @@
 
 
   
-    <article id="post-Servlet请求转发和重定向总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-七、PLSQL-异常处理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -84,47 +86,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Servlet请求转发和重定向总结/">Servlet请求转发和重定向总结</a>
+      <a class="article-title" href="/2012/04/20/Oracle笔记-七、PLSQL-异常处理/">Oracle笔记 七、PL/SQL 异常处理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Servlet请求转发和重定向总结/" class="article-date">
-  <time datetime="2014-09-19T12:53:19.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/20/Oracle笔记-七、PLSQL-异常处理/" class="article-date">
+  <time datetime="2012-04-20T09:14:32.000Z" itemprop="datePublished">2012-04-20</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Servlet中forward redirect （请求转发 重定向）自己总结<br>forward：请求转发<br>redirect: 重定向<br>1.在给予”/“表示当前的路径是以jsp路径为根路径来进行请求转发，属于绝对路径。 如果没有表示当前路径是以当前客户端发送请求时的路径进行请求转发，属于相对路径。<br>2.从这里的请求转发可以看出，servlet主要负责的并不是现实html代码，而是为了处理具体的请求转发。大致方法获得RequestDisapatcher对象 然后用其forward方法来进行请求转发：<br>RequestDisapatcher rd=reqest.getRequestDisapatcher();<br>rd.forward(req,resp); //用这里的方法来进行转发</p>
-<p>3.HttpServletResponse 对象的SendRequest（String location）方法称作重定向，如果location地址前面加上“/ ”,则表示相对于servlet容器的根来请求，即<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> ,如果location地址前没有加上“/”，则表示当前请求的URI来寻找地址(就是当前的项目目录中)。<br>4.RequestDispather的forward（request,response)方法称为请求转发。<br>5.请求转发和重定向的区别：<br>a.请求转发：整个过程在同一个请求当中。所以在用getParameter的时候的值可以随时拿到。<br>b. 重定向：实际上客户端会向服务器发送两个请求。第一个请求是请求serlvet，第二个请求是服务器将结果发送到请求页面。所以getParameter是不可能得到同一个请求参数的。所以最总是是用response对象中的sendRedirect方法来重定向，也即服务器响应对象来进行重定向的.<br>c.RequestDisapatcher是通过调用HttpServletRequest对象的getRequestDisapatcher方法得到的。是属于请求对象的方法。<br>d.sendRedirect方法是属于HttpServletResposne对象的方法，即响应对象的方法，既然调用了响应对象的方法，那就表明整个请求过程已经结束了，服务器开始向客户端返回执行的结果。</p>
-<p>6.重定向在firebug中的会有两个请求 而请求转发只有一个。本源就是请求个数。</p>
-<p>前后两个页面 有数据传递 用请求转发，没有则用重定向。<br>比如servlet查询了数据需要在页面显示，就用请求转发。<br>比如servlet做了update操作跳转到其他页面，就用重定向。</p>
-<p>=======================================================</p>
-<h2 id="1-从地址栏显示来说"><a href="#1-从地址栏显示来说" class="headerlink" title="1.从地址栏显示来说"></a>1.从地址栏显示来说</h2><p>forward是服务器请求资源,服务器直接访问目标地址的URL,把那个URL的响应内容读取过来,然后把这些内容再发给浏览器.浏览器根本不知道服务器发送的内容从哪里来的,所以它的地址栏还是原来的地址.</p>
-<p>redirect是服务端根据逻辑,发送一个状态码,告诉浏览器重新去请求那个地址.所以地址栏显示的是新的URL.</p>
-<p>2.从数据共享来说</p>
-<p>forward:转发页面和转发到的页面可以共享request里面的数据.</p>
-<p>redirect:不能共享数据.</p>
-<p>3.从运用地方来说</p>
-<p>forward:一般用于用户登陆的时候,根据角色转发到相应的模块.</p>
-<p>redirect:一般用于用户注销登陆时返回主页面和跳转到其它的网站等.</p>
-<p>4.从效率来说</p>
-<p>forward:高.</p>
-<p>redirect:低.</p>
-<p>本质区别</p>
-<h2 id="解释一"><a href="#解释一" class="headerlink" title="解释一"></a>解释一</h2><p>一句话，转发是服务器行为，重定向是客户端行为。为什么这样说呢，这就要看两个动作的工作流程：</p>
-<p>转发过程：客户浏览器发送http请求—-》web服务器接受此请求–》调用内部的一个方法在容器内部完成请求处理和转发动作—-》将目标资源发送给客户;在这里，转发的路径必须是同一个web容器下的url，其不能转向到其他的web路径上去，中间传递的是自己的容器内的request。在客户浏览器路径栏显示的仍然是其第一次访问的路径，也就是说客户是感觉不到服务器做了转发的。转发行为是浏览器只做了一次访问请求。</p>
-<p>重定向过程：客户浏览器发送http请求—-》web服务器接受后发送302状态码响应及对应新的location给客户浏览器–》客户浏览器发现是302响应，则自动再发送一个新的http请求，请求url是新的location地址—-》服务器根据此请求寻找资源并发送给客户。在这里 location可以重定向到任意URL，既然是浏览器重新发出了请求，则就没有什么request传递的概念了。在客户浏览器路径栏显示的是其重定向的路径，客户可以观察到地址的变化的。重定向行为是浏览器做了至少两次的访问请求的。</p>
-<h3 id="解释二"><a href="#解释二" class="headerlink" title="解释二"></a>解释二</h3><p>重定向，其实是两次request,</p>
-<p>第一次，客户端request A,服务器响应，并response回来，告诉浏览器，你应该去B。这个时候IE可以看到地址变了，而且历史的回退按钮也亮了。重定向可以访问自己web应用以外的资源。在重定向的过程中，传输的信息会被丢失。</p>
-<p>例子：</p>
-<p>请求转发是服务器内部把对一个request/response的处理权，移交给另外一个</p>
-<p>对于客户端而言，它只知道自己最早请求的那个A，而不知道中间的B，甚至C、D。 传输的信息不会丢失。</p>
-<h3 id="解释三："><a href="#解释三：" class="headerlink" title="解释三："></a>解释三：</h3><p>转发是服务器行为，重定向是客户端行为。 </p>
-<p>两者的内部机制有很大的区别：<br>1 请求转发只能将请求转发给同一个WEB应用中的组件，<br>而重定向还可以重新定向到同一站点不同应用程序中的资源，甚至可以定向到一绝对的URL。<br>2 重定向可以看见目标页面的URL，<br>转发只能看见第一次访问的页面URL，以后的工作都是有服务器来做的。<br>3 请求响应调用者和被调用者之间共享相同的request对象和response对象，<br>重定向调用者和被调用者属于两个独立访问请求和响应过程。<br>4 重定向跳转后必须加上return，要不然页面虽然跳转了，<br>但是还会执行跳转后面的语句，<br>转发是执行了跳转页面，下面的代码就不会在执行了。 </p>
+        <p>Oracle笔记 七、PL/SQL 异常处理<br>–异常处理<br>declare<br>  sNum number := 0;<br>begin<br>  sNum := 5 / sNum;<br>  dbms_output.put_line(sNum);<br>exception<br>  when others then<br>    dbms_output.put_line(‘is Error!’);<br>end;</p>
+<p>–自定义异常<br>declare<br>       ex_custom_invaild_age exception; –自定义的异常myerr<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise ex_custom_invaild_age; –引发自定义异常<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>exception<br>      when ex_custom_invaild_age then<br>        dbms_output.put_line(‘非法的年龄’);<br>end;</p>
+<p>–引发应用程序异常<br>–raise_application_error(异常编号，说明);<br>declare<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise_application_error(-20500, ‘年龄不能为负数’);<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>end;</p>
+<p>–非预定义异常<br>declare<br>     ex_custom_error exception;<br>     pragma exception_init(ex_custom_error, -1); –把一个编号和一个自定义异常关联，<br>     –相当于把-1编号的异常命名为ex_custom_error，这样就可以捕获这种异常<br>begin<br>     insert into dept values(10, ‘aaa’, ‘bbb’);<br>     exception<br>       when ex_custom_error then<br>       dbms_output.put_line(‘部门编号已经存在’);<br>end;</p>
+<p>–异常处理<br>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp;<br>  exception<br>    when too_many_rows then<br>      dbms_output.put_line(‘多条数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
+<p>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp where empno = 1;<br>  exception<br>    when no_data_found then<br>      dbms_output.put_line(‘没有数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
+<p>–异常日志处理<br>create table errorLog (<br>       id number primary key,<br>       errCode number,<br>       errMsg varchar2(1024),<br>       errDate date<br>);<br>–创建序列，从1开始，每次加1<br>create sequence seq_errorLog_id start with 1 increment by 1;</p>
+<p>declare<br>       vDeptno dept.deptno%type := 10;<br>       vErrCode number;<br>       vErrMsg varchar2(1024);<br>begin<br>  delete from dept where deptno = vDeptno;<br>  commit;<br>  exception<br>    when others then<br>      rollback;<br>      vErrCode := SQLCODE;<br>      vErrMsg := SQLERRM;<br>      insert into errorLog values(seq_errorLog_id.nextval, vErrCode, vErrMsg, sysdate);<br>      commit;<br>end;</p>
+<p>select * from errorLog;</p>
+<p>版权维护转载hoojo博客的。</p>
 
       
 
@@ -137,7 +122,7 @@
 
 
   
-    <article id="post-第19章jdbc数据库编程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-六、PLSQL简单语句块、变量定义" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -145,24 +130,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第19章jdbc数据库编程/">第19章jdbc数据库编程</a>
+      <a class="article-title" href="/2012/04/19/Oracle笔记-六、PLSQL简单语句块、变量定义/">Oracle笔记 六、PL/SQL简单语句块、变量定义</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第19章jdbc数据库编程/" class="article-date">
-  <time datetime="2014-09-19T12:47:08.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/19/Oracle笔记-六、PLSQL简单语句块、变量定义/" class="article-date">
+  <time datetime="2012-04-19T09:12:49.000Z" itemprop="datePublished">2012-04-19</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="java数据库编程驱动类型："><a href="#java数据库编程驱动类型：" class="headerlink" title="java数据库编程驱动类型："></a>java数据库编程驱动类型：</h2><p>JAVA数据库编程有4种驱动分类常用的就只有2种类型<br>（可以连接不同数据库的 JDBC）——网络协议纯java驱动<br>（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序</p>
-<p>url格式：<br>[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）<br>Oracle              jdbc:oracle:thin:@主机名:端口号：数据库名<br>SQL Server       jdbc:Sqlserver://主机名：端口号：databaseName=数据库名]</p>
-<p>driver 驱动<br>Connection 连接<br>createStatement 连接对象<br>Reultset 结果集<br>executeupdate 修改数据库</p>
-<h2 id="书写标准固定格式代码："><a href="#书写标准固定格式代码：" class="headerlink" title="书写标准固定格式代码："></a>书写标准固定格式代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package Jdbc;</span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">public class Jdbc &#123;</span><br><span class="line"> Connection conn; //声明</span><br><span class="line"> Statement statme;</span><br><span class="line"> ResultSet rus;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  String url=&quot;jdbc:mysql://localhost:3306/lihao&quot;; //连接mysql 主机名+端口号+库名</span><br><span class="line">  String user=&quot;root&quot;;</span><br><span class="line">  String pawss=&quot;pronouncing&quot;;</span><br><span class="line">  String sql=&quot;select * from t_student &quot;; //查询</span><br><span class="line">  </span><br><span class="line">  try &#123;</span><br><span class="line">   Class.forName(&quot;com.mysql.jdbc.Driver&quot;);//连接驱动</span><br><span class="line">   Connection conn=DriverManager.getConnection(url,user,pawss);//连接</span><br><span class="line">   Statement statme=conn.createStatement();//创建连接对象</span><br><span class="line">   ResultSet rus=statme.executeQuery(sql);//结果集（查询或执行 SQL语句）</span><br><span class="line">   </span><br><span class="line">   while(rus.next()) &#123;        //邮标从第1行开始</span><br><span class="line">    String name=rus.getString(&quot;_name&quot;);</span><br><span class="line">    String age=rus.getString(&quot;_age&quot;);</span><br><span class="line">    String sex=rus.getString(&quot;_sex&quot;);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    System.out.println(name);         //打印数据查询出来的内容  </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">   &#125;</span><br><span class="line">  &#125;catch(SQLException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;catch(ClassNotFoundException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>1、简单SQL语句，HellWorld示例<br>–输出信息<br>begin<br>  dbms_output.put_line(‘Oracle Hello World!’);<br>end;</p>
+<p>2、变量的定义、使用<br>–定义变量<br>declare<br>  sName varchar2(20);<br>begin<br>  sName := ‘jack’;<br>  dbms_output.put_line(sName);<br>end;</p>
+<p>–常用类型<br>declare<br>    sNum number(1);<br>    sCount binary_integer := 0;<br>    sSal number(7, 2) := 5000.00;<br>    sDate date := sysdate;<br>    sPI number(3, 2) := 3.14;<br>    sValid boolean := true;<br>    sName varchar2(20) := ‘Jackson’;<br>begin<br>    dbms_output.put_line(‘sName:’ || sName);<br>    dbms_output.put_line(‘sCount:’ || sCount);<br>    dbms_output.put_line(‘sSal:’ || sSal);<br>    dbms_output.put_line(‘sDate:’ || sDate);<br>    dbms_output.put_line(‘sPI:’ || sPI);<br>    –dbms_output.put_line(‘sValid:’ || sValid);<br>    dbms_output.put_line(‘sName:’ || sName);<br>end;</p>
+<p>–定义Table变量类型<br>declare<br>  type type_table_emp_empno is table of emp.empno%type index by binary_integer;<br>  empnos type_table_emp_empno;<br>begin<br>  empnos(0) := 7369;<br>  empnos(2) := 6789;<br>  empnos(-1) := 6543;<br>  dbms_output.put_line(empnos(-1));<br>end;</p>
+<p>–定义record变量类型<br>declare<br>  type type_record_dept is record (<br>       deptno dept.deptno%type,<br>       dname dept.dname%type,<br>       loc dept.loc%type<br>  );<br>  temp type_record_dept;<br>begin<br>  temp.deptno := 56;<br>  temp.dname := ‘software’;<br>  temp.loc := ‘gz’;<br>  dbms_output.put_line(temp.deptno || ‘ ‘ || temp.dname  || ‘ ‘ || temp.loc);<br>end;</p>
+<p>–使用rowtype声明record变量<br>declare<br>  temp dept%rowtype;<br>begin<br>  temp.deptno := 57;<br>  temp.dname := ‘it’;<br>  temp.loc := ‘sz’;<br>  dbms_output.put_line(temp.deptno || ‘ ‘ || temp.dname  || ‘ ‘ || temp.loc);<br>end;</p>
+<p>–sql语句完成变量赋值<br>declare<br>  v$sal emp.sal%type;<br>  v$ename emp.ename%type;<br>begin<br>  select sal, ename into v$sal, v$ename from emp where rownum = 1;<br>  dbms_output.put_line(v$sal || ‘ ‘ || v$ename);<br>end;</p>
+<p>–sql语句完成rowtype变量赋值<br>declare<br>  v_row_emp emp%rowtype;<br>begin<br>  select * into v_row_emp from emp where empno = 7698;<br>  dbms_output.put_line(v_row_emp.sal || ‘ ‘ || v_row_emp.ename);<br>end;</p>
+<p>–sql语句完成变量插入数据<br>create table dept2 as select * from dept;<br>declare<br>   deptno dept.deptno%type := 57;<br>   dname dept.dname%type := ‘software’;<br>   loc dept.loc%type := ‘gz’;<br>begin<br>    insert into dept2 values(deptno, dname, loc);<br>      commit;<br>end;</p>
+
       
 
       
@@ -174,7 +165,7 @@
 
 
   
-    <article id="post-java18章网络编程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -182,31 +173,133 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/java18章网络编程/">java18章网络编程</a>
+      <a class="article-title" href="/2012/04/18/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/">Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/java18章网络编程/" class="article-date">
-  <time datetime="2014-09-19T12:42:16.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/18/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/" class="article-date">
+  <time datetime="2012-04-18T09:11:20.000Z" itemprop="datePublished">2012-04-18</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
-<h2 id="OSI7层模型解释："><a href="#OSI7层模型解释：" class="headerlink" title="OSI7层模型解释："></a>OSI7层模型解释：</h2><p>1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）</p>
-<p>2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据<br>如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。</p>
-<p>3：网络层：源主机和目标主机的网络地址进行通信</p>
-<p>4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，以不可靠的传输单位称为数据报</p>
-<p>5：会话层：会话层管理进程之间的会话过程  负责建立，管理和连接进程之间的会话，比如说QQ我跟你说话就表示在会话这一层.</p>
-<p>6：表示层：表示层对上层的数据进行转换，以保证一个主机的应用层的数据可以被另一个主机的应用层理解，表示层包括，加密-解密-压缩-解压和格式转换<br>7：应用层：应用层确定进程之间通信的实际用途，以满足用户的实际请求，例如浏览Web站点 收发E-mail,上传或下载文件等.</p>
-<p>TCP/IP模型：程序员应要做的就是在应用这一层里面<br>TCP协议是面向连接的可靠的通信协议,<br>而UDP是非连接的不可靠的通信协议,<br>这两个协议位于TCP/IP模型的传输层，要在网络上找到另一台计算机的程序进行通讯需要提供IP地址和端口号.</p>
-<p>Socke是客户端ServerSocke是服务器端,Socket和ServerSocke用于在两个java程序之间创建一个TCP/IP连接，程序之间的通讯通过IO类来执行</p>
-<h3 id="下面给大家贴一段代码f是服务器端f1是客服端"><a href="#下面给大家贴一段代码f是服务器端f1是客服端" class="headerlink" title="下面给大家贴一段代码f是服务器端f1是客服端"></a>下面给大家贴一段代码f是服务器端f1是客服端</h3><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.LayoutManager;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.ServerSocket;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import java.net.SocketTimeoutException;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class f extends JFrame implements Runnable &#123;</span><br><span class="line"> ServerSocket svr;</span><br><span class="line"> JTextArea w;</span><br><span class="line"> public f(int port) throws IllegalArgumentException, IOException &#123;</span><br><span class="line">  Container m = this.getContentPane();</span><br><span class="line">  m.setLayout(new GridLayout(3, 1));</span><br><span class="line">  this.setSize(300, 450);</span><br><span class="line">  this.setTitle(&quot;服务端&quot;);</span><br><span class="line">  this.setVisible(true);</span><br><span class="line">  this.setLocationRelativeTo(null);</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">  w = new JTextArea(100, 200);</span><br><span class="line">  this.add(w);</span><br><span class="line">  svr = new ServerSocket(port);</span><br><span class="line"> &#125;</span><br><span class="line"> public void run() &#123;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">   System.out.println(&quot;在端口&quot; + svr.getLocalPort() + &quot;上等待客户端...&quot;);</span><br><span class="line">   Socket server;</span><br><span class="line">   try &#123;</span><br><span class="line">    server = svr.accept();  //服务器等待方法</span><br><span class="line">    System.out.println(&quot;刚连接&quot; + server.getReuseAddress());</span><br><span class="line">    DataInputStream in = new DataInputStream(server.getInputStream());</span><br><span class="line">    w.setText(in.readUTF());</span><br><span class="line">    server.close();</span><br><span class="line">   &#125; catch (SocketTimeoutException e) &#123;</span><br><span class="line">    break;</span><br><span class="line">   &#125; catch (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    break;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">   f x = new f(8088);</span><br><span class="line">   Thread f = new Thread(x);</span><br><span class="line">   f.start();</span><br><span class="line">  &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间<br>alter table userInfo add(msn varchar2(20));</p>
+<p>1、建表<br>    create table userInfo (<br>       id number(6),<br>       name varchar2(20),<br>       sex number(1),<br>       age number(3),<br>       birthday date,<br>       address varchar2(50),<br>       email varchar2(25),<br>       tel number(11)<br>    );</p>
+<p>2、创建约束<br>    不带约束名称的：<br>    create table userInfo (<br>       id number(6) primary key,–主键<br>       name varchar2(20) not null,–非空<br>       sex number(1),<br>       age number(3) default 18,<br>       birthday date,<br>       address varchar2(50),<br>       email varchar2(25) unique,–唯一<br>       tel number(11),<br>       deptno number(2) references dept(deptno)—外键<br>    ); </p>
+<pre><code>带约束名称：
+create table userInfo (
+       id number(6) constraint id_pk primary key,
+       name varchar2(20) constraint name_nn not null,
+       sex number(1),
+       age number(3) default 18,
+       birthday date,
+       address varchar2(50),
+       email varchar2(25) constraint email_uqe unique,
+       tel number(11),
+       deptno number(2) constraint dept_deptno_ref references dept(deptno)
+);
+
+列模式：
+create table userInfo (
+       id number(6),
+       name varchar2(20),
+       sex number(1),
+       age number(3) default 18,
+       birthday date,
+       address varchar2(50),
+       email varchar2(25),
+       tel number(11),
+       deptno number(2),
+       constraint id_pk primary key (id),--也可以两个以上，联合主键
+       constraint dept_deptno_ref foreign key (deptno) references dept(deptno),
+       constraint emial_name_uqe unique (email, name)
+);
+Alter模式：
+    alter table userInfo add(msn varchar2(20));
+    alter table userInfo modify(msn varchar2(25));
+    alter table userInfo drop(msn);
+
+    alter table userInfo drop constraint id_pk;
+    alter table userInfo add constraint id_pk primary key (id);
+</code></pre><p>3、创建视图<br>    create table v$_dept_view<br>    as<br>    select deptno, dname from dept;</p>
+<pre><code>--重新编译视图
+alter view v$_dept_view compile;
+提示：视图一般是一个表或多个表的查询或子查询，这样可以减少代码量，但同时增加了对数据库视图的维护程度，如：某个表字段被删除或是修改，视图也要重新创建或修改，同时占用了数据库的一部分空间；视图就是一个虚拟的表格；
+</code></pre><p>4、创建索引<br>    普通索引：create index idx_dpt_dname on dept(dname);<br>    联合索引：create index idx_dept_dname_deptno on dept(dname, deptno);<br>    –唯一索引<br>    create unique index idx_emp_ename on scott.emp(ename);<br>    –反向键索引<br>    create index idx_emp_rev_no on scott.emp(empno) reverse;<br>    –位图索引<br>    create bitmap index idx_emp_name on scott.emp(dname);<br>    –索引组织表,一定要有主键<br>    create table tab (<br>        id int primary key,<br>        name varchar2(20)<br>    )    organization index;<br>    –索引组织表的insert效率非常低</p>
+<pre><code>--分区表索引
+create index idx_name on table(col) local/global;
+--索引分区
+提示：当给表创建主键或唯一键约束时，系统也会创建一个约束给该字段；同样创建索引也会占用数据库空间；索引在访问、查询的时候效率有提高，但是在修改表的时候效率就会降低；
+</code></pre><p>5、创建序列<br>    create sequence seq;<br>    select seq.nextval from dual;<br>    insert into tab values(sql.nextval, ‘music’);</p>
+<pre><code>create sequence seqtab
+start with 2 –从2开始
+increment by 3—每次加3
+nomaxvalue—没有最大值
+minvalue 1—最小值1
+nocycle—不循环
+nocache;--不缓存
+
+--修改序列 ，不能修改起始值
+alter sequence seqtab
+maxvalue 1000;
+</code></pre><p>6、创建同义词<br>    同义词，顾名思义就是说别名、或是另一个名字。<br>    create synonym scott_emp for scott.emp;<br>    create public synonym scott_dept for scott.dept;</p>
+<pre><code>select * from scott_emp;
+select * from scott_dept;
+</code></pre><p>7、创建表空间<br>    create tablespace HooMS<br>    datafile ‘E:\HooMS.dbf’<br>    size 5M<br>    autoextend on next 2M maxsize 10M;</p>
+<pre><code>--创建用户、分配可以操作表空间
+create user hoo
+identified by hoo
+default tablespace  HooMS
+temporary tablespace temp;
+
+--创建表空间
+create tablespace myMS
+datafile &apos;c:\myMS.dbf&apos;
+size 1M
+autoextend on;
+
+--扩展表空间--修改表空间大小
+alter database
+datafile &apos;c:\myMS.dbf&apos;
+resize 2M;
+
+--扩展表空间--添加数据文件
+alter tablespace myMS
+add datafile &apos;c:\myMS_2.dbf&apos;
+size 1M;
+
+--设置dbf文件自动增长
+alter database 
+datafile &apos;c:\myMS_2.dbf&apos;
+autoextend on next 2M maxsize 4M;
+
+--表空间重命名
+alter tablespace myMS
+rename to hooMS;
+
+--分离表空间（脱机）
+alter tablespace hooMS
+offline temporary;
+
+--归档模式下脱机
+alter tablespace hooMS
+offline immediate;
+
+--使表空间联机
+alter tablespace hooMS online;
+
+--删除无数据的表空间
+drop tablespace hooMS;
+
+--删除带数据的表空间
+drop tablespace hooMS
+including contents;
+</code></pre><p>版权维护转载hoojo博客的。</p>
+
       
 
       
@@ -218,7 +311,7 @@
 
 
   
-    <article id="post-第17章IO系统流" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-四、增删改、事务" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -226,28 +319,26 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第17章IO系统流/">第17章I/O系统流</a>
+      <a class="article-title" href="/2012/04/17/Oracle笔记-四、增删改、事务/">Oracle笔记 四、增删改、事务</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第17章IO系统流/" class="article-date">
-  <time datetime="2014-09-19T12:32:39.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/17/Oracle笔记-四、增删改、事务/" class="article-date">
+  <time datetime="2012-04-17T03:11:22.000Z" itemprop="datePublished">2012-04-17</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="IO流："><a href="#IO流：" class="headerlink" title="IO流："></a>IO流：</h2><p>IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流</p>
-<h3 id="IO有具体的分类"><a href="#IO有具体的分类" class="headerlink" title="IO有具体的分类"></a>IO有具体的分类</h3><p>1 根据处理的数据类型不同：字节流和字符流<br>2 根据流向不同：输入流和输出流</p>
-<h3 id="字节流和字符流的区别："><a href="#字节流和字符流的区别：" class="headerlink" title="字节流和字符流的区别："></a>字节流和字符流的区别：</h3><p>1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回<br>2字节流可以处理所有类型数据，如图片，MP3，AVI而字符流只能处理字符数据.<br>结论：只有是处理纯文本数据，就要优先考虑使用字符流.除此之外都用字节流<br>IO的体系.所具备的基本功能就有两个：读和写</p>
-<ol>
-<li>字节流：inputStream(读)，OutputStream(写)</li>
-<li>字符流：     Reader(读)，Writer(写) </li>
-</ol>
-<p>比较常用的流有 <strong>文件流——处理流——对象流</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> public static void main(String []args) throws FileNotFoundException,IOException &#123;</span><br><span class="line">  FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流            这是字节流输入流</span><br><span class="line">  BufferedInputStream d=new BufferedInputStream(w);//缓存区                  这是缓存流</span><br><span class="line">  FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流         这是字节写出流</span><br><span class="line">  int b;</span><br><span class="line">  while((b = d.read())!=-1) &#123;</span><br><span class="line">   c.write(b);</span><br><span class="line">  &#125;</span><br><span class="line">  c.flush(); //刷新</span><br><span class="line">  d.close(); //关闭写出字节流</span><br><span class="line">  c.close(); //关闭写出缓存区字节流</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">字节流：</span><br><span class="line">FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流          </span><br><span class="line">FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流        </span><br><span class="line">InputStreamReader w=new InputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流 </span><br><span class="line">OutputStreamReader c=new OutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符写出流   </span><br><span class="line"> </span><br><span class="line">↓ ↑</span><br><span class="line">FileInputStreamReader w=new FileInputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流</span><br><span class="line">FileOutputStreamReader c=new FileOutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符输出流   </span><br><span class="line"> </span><br><span class="line">处理流：</span><br><span class="line">BufferedInputStream d=new BufferedInputStream(w);//缓存区 可以整行读取      字节缓存流</span><br><span class="line">BufferedOutputStream d=new BufferedOutputStream(w);//缓存区  可以整行写出    字节缓存流</span><br><span class="line"> </span><br><span class="line">对象流：</span><br><span class="line"> ObjectIputStream   对象序列化</span><br></pre></td></tr></table></figure></p>
+        <p>Oracle笔记 四、增删改、事务</p>
+<p>1、插入<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    insert into dept(deptno, dname) values(60, ‘software test’);<br>    insert into dept select * from dept where deptno = 20;</p>
+<p>2、删除<br>    delete from dept where deptno = 20;<br>    delete from dept;</p>
+<p>3、修改<br>    update dept set dname = dname || ‘ ^.^’ where deptno = 20;</p>
+<p>4、事务<br>    每个修改语句完成后都可以回滚或提交，即rollback、commit；<br>    eg:<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    rollback;<br>    这样就回滚了，等于上面的没有插入；如果commit就提交了，此后如果再rollback也无力回天了。<br>    下面这样也是无法回滚的：<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    create table temp as select * from dept;<br>    rollback;<br>    再次查询，发现无法回滚；同样增删改后面运行grant/create语句也是无法回滚的；</p>
+<p>版权维护转载hoojo博客的。</p>
 
       
 
@@ -271,7 +362,7 @@
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -281,7 +372,7 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

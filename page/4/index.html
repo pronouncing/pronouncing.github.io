@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Oracle笔记-四、增删改、事务" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java的GC垃圾回收原理与机制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,26 +42,24 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-四、增删改、事务/">Oracle笔记 四、增删改、事务</a>
+      <a class="article-title" href="/2012/07/28/Java的GC垃圾回收原理与机制/">Java的GC垃圾回收原理与机制</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-四、增删改、事务/" class="article-date">
-  <time datetime="2014-09-22T03:11:22.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/28/Java的GC垃圾回收原理与机制/" class="article-date">
+  <time datetime="2012-07-28T14:27:24.000Z" itemprop="datePublished">2012-07-28</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Oracle笔记 四、增删改、事务</p>
-<p>1、插入<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    insert into dept(deptno, dname) values(60, ‘software test’);<br>    insert into dept select * from dept where deptno = 20;</p>
-<p>2、删除<br>    delete from dept where deptno = 20;<br>    delete from dept;</p>
-<p>3、修改<br>    update dept set dname = dname || ‘ ^.^’ where deptno = 20;</p>
-<p>4、事务<br>    每个修改语句完成后都可以回滚或提交，即rollback、commit；<br>    eg:<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    rollback;<br>    这样就回滚了，等于上面的没有插入；如果commit就提交了，此后如果再rollback也无力回天了。<br>    下面这样也是无法回滚的：<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    create table temp as select * from dept;<br>    rollback;<br>    再次查询，发现无法回滚；同样增删改后面运行grant/create语句也是无法回滚的；</p>
-<p>版权维护转载hoojo博客的。</p>
+        <h3 id="ava的GC垃圾回收原理与机制"><a href="#ava的GC垃圾回收原理与机制" class="headerlink" title="ava的GC垃圾回收原理与机制"></a>ava的GC垃圾回收原理与机制</h3><p>JAVA中的对象是在堆上分配,而在堆上分配存储空间的方式是昂贵的.正是由于GC才使java在堆上的空间分配速度得以于其他语言在堆栈上分配速度相媲美.java对象也不再有作用域的概念.作用域是对于引用而言的.垃圾回收器通常是作为一个单独的低级别的线程运行，不可预知的情况下对内存堆中已经死亡的或者长时间没有使用的对象进行清楚和回收，程序员不能实时的调用垃圾回收器对某个对象或所有对象进行垃圾回收.程序可以用System.gc() 或Runtime.getRuntime().gc()    请求垃圾回收,但并不保证立即执行垃圾回收.</p>
+<h3 id="GC的工作原理-引用计数-标记复制"><a href="#GC的工作原理-引用计数-标记复制" class="headerlink" title="GC的工作原理: 引用计数,标记复制"></a>GC的工作原理: 引用计数,标记复制</h3><p>“引用计数”是一种简单但速度很慢的垃圾回收技术.所有对象都有一个引用计数器,当有引用连接时计数器加1,当引用离开作用域时或者被置于NULL时,计数器-1,垃圾回收器会在所以包含对象引用的列表上进行遍历,当发现某个对象的引用计数为0时,就释放占用的空间.</p>
+<p>“标记复制”的运行机制,垃圾回收器遍历包含所有引用的列表,当发现存活的对象引用时做上标记,这样当遍历完所有对象引用并做上标记的时候,执行垃圾回收,将没有标记的对象堆空间释放.</p>
+<h3 id="垃圾回收机制的优点"><a href="#垃圾回收机制的优点" class="headerlink" title="垃圾回收机制的优点:"></a>垃圾回收机制的优点:</h3><p>Java的垃圾回收机制是的程序员不用担心内存空间的分配,减少了内存溢出.但同时也牺牲了一定的性能.</p>
 
       
 
@@ -74,7 +72,7 @@
 
 
   
-    <article id="post-Oracle笔记-三、function-、select" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Hiberante_lazy延迟加载总结" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -82,337 +80,23 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-三、function-、select/">Oracle笔记 三、function 、select</a>
+      <a class="article-title" href="/2012/07/22/Hiberante_lazy延迟加载总结/">Hiberante_lazy延迟加载总结</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-三、function-、select/" class="article-date">
-  <time datetime="2014-09-22T03:09:42.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/22/Hiberante_lazy延迟加载总结/" class="article-date">
+  <time datetime="2012-07-22T14:32:48.000Z" itemprop="datePublished">2012-07-22</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Oracle笔记 三、function 、select</p>
-<p>Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；<br>1、查看表结构用desc<br>    desc emp;</p>
-<p>2、空表dual，最常用的空表，如：<br>    select 2 * 4 from dual;<br>    select sysdate from dual;</p>
-<p>3、双引号能保持格式<br>    如：select sysdate “toDay 日 期” from dual;</p>
-<p>4、|| 字符串连接<br>    如：select 2*3 || 8 from dual;<br>    select ename || sal from scott.emp;<br>    select ename || ‘ORACLE’ from scott.emp;</p>
-<p>5、单引号，如：select 2 * 2 || ‘abc’’efg’ from dual;<br>    用两个单引号表示一个单引号</p>
-<p>6、去掉重复数据distinct<br>    select distinct deptno from scott.emp;<br>    去掉重复组合：select distinct deptno,job from scott.emp;</p>
-<p>7、where查询<br>    A、=查询，select * from scott.emp where sal = 1500;</p>
-<pre><code>B、比较&lt;、&gt;、&gt;=、&lt;=
-    select * from scott.emp where sal &gt; 1500;
-C、and or
-    select * from scott.emp where sal &gt; 1500 and sal &lt;= 5000 or deptno = 10;
-D、in、not in
-    select * from scott.emp where sal in (1500, 800) and deptno not in (10, 20)
-
-E、like模糊 escape 转义
-    Select * from scott.emp where ename like ‘%in%’;
-    Select * from scott.emp where ename like ‘%in\%k%’;
-    Select * from scott.emp where ename like ‘%in#%k%’ escape ‘#’;
-    表示like中的#号是转义字符，相当于\
-F、is null、is not null
-K、    order by
-    select sal, ename from scott.emp order by sal;
-    select sal, ename from scott.emp order by sal asc;
-    select sal, ename from scott.emp order by sal desc;
-    select sal, ename from scott.emp where sal &gt; 2000 order by sal desc;
-    select sal, deptno, ename from scott.emp order by sal,deptno desc;
-</code></pre><p>8、function<br>    A、lower、upper、substr<br>        select lower(‘abcABC’) from dual;<br>        select upper(‘abcABC’) from dual;<br>        substr(target, startIndex, length)<br>        select substr(‘abcABC’, 1, 3) from dual;</p>
-<pre><code>B、chr、ascii
-    将数字安装ascii值转换成字符：select char(65) from dual;
-    将字符转换成ascii值：select ascii(‘Z’) from dual;
-
-C、round、to_char
-    精确小数
-    select round(22.456) from dual;
-    保留2位小数：select round(22.456, 2) from dual;
-    精确到个位：select round(22.456, -1) from dual;
-
-    货币
-    设置货币格式，000前面不足就用0代替
-    select to_char(sal, &apos;$000,000.00&apos;) from scott.emp;
-    999就不会替换不足的地方，只会安装格式输出
-    select to_char(sal, &apos;$999,999.99&apos;) from scott.emp;
-    本地货币格式
-    select to_char(sal, &apos;L999,999.99&apos;) from scott.emp;
-
-    日期
-    日期格式 
-    格式控制 描述 
-    YYYY、YYY、YY 分别代表4位、3位、2位的数字年 
-    YEAR 年的拼写 
-    MM 数字月 
-    MONTH 月的全拼 
-    MON 月的缩写 
-    DD 数字日 
-    DAY 星期的全拼 
-    DY 星期的缩写 
-    AM 表示上午或者下午 
-    HH24、HH12 12小时制或24小时制 
-    MI 分钟 
-    SS 秒钟 
-    SP 数字的拼写 
-    TH 数字的序数词 
-
-    “特殊字符” 假如特殊字符 
-    HH24:MI:SS AM 15:43:20 PM
-    select to_char(sysdate, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
-    select to_char(sysdate, &apos;YYYY-MM-DD HH24:MI:SS&apos;) from dual;
-
- D、to_date、to_number、nvl
-    to_date(target, current_format)
-    select to_date(&apos;2011-4-2 17:55:55&apos;, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
-    select to_number(&apos;$12,322.56&apos;, &apos;$999,999.99&apos;) + 10 from dual;
-    select to_number(&apos;$12,322.56&apos;, &apos;$00,000.00&apos;) + 10 from dual;
-    select to_number(&apos;22.56&apos;) + 10 from dual;
-    nvl可以将某个字段的空值转换成指定的值
-    select ename, sal, nvl(comm, 1.00) from scott.emp;
-</code></pre><p>9、group function 组函数：min、max、avg、sum、count<br>        select max(sal) from scott.emp;<br>        select min(sal) from scott.emp;<br>        select avg(sal) from emp;<br>        select round(avg(sal), 2) from emp;<br>        select to_char(avg(sal), ‘L999,999.99’) from emp;<br>        select sum(sal) from emp;<br>        select count(comm) from emp;<br>        select count(distinct deptno) from emp;</p>
-<p>10、group by 分组<br>    select deptno, avg(sal) from emp group by deptno;<br>    select deptno, job, avg(sal) from emp group by deptno, job;<br>    求部门最高工资的所在部门的员工信息：<br>    select deptno, ename, sal from emp where sal in (select max(sal) from emp group by deptno);</p>
-<p>11、having 对分组数据进行过滤<br>    求部门评价工资：<br>    select * from (select avg(sal) sal, deptno from emp group by deptno) where sal &gt; 2000;<br>    select avg(sal) sal, deptno from emp group by deptno having avg(sal) &gt; 2000;</p>
-<p>12、子查询<br>    求部门分组后工资最高的员工信息<br>    select emp.ename, emp.sal, emp.deptno from emp, (select max(sal) max_sal, deptno from emp group by deptno) t where emp.sal = t.max_sal and emp.deptno = t.deptno;<br>    求部门平均工资等级<br>    select s.grade, t.deptno, t.avg_sal from scott.salgrade s, (select deptno, avg(sal) avg_sal from emp group by deptno) t where t.avg_sal &gt; s.losal and t.avg_sal &lt; s.hisal;（between）</p>
-<p>13、自连接<br>    select a.ename, b.ename mgr_name from emp a, emp b where a.empno = b.mgr;</p>
-<p>14、 连接查询<br>    select dname, ename from dept, emp where dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp using(deptno);<br>    select dname, ename from dept left join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept right join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept full join emp on dept.deptno = emp.deptno;<br>    select a.ename, b.ename mgr_name from emp a join emp b on a.mgr = b.empno;<br>    select a.ename, b.ename mgr_name from emp a left join emp b on a.mgr = b.empno;</p>
-<p>15、 Rownum<br>    select rounum, deptno, dname from dept;<br>    select <em> from (<br>         select rownum r, dept.</em> from dept<br>    ) t where  t.r &gt; 2;</p>
-<p>16、树状结构查询<br>    select level, empno, ename, mgr from emp<br>    connect by prior mgr = empno;</p>
-<p>17、排序函数<br>    –按部门分组，给出分组后的序号<br>    select row_number() over(partition by deptno order by sal), emp.* from emp;</p>
-<pre><code>--rank排序，空出相同部分
-select rank() over(partition by deptno order by sal), emp.* from emp;
-select rank() over(order by deptno), emp.* from emp;
-select rank() over(order by sal), emp.* from emp;
-
---dense_rank排序给出相同序号,不空留序号
-select rank() over(order by sal), emp.* from emp;
-select dense_rank() over(order by sal), emp.* from emp;
-</code></pre><p>18、交集、并集、割集查询<br>    –并集：不带重复数据<br>    select <em> from emp<br>    union<br>    select </em> from emp2;</p>
-<pre><code>--并集：带重复数据
-select * from emp
-union all
-select * from emp2;        
-
---割集,显示不同部分
-select * from emp
-minus
-select * from emp2;
-</code></pre><p>19、 查询系统表、视图<br>    select owner, object_name, object_type, status, dba_objects.* from dba_objects where object_type = ‘view’ and status = ‘invalid’;</p>
-<pre><code>select * from user_objects where object_type like &apos;PROCEDURE&apos;;
-</code></pre><p>20、练习题<br>    –部门最高薪资员工信息<br>    select ename, sal, deptno from emp<br>    where sal in (select max(sal) from emp group by deptno);</p>
-<pre><code>--部门最高薪资员工信息
-select ename, sal, emp.deptno from emp 
-join (select max(sal) max_sal, deptno from emp group by deptno) t 
-on emp.deptno = t.deptno and emp.sal = t.max_sal;
-
---部门平均薪资等级
-select grade, losal, hisal, t.avg_sal from salgrade 
-join (select avg(sal) avg_sal, deptno from emp group by deptno) t
-on t.avg_sal between losal and hisal;
-
---经理人
-select ename, job from emp where empno in (select mgr from emp);
-
---不用分组函数，查询薪水最高值
-select * from (select sal, ename from emp order by sal desc) where rownum = 1;
-select distinct a.sal from emp a join emp b on a.sal &gt; b.sal where rownum = 1;
-select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal &lt; b.sal);
-
---部门平均薪水最高的部门编号
-select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-where avg_sal = (
-    select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
-);
-
-select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-where avg_sal = (
-    select max(avg(sal)) max_sal from emp group by deptno
-);
-
---部门平均薪水最高的部门名称
-select dname from dept where deptno = (
- select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
- where avg_sal = (
-        select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
- )
-);
-
-select dname from dept where deptno = (
-    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
-    where avg_sal = (
-           select max(avg(sal)) from emp group by deptno
-    )
-);
-
---平均薪水最低的部门的部门名称
-select dname from dept where deptno = (
-  select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
-  where avg_sal = (
-    select min(avg_sal) min_sal from (
-           select avg(sal) avg_sal from emp group by deptno
-    )
-  )
-);
-
-select dname from dept where deptno = (
-    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
-    where avg_sal = (    
-      select min(avg(sal)) avg_sal from emp group by deptno
-    )
-);
-
---平均薪水等级最低的部门的部门名称
-select dname from dept where deptno = (
-select deptno from (
-     select grade, t.deptno from salgrade s join (
-        select avg(sal) avg_sal, deptno from emp group by deptno
-     ) t
-     on t.avg_sal between s.losal and s.hisal
-  )
-  where grade = (
-    select min(grade) from salgrade s join (
-        select avg(sal) avg_sal, deptno from emp group by deptno
-    ) t
-    on t.avg_sal between s.losal and s.hisal
-  )
-);
-
---部门经理人中，平均薪水最低的部门名称
-select t.deptno, dname from (
-    select sal, deptno from emp where empno in (select distinct mgr from emp)
-) t join dept 
-on t.deptno = dept.deptno
-where sal = (
-    select min(sal) from emp where empno in (select distinct mgr from emp)
-);
-
---比普通员工的最高薪水还要高的经理人名称
-select * from (
-    select empno, ename, sal from emp where empno in (select distinct mgr from emp where mgr is not null)
-) t
-where t.sal &gt; (
-    select max(sal) max_sal from emp where empno not in (
-     select distinct mgr from emp where mgr is not null
-    )
-);
-</code></pre>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Oracle笔记-二、常用dba命令行" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/Oracle笔记-二、常用dba命令行/">Oracle笔记 二、常用dba命令行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/22/Oracle笔记-二、常用dba命令行/" class="article-date">
-  <time datetime="2014-09-22T03:07:26.000Z" itemprop="datePublished">2014-09-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Oracle笔记 二、常用dba命令行<br>1、给用户解锁</p>
-<p>alter user scott account unlock;</p>
-<p>2、注销、断开、切换当前用户连接</p>
-<p>quit</p>
-<p>conn scott/tiger</p>
-<p>3、用户权限查询</p>
-<p>A .查看所有用户：</p>
-<p>select * from dba_users;</p>
-<p>select * from all_users;</p>
-<p>select * from user_users;</p>
-<p>B.查看用户或角色系统权限(直接赋值给用户或角色的系统权限)：</p>
-<p>select * from dba_sys_privs;</p>
-<p>select * from user_sys_privs;</p>
-<p>C.查看角色(只能查看登陆用户拥有的角色)所包含的权限</p>
-<p>select * from role_sys_privs;</p>
-<p>D.查看用户对象权限：</p>
-<p>select * from dba_tab_privs;</p>
-<p>select * from all_tab_privs;</p>
-<p>select * from user_tab_privs;</p>
-<p>E.查看所有角色：</p>
-<p>select * from dba_roles;</p>
-<p>F.查看用户或角色所拥有的角色：</p>
-<p>select * from dba_role_privs; s</p>
-<p>elect * from user_role_privs;</p>
-<p>G.查看哪些用户有sysdba或sysoper系统权限(查询时需要相应权限)</p>
-<p>select * from V$PWFILE_USERS</p>
-<p>4、用户管理</p>
-<p>A、创建用户</p>
-<p>create user username identified by password;</p>
-<p>create user username identified by password default tablespace users quota 10M on users;</p>
-<p>B、修改密码</p>
-<p>alter user username identified by pass;</p>
-<p>密码就从password改成pass了；同样登陆后输入password也可以修改密码</p>
-<p>C、删除用户</p>
-<p>drop user username;</p>
-<p>drop user username cascade;</p>
-<p>5、三种标准的角色（role）：CONNECT、RESOURCE和DBA。</p>
-<p>I、Connect连接、登陆权限</p>
-<p>II、Resource可以创建表、序列、过程（procedure）、触发器（trigger）、索引（index）和簇（cluster）。</p>
-<p>III、Dba管理员</p>
-<p>6、 用户权限</p>
-<p>A、给用户授权</p>
-<p>grant connect, resource to username;</p>
-<p>grant create session, create table, create view to username;</p>
-<p>B、撤销权限</p>
-<p>revoke connect from username;</p>
-<p>7、 角色管理</p>
-<p>A、创建角色</p>
-<p>create role LOGIN;</p>
-<p>B、删除角色</p>
-<p>drop role LOGIN;</p>
-<p>8、 导出角色资源</p>
-<p>A、 首先进入控制台cmd</p>
-<p>B、 进入某个目录，如：cd c:/userdir</p>
-<p>C、 输入命令，exp</p>
-<p>D、 提示输入用户名、口令，也就是即将导出角色的数据</p>
-<p>E、 以下直接默认，按回车enter键即可</p>
-<p>F、 导出完成后，即可看到导出的文件EXPDAT.DMP</p>
-<p>9、 导入角色数据</p>
-<p>A、 首先进入dos控制台</p>
-<p>B、 进入导出数据的目录，如：cd c:/userdir</p>
-<p>C、 输入命令，imp</p>
-<p>D、 输入用户名、口令，将此数据导入给的用户</p>
-<p>E、 后面一直回车，enter键即可</p>
-<p>F、 提示输入用户名、口令，这个是数据从哪个用户中导出的，就是那个用户的</p>
-<p>10、Sqlplus常用命令</p>
-<p>A、set lineSize 120可以设置sqlplus的显示缓冲区大小；</p>
-<p>B、set pageSize 20 可以设置每页显示大小</p>
-<p>C、edit 可以编辑当前sql语句，保存后输入/回车运行</p>
-<p>D、spool c:/temp.sql; 和 spool off 可以保存之间所有的显示内容；</p>
-<p>E、start [filepath]可以批量执行sql语句；</p>
-<p>F、desc tableName 可以查看指定表结构</p>
-<p>G、 show user 可以查看当前用户</p>
-<p>H、 set serveroutput on 运行dbms_output输出信息</p>
-<p>I、 show error 查看编译错误信息</p>
-<p>11、用户常用系统表、表字典</p>
-<p>select table_name from user_tables;</p>
-<p>select view_name from user_views;</p>
-<p>select constraint_name, constraint_type, table_name from user_constraints;</p>
-<p>select table_name from dictionary;</p>
-<p>select index_name from user_indexes;</p>
+        <p>如果想对实体对象使用延迟加载，必须要在实体的映射配置文件中进行相应的配置，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;hibernate-mapping&gt;   </span><br><span class="line">  </span><br><span class="line">&lt;class name=”net.ftng.entity.user” table=”user” lazy=”true”&gt;   </span><br><span class="line">  </span><br><span class="line">    ……   </span><br><span class="line">  </span><br><span class="line">&lt;/class&gt;   </span><br><span class="line">  </span><br><span class="line">&lt;/hibernate-mapping&gt;   </span><br><span class="line">```  </span><br><span class="line">通过将class的lazy属性设置为true，来开启实体的延迟加载特性。如果我们运行下面的代码：   </span><br><span class="line">```  </span><br><span class="line">User user=(User)session.load(User.class,”1”);（1）   </span><br><span class="line">  </span><br><span class="line">System.out.println(user.getName());（2）</span><br></pre></td></tr></table></figure></p>
+<p>当运行到(1)处时，Hibernate并没有发起对数据的查询，<br>当代码运行到（2）处时，此时调用user.getName()方法，这时通过CGLIB赋予的回调机制，<br>target属性是否为null，如果不为空，则调用目标对象的getName方法，如果为空，则会发起数据库查询</p>
+<p>通过一个中间代理对象，Hibernate实现了实体的延迟加载，<br>只有当用户真正发起获得实体对象属性的动作时，<br>才真正会发起数据库查询操作。<br>所以实体的延迟加载是用通过中间代理类完成的，<br>所以只有session.load()方法才会利用实体延迟加载，<br>因为只有session.load()方法才会返回实体类的代理类对象。  </p>
 
       
 
@@ -425,7 +109,7 @@ where t.sal &gt; (
 
 
   
-    <article id="post-第7章Oreacle开发PLSQL子程序和包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-iBatis与Hibernate区别" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -433,23 +117,23 @@ where t.sal &gt; (
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/">第7章Oreacle开发PL/SQL子程序和包</a>
+      <a class="article-title" href="/2012/07/20/iBatis与Hibernate区别/">iBatis与Hibernate区别</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第7章Oreacle开发PLSQL子程序和包/" class="article-date">
-  <time datetime="2014-09-22T02:52:07.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/20/iBatis与Hibernate区别/" class="article-date">
+  <time datetime="2012-07-20T14:34:40.000Z" itemprop="datePublished">2012-07-20</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="开发PL-SQL子程序和包"><a href="#开发PL-SQL子程序和包" class="headerlink" title="开发PL/SQL子程序和包"></a>开发PL/SQL子程序和包</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.<br>子程序可以具有声明部分 可执行部分和异常处理部分.<br>PL/SQL支持两种类型的子程序 即过程和函数。<br>过程用于执行特定任务，而函数用于执行任务并返回值。<br>要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）<br>包是一种数据库对象，他是对相关PL/SQL类型。子程序。游标。异常。变量和常量的封装。<br>包由两部分组成：即包规范和包体。<br>在包体声明的项可视为“私有”，因为他们只限于包内使用。<br>在包规范中声明的项也可以在包之外使用。这样的项称为：“公用对象”。<br>包规范包含公用对象及其类型<br>PL/SQL允许两个或多个打包的子程序具有同一名称。在需要子程序接受属于不同数据类型的参数是，可以使用此选项此概念称为重载。<br>使用包的优点是：模块化 、更轻松的应用程序设计、信息的隐藏、新增功能以及性能更佳、</p>
-<p>/<em>包规范的创建关键字（package ）</em>/<br>create or replace package 包名 is<br>包接口定义、让包体去实现<br>procedure pro_test_pack(v_id in int);<br>end 包名;<br>/<em>包体实现包规范中定义的接口使用关键字（package body）</em>/<br>create or replace package body 包名 is<br>实现包规范中定义的接口<br>end;<br>end 包名；</p>
-<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p>/<em>包规范</em>/<br>create or replace packagepack_name is<br>v_var varchar2(100);<br>procedure pro_test_pack(v_id in int);<br>end pack_name;<br>/<em>创建包体</em>/<br>create or replace package bodypack_name is<br>procedure pro_test_pack(v_id in int) is<br>begin<br>v_var :=’adasf’;<br>dbms_output.put_line(v_var);<br>end;<br>end pack_name;<br>call pack_name.pro_test_pack(123);</p>
+        <p>相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。<br>jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。<br>ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用queryForObject返回单个对象；提供了自动将实体对象的属性传递给sql语句的参数。</p>
+<p>Hibernate是一个全自动的orm映射工具，它可以自动生成sql语句,ibatis需要我们自己在xml配置文件中写sql语句，hibernate要比ibatis功能负责和强大很多。因为hibernate自动生成sql语句，我们无法控制该语句，我们就无法去写特定的高效率的sql。对于一些不太复杂的sql查询，hibernate可以很好帮我们完成，但是，对于特别复杂的查询，hibernate就很难适应了，这时候用ibatis就是不错的选择，因为ibatis还是由我们自己写sql语句。</p>
+<h3 id="总结叉子可以理解："><a href="#总结叉子可以理解：" class="headerlink" title="总结叉子可以理解："></a>总结叉子可以理解：</h3><p>hibernate 是一个ORM框架，就是java对象和数据库表中记录相映射是它是主要的一个特点<br>比如，一个java类，和一个数据库的表相对应，java类的成员变量和表的字段对应<br>而 ibatis 是一个sql map框架，就是sql语句和java对象相映射的特点 比如，sql语句，<br>select * from XX,这个返回的字段数据和java对象的成员变量相映射。</p>
 
       
 
@@ -462,7 +146,7 @@ where t.sal &gt; (
 
 
   
-    <article id="post-第6章OreaclePLSQL动态SQL" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-java日期类型在Hibernate中的处理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -470,21 +154,58 @@ where t.sal &gt; (
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/第6章OreaclePLSQL动态SQL/">第6章OreaclePL/SQL动态SQL</a>
+      <a class="article-title" href="/2012/07/16/java日期类型在Hibernate中的处理/">java日期类型在Hibernate中的处理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/第6章OreaclePLSQL动态SQL/" class="article-date">
-  <time datetime="2014-09-22T02:51:19.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2012/07/16/java日期类型在Hibernate中的处理/" class="article-date">
+  <time datetime="2012-07-16T14:28:50.000Z" itemprop="datePublished">2012-07-16</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="动态SQL分为："><a href="#动态SQL分为：" class="headerlink" title="动态SQL分为："></a>动态SQL分为：</h3><p><strong>早期绑定和晚期绑定</strong><br>编译 早期绑定（编译时就确定的对象）<br>执行 晚期绑定（不确定性要通过执行之后才确定下来）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">execute immediae关键字执行动态SQL语句using是预编译返回</span><br><span class="line">create or replace procedure proc_sqlstring(empid in int)is</span><br><span class="line">begin</span><br><span class="line">execute immediate &apos;delete from emp where empno=:id&apos; using empid;</span><br><span class="line">end;</span><br><span class="line">call proc_sqlstring(7782);</span><br><span class="line">/*1、使用动态SQL完成创建一张表*/</span><br><span class="line">declare</span><br><span class="line">  str_sqltring varchar2(4000);</span><br><span class="line">begin</span><br><span class="line">  str_sqltring := &apos;create table t_table(</span><br><span class="line">id int primary key not null,</span><br><span class="line">name varchar2(100)</span><br><span class="line">)&apos;;</span><br><span class="line">  execute immediate str_sqltring;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure></p>
+        <p>java日期类型在Hibernate中的处理<br>java中的表示日期时间的类型很多，主要有下面一些：<br>java.util.Calendar（和区域有关，可表示年，月，日，时，分，秒）<br>java.util.Date（可表示年，月，日，时，分，秒）<br>java.sql.Date（可表示年，月，日）<br>java.sql.Time （可表示时，分，秒）<br>java.sql.Timestamp（可表示年，月，日，时，分，秒，纳秒）<br>在对象定义时，究竟定义为哪种类型，我们得要求项目需求来选择不同精度的类型。</p>
+<p>Hibernate对上面的时间类型都有很好的支持，但是，不同的类型，数据库中的字段也得选择相应的类型，以mysql为例，就存在date,time,datetime,timestamp等几种。<br>hibernate的映射书写时要注意，日期类型一般都要明确予以指定。如果你使用的是注解映射配置，类型选择的又是java.util.Calendar，java.util.Date，此时需要使用@Temporal 明确指定具体类型，对应的取值有TemporalType.DATE,TemporalType.TIME,TemporalType.TIMESTAMP几种。<br>最后，hibernate中以时间作为查询条件时，也需要明确指定传入参数类型，大家要选择带有3个参数的那个setParameter方法。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-spring3mvc与struts2比较" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/07/15/spring3mvc与struts2比较/">spring3mvc与struts2比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/07/15/spring3mvc与struts2比较/" class="article-date">
+  <time datetime="2012-07-15T15:03:32.000Z" itemprop="datePublished">2012-07-15</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目刚刚换了web层框架，放弃了struts2改用spring3mvc。当初换框架的时候目的比较单纯：springmvc支持rest，我对对restful url由衷的喜欢<br>不用不知道 一用就发现开发效率确实比struts2高。<br>我们用struts2时采用的传统的配置文件的方式，并没有使用传说中的0配置。spring3 mvc可以认为已经100%零配置了（除了配置springmvc-servlet.xml外）<br>比较了一下strus2与spring3 mvc的差别：<br>spring3 mvc是方法级别的拦截，拦截到方法后根据参数上的注解，把request数据注入进去，在spring3mvc中，一个方法对应一个request上下文。<br>而struts2框架是类级别的拦截，每次来了请求就创建一个Action，然后调用setter getter方法把request中的数据注入；struts2实际上是通过setter getter方法与request打交道的；struts2中，一个Action对象对应一个request上下文。</p>
+<h3 id="好了-我们来整理一下"><a href="#好了-我们来整理一下" class="headerlink" title="好了 我们来整理一下"></a>好了 我们来整理一下</h3><p>spring mvc是方法级别的拦截，一个方法对应一个request上下文，而方法同时又跟一个url对应，所以说从架构本身上 spring3 mvc就容易实现restful url。<br>struts2是类级别的拦截， 一个类对应一个request上下文；实现restful url要费劲，因为struts2 action的一个方法可以对应一个url；而其类属性却被所有方法共享，这也就无法用注解或其他方式标识其所属方法了。<br>spring3 mvc的方法之间基本上独立的，独享request response数据，请求数据通过参数获取，处理结果通过ModelMap交回给框架方法之间不共享变量<br>而struts2搞的就比较乱，虽然方法之间也是独立的，但其所有Action变量是共享的，这不会影响程序运行，却给我们编码 读程序时带来麻烦。<br>spring3 mvc的验证也是一个亮点，支持JSR303，处理ajax的请求更是方便 只需一个注解@ResponseBody ，然后直接返回响应文本即可。</p>
 
       
 
@@ -508,7 +229,7 @@ where t.sal &gt; (
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -518,7 +239,7 @@ where t.sal &gt; (
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

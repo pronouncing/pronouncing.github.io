@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第9章多态和抽象 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="多态：对于父类而言他的子类有独特的行为和特征，多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.
+抽象：abstartic关键字在public 修饰符和void返回值中间abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。抽象如果子类继承了父类父类中的抽象方法在子类中实现
+其实，我们如果要全面了解多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第9章多态和抽象">
+<meta property="og:url" content="http://yoursite.com/2012/05/11/第9章多态和抽象/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="多态：对于父类而言他的子类有独特的行为和特征，多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.
+抽象：abstartic关键字在public 修饰符和void返回值中间abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。抽象如果子类继承了父类父类中的抽象方法在子类中实现
+其实，我们如果要全面了解多">
+<meta property="og:updated_time" content="2016-03-20T05:08:31.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第9章多态和抽象">
+<meta name="twitter:description" content="多态：对于父类而言他的子类有独特的行为和特征，多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.
+抽象：abstartic关键字在public 修饰符和void返回值中间abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。抽象如果子类继承了父类父类中的抽象方法在子类中实现
+其实，我们如果要全面了解多">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第9章多态和抽象" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第9章多态和抽象
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/11/第9章多态和抽象/" class="article-date">
+  <time datetime="2012-05-11T10:58:35.000Z" itemprop="datePublished">2012-05-11</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="多态："><a href="#多态：" class="headerlink" title="多态："></a>多态：</h2><p>对于父类而言他的子类有独特的行为和特征，<br>多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.</p>
+<h2 id="抽象："><a href="#抽象：" class="headerlink" title="抽象："></a>抽象：</h2><p>abstartic关键字在public 修饰符和void返回值中间<br>abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法<br>抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。<br>抽象如果子类继承了父类父类中的抽象方法在子类中实现</p>
+<p>其实，我们如果要全面了解多态，我觉得只要把握好以下几个方面就可以：多态是什么，他的具体表现是什么，多态使用的前提，多态使用好处，多态具体如何应用。<br>首先，何谓多态，我们可以有两方面理解，就属性而言，他是事物存在的多种形态。就方法而言，它是一种方法，多种实现，如重写。<br>其次，如果父类的引用指向了子类的对象 ，这就是其表现形式。<br>再者，我们在什么时候使用多态呢，这个就体现在类与类之间的关系上，要么是子类与父类关系，要么类与接口的关系。<br>再次，如何实现呢，他具体涉及两个方面内容，第一是静态多态，在编译的是时候系统就知道要指执行那个方法，主要体现在方法重载。第二是动态多态，系统在运行是才知道要调用哪个方法，主要的实现方式是方法重写。还有个体现是动态绑定。动态绑定是动态多态的技术基础之一。运行时根据父类的变量引用所指向的实际类型执行相应子类方法，从而实现多态性。还有两个技术基础，分别是向上转型和instancof关键字的使用。多态绑定还可以这么理解：在多态中，如果成员方法非静态，在编译时，参阅引用引用变量是否有调用方法，如果有编译通过，否则一定失败。如果运行，就看子类，子类如果有，就运行子类，子类没有就运行父类，父类没有就运行失败。但是如果方法都是静态的，无论运行还是编译都参考左边，其特点跟成员变量是相通得。<br>最后，多态有何好处，多态可以大大的提高扩展性。</p>
+<h2 id="一、多态的概念"><a href="#一、多态的概念" class="headerlink" title="一、多态的概念"></a>一、多态的概念</h2><pre><code>多态即“一个接口，多种实现”，在父类中声明的方法，可以在子类中进行覆盖（声明为finial的除外），这样，父类的引用在引用子类对象的时候可以做出不同的响应。所以，多态也可以说成是：相同的消息被发送到子类或父类对象上，将导致完全不同的行为。
+多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定。
+</code></pre><h2 id="二、多态存在的条件"><a href="#二、多态存在的条件" class="headerlink" title="二、多态存在的条件"></a>二、多态存在的条件</h2><pre><code>1、必须存在继承关系。
+2、子类必须覆盖父类中声明过的方法。
+</code></pre><h2 id="三、java多态的实现机制"><a href="#三、java多态的实现机制" class="headerlink" title="三、java多态的实现机制"></a>三、java多态的实现机制</h2><pre><code>java多态是由动态绑定技术来实现的，动态绑定即运行时绑定（以之对应的有静态绑定，即编译时绑定），在java语言中，除了声明为finial的方法外（声明为private的方法默认为finial）其余都是采用动态绑定来调用的，过程如下：
+当程序运行时，需要动态的调用方法时，则是虚拟机的工作，虚拟机将依照具体环境首先拟定出一张方法表，列举出可能的方法调用，继而在实现调用的时候，可以节省寻找函数方法所带来的时间开销，其将调用最合适及最合理的方法，在派生类中能调用相应的重名函数的则调用该新方法，不能则调用超类（父类）方法，同时应注意一点，若虚拟机放弃对本类的相应方法调用，那么虚拟机将搜索超类的方法表，依次类同，若都没有相应的处理来响应，则程序运行出错，一般来说在编译阶段，编译器将作出相应的控制。
+ 下面我们来看看动态绑定的内部实现机制。
+JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定。
+</code></pre>
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/05/12/第10章接口/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第10章接口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/10/第8章封装/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第8章封装</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/05/11/第9章多态和抽象/" data-title="第9章多态和抽象" data-url="http://yoursite.com/2012/05/11/第9章多态和抽象/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

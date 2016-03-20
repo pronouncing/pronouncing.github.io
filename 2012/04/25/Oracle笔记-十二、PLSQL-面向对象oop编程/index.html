@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Oracle笔记 十二、PL/SQL 面向对象oop编程 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="————————抽象数据类型———––创建地址类型，一定要加as object，还可以在类型中加过程或方法create or replace type address as object (       province varchar2(10), –省份属性       city varchar2(10) –市属性) not final; –not final表示该类型可以有子类型
+–定义一个子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记 十二、PL/SQL 面向对象oop编程">
+<meta property="og:url" content="http://yoursite.com/2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="————————抽象数据类型———––创建地址类型，一定要加as object，还可以在类型中加过程或方法create or replace type address as object (       province varchar2(10), –省份属性       city varchar2(10) –市属性) not final; –not final表示该类型可以有子类型
+–定义一个子">
+<meta property="og:updated_time" content="2016-03-20T05:47:43.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle笔记 十二、PL/SQL 面向对象oop编程">
+<meta name="twitter:description" content="————————抽象数据类型———––创建地址类型，一定要加as object，还可以在类型中加过程或方法create or replace type address as object (       province varchar2(10), –省份属性       city varchar2(10) –市属性) not final; –not final表示该类型可以有子类型
+–定义一个子">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Oracle笔记-十二、PLSQL-面向对象oop编程" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记 十二、PL/SQL 面向对象oop编程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/" class="article-date">
+  <time datetime="2012-04-25T09:26:14.000Z" itemprop="datePublished">2012-04-25</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>————————抽象数据类型———–<br>–创建地址类型，一定要加as object，还可以在类型中加过程或方法<br>create or replace type address as object (<br>       province varchar2(10), –省份属性<br>       city varchar2(10) –市属性<br>) not final; –not final表示该类型可以有子类型</p>
+<p>–定义一个子类型<br>–under address说明这个类型继承至address类型<br>create or replace type detailAddress under address (<br>       street varchar2(20) –街道属性  第3个成员<br>)；</p>
+<p>–创建员工信息表，最后一列是detailAddress类型<br>drop table empInfo<br>create table empInfo (<br>       eName varchar2(20) ,  –员工姓名<br>       eSex char(2),  –性别<br>       eAge int, –年龄<br>       eAddress detailAddress   –员工地址<br>);</p>
+<p>–增加数据,只能用构造方法<br>insert into empInfo values(‘aaa’, ‘男’, 28, detailAddress(‘湖北’, ‘襄樊’, ‘八一路’));<br>insert into empInfo values(‘bbb’, ‘男’, 26, detailAddress(‘湖北’, ‘武汉’, ‘永清街’));<br>insert into empInfo values(‘ccc’, ‘女’, 29, detailAddress(‘湖北’, ‘武汉’, ‘光谷’));</p>
+<p>–查询<br>select <em> from empInfo;<br>select </em> from empInfo where eSex = ‘男’;<br>select * from empInfo e where e.eAddress.city = ‘武汉’; –如果查询条件包含属性必须用表的别名<br>–更新有2种方式：<br>–第一种方式：整体更新<br>update empInfo e set e.eAddress = detailAddress(‘湖北’, ‘武汉’, ‘武昌’) where e.eName = ‘ccc’;<br>–第二种方式：只更新抽象类型的某一列<br>update empInfo e set e.eAddress.city = ‘武汉’ where e.eName = ‘ccc’;</p>
+<p>–删除<br>delete from empInfo e where  e.eAddress.city = ‘武汉’;</p>
+<p>–为抽象数据类型的属性建立索引<br>create index idxemp on empInfo(eAddress.city);<br>–删除<br>drop table empInfo;<br>drop type address force; –强制删除抽象类型</p>
+<p>——————————-抽象数据类型结束———————-</p>
+<p>——————对象表，表中的每一行就是一个对象———————–<br>–创建抽象数据类型person,并作为基类型<br>create or replace type person as object (<br>       pName varchar2(20),  –姓名<br>       pSex char(2),   –性别<br>       pAge int      –年龄<br>) not final;</p>
+<p>–创建子类型student，继承person<br>–后面不要加as object<br>create or replace type student under person (<br>       stuId int<br>);</p>
+<p>–创建对象表stuInfo<br>create table stuInfo of student;<br>–为对象表创建主键约束<br>alter table stuInfo add constraint pk_stuInfo primary key(stuId);<br>–插入数据，当普通表插入<br>insert into stuInfo values(‘aaa’, ‘男’, 29, 1001);<br>–插入数据，用构造方法<br>insert into stuInfo values(student(‘bbb’, ‘男’, 26, 1002));<br>insert into stuInfo values(student(‘ccc’, ‘女’, 29, 1003));<br>–查询，当普通表用<br>select * from stuInfo where stuId = 1002;</p>
+<p>–更新和删除都用普通的sql语句即可<br>update stuInfo set pAge = 29 where pName = ‘ccc’;<br>delete from stuInfo where stuId = 1001;<br>rollback;</p>
+<p>–ref(表别名)函数用来返回对象的OID，也就是对象标识符，对象表也有rowid<br>select ref(s) from stuInfo s;<br>select rowid, ref(s) OIDS  from stuInfo s;</p>
+<p>–创建学生分数表，注意外键<br>create table stuScore (<br>       stu ref student, –stu这一列的值必须出现在stuInfo表中，且stu这一列存的对象的OID而不是对象本身<br>       score int  –分数<br>);<br>–向分数表插入数据，只能用select，不能用普通的values<br>–错误的做法：insert into stuscore values(select ref(s) from stuInfo where stuId = 1001, 90)<br>–正确的做法：<br>insert into stuscore select ref(s), 90 from stuInfo s where stuId = 1001;<br>insert into stuscore select ref(s), 80 from stuInfo s; –插入3行数据<br>insert into stuscore select ref(s), 70 from stuInfo s where stuId = 1003;</p>
+<p>–查询<br>select * from stuScore;<br>–deref(列名)函数可以把OID还原为对象，主键列显示有问题<br>select deref(s.stu), score from stuScore s where s.stu.stuId = 1001;</p>
+<p>–修改，以下2个都可以<br>update stuScore set score=100 where stu = (select ref(s) from stuInfo s where stuId = 1001);<br>update stuScore s set score = 99 where s.stu.stuId = 1001;<br>–删除，以下3个都可以<br>delete from stuScore where stu = (select ref(s) from stuInfo s where stuId = 1001);<br>delete from stuScore s where s.stu.stuId = 1001;<br>delete from stuScore where stuId = 1001;<br>———————————-对象表结束———————-</p>
+<p>———————————-对象视图———————–<br>–对象视图的作用：把已经存在的关系表转换为对象表来使用，原表没有变<br>–首先要创建一个和原表一样的类型<br>–然后创建视图<br>create table aaa<br>(a int);<br>create type aaaa as object<br>(a int);<br>create or replace view view_stu of aaaa with object oid(a)<br>as<br>select * from aaa;</p>
+<p>select * from view_stu;<br>–增删改查都和对象表一样<br>——————————-对象视图结束———————–</p>
+<p>——————————–抽象类型，包含过程和方法————-<br>create or replace type ADDRESS as object (<br>       province varchar2(10), –省份<br>       city varchar2(10), –市,后面的,不能少<br>       member function get_pro return varchar2,  –函数，后面接,而不是;<br>       member function get_city return varchar2,<br>       member procedure set_pro(pro varchar2),   –过程<br>       member procedure set_city(cy varchar2)<br>);</p>
+<p>create or replace type body ADDRESS–后面不能加 as object<br>as –后面不能加begin</p>
+<p>   member function get_pro return varchar2<br>   is<br>   begin<br>       return province;<br>   end get_pro;</p>
+<p>   member function get_city return varchar2<br>   is<br>   begin<br>       return city;<br>   end;</p>
+<p>   member procedure set_pro(pro varchar2)<br>   is<br>   begin<br>        province := pro;<br>   end;<br>   member procedure set_city(cy varchar2)<br>   is<br>   begin<br>        city := cy;<br>   end;<br>end;</p>
+<p>–测试上面的成员函数和过程<br>declare<br>       addr address;<br>begin<br>     addr := address(‘湖北’, ‘武汉’);<br>     dbms_output.put_line(addr.get_city);<br>end;</p>
+<p>–drop table stuInfo;<br>create table stuInfo (<br>       stuId int primary key,<br>       addr address<br>);</p>
+<p>declare<br>       addr address;<br>begin<br>     addr := address(‘湖北’, ‘武汉’);<br>     insert into stuInfo values(1, addr);<br>     addr.set_city(‘郑州’);<br>     addr.set_pro(‘河南’);<br>     insert into stuInfo values(2, addr);<br>end;</p>
+<p>select * from stuInfo;<br>–删除类型<br>drop type address force;<br>————————–抽象类型，包含过程和方法 结束————-<br>—————————-可变数组——————————<br>–就是一个可以存储多个值的有最大长度的数组，数组的成员可以是任意类型<br>–建立一个可变数组类型,长度是10，存放的数据类型是number(4)<br>create or replace type arrType as varray(10) of number(4);</p>
+<p>create or replace type scoreType as object (<br>       subName varchar2(10),<br>       score int<br>);<br>–创建一个长度为10的可变数组，存放数据类型是scorType<br>create or replace type arrScoreType as varray(10) of scoreType;<br>–创建学生信息表<br>–drop table stuInfo;<br>create table stuInfo (<br>       stuId int primary key,<br>       score arrScoreType  –可变数组，最多10个成员<br>);<br>–插入数据,用可变数组的构造函数<br>insert into stuInfo values(1, arrScoreType(<br>       scoreType(‘sql’, 50), scoreType(‘C#’, 80), scoreType(‘java’, 90)));<br>insert into stuInfo values(2, arrScoreType(<br>       scoreType(‘sql’, 60), scoreType(‘C#’, 85), scoreType(‘java’, 95), scoreType(‘html’, 60)));<br>insert into stuInfo values(3, arrScoreType(<br>       scoreType(‘sql’, 70), scoreType(‘java’, 93)));<br>–查询<br>select <em> from stuInfo;  –查询结果是集合<br>–如何才能查询出可变数组里的数据呢？思路是：用table函数把集合转化为表，然后再从这个表查询数据<br>select </em> from table(select s.score from stuInfo s where s.stuId = 2);<br>–table函数里面只能是一个可变数组</p>
+<p>select s.stuId, t.* from stuInfo s,<br>       table(select score from stuInfo  where stuId = s.stuId) t<br>       where s.stuId = 2;<br>–更新，整个可变数组一起更新，不能只更新数组的某个元素<br>update stuInfo set score = arrScoreType(<br>       scoreType(‘sql’, 50), scoreType(‘C#’, 80)) where stuId = 1;<br>–删除，按主键删除<br>—————————–可变数组结束———————————<br>drop type scoreType force;<br>drop type arrScoreType force;<br>drop table stuInfo;</p>
+<p>—————————–嵌套表—————————<br>–创建抽象类型<br>create or replace type scoreType as object (<br>       subName varchar2(10),<br>       score int<br>);<br>–创建嵌套表类型<br>create or replace type nestTable is table of scoreType;<br>–创建包含嵌套表的学生信息表<br>create table stuInfo (<br>       stuId int,<br>       score nestTable  –其实存的是引用，实际数据存在abc表中<br>) nested table score store as abc;<br>–nested table score store as abc意思是：stuInfo这个表中的score这一列是嵌套表类型，嵌套表实际是存在abc这个表中</p>
+<p>–增删和可变数组一样<br>insert into stuInfo values(3, nestTable(<br>       scoreType(‘sql’, 70), scoreType(‘java’, 93)));<br>–查询，思路：把嵌套表先查出来，然后把嵌套表和stuInfo进行联合查询<br>select <em> from table(select ss.score from stuInfo ss where stuId = 3);<br>select s.stuId, t.</em> from stuInfo s, table(select ss.score from stuInfo ss where stuId = s.stuId) t<br> where s.stuId = 3;<br>–更新<br>update table(select ss.score from stuInfo ss where stuId=3) t<br>set t.score = 80 where t.subName = ‘sql’;<br>–删除<br>delete from table(select ss.score from stuInfo ss where stuId = 3) t<br>where t.subname=’sql’;</p>
+<p>—-可变数组和嵌套表的异同—————-<br>相同点：<br>1、都是抽象类型<br>2、都可以作为表中某列的数据类型（record和快表是不能作为列的数据类型的）<br>不同点：<br>1、可变数组本身就存放在原表中，而嵌套表存放在另外的表中<br>2、可变数组有大小限制，而嵌套表没有<br>3、可变数组更新时必须更新整个可变数组，而嵌套表更新时可以只更新嵌套表中的部分记录<br>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/26/Oracle笔记-十三、PLSQL面向对象之package/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记 十三、PL/SQL面向对象之package
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/24/Oracle笔记-十一、PLSQL函数和触发器/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Oracle笔记 十一、PL/SQL函数和触发器</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/" data-title="Oracle笔记 十二、PL/SQL 面向对象oop编程" data-url="http://yoursite.com/2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第6章OreaclePL/SQL动态SQL | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="动态SQL分为：早期绑定和晚期绑定编译 早期绑定（编译时就确定的对象）执行 晚期绑定（不确定性要通过执行之后才确定下来）12345678910111213141516execute immediae关键字执行动态SQL语句using是预编译返回create or replace procedure proc_sqlstring(empid in int)isbeginexecute immedia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第6章OreaclePL/SQL动态SQL">
+<meta property="og:url" content="http://yoursite.com/2012/04/09/第6章OreaclePLSQL动态SQL/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="动态SQL分为：早期绑定和晚期绑定编译 早期绑定（编译时就确定的对象）执行 晚期绑定（不确定性要通过执行之后才确定下来）12345678910111213141516execute immediae关键字执行动态SQL语句using是预编译返回create or replace procedure proc_sqlstring(empid in int)isbeginexecute immedia">
+<meta property="og:updated_time" content="2016-03-20T05:43:39.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第6章OreaclePL/SQL动态SQL">
+<meta name="twitter:description" content="动态SQL分为：早期绑定和晚期绑定编译 早期绑定（编译时就确定的对象）执行 晚期绑定（不确定性要通过执行之后才确定下来）12345678910111213141516execute immediae关键字执行动态SQL语句using是预编译返回create or replace procedure proc_sqlstring(empid in int)isbeginexecute immedia">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第6章OreaclePLSQL动态SQL" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第6章OreaclePL/SQL动态SQL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/09/第6章OreaclePLSQL动态SQL/" class="article-date">
+  <time datetime="2012-04-09T02:51:19.000Z" itemprop="datePublished">2012-04-09</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="动态SQL分为："><a href="#动态SQL分为：" class="headerlink" title="动态SQL分为："></a>动态SQL分为：</h3><p><strong>早期绑定和晚期绑定</strong><br>编译 早期绑定（编译时就确定的对象）<br>执行 晚期绑定（不确定性要通过执行之后才确定下来）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">execute immediae关键字执行动态SQL语句using是预编译返回</span><br><span class="line">create or replace procedure proc_sqlstring(empid in int)is</span><br><span class="line">begin</span><br><span class="line">execute immediate &apos;delete from emp where empno=:id&apos; using empid;</span><br><span class="line">end;</span><br><span class="line">call proc_sqlstring(7782);</span><br><span class="line">/*1、使用动态SQL完成创建一张表*/</span><br><span class="line">declare</span><br><span class="line">  str_sqltring varchar2(4000);</span><br><span class="line">begin</span><br><span class="line">  str_sqltring := &apos;create table t_table(</span><br><span class="line">id int primary key not null,</span><br><span class="line">name varchar2(100)</span><br><span class="line">)&apos;;</span><br><span class="line">  execute immediate str_sqltring;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/10/第7章Oreacle开发PLSQL子程序和包/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第7章Oreacle开发PL/SQL子程序和包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/08/第5章Oracle-PLSQL使用游标获取/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第5章Oracle PL/SQL使用游标获取</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/09/第6章OreaclePLSQL动态SQL/" data-title="第6章OreaclePL/SQL动态SQL" data-url="http://yoursite.com/2012/04/09/第6章OreaclePLSQL动态SQL/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

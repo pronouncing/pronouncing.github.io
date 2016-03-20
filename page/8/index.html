@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-java日期类型在Hibernate中的处理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第10章接口" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,22 +42,28 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/java日期类型在Hibernate中的处理/">java日期类型在Hibernate中的处理</a>
+      <a class="article-title" href="/2012/05/12/第10章接口/">第10章接口</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/java日期类型在Hibernate中的处理/" class="article-date">
-  <time datetime="2014-09-19T14:28:50.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/12/第10章接口/" class="article-date">
+  <time datetime="2012-05-12T11:02:30.000Z" itemprop="datePublished">2012-05-12</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>java日期类型在Hibernate中的处理<br>java中的表示日期时间的类型很多，主要有下面一些：<br>java.util.Calendar（和区域有关，可表示年，月，日，时，分，秒）<br>java.util.Date（可表示年，月，日，时，分，秒）<br>java.sql.Date（可表示年，月，日）<br>java.sql.Time （可表示时，分，秒）<br>java.sql.Timestamp（可表示年，月，日，时，分，秒，纳秒）<br>在对象定义时，究竟定义为哪种类型，我们得要求项目需求来选择不同精度的类型。</p>
-<p>Hibernate对上面的时间类型都有很好的支持，但是，不同的类型，数据库中的字段也得选择相应的类型，以mysql为例，就存在date,time,datetime,timestamp等几种。<br>hibernate的映射书写时要注意，日期类型一般都要明确予以指定。如果你使用的是注解映射配置，类型选择的又是java.util.Calendar，java.util.Date，此时需要使用@Temporal 明确指定具体类型，对应的取值有TemporalType.DATE,TemporalType.TIME,TemporalType.TIMESTAMP几种。<br>最后，hibernate中以时间作为查询条件时，也需要明确指定传入参数类型，大家要选择带有3个参数的那个setParameter方法。</p>
+        <h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
+<p>　　在Java语言规范中，一个方法的特征仅包括方法的名字，参数的数目和种类，而不包括方法的返回类<br>型，参数的名字以及所抛出来的异常。在Java编译器检查方法的重载时，会根据这些条件判断两个方法是<br>否是重载方法。但在Java编译器检查方法的置换时，则会进一步检查两个方法(分处超类型和子类型)的返<br>还类型和抛出的异常是否相同。</p>
+<p>　　接口继承和实现继承的规则不同，一个类只有一个直接父类，但可以实现多个接口。<br>　　Java接口本身没有任何实现，因为Java接口不涉及表象，而只描述public行为，所以Java接口比Java<br>抽象类更抽象化。<br>　　Java接口的方法只能是抽象的和公开的，Java接口不能有构造器，Java接口可以有public，静态的和<br>final属性。<br>　　接口把方法的特征和方法的实现分割开来。这种分割体现在接口常常代表一个角色，它包装与该角色<br>相关的操作和属性，而实现这个接口的类便是扮演这个角色的演员。一个角色由不同的演员来演，而不同<br>的演员之间除了扮演一个共同的角色之外，并不要求其它的共同之处。<br>为什么使用接口？<br>　　两个类中的两个类似的功能，调用他们的类动态的决定一种实现，那他们提供一个抽象父类，子类分<br>别实现父类所定义的方法。<br>　　问题的出现：Java是一种单继承的语言，一般情况下，哪个具体类可能已经有了一个超类，解决是给<br>它的父类加父类，或者给它父类的父类加父类，只到移动到类等级结构的最顶端。这样一来，对一个具体<br>类的可插入性的设计，就变成了对整个等级结构中所有类的修改。<br>　　接口是可插入性的保证。<br>　　在一个等级结构中的任何一个类都可以实现一个接口，这个接口会影响到此类的所有子类，但不会影<br>响到此类的任何超类。此类将不得不实现这个接口所规定的方法，而其子类可以从此类自动继承这些方法<br>，当然也可以选择置换掉所有的这些方法，或者其中的某一些方法，这时候，这些子类具有了可插入性(<br>并且可以用这个接口类型装载，传递实现了他的所有子类)。<br>　　我们关心的不是那一个具体的类，而是这个类是否实现了我们需要的接口。<br>　　接口提供了关联以及方法调用上的可插入性，软件系统的规模越大，生命周期越长，接口使得软件系<br>统的灵活性和可扩展性，可插入性方面得到保证。<br>　　类型<br>　　使用Java接口将软件单位与内部和外部耦合起来。使用Java接口不是具体的类进行变量的类型声明，<br>方法的返还类型声明，参量的类型声明，以及数据类型的转换。<br>　　在理想的情况下，一个具体的Java类应当只实现Java接口和抽象Java类中声明的方法，而不应当给多<br>余方法。</p>
+<h2 id="类型等级结构"><a href="#类型等级结构" class="headerlink" title="　　类型等级结构"></a>　　类型等级结构</h2><p>　　Java接口(以及抽象类)一般用来作为一个类型的等级结构的起点。<br>　　如果一个类已经有了一个主要的超类型，那么通过实现一个接口，这个类可以拥有另一个次要的超类型，<br>这种次要的超类型叫做混合类型。<br>Java接口常用方法</p>
+<h2 id="单方法接口"><a href="#单方法接口" class="headerlink" title="　　单方法接口"></a>　　单方法接口</h2><p>　　以下是引用片段：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　public interface Actionlistener&#123; </span><br><span class="line">　　public abstract void actionPerformed(ActionEvent event); </span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　仅且只有一个方法，只有实现了这个接口(重写这个接口中的唯一一个方法)，你才有资格去事件监听<br>器列表里注册(参数为Actionlistener类型)，当事件源变动时，自动调用这个唯一的actionPerformed方<br>法.<br>　　## 标识接口 ##<br>　　是没有任何方法和属性的接口。标识接口不对实现它的类有任何语意上的要求，它仅仅表明了实现它<br>的类属于一个特定的类型(传递)。<br>　　不推荐过多的使用标识接口。<br>　　## 常量接口 ##<br>　　用Java接口来声明一些常量，然后由实现这个接口的类使用这些常量。</p>
+<p>接口提供了规范和标准，接口不能被实例化，接口不包含任何构造器，接口中的所有方法都是抽象的，<br>接口可以定义静态常量，是异构集合.<br>一个接口能继承多个接口 public class b extends A<br>一个类可以实现多个接口<br>声明一个接口关键字是public interface A<br>实现一个接口的方法用public class H implements A,B,C</p>
+<h2 id="为什么使用接口"><a href="#为什么使用接口" class="headerlink" title="为什么使用接口:"></a>为什么使用接口:</h2><p><strong>抽象中有2个缺陷.<br>1抽象是单项继承————接口是多项实现<br>2抽象而破坏了安全性————而接口保证了安全性<br>抽象——[标准]——接口<br>抽象方法——[安全]——抽象方法<br>抽象是指向子类对象——不能被实例——而接口指向实现对象<br>总结：<br> Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，</strong></p>
 
       
 
@@ -70,7 +76,7 @@
 
 
   
-    <article id="post-Java的GC垃圾回收原理与机制" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第9章多态和抽象" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -78,24 +84,68 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Java的GC垃圾回收原理与机制/">Java的GC垃圾回收原理与机制</a>
+      <a class="article-title" href="/2012/05/11/第9章多态和抽象/">第9章多态和抽象</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Java的GC垃圾回收原理与机制/" class="article-date">
-  <time datetime="2014-09-19T14:27:24.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/11/第9章多态和抽象/" class="article-date">
+  <time datetime="2012-05-11T10:58:35.000Z" itemprop="datePublished">2012-05-11</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="ava的GC垃圾回收原理与机制"><a href="#ava的GC垃圾回收原理与机制" class="headerlink" title="ava的GC垃圾回收原理与机制"></a>ava的GC垃圾回收原理与机制</h3><p>JAVA中的对象是在堆上分配,而在堆上分配存储空间的方式是昂贵的.正是由于GC才使java在堆上的空间分配速度得以于其他语言在堆栈上分配速度相媲美.java对象也不再有作用域的概念.作用域是对于引用而言的.垃圾回收器通常是作为一个单独的低级别的线程运行，不可预知的情况下对内存堆中已经死亡的或者长时间没有使用的对象进行清楚和回收，程序员不能实时的调用垃圾回收器对某个对象或所有对象进行垃圾回收.程序可以用System.gc() 或Runtime.getRuntime().gc()    请求垃圾回收,但并不保证立即执行垃圾回收.</p>
-<h3 id="GC的工作原理-引用计数-标记复制"><a href="#GC的工作原理-引用计数-标记复制" class="headerlink" title="GC的工作原理: 引用计数,标记复制"></a>GC的工作原理: 引用计数,标记复制</h3><p>“引用计数”是一种简单但速度很慢的垃圾回收技术.所有对象都有一个引用计数器,当有引用连接时计数器加1,当引用离开作用域时或者被置于NULL时,计数器-1,垃圾回收器会在所以包含对象引用的列表上进行遍历,当发现某个对象的引用计数为0时,就释放占用的空间.</p>
-<p>“标记复制”的运行机制,垃圾回收器遍历包含所有引用的列表,当发现存活的对象引用时做上标记,这样当遍历完所有对象引用并做上标记的时候,执行垃圾回收,将没有标记的对象堆空间释放.</p>
-<h3 id="垃圾回收机制的优点"><a href="#垃圾回收机制的优点" class="headerlink" title="垃圾回收机制的优点:"></a>垃圾回收机制的优点:</h3><p>Java的垃圾回收机制是的程序员不用担心内存空间的分配,减少了内存溢出.但同时也牺牲了一定的性能.</p>
+        <h2 id="多态："><a href="#多态：" class="headerlink" title="多态："></a>多态：</h2><p>对于父类而言他的子类有独特的行为和特征，<br>多态体现在2个方面静态多态和动态多态—静态多态是编译时多态.</p>
+<h2 id="抽象："><a href="#抽象：" class="headerlink" title="抽象："></a>抽象：</h2><p>abstartic关键字在public 修饰符和void返回值中间<br>abstartic 不能产生当前对象，重写父类抽象的方法在子类中实现重写父类这个抽象方法<br>抽象的方法必须位于抽象类中，但抽象中也有不抽象的方法。<br>抽象如果子类继承了父类父类中的抽象方法在子类中实现</p>
+<p>其实，我们如果要全面了解多态，我觉得只要把握好以下几个方面就可以：多态是什么，他的具体表现是什么，多态使用的前提，多态使用好处，多态具体如何应用。<br>首先，何谓多态，我们可以有两方面理解，就属性而言，他是事物存在的多种形态。就方法而言，它是一种方法，多种实现，如重写。<br>其次，如果父类的引用指向了子类的对象 ，这就是其表现形式。<br>再者，我们在什么时候使用多态呢，这个就体现在类与类之间的关系上，要么是子类与父类关系，要么类与接口的关系。<br>再次，如何实现呢，他具体涉及两个方面内容，第一是静态多态，在编译的是时候系统就知道要指执行那个方法，主要体现在方法重载。第二是动态多态，系统在运行是才知道要调用哪个方法，主要的实现方式是方法重写。还有个体现是动态绑定。动态绑定是动态多态的技术基础之一。运行时根据父类的变量引用所指向的实际类型执行相应子类方法，从而实现多态性。还有两个技术基础，分别是向上转型和instancof关键字的使用。多态绑定还可以这么理解：在多态中，如果成员方法非静态，在编译时，参阅引用引用变量是否有调用方法，如果有编译通过，否则一定失败。如果运行，就看子类，子类如果有，就运行子类，子类没有就运行父类，父类没有就运行失败。但是如果方法都是静态的，无论运行还是编译都参考左边，其特点跟成员变量是相通得。<br>最后，多态有何好处，多态可以大大的提高扩展性。</p>
+<h2 id="一、多态的概念"><a href="#一、多态的概念" class="headerlink" title="一、多态的概念"></a>一、多态的概念</h2><pre><code>多态即“一个接口，多种实现”，在父类中声明的方法，可以在子类中进行覆盖（声明为finial的除外），这样，父类的引用在引用子类对象的时候可以做出不同的响应。所以，多态也可以说成是：相同的消息被发送到子类或父类对象上，将导致完全不同的行为。
+多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定。
+</code></pre><h2 id="二、多态存在的条件"><a href="#二、多态存在的条件" class="headerlink" title="二、多态存在的条件"></a>二、多态存在的条件</h2><pre><code>1、必须存在继承关系。
+2、子类必须覆盖父类中声明过的方法。
+</code></pre><h2 id="三、java多态的实现机制"><a href="#三、java多态的实现机制" class="headerlink" title="三、java多态的实现机制"></a>三、java多态的实现机制</h2><pre><code>java多态是由动态绑定技术来实现的，动态绑定即运行时绑定（以之对应的有静态绑定，即编译时绑定），在java语言中，除了声明为finial的方法外（声明为private的方法默认为finial）其余都是采用动态绑定来调用的，过程如下：
+当程序运行时，需要动态的调用方法时，则是虚拟机的工作，虚拟机将依照具体环境首先拟定出一张方法表，列举出可能的方法调用，继而在实现调用的时候，可以节省寻找函数方法所带来的时间开销，其将调用最合适及最合理的方法，在派生类中能调用相应的重名函数的则调用该新方法，不能则调用超类（父类）方法，同时应注意一点，若虚拟机放弃对本类的相应方法调用，那么虚拟机将搜索超类的方法表，依次类同，若都没有相应的处理来响应，则程序运行出错，一般来说在编译阶段，编译器将作出相应的控制。
+ 下面我们来看看动态绑定的内部实现机制。
+JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常在编译时可知)来选择所调用的方法。相反，当虚拟机调用一个实例方法时，它会基于对象实际的类型(只能在运行时得知)来选择所调用的方法，这就是动态绑定。
+</code></pre>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第8章封装" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/10/第8章封装/">第8章封装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/10/第8章封装/" class="article-date">
+  <time datetime="2012-05-10T10:53:29.000Z" itemprop="datePublished">2012-05-10</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="封装："><a href="#封装：" class="headerlink" title="封装："></a>封装：</h2><p>java为类中的成员提供了四种访问级别，按照访问权限由大到小排列<br>分别是：公用的（public）私有的(private)受保护的（protected）和默认的（default无访问修饰符）<br>通过用private 访问修饰符隐藏类中成员变量 称为封装，通过方法访问属性称为封装set[设置]/get[获取]</p>
+<h2 id="静态："><a href="#静态：" class="headerlink" title="静态："></a>静态：</h2><p>Static修饰符属于类的，用类名直接调用get或set<br>静态块：如果不加Static就用对象调用，如果加了Static就是用类调用set或get方法</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>封装 封装就是通过方法访问属性<br>静态 静态就是访问静态成员变量的时候用类名访问二不是用对象访问<br>静态块 静态块就是实例初始化块时在构造器之前执行</p>
 
       
 
@@ -108,7 +158,7 @@
 
 
   
-    <article id="post-JSP九大内置对象" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第7章继承" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -116,31 +166,26 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/JSP九大内置对象/">JSP九大内置对象</a>
+      <a class="article-title" href="/2012/05/09/第7章继承/">第7章继承</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/JSP九大内置对象/" class="article-date">
-  <time datetime="2014-09-19T14:21:09.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/09/第7章继承/" class="article-date">
+  <time datetime="2012-05-09T15:52:01.000Z" itemprop="datePublished">2012-05-09</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>内置对象（隐式对象）使得开发人员可以访问容器提供的服务和资源。 内置对象在每个 JSP 页面当中都进行定义，并且在后台由容器使用。因为内置对象是自动声明的，所以我们只需要使用与一个给定对象相关的引用变量来调用其方法。内置对象不需要预先声明就可以在脚本代码和表达式中随意使用。 </p>
-<h3 id="JSP中九大内置对象为："><a href="#JSP中九大内置对象为：" class="headerlink" title="JSP中九大内置对象为："></a>JSP中九大内置对象为：</h3><p>请求对象request　              类型 javax.servlet.ServletRequest          作用域     Request<br>响应对象response               类型 javax.servlet.SrvletResponse          作用域  Page<br>页面上下文对象pageContext       类型 javax.servlet.jsp.PageContext         作用域  Page<br>会话对象session                   类型 javax.servlet.http.HttpSession        作用域   Session<br>应用程序对象application        类型 javax.servlet.ServletContext           作用域  Application<br>输出对象out                   类型 javax.servlet.jsp.JspWriter             作用域  Page<br>配置对象config                类型 javax.servlet.ServletConfig             作用域  Page<br>页面对象page                  类型 javax.lang.Object                       作用域  Page<br>例外对象exception             类型 javax.lang.Throwable                    作用域  page </p>
-<p>request对象代表的是来自客户端的请求，例如我们在FORM表单中填写的信息等；使用它的目的是引用传递给jspService()方法的当前请求。 </p>
-<p>response对象代表的是对客户端的响应，也就是说可以通过response 对象来组织发送到客户端的数据；使用它的目的是引用发送给客户机的响应；也把它传递给jspService()方法。 </p>
-<p>pageContext对象代表的是当前页面运行的一些属性；它提供了某些便利方法和对隐式对象的存储引用。 </p>
-<p>session对象就是会话对象的使用 </p>
-<p>application对象负责提供应用程序在服务器中运行时的一些全局信息；使用它的目的是引用执行JSP所在的 Web 应用程序的环境。 </p>
-<p>out 对象代表了向客户端发送数据的对象；使用它的目的是引用JSP页面的输出流。 </p>
-<p>config对象提供一些配置信息；可以从它获取部署描述符中给定的初始化参数。 </p>
-<p>page对象，使用它的目的是引用JSP页面生成的 servlet的当前实例。 </p>
-<p>exception对象可用于把page指令属性isErrorPage设为true 的页面。它可用于异常处理。</p>
+        <h2 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h2><p>我们由员工类Employee派生出2个新类:计时工Hourly和合同工Salary,使用extends关键字让它们继承自Employee<br>我们称Employee为父类(基类),Hourly和Salary为Employee的子类(派生类)<br>可以通过扩展一个已有的类，并继承该类的属性和行为，来创建一个新的类，这种方式称为继承使用extends关键字</p>
+<h2 id="单继承与多继承："><a href="#单继承与多继承：" class="headerlink" title="单继承与多继承："></a>单继承与多继承：</h2><p>一个java类中只能有一个父类<br>某些OOP语言（例如C++）允许子类有多个父类。<br>但在Java中这是不允许的。在Java中，一个类只能有一个父类。  </p>
+<h2 id="方法重写："><a href="#方法重写：" class="headerlink" title="方法重写："></a>方法重写：</h2><p>1子类可以重写从父类继承的方法，从而允许子类添加或者改变父类中方法的行为。这称为方法重写，是OOP的特征之一。<br>2当子类重写父类的方法时，必须遵循如下的规则：<br>子类的方法的返回值的类型、方法名和形式参数列表，必须和父类中的是相同的。如果子类中的方法与父类中的方法同名，但是子类的方法改变了形式参数列表，那么这是方法重载，而不是方法重写。不要混淆这两个概念，二者的用法是完全不同的。<br>访问修饰符必须不小于父类中的访问修饰符。例如，如果父类的方法是public，那么子类的必须是public。如果父类的方法是protected，那么子类必须是protected或public（public比protected访问权更大）。<br>子类中重写的异常不能抛出比父类更多的异常<br>2方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>3方法重载：一个类中的方法与另一个方法相同，参数列表不同<br>2重写体现的是父类与子类方法之间的关系；重载体现的是一个类的内部方法之间的关系。<br>4构造方法与继承<br>不象一个超类的成员，超类的构造方法不能被它的子类继承.<br>你必须为一个子类定义构造方法，或者使用缺省的构造方法.</p>
+<h2 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字:"></a>super关键字:</h2><h3 id="super的两种用法："><a href="#super的两种用法：" class="headerlink" title="super的两种用法："></a>super的两种用法：</h3><p>1:super.<strong><em>或super.</em></strong>()代表每个类中指向父类对象部分的引用.<br>2:super()代表调用父类中指定的构造器。<br>注意：<br>super()只能放在构造器的第一句！<br>super关键字执行过程：<br>super 先调用父类构造方法，再调用子类构造方法.<br>子类构造方法的名称与类的名称相同.</p>
+<h2 id="final关键字："><a href="#final关键字：" class="headerlink" title="final关键字："></a>final关键字：</h2><p>我们可以使用一个叫final的修饰符来实现。<br>public final class Test{<br>}<br>本类使用final修饰符修饰，表示不可以有继承的子类，所以称为终态类。<br>final 1变量不能修改 2类不可被继承 3方法不能被重写。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><strong>继承：子类继续父类的属性和行为<br>单继承和多继承：java中只能有一个父类C++中可以有多个父类<br>方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>super: 代表每个类中指向父类对象部分的引用，代表调用父类中指定的构造器<br>final: final 变量不能修改 类不可被继承 方法不能被重写</strong></p>
 
       
 
@@ -153,7 +198,7 @@
 
 
   
-    <article id="post-PermGenSpace溢出解决方" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第5章对象的行为" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -161,65 +206,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/PermGenSpace溢出解决方/">PermGenSpace溢出解决方</a>
+      <a class="article-title" href="/2012/05/08/第5章对象的行为/">第5章对象的行为</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/PermGenSpace溢出解决方/" class="article-date">
-  <time datetime="2014-09-19T14:19:04.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/08/第5章对象的行为/" class="article-date">
+  <time datetime="2012-05-08T15:44:27.000Z" itemprop="datePublished">2012-05-08</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>PermGen space溢出解决方法​<br>tomcat在运行几天后，会出现PermGen space溢出错误而无法继续处理请求，解决方法是调整PermGen区域大小：<br>JAVA_OPTS=”-server -XX:PermSize=64M -XX:MaxPermSize=128m”<br>还有一种说法是使用Jrockit代替sun实现的jdk，但我没有试验。<br>下面来看看对PermGen space的解释：<br>PermGen space的全称是Permanent Generation space，是指内存的永久保存区域，这个内存区域用于：<br>（1）这一部分用于存放Class和Meta的信息，Class在被 Load的时候被放入PermGen space区域，它和和存放Instance的Heap区域不同。<br>（2） GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的APP会LOAD很多CLASS的话,就很可能出现PermGen space错误。<br>这种错误常见在web服务器对JSP进行pre compile的时候。<br>如果你的WEB APP下都用了大量的第三方jar，其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-使用jackson对json的操作" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/使用jackson对json的操作/">使用jackson对json的操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/使用jackson对json的操作/" class="article-date">
-  <time datetime="2014-09-19T14:15:08.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>jackson是一个开源的处理json的工具包，spring mvc中的json类型响应就是用这个东西实现的，性能比较优异。我以前最早的项目用的是json-lib，后来因效率问题改为gson，现在看来可以换成jackson了。<br>下面给大家讲讲jackson的使用：<br>一、简单对象转为json<br>ObjectMapper om = new ObjectMapper();<br>StringWriter result = new StringWriter();<br>om.writeValue(result, 【这个参数是你要转换的东西，对象或集合都是可以的】);</p>
-<p>当然，如果你不想用StringWriter的话，你可以直接用om.writeValueAsString(obj)直接输出字符串。</p>
-<p>二、日期的处理<br>默认情况下，jackson会把日期处理为毫秒，如果你想处理成字符串，可以：<br>ObjectMapper om = new ObjectMapper();<br>om.setDateFormat(new SimpleDateFormat(“yyyy-MM-dd”));</p>
-<p>三、排除不想要的属性<br>这个主要是用来解决对象间循环关联的情况的，使用如下：<br>SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(“不要的属性名”);<br>SimpleFilterProvider fp = new SimpleFilterProvider();<br>fp.addFilter(“user_json”, filter);</p>
-<p>om.setFilters(fp);<br>当然，这个设置将对全局的ObjectMapper都起作用，我们也可以使用下面这种：<br>om.writer(fp).writeValueAsString(obj)；<br>每次使用前再设置，这个也是全局作用域。</p>
-<p>如果仅仅想要自己需要的属性，如下写法：<br>SimpleBeanPropertyFilter.filterOutAllExcept(“id”, “title”);</p>
-<p>注意：addFilter的第一个参数，要用注解指写，比如：<br>@JsonFilter(“user_json”)<br>public class User {}<br>如果持久层使用的是hibernate，需要将hibernateLazyInitializer属性也排除。</p>
-<p>四、反序列化<br>反序列化用的没有序列化多。我们先看普通对象的处理：<br>User u = om.readValue(json_str, User.class);<br>集合对象，处理方式不同，请看list的处理方式：<br>List<user> uss = om.readValue(json_str, new TypeReference<list<user>&gt;() {});</list<user></user></p>
-<p>五、图片等二进制类型的json转换<br>这个不用担心，jackson可直接完成转换，前提是：<br>你要用byte[]类型表示二进制数据，比如：private byte[] photo ;</p>
-<p>当然，上面的的代码都是在线手工操作下的示例，jackson也是支持注解的，比如：排除属性，日期格式的定义等，都可以用注解的方式去实现，请大家自己so一下吧。</p>
+        <h2 id="1-this："><a href="#1-this：" class="headerlink" title="1 this："></a>1 this：</h2><p>表示当前对象同时注意事项</p>
+<h2 id="2-方法调用栈"><a href="#2-方法调用栈" class="headerlink" title="2 方法调用栈"></a>2 方法调用栈</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">主方法先进入栈，后进先出：</span><br><span class="line">┌──────────┐</span><br><span class="line">│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙</span><br><span class="line">│──────────│↑                                                 </span><br><span class="line">│ name3              │↖name1方法第三个先进   ↘依次在出去name3               ↙    </span><br><span class="line">│──────────│ ↑</span><br><span class="line">│ name2              │↖name1方法第二个先进   ↘依次在出去name2         ↙</span><br><span class="line">│──────────│  ↑</span><br><span class="line">│ name1              │↖name1方法第一个先进   ↘依次在出去name2     ↙</span><br><span class="line">│──────────│   ↑                  </span><br><span class="line">│ main()             │↖第一个先进入的主方法  ↘返回main方法结束↙</span><br><span class="line">└──────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="3方法的重载："><a href="#3方法的重载：" class="headerlink" title="3方法的重载："></a>3方法的重载：</h2><p>方法的名称相同参数列不同就构成方法重载.  体现参数列：表示 个数不同–类型不同–顺序不同.</p>
+<h3 id="顺序不同类型："><a href="#顺序不同类型：" class="headerlink" title="顺序不同类型："></a>顺序不同类型：</h3><p>public void name(int a long b) //  2个形式参数<br>        ↖这样就构成2个方法名称相同参数 顺序不同 就构成方法重载成功<br>      ↙<br>public void name(long a int b) //  2个形式参数</p>
+<h3 id="个数不同类型"><a href="#个数不同类型" class="headerlink" title="个数不同类型"></a>个数不同类型</h3><p>public void name(int a long b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 个数不同 就构成方法重载成功<br>      ↙<br>public void name(long a) //  1个形式参数    </p>
+<h3 id="类型不同类型"><a href="#类型不同类型" class="headerlink" title="类型不同类型"></a>类型不同类型</h3><p>public void name(String a int b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 类型不同 就构成方法重载成功<br>      ↙<br>public void name(long a short b) //  2个形式参数   </p>
+<h2 id="4访问修饰符："><a href="#4访问修饰符：" class="headerlink" title="4访问修饰符："></a>4访问修饰符：</h2><h3 id="访问修饰符有3种修饰符类型："><a href="#访问修饰符有3种修饰符类型：" class="headerlink" title="访问修饰符有3种修饰符类型："></a>访问修饰符有3种修饰符类型：</h3><p>public    公共修饰符的作用：最大权限在任何地方都可以访问这个方法或属性。<br>private   似有修饰符的作用：只有在类的方法中访问，如果不在同一个类中是无法访问的权限是只有在这个类中才能访问这个方法或属性。<br>protected 受保护修饰符作用：权限是在同一个包下才能访问，如果不在同一个包就不能访问权限不够因为他是受保护的。<br>default   默认修饰符的作用：默认修饰符权限跟受保护修饰符是一样的必须在同一个包里面才能调用这个方法或属性，但是权限没有受保护权限高。</p>
+<h2 id="5形参和实参"><a href="#5形参和实参" class="headerlink" title="5形参和实参"></a>5形参和实参</h2><p>当你在定义一个方法的时候,比如 void setter(int i){};<br>其中的参数i就是形参 形参是这个方法的局部变量 只能在方法体中使用<br>当你调用这个方法的时候,比如setter(a);<br>此时a就是实参 实参a把他的值传递给形参i<br>基本数据类型实参传递给形参的是值<br>对象实参传递给形参的是对象的引用</p>
+<h2 id="6构造器"><a href="#6构造器" class="headerlink" title="6构造器"></a>6构造器</h2><p>构造器是类中的一个特殊的方法，该方法在对象实例化时被调用，构造器的用途是当对象实例化时，初始化对象中的成员变量<br>构造器的名称必须要和类的名称相同.<br>不能有返回值，void也不行.<br>构造器的参数可有可无，可有一个也可有多个参数</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>this引用：<br>2 方法调用栈：<br>3方法的重载：<br>4访问修饰符：<br>5形参和实参：<br>6构造器：</p>
 
       
 
@@ -243,7 +253,7 @@
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -253,7 +263,7 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

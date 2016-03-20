@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第19章jdbc数据库编程 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="java数据库编程驱动类型：JAVA数据库编程有4种驱动分类常用的就只有2种类型（可以连接不同数据库的 JDBC）——网络协议纯java驱动（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序
+url格式：[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）Oracle              jdbc:oracl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第19章jdbc数据库编程">
+<meta property="og:url" content="http://yoursite.com/2012/05/18/第19章jdbc数据库编程/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="java数据库编程驱动类型：JAVA数据库编程有4种驱动分类常用的就只有2种类型（可以连接不同数据库的 JDBC）——网络协议纯java驱动（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序
+url格式：[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）Oracle              jdbc:oracl">
+<meta property="og:updated_time" content="2016-03-20T05:10:16.880Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第19章jdbc数据库编程">
+<meta name="twitter:description" content="java数据库编程驱动类型：JAVA数据库编程有4种驱动分类常用的就只有2种类型（可以连接不同数据库的 JDBC）——网络协议纯java驱动（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序
+url格式：[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）Oracle              jdbc:oracl">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第19章jdbc数据库编程" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第19章jdbc数据库编程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/18/第19章jdbc数据库编程/" class="article-date">
+  <time datetime="2012-05-18T12:47:08.000Z" itemprop="datePublished">2012-05-18</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="java数据库编程驱动类型："><a href="#java数据库编程驱动类型：" class="headerlink" title="java数据库编程驱动类型："></a>java数据库编程驱动类型：</h2><p>JAVA数据库编程有4种驱动分类常用的就只有2种类型<br>（可以连接不同数据库的 JDBC）——网络协议纯java驱动<br>（来自客户端机器上的请求可以直接操作本地库）——本地协议纯java驱动程序</p>
+<p>url格式：<br>[MySql              jdbc:mysql://主机名称/端口号/数据库名（也可以用IP地址）<br>Oracle              jdbc:oracle:thin:@主机名:端口号：数据库名<br>SQL Server       jdbc:Sqlserver://主机名：端口号：databaseName=数据库名]</p>
+<p>driver 驱动<br>Connection 连接<br>createStatement 连接对象<br>Reultset 结果集<br>executeupdate 修改数据库</p>
+<h2 id="书写标准固定格式代码："><a href="#书写标准固定格式代码：" class="headerlink" title="书写标准固定格式代码："></a>书写标准固定格式代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package Jdbc;</span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">public class Jdbc &#123;</span><br><span class="line"> Connection conn; //声明</span><br><span class="line"> Statement statme;</span><br><span class="line"> ResultSet rus;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  String url=&quot;jdbc:mysql://localhost:3306/lihao&quot;; //连接mysql 主机名+端口号+库名</span><br><span class="line">  String user=&quot;root&quot;;</span><br><span class="line">  String pawss=&quot;pronouncing&quot;;</span><br><span class="line">  String sql=&quot;select * from t_student &quot;; //查询</span><br><span class="line">  </span><br><span class="line">  try &#123;</span><br><span class="line">   Class.forName(&quot;com.mysql.jdbc.Driver&quot;);//连接驱动</span><br><span class="line">   Connection conn=DriverManager.getConnection(url,user,pawss);//连接</span><br><span class="line">   Statement statme=conn.createStatement();//创建连接对象</span><br><span class="line">   ResultSet rus=statme.executeQuery(sql);//结果集（查询或执行 SQL语句）</span><br><span class="line">   </span><br><span class="line">   while(rus.next()) &#123;        //邮标从第1行开始</span><br><span class="line">    String name=rus.getString(&quot;_name&quot;);</span><br><span class="line">    String age=rus.getString(&quot;_age&quot;);</span><br><span class="line">    String sex=rus.getString(&quot;_sex&quot;);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    System.out.println(name);         //打印数据查询出来的内容  </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">   &#125;</span><br><span class="line">  &#125;catch(SQLException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;catch(ClassNotFoundException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/06/01/Servlet请求转发和重定向总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Servlet请求转发和重定向总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/17/java18章网络编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java18章网络编程</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/05/18/第19章jdbc数据库编程/" data-title="第19章jdbc数据库编程" data-url="http://yoursite.com/2012/05/18/第19章jdbc数据库编程/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

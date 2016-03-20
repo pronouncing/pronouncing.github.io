@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第7章Oreacle开发PL/SQL子程序和包 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开发PL/SQL子程序和包总结子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.子程序可以具有声明部分 可执行部分和异常处理部分.PL/SQL支持两种类型的子程序 即过程和函数。过程用于执行特定任务，而函数用于执行任务并返回值。要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）包是一种数据库对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第7章Oreacle开发PL/SQL子程序和包">
+<meta property="og:url" content="http://yoursite.com/2012/04/10/第7章Oreacle开发PLSQL子程序和包/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="开发PL/SQL子程序和包总结子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.子程序可以具有声明部分 可执行部分和异常处理部分.PL/SQL支持两种类型的子程序 即过程和函数。过程用于执行特定任务，而函数用于执行任务并返回值。要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）包是一种数据库对象">
+<meta property="og:updated_time" content="2016-03-20T05:43:45.812Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第7章Oreacle开发PL/SQL子程序和包">
+<meta name="twitter:description" content="开发PL/SQL子程序和包总结子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.子程序可以具有声明部分 可执行部分和异常处理部分.PL/SQL支持两种类型的子程序 即过程和函数。过程用于执行特定任务，而函数用于执行任务并返回值。要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）包是一种数据库对象">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第7章Oreacle开发PLSQL子程序和包" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第7章Oreacle开发PL/SQL子程序和包
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/10/第7章Oreacle开发PLSQL子程序和包/" class="article-date">
+  <time datetime="2012-04-10T02:52:07.000Z" itemprop="datePublished">2012-04-10</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="开发PL-SQL子程序和包"><a href="#开发PL-SQL子程序和包" class="headerlink" title="开发PL/SQL子程序和包"></a>开发PL/SQL子程序和包</h2><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>子程序是已命名的PL/SQL块，可带参数并可在需要时随时调用.<br>子程序可以具有声明部分 可执行部分和异常处理部分.<br>PL/SQL支持两种类型的子程序 即过程和函数。<br>过程用于执行特定任务，而函数用于执行任务并返回值。<br>要将值传递给子程序，有3种参数（in int 传入       out int输出         in out 传入值输出返回更新的值  ）<br>包是一种数据库对象，他是对相关PL/SQL类型。子程序。游标。异常。变量和常量的封装。<br>包由两部分组成：即包规范和包体。<br>在包体声明的项可视为“私有”，因为他们只限于包内使用。<br>在包规范中声明的项也可以在包之外使用。这样的项称为：“公用对象”。<br>包规范包含公用对象及其类型<br>PL/SQL允许两个或多个打包的子程序具有同一名称。在需要子程序接受属于不同数据类型的参数是，可以使用此选项此概念称为重载。<br>使用包的优点是：模块化 、更轻松的应用程序设计、信息的隐藏、新增功能以及性能更佳、</p>
+<p>/<em>包规范的创建关键字（package ）</em>/<br>create or replace package 包名 is<br>包接口定义、让包体去实现<br>procedure pro_test_pack(v_id in int);<br>end 包名;<br>/<em>包体实现包规范中定义的接口使用关键字（package body）</em>/<br>create or replace package body 包名 is<br>实现包规范中定义的接口<br>end;<br>end 包名；</p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p>/<em>包规范</em>/<br>create or replace packagepack_name is<br>v_var varchar2(100);<br>procedure pro_test_pack(v_id in int);<br>end pack_name;<br>/<em>创建包体</em>/<br>create or replace package bodypack_name is<br>procedure pro_test_pack(v_id in int) is<br>begin<br>v_var :=’adasf’;<br>dbms_output.put_line(v_var);<br>end;<br>end pack_name;<br>call pack_name.pro_test_pack(123);</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/15/Oracle笔记-二、常用dba命令行/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记 二、常用dba命令行
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/09/第6章OreaclePLSQL动态SQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第6章OreaclePL/SQL动态SQL</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/10/第7章Oreacle开发PLSQL子程序和包/" data-title="第7章Oreacle开发PL/SQL子程序和包" data-url="http://yoursite.com/2012/04/10/第7章Oreacle开发PLSQL子程序和包/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -200,7 +200,7 @@
 
 
   
-    <article id="post-OOAD设计原则思维导图总结篇" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-一步步教你搭dubbo+zopper+spring整合使用负载均衡容错服务" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -208,21 +208,39 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/OOAD设计原则思维导图总结篇/">OOAD设计原则思维导图总结篇</a>
+      <a class="article-title" href="/2014/04/12/一步步教你搭dubbo+zopper+spring整合使用负载均衡容错服务/">一步步教你搭dubbo+zopper+spring整合使用负载均衡容错服务</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/OOAD设计原则思维导图总结篇/" class="article-date">
-  <time datetime="2014-09-22T11:53:48.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2014/04/12/一步步教你搭dubbo+zopper+spring整合使用负载均衡容错服务/" class="article-date">
+  <time datetime="2014-04-12T13:43:57.000Z" itemprop="datePublished">2014-04-12</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这是OOAD设计原则的总结思维图,有想学习OOAD思想的可以看看我的截图结合文章看更好。如果需要源码实例请在下方留言。时间就像一张网，撒在哪里，就在哪里收获。<br><img src="http://i.imgur.com/25TZKd5.jpg" alt=""><br><img src="http://i.imgur.com/vbuKkCJ.jpg" alt=""><br><img src="http://i.imgur.com/xr2VxFY.jpg" alt=""><br><img src="http://i.imgur.com/mHK0sQ5.jpg" alt=""><br><img src="http://i.imgur.com/ihcc1gt.jpg" alt=""></p>
+        <p>一直奔波于生活和工作中，突然发现博客近半年没用碰过了，更重要的发现是2015年只剩下几个月了……，时间真的太快太快！</p>
+<p>先说说题外话：<br>这篇文章是朋友需要就帮忙捣腾了下。笔者借鉴了网上不下100篇文章才整理了如下文章，但是发现他们写的文章不是Copy别人的就是一上来就开始写过程，在这个过程中他们的文章80%一模一样的文字总感觉缺少了什么所以现在就让笔者带你进入这个过程中来..</p>
+<h2 id="Dubbo是什么？"><a href="#Dubbo是什么？" class="headerlink" title="Dubbo是什么？"></a>Dubbo是什么？</h2><p>Dubbo是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案，Dubbo是阿里巴巴SOA服务化治理方案的核心框架在这种情况下诞生的。</p>
+<h2 id="Dubbo的背景介绍？"><a href="#Dubbo的背景介绍？" class="headerlink" title="Dubbo的背景介绍？"></a>Dubbo的背景介绍？</h2><p>我这就省略…了可以百度他们写的文章都Copy过我就不重复了。</p>
+<h2 id="Dubbo能做什么？"><a href="#Dubbo能做什么？" class="headerlink" title="Dubbo能做什么？"></a>Dubbo能做什么？</h2><p>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。<br>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。<br>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除服务提供者。</p>
+<h2 id="Ox1-第一步"><a href="#Ox1-第一步" class="headerlink" title="Ox1    第一步"></a>Ox1    第一步</h2><h3 id="什么是Zookeeper及作用？"><a href="#什么是Zookeeper及作用？" class="headerlink" title="什么是Zookeeper及作用？"></a>什么是Zookeeper及作用？</h3><p>在此笔者附上链接解释：<a href="http://www.aboutyun.com/thread-6628-1-1.html" target="_blank" rel="external">http://www.aboutyun.com/thread-6628-1-1.html</a></p>
+<p>在Windows下安装或者在Linux环境下安装zookeeper<br>去官网下载zookeeper-3.4.6然后安装笔者这给出官网的下载地址：<a href="http://www.apache.org/dist/zookeeper/zookeeper-3.4.6/" target="_blank" rel="external">http://www.apache.org/dist/zookeeper/zookeeper-3.4.6/</a><br>然后在对应的zookeeper-3.4.6/conf 下有一个文件zoo_sample.cfg的这个文件里面配置了监听客户端连接的端口等一些信息，Zookeeper 在启动时会找zoo.cfg这个文件作为默认配置文件,所以我们复制一个名称为zoo.cfg的文件，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># The number of milliseconds of each tick</span><br><span class="line">tickTime=2000</span><br><span class="line"># The number of ticks that the initial </span><br><span class="line"># synchronization phase can take</span><br><span class="line">initLimit=10</span><br><span class="line"># The number of ticks that can pass between </span><br><span class="line"># sending a request and getting an acknowledgement</span><br><span class="line">syncLimit=5</span><br><span class="line"># the directory where the snapshot is stored.</span><br><span class="line"># do not use /tmp for storage, /tmp here is just </span><br><span class="line"># example sakes.</span><br><span class="line">dataDir=/tmp/zookeeper</span><br><span class="line"># the port at which the clients will connect</span><br><span class="line">clientPort=2181</span><br><span class="line"># the maximum number of client connections.</span><br><span class="line"># increase this if you need to handle more clients</span><br><span class="line">#maxClientCnxns=60</span><br><span class="line">#</span><br><span class="line"># Be sure to read the maintenance section of the </span><br><span class="line"># administrator guide before turning on autopurge.</span><br><span class="line">#</span><br><span class="line"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span><br><span class="line">#</span><br><span class="line"># The number of snapshots to retain in dataDir</span><br><span class="line">#autopurge.snapRetainCount=3</span><br><span class="line"># Purge task interval in hours</span><br><span class="line"># Set to &quot;0&quot; to disable auto purge feature</span><br><span class="line">#autopurge.purgeInterval=1</span><br></pre></td></tr></table></figure>
+<p><strong>参数意思解释</strong><br>tickTime=2000  # Zookeeper服务器心跳时间，单位毫秒<br>dataDir=/tmp/zookeeper # 数据持久化路径, 笔者使用的默认路径你们可以自行修改<br>clientPort=2181 # 连接端口<br>initLimit=5 # 投票选举新leader的初始化时间。<br>syncLimit=2 # Leader与Follower之间的最大响应时间单位，响应超过syncLimit*tickTime，Leader认为Follwer死掉，从服务器列表中删除Follwer<br>dataLogDir=/home/hadoop/zookeeper/logs # 日志保存路径  这个要自己新建</p>
+<p>然后下载dubbo-admin-2.5.4.war 在Windwos或者Linux的tomcat中部署，先把dubbo-admin-2.5.4放在tomcat的webapps/ROOT下（<strong>先删除自带ROOT目录里面的内容或者备份里面的内容替换成dubbo2.5.4的内容到ROOT目录里面</strong>）。<br>然后进行解压：<br>Windows下解压：直接解压到root里面。<br>Linux下解压命令： #jar -xvf dubbo-admin-2.4.1.war<br>然后到webapps/ROOT/WEB-INF下，有一个dubbo.properties文件，里面指向Zookeeper ，使用的是Zookeeper 的注册中心，如图所示：<br><img src="http://i.imgur.com/wlImV76.png" alt=""></p>
+<h2 id="0x2-第二步"><a href="#0x2-第二步" class="headerlink" title="0x2 第二步"></a>0x2 第二步</h2><h3 id="sping代码部分与dubbo的整合"><a href="#sping代码部分与dubbo的整合" class="headerlink" title="sping代码部分与dubbo的整合"></a>sping代码部分与dubbo的整合</h3><p>首先做过spring项目的大家都知道先新建一个工程笔者这是spring3.1的jar包。<br>新建一个znn-service-provider工程</p>
+<p><strong>一、提供者部分</strong><br>新建一个DemoService.java类，提供者和消费者都要有这个Service，<br><img src="http://i.imgur.com/7GMSIQt.png" alt=""><br>在新建一个服务提供方的实现类接口DemoServiceImpl.java，对服务消费方隐藏实现<br><img src="http://i.imgur.com/0Cb9lCJ.png" alt=""><br>用Spring配置声明暴露服务：<br>新建一个dubbo-provider.xml文件对dubbo进行配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xmlns:dubbo=&quot;http://code.alibabatech.com/schema/dubbo&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans        </span><br><span class="line">    http://www.springframework.org/schema/beans/spring-beans.xsd        </span><br><span class="line">    http://code.alibabatech.com/schema/dubbo        </span><br><span class="line">    http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;!-- 提供方应用信息，用于计算依赖关系 --&gt;</span><br><span class="line">    &lt;dubbo:application name=&quot;hello-world-app&quot;  /&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;!-- 使用multicast广播注册中心暴露服务地址 --&gt;</span><br><span class="line">   &lt;!--  &lt;dubbo:registry address=&quot;multicast://224.5.6.7:1234&quot; /&gt; --&gt;</span><br><span class="line"> </span><br><span class="line"> 	&lt;!-- 使用zookeeper注册中心暴露服务地址 --&gt;</span><br><span class="line">	&lt;dubbo:registry address=&quot;zookeeper://182.92.228.183:2181&quot; /&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;!-- 用dubbo协议在20880端口暴露服务 --&gt;</span><br><span class="line">    &lt;dubbo:protocol name=&quot;dubbo&quot; port=&quot;20880&quot; /&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;!-- 声明需要暴露的服务接口 --&gt;</span><br><span class="line">    &lt;dubbo:service interface=&quot;com.znn.provider.DemoService&quot; ref=&quot;demoService&quot; /&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;!-- 和本地bean一样实现服务 --&gt;</span><br><span class="line">    &lt;bean id=&quot;demoService&quot; class=&quot;com.znn.provider.DemoServiceImpl&quot; /&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注：</strong>有两种暴露地址的方法，广播的那个在测试消费者的时候没有成功，就自己搭了一个zookeeper，使用zookeeper来管理。</p>
+<p><strong>二、消费者部分</strong><br>另外新建一个工程：znn-service-consumer<br>导入第三方包，和提供者一样。<br>新建一个dubbo-consumer.xml，对dubbo进行配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xmlns:dubbo=&quot;http://code.alibabatech.com/schema/dubbo&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans        </span><br><span class="line">    http://www.springframework.org/schema/beans/spring-beans.xsd        </span><br><span class="line">    http://code.alibabatech.com/schema/dubbo        </span><br><span class="line">    http://code.alibabatech.com/schema/dubbo/dubbo.xsd&quot;&gt;</span><br><span class="line">	&lt;!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 --&gt;</span><br><span class="line">	&lt;dubbo:application name=&quot;consumer-of-helloworld-app&quot;/&gt;</span><br><span class="line">	&lt;!-- 使用multicast广播注册中心暴露发现服务地址 --&gt;</span><br><span class="line">	&lt;!-- &lt;dubbo:registry address=&quot;multicast://224.5.6.7:1234&quot; /&gt; --&gt;</span><br><span class="line">	&lt;dubbo:registry address=&quot;zookeeper://182.92.228.183:2181&quot; /&gt;</span><br><span class="line">	&lt;!-- 生成远程服务代理，可以和本地bean一样使用demoService --&gt;</span><br><span class="line">	&lt;dubbo:reference id=&quot;demoService&quot; interface=&quot;com.znn.provider.DemoService&quot; /&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<p>新建一个测试类实际项目中用的时候会放到特定的执行环节中去运行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.znn.consumer;</span><br><span class="line"></span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line">import com.znn.provider.DemoService;</span><br><span class="line"></span><br><span class="line">public class Consumer &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;file:C:/Users/Dell/Desktop/dubbo/DubboDemo-master/znn-service-consumer/WebRoot/WEB-INF/dubbo-consumer.xml&quot;);</span><br><span class="line">		context.start();</span><br><span class="line">		DemoService demoService = (DemoService)context.getBean(&quot;demoService&quot;); // 获取远程服务代理C:\Users\Dell\Desktop\dubbo\DubboDemo-master\</span><br><span class="line">	    String hello = demoService.sayHello(&quot;world&quot;); // 执行远程方法</span><br><span class="line">	    System.out.println(hello);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务器在tocmat6-7中跑起来后运行Consumer消费者测试出现以下表示服务配置正常。<br><img src="http://i.imgur.com/7z2X71Q.png" alt=""></p>
+<p>然后访问dubbo_admin管理控制台页面可以看到服务器提供者上线了，用户名和密码：root,并访问服务，显示登陆页面，说明dubbo-admin2.5.4部署成功！<br><img src="http://i.imgur.com/hIxCnO9.png" alt=""><br><img src="http://i.imgur.com/OMND0OM.png" alt=""></p>
+<p>就先搭到这里项目中用到了的话，下一版总结过程就是在项目实际中用到遇到的问题方面的内容了！</p>
 
       
 
@@ -235,7 +253,7 @@
 
 
   
-    <article id="post-JavaSE核心总结思维导图篇" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-OOAD设计原则思维导图总结篇" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -243,21 +261,21 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/22/JavaSE核心总结思维导图篇/">JavaSE核心总结思维导图篇</a>
+      <a class="article-title" href="/2013/01/10/OOAD设计原则思维导图总结篇/">OOAD设计原则思维导图总结篇</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/22/JavaSE核心总结思维导图篇/" class="article-date">
-  <time datetime="2014-09-22T11:45:42.000Z" itemprop="datePublished">2014-09-22</time>
+      <a href="/2013/01/10/OOAD设计原则思维导图总结篇/" class="article-date">
+  <time datetime="2013-01-10T11:53:48.000Z" itemprop="datePublished">2013-01-10</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>博客针对Java这块核心总结我已经总结成了思维导图，如果你是新手的话正好想学习这块内容，可以看看我这个图可以跟着这个流程学习，时间就像一张网，撒在哪里，就在哪里收获。<br><img src="http://i.imgur.com/J0mbhfX.jpg" alt=""><br><img src="http://i.imgur.com/XupBoYy.jpg" alt=""><br><img src="http://i.imgur.com/3ijlJa1.jpg" alt=""><br><img src="http://i.imgur.com/YuABbtu.jpg" alt=""><br><img src="http://i.imgur.com/Oex15FS.jpg" alt=""><br><img src="http://i.imgur.com/UmXt8lz.jpg" alt=""></p>
+        <p>这是OOAD设计原则的总结思维图,有想学习OOAD思想的可以看看我的截图结合文章看更好。如果需要源码实例请在下方留言。时间就像一张网，撒在哪里，就在哪里收获。<br><img src="http://i.imgur.com/25TZKd5.jpg" alt=""><br><img src="http://i.imgur.com/vbuKkCJ.jpg" alt=""><br><img src="http://i.imgur.com/xr2VxFY.jpg" alt=""><br><img src="http://i.imgur.com/mHK0sQ5.jpg" alt=""><br><img src="http://i.imgur.com/ihcc1gt.jpg" alt=""></p>
 
       
 
@@ -281,7 +299,7 @@
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -291,7 +309,7 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

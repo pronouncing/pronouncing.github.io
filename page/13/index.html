@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-第8章封装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,23 +42,61 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/第8章封装/">第8章封装</a>
+      <a class="article-title" href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/">第4章Oracle 在PL/SQL中更改数据和管理事物</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/第8章封装/" class="article-date">
-  <time datetime="2014-09-19T10:53:29.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
+  <time datetime="2012-04-07T02:47:43.000Z" itemprop="datePublished">2012-04-07</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="封装："><a href="#封装：" class="headerlink" title="封装："></a>封装：</h2><p>java为类中的成员提供了四种访问级别，按照访问权限由大到小排列<br>分别是：公用的（public）私有的(private)受保护的（protected）和默认的（default无访问修饰符）<br>通过用private 访问修饰符隐藏类中成员变量 称为封装，通过方法访问属性称为封装set[设置]/get[获取]</p>
-<h2 id="静态："><a href="#静态：" class="headerlink" title="静态："></a>静态：</h2><p>Static修饰符属于类的，用类名直接调用get或set<br>静态块：如果不加Static就用对象调用，如果加了Static就是用类调用set或get方法</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>封装 封装就是通过方法访问属性<br>静态 静态就是访问静态成员变量的时候用类名访问二不是用对象访问<br>静态块 静态块就是实例初始化块时在构造器之前执行</p>
+        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
+                   例：
+                          begin
+                                  update emp set sal = 3100 where enpno = 7788;
+                                   if sql%found then
+                                         dbms_output.put_line(&apos;记录修改成功&apos;);
+                                     end if ;
+                           end;                                    
+         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
+                    例：
+                           begin
+                                   delete from emp where sal &gt;= 2000;
+                                     if SQL%FOUND then
+                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
+                                     end if;
+                             end;
+         SQL%ROWCOUNT-----返回从游标中获取的记录数、
+</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
+      declare
+                 v_name varchar(50);
+      begin
+                 for col in (select empno, ename from emp) loop;
+                       update emp set ename = &apos;temp&apos; where empno = col.empno
+                  retuening ename into v_name;
+                  dbms_output.put_line(）；
+                 end loop;
+      end;
+</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
+       事物不是一个可以分割的单元
+ 2. 一致性
+       事物必须使系统从一个一致性状态变换到另一个一致性状态
+3. 隔离性
+       每个事物必须独立与其他事务执行
+4.持久性
+       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
+</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
 
       
 
@@ -71,7 +109,7 @@
 
 
   
-    <article id="post-第7章继承" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第3章oreaclePLSQL程序结构控制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -79,26 +117,26 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/18/第7章继承/">第7章继承</a>
+      <a class="article-title" href="/2012/04/06/第3章oreaclePLSQL程序结构控制/">第3章oreaclePL/SQL程序结构控制</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/18/第7章继承/" class="article-date">
-  <time datetime="2014-09-18T15:52:01.000Z" itemprop="datePublished">2014-09-18</time>
+      <a href="/2012/04/06/第3章oreaclePLSQL程序结构控制/" class="article-date">
+  <time datetime="2012-04-06T02:30:23.000Z" itemprop="datePublished">2012-04-06</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h2><p>我们由员工类Employee派生出2个新类:计时工Hourly和合同工Salary,使用extends关键字让它们继承自Employee<br>我们称Employee为父类(基类),Hourly和Salary为Employee的子类(派生类)<br>可以通过扩展一个已有的类，并继承该类的属性和行为，来创建一个新的类，这种方式称为继承使用extends关键字</p>
-<h2 id="单继承与多继承："><a href="#单继承与多继承：" class="headerlink" title="单继承与多继承："></a>单继承与多继承：</h2><p>一个java类中只能有一个父类<br>某些OOP语言（例如C++）允许子类有多个父类。<br>但在Java中这是不允许的。在Java中，一个类只能有一个父类。  </p>
-<h2 id="方法重写："><a href="#方法重写：" class="headerlink" title="方法重写："></a>方法重写：</h2><p>1子类可以重写从父类继承的方法，从而允许子类添加或者改变父类中方法的行为。这称为方法重写，是OOP的特征之一。<br>2当子类重写父类的方法时，必须遵循如下的规则：<br>子类的方法的返回值的类型、方法名和形式参数列表，必须和父类中的是相同的。如果子类中的方法与父类中的方法同名，但是子类的方法改变了形式参数列表，那么这是方法重载，而不是方法重写。不要混淆这两个概念，二者的用法是完全不同的。<br>访问修饰符必须不小于父类中的访问修饰符。例如，如果父类的方法是public，那么子类的必须是public。如果父类的方法是protected，那么子类必须是protected或public（public比protected访问权更大）。<br>子类中重写的异常不能抛出比父类更多的异常<br>2方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>3方法重载：一个类中的方法与另一个方法相同，参数列表不同<br>2重写体现的是父类与子类方法之间的关系；重载体现的是一个类的内部方法之间的关系。<br>4构造方法与继承<br>不象一个超类的成员，超类的构造方法不能被它的子类继承.<br>你必须为一个子类定义构造方法，或者使用缺省的构造方法.</p>
-<h2 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字:"></a>super关键字:</h2><h3 id="super的两种用法："><a href="#super的两种用法：" class="headerlink" title="super的两种用法："></a>super的两种用法：</h3><p>1:super.<strong><em>或super.</em></strong>()代表每个类中指向父类对象部分的引用.<br>2:super()代表调用父类中指定的构造器。<br>注意：<br>super()只能放在构造器的第一句！<br>super关键字执行过程：<br>super 先调用父类构造方法，再调用子类构造方法.<br>子类构造方法的名称与类的名称相同.</p>
-<h2 id="final关键字："><a href="#final关键字：" class="headerlink" title="final关键字："></a>final关键字：</h2><p>我们可以使用一个叫final的修饰符来实现。<br>public final class Test{<br>}<br>本类使用final修饰符修饰，表示不可以有继承的子类，所以称为终态类。<br>final 1变量不能修改 2类不可被继承 3方法不能被重写。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p><strong>继承：子类继续父类的属性和行为<br>单继承和多继承：java中只能有一个父类C++中可以有多个父类<br>方法的重写：子类中的方法与父类中的方法相同（方法名称、参数列表、返回类型）<br>super: 代表每个类中指向父类对象部分的引用，代表调用父类中指定的构造器<br>final: final 变量不能修改 类不可被继承 方法不能被重写</strong></p>
+        <h2 id="oreaclePL-SQL程序结构控制"><a href="#oreaclePL-SQL程序结构控制" class="headerlink" title="oreaclePL/SQL程序结构控制"></a>oreaclePL/SQL程序结构控制</h2><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>PL/SQL程序流程的控制结构，包括条件控制，循环控制，顺序控制以及异常处理可以控制程序流程.<br>PL/SQL中的【条件控制】语句有IF语句、CASE语句、<br>PLSQL中的【循环控制】语句有LOOP语句、WHILE语句和FOR语句.<br>当PL/SQL中发生错误时、不管是系统错误、还是应用错误，都会抛出一个异常，此时当前PL/SQL块执行部分的处理就会终止，程序流程就会转到当前块的异常处理部分来处理异常. 异常处理完成后，程序就马上跳出PL/SQL块。<br>PL/SQL异常分为系统异常和自定义异常两只类型<br>异常处理的流程包括定义异常、抛出异常和处理异常三个步骤。<br>异常的定义可以通过exeception关键字定义，此外还可以通过：异常名exeception_int 和exeception关键字来定义<br>使用raise语句可以抛出自定义异常或系统异常.而使用Oreacle的内置过程处理抛出的异常，我们必须在异常处理部分编写异常处理器。<br>下面详细写下用法：<br>条件控制:<br>if   条件1  then<br>如果条件1为真就返回ture<br>elsif  条件2  then<br>如果条件1为假就执行条件2返回true<br>else<br>以上条件都不为真就执行else语句<br>end if;<br>CASE 语句和CASE表达式:<br>case<br>when 10 then<br>如果等于10的条件为真就是true<br>when 20 then<br>如果等于20的条件为真就是true<br>when 30 then<br>如果等于30的条件为真就是true<br>end case;<br>CASE第二中表达式：<br>case<br>when 10 then<br>else<br>如果条件10不成立就执行else中的语句<br>end;</p>
+<h3 id="循环控制："><a href="#循环控制：" class="headerlink" title="循环控制："></a>循环控制：</h3><p>基本循环<br>LOOP<br>v_int :=v_int+1;<br>exit when v_nt&gt;15;  循环退出条件必须：exit when关键字<br>end loop;</p>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><p>只有条件为trun的时候才执行体内的语句<br>when 条件1 loop<br>条件为真的是才执行循环体内的语句<br>end loop;</p>
+<h3 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h3><p>for    i变量       in  1..100循环         loop<br>dbms_output.put_line(‘i’);<br>end    loop;</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理:"></a>异常处理:</h3><p>定义异常<br>declare<br>v-info int exeception;   定义异常<br>v_info1 int exeception;   抛出异常<br>begin<br>raise v_info1 抛出<br>exception<br>when  others   then<br>dbms_out.put_line(‘定义的异常others异常的父类关键字’);<br>end;<br>exeption<br>when    v_info1     then<br>dbms_out.put_line(‘抛出v_info1异常处理’);<br>end;</p>
+<h3 id="系统异常"><a href="#系统异常" class="headerlink" title="系统异常"></a>系统异常</h3><p>人为抛出的系统异常raize_pplication_error关键字<br>declare<br>begin<br>if   条件1  then<br>raize_pplication_error(-20001,’该部门不存在！’);<br>end if;<br>end;</p>
 
       
 
@@ -111,7 +149,7 @@
 
 
   
-    <article id="post-第5章对象的行为" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第2章PLSQL编程基础" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -119,30 +157,32 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/18/第5章对象的行为/">第5章对象的行为</a>
+      <a class="article-title" href="/2012/04/05/第2章PLSQL编程基础/">第2章PL/SQL编程基础</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/18/第5章对象的行为/" class="article-date">
-  <time datetime="2014-09-18T15:44:27.000Z" itemprop="datePublished">2014-09-18</time>
+      <a href="/2012/04/05/第2章PLSQL编程基础/" class="article-date">
+  <time datetime="2012-04-04T16:15:58.000Z" itemprop="datePublished">2012-04-05</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-this："><a href="#1-this：" class="headerlink" title="1 this："></a>1 this：</h2><p>表示当前对象同时注意事项</p>
-<h2 id="2-方法调用栈"><a href="#2-方法调用栈" class="headerlink" title="2 方法调用栈"></a>2 方法调用栈</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">主方法先进入栈，后进先出：</span><br><span class="line">┌──────────┐</span><br><span class="line">│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙</span><br><span class="line">│──────────│↑                                                 </span><br><span class="line">│ name3              │↖name1方法第三个先进   ↘依次在出去name3               ↙    </span><br><span class="line">│──────────│ ↑</span><br><span class="line">│ name2              │↖name1方法第二个先进   ↘依次在出去name2         ↙</span><br><span class="line">│──────────│  ↑</span><br><span class="line">│ name1              │↖name1方法第一个先进   ↘依次在出去name2     ↙</span><br><span class="line">│──────────│   ↑                  </span><br><span class="line">│ main()             │↖第一个先进入的主方法  ↘返回main方法结束↙</span><br><span class="line">└──────────┘</span><br></pre></td></tr></table></figure>
-<h2 id="3方法的重载："><a href="#3方法的重载：" class="headerlink" title="3方法的重载："></a>3方法的重载：</h2><p>方法的名称相同参数列不同就构成方法重载.  体现参数列：表示 个数不同–类型不同–顺序不同.</p>
-<h3 id="顺序不同类型："><a href="#顺序不同类型：" class="headerlink" title="顺序不同类型："></a>顺序不同类型：</h3><p>public void name(int a long b) //  2个形式参数<br>        ↖这样就构成2个方法名称相同参数 顺序不同 就构成方法重载成功<br>      ↙<br>public void name(long a int b) //  2个形式参数</p>
-<h3 id="个数不同类型"><a href="#个数不同类型" class="headerlink" title="个数不同类型"></a>个数不同类型</h3><p>public void name(int a long b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 个数不同 就构成方法重载成功<br>      ↙<br>public void name(long a) //  1个形式参数    </p>
-<h3 id="类型不同类型"><a href="#类型不同类型" class="headerlink" title="类型不同类型"></a>类型不同类型</h3><p>public void name(String a int b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 类型不同 就构成方法重载成功<br>      ↙<br>public void name(long a short b) //  2个形式参数   </p>
-<h2 id="4访问修饰符："><a href="#4访问修饰符：" class="headerlink" title="4访问修饰符："></a>4访问修饰符：</h2><h3 id="访问修饰符有3种修饰符类型："><a href="#访问修饰符有3种修饰符类型：" class="headerlink" title="访问修饰符有3种修饰符类型："></a>访问修饰符有3种修饰符类型：</h3><p>public    公共修饰符的作用：最大权限在任何地方都可以访问这个方法或属性。<br>private   似有修饰符的作用：只有在类的方法中访问，如果不在同一个类中是无法访问的权限是只有在这个类中才能访问这个方法或属性。<br>protected 受保护修饰符作用：权限是在同一个包下才能访问，如果不在同一个包就不能访问权限不够因为他是受保护的。<br>default   默认修饰符的作用：默认修饰符权限跟受保护修饰符是一样的必须在同一个包里面才能调用这个方法或属性，但是权限没有受保护权限高。</p>
-<h2 id="5形参和实参"><a href="#5形参和实参" class="headerlink" title="5形参和实参"></a>5形参和实参</h2><p>当你在定义一个方法的时候,比如 void setter(int i){};<br>其中的参数i就是形参 形参是这个方法的局部变量 只能在方法体中使用<br>当你调用这个方法的时候,比如setter(a);<br>此时a就是实参 实参a把他的值传递给形参i<br>基本数据类型实参传递给形参的是值<br>对象实参传递给形参的是对象的引用</p>
-<h2 id="6构造器"><a href="#6构造器" class="headerlink" title="6构造器"></a>6构造器</h2><p>构造器是类中的一个特殊的方法，该方法在对象实例化时被调用，构造器的用途是当对象实例化时，初始化对象中的成员变量<br>构造器的名称必须要和类的名称相同.<br>不能有返回值，void也不行.<br>构造器的参数可有可无，可有一个也可有多个参数</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>this引用：<br>2 方法调用栈：<br>3方法的重载：<br>4访问修饰符：<br>5形参和实参：<br>6构造器：</p>
+        <p><img src="http://i.imgur.com/FW8XAQc.jpg" alt=""><br>PL/SQL编程基础<br>PL/SQL简介 </p>
+<p> PL/SQL块的基础结构：<br>                    declare<br> 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常<br>                    begin<br>                  执行部分– PL/SQL语句和SQL语句<br>                    exception<br>                  异常处理部分–处理运行错误<br>                     end<br>                   块结束标记<br>     编写PL/SQL语句时，执行部分是必须的，而其它两个部分是可选的。<br>2、PL/SQL块的类型<br> a、匿名块<br>    既可以内嵌到应用程序中，也可以在交互环境中直接使用<br>       例 ：<br>             declare<br>               v_name varchar2(50);<br>             begin<br>               dbms_output.put_line(‘wwww’);<br>             end;<br> b、子程序<br>    a.过程<br>          例：<br>             create or replace procedure pro_name is<br>             v_name varchar2(50);<br>              begin<br>              dbms_output.put_line(‘过程’);<br>     b.函数<br>         例：<br>            create or replace function fun_name return varchar2 as<br>            v_name varchar2(50);<br>             begin<br>            v_funvar:= “函数变量”；<br>            dbms_output.put_line(‘函数’)；<br>            return v_funvar;<br> ```<br>    c.包<br>/<em>包规范</em>/<br>create or replace package 包名is<br>/<em>包方法定义</em>/<br>   procedure proc_name_sal_info(id in int);<br> end 包名;<br>/<em>包体</em>/<br> create or replace package body pack_info is<br>/<em>包规范中定义的方法在包体中实现</em>/<br>  procedure proc_name_sal_info(id in int) is<br>  type cur_name is ref cursor;<br>  cur_info cur_name;<br>  cur_name_sal emp%rowtype;<br>  begin<br>  open cur_info for select <em> from emp where empno=id;<br>  loop<br>  fetch cur_info into cur_name_sal;<br>  exit when cur_info%notfound;<br>  dbms_output.put_line(‘ID：’||cur_name_sal.empno|| ‘姓名：’||cur_name_sal.ename ||’工资：’ ||cur_name_sal.sal);<br>  end loop;<br>  close cur_info;<br>  end;<br>  end pack_info;<br>  /</em>call测试<em>/<br>  call pack_info.proc_name_sal_info(7369);<br>  /</em>匿名块测试<em>/<br>  declare<br>  begin<br>  pack_info.proc_name_sal_info(7369);<br>  end;<br> c、触发器<br>/</em>触发器*/<br>  create or replace trigger 触发器名称<br>  before insert on t_dempt     – 在什么之前关键字before或之后关键字after on是哪张表表名<br>  for each row                          –行级触发器默认不填是语句级触发器<br>  begin<br>  select id_seq.nextval into :new.id from dual;<br>  end;<br>3.数据类型与变量</p>
+<ol>
+<li>标量变量<br>指只能存入单个数值的变量<br>varchar2（n）、char（n）、number(m,n)(m表示精度，表示指定数子的总位数，n表示小数点后面数字的位数)、date<br>2.使用%TYPE属性<pre><code>例：
+    declare
+    v_loc dept.loc%type;
+    begin
+     select loc into v_loc from dept where deptno = 10;
+    dbms_output.put_line(v_loc);
+    end;
+</code></pre></li>
+</ol>
 
       
 
@@ -155,7 +195,7 @@
 
 
   
-    <article id="post-第4章类对象和包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第1章oreacle数据库基本概念" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -163,23 +203,86 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/18/第4章类对象和包/">第4章类对象和包</a>
+      <a class="article-title" href="/2012/04/04/第1章oreacle数据库基本概念/">第1章oreacle数据库基本概念</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/18/第4章类对象和包/" class="article-date">
-  <time datetime="2014-09-18T15:38:42.000Z" itemprop="datePublished">2014-09-18</time>
+      <a href="/2012/04/04/第1章oreacle数据库基本概念/" class="article-date">
+  <time datetime="2012-04-03T16:10:48.000Z" itemprop="datePublished">2012-04-04</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；<br>对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。<br>    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋<br>初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量名=new 引用类型（）；对象创建好后，如何访问成员变量与方法，我们可以使用点运算符。<br>    在Java中我们可以引入包机制，因为它会组织类，且为包中类提供了以命名的空间。如果我们不显示的讲<br>一个类声明在包之中，那么这个类就属于默认包。包必须放在注释之外的第一条语句。如果我们要使用或访问不同包的成员或方法，我们就需要导入与之对应的包。语句是import 包名.*;或者import 包名.类名；</p>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是来约束对象的属性和行为<br>类是对象的描述，对象是类得实例<br>对象由属性和行为组成，属性是对象所具有的特征，而行为是对象可以做的动作。<br>对象的每个属性被表示为类中的成员变量，对象的每个行为成为类中的一个方法。<br>访问修饰符：<br>访问修饰符 可以是public公有 private私有 protected受保护<br>实例化对象：<br>内存分配：堆划分为4块<br>堆是存放类，栈存放对象的全局变量和局部变量。<br>       栈         堆<br>┌────────────────<br>│局部变量     │数据区：存放String静态变量和字符串常量。<br>│全局变量     │代码区：存放方法。<br>│            │new对象<br>│            │<br>│            │<br>└────────────────<br>访问对象的属性和方法：<br>(.)点运算符用于与对象的一个引用一起访问对象的成员变量和方法。<br>this<br>每个对象有一个对自身的引用，这个引用称为this 引用。</p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包  关键字 package<br>包是java中组织和管理类的一种机制，同时可以防止类命名冲突</p>
+        <p>第一章oreacle数据库基本概念</p>
+<ol>
+<li>Oracle发展史<br>1977年6月     SDL—-软件开发实验室<br>1979年        SDL更名为RSI—-关系型有限公司<br>1979年        发布第一个商用SQL关系型数据库管理系统（不稳定，缺少很多重要功能）<br>1983年3月     Oracle 第3版  （具有了“可移植性”的功能）<br>1984年10月    Oracle 第4版  （稳定性得到增强）<br>1985年        Oracle 第5版  （可以在C/S模式下运行的RDBMS产品）<br>1988年        Oracle 第6版  （BUG众多、不稳定、差点破产）<br>1992年6月     Oracle 第7版   （真正出色的传品，取得重大成功，引入一种新的优化器）<br>1997年6月     Oracle 第8版  （为支持INRERNET，网络计算机奠定了基础）<br>1998年9月     Oracle 第8i版 (为数据库用户提供了全方位的JAVA支持)<br>2001年6月     Oracle 第9i版（最重要应用集群服务器）<br>2003年9月     Oracle 第10g （加入了网格计算的功能）<br>2007年7月     Oracle 第11g （在性能、可升级性、可管理性以及可诊断性上有了提升）<br>2.PL/SQL<br>PL/SQL新功能<ol>
+<li>变量定义</li>
+<li>控制结构</li>
+<li>自定义的子程序</li>
+<li>对象类型<br>PL/SQL优点<br>1、提高应用程序性能 （）<br>2、提供模块化程序开发能力（可以将业务逻辑集成到PL/SQL命名块（存储工程、函数、触发器、包）中）<br>3、具有良好的兼容性（不同的Oracle工具都可以用相同的PL/SQL脚本）<br>4、允许定义标识符（可以在PL/SQL中定义变量、常量、游标、异常等各种标识符）<br>5、提供了程序控制结构（可以在PL/SQL中使用选择语句、循环语句等结构化编程语言的控制结构）<br>6、提供了异常处理（通过PL/SQL提供的异常处理机制，可以处理各种Oracle和PL/SQL异常）</li>
+</ol>
+</li>
+<li><p>Oracle数据库体系架构<br>  指Oracle数据库管理系统的组成部分和这些组成部分之间的相互关系，包括内存结构、后台进程、物理与逻辑结构等。<br> 1、 Oracle内存结构</p>
+<pre><code>1、共享内存区（主要由SGA （System Global Area）组成）
+SGA：（划定一个区域，存储每个用户所需要存取的数据，以及ORACLE运行时所必备的系统信息 此区域称为系统全局区）
+    a、数据库缓存区 （database buffer cache）
+       用来存放读取自数据文件的数据块副本，或者用户曾经处理过的数据
+
+    b、重做日志缓冲区（redo log buffer）
+      记录数据库内所有数据修改的内存区域
+    c、共享池(shared pool)
+       a、库缓存 （library cache）
+       b、数据词典缓存（dictionary cache）
+    d、其他区域
+
+2、非共享内存区（主要由PGA（Program Global Area）组成）
+PGA：（用户存放服务器进程的数据和控制信息）
+    a、排序区（sort area）
+       用于存放排序操作所产生的临时数据
+     b、会话信息（session informatio）
+       存放会话所具有的的权限、角色以及会话的性能统计信息
+    c、游标状态（cursor state）
+       运行SQL语句在共享池中为SQL语句分配上下文区，该上下文区的指针就是指游标
+    d、堆栈空间（stack space）
+       用户存放会话的变量信息
+</code></pre><ol>
+<li>Oracle 后台进程<pre><code>a、数据写进程（DBWR）
+    将数据库缓存区内改动过的数据块写入到硬盘内的数据文件
+b、日志写进程(LGW仄R)
+    将冲工作日志缓冲区中的更改写入重做日志文件
+c、系统监控(SMON)
+     数据库不正常关闭，下一次开启数据库时由系统监控修复数据库
+d、进程监控(PMON) 
+    进程失败时清理资源
+e、检查点进程(CKPT)
+    告诉缓存中的更改永久的巨鹿在数据库中，更新控制文件和数据文件中的数据库状态信息
+f、归档进程(ARCH)
+     把已满的日志组进行备份或归档
+</code></pre></li>
+<li>Oracle逻辑和物理结构<ol>
+<li>Oracle数据库逻辑结构<br>  a、表空间<pre><code>存放不同类型的数据与数据库对象
+</code></pre>  b、块<pre><code>数据库中最小的存储单元
+</code></pre>  c、段<pre><code>在数据表空间能划分出不同区域，存放不同数据，此区域就称为段
+</code></pre>  d、区<pre><code>连续的数据块
+</code></pre><ol>
+<li>Oracle物理逻辑结构<br>a、数据文件（data file）<pre><code>数据表、索引
+</code></pre>b、重做日志文件（redo log file）<ol>
+<li>联机重做日志文件<br> 数据库正常运行所必须的</li>
+<li>归档重做日志文件<br> 只有在数据库运行在归档方式下才生成<br>c、控制文件（control file）<br> 记录与描述数据库试题结构<br>d、初始化参数文件（initialization parameter file）<br>e、口令文件（password file）</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>序列的创建<br>create sequence  序列名 increment by 增加 start with 起始数字</p>
 
       
 
@@ -192,7 +295,7 @@
 
 
   
-    <article id="post-第3章程序流程控制" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -200,37 +303,21 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/18/第3章程序流程控制/">第3章程序流程控制</a>
+      <a class="article-title" href="/2012/03/10/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/18/第3章程序流程控制/" class="article-date">
-  <time datetime="2014-09-18T14:27:54.000Z" itemprop="datePublished">2014-09-18</time>
+      <a href="/2012/03/10/MYSQL数据库总结篇/" class="article-date">
+  <time datetime="2012-03-10T15:58:56.000Z" itemprop="datePublished">2012-03-10</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>程序的执行，默认由上而下顺序执行。<br>有三种情况可以改变程序的顺序执行：<br>1、方法的调用<br>2、选择语句<br>3、循环语句<br>选择和循环语句都需要用到布尔表达式，所以我们先介绍布尔表达式。</p>
-<h2 id="布尔逻辑："><a href="#布尔逻辑：" class="headerlink" title="布尔逻辑："></a>布尔逻辑：</h2><p>布尔值：true和false</p>
-<h2 id="组合布尔逻辑分四种："><a href="#组合布尔逻辑分四种：" class="headerlink" title="组合布尔逻辑分四种："></a>组合布尔逻辑分四种：</h2><p>1、和—两个表达式均为true，组合表达式为真<br>2、或—两个表达式中一个为true，组合为真<br>3、异或—两个表达式不同，则整个表达式为真<br>4、非—非真为假，非假为真</p>
-<h2 id="逻辑运算符："><a href="#逻辑运算符：" class="headerlink" title="逻辑运算符："></a>逻辑运算符：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、和： &amp;&amp;     &amp;</span><br><span class="line">2、或： ||     |</span><br><span class="line">3、异或：^</span><br><span class="line">4、非： !       ~</span><br></pre></td></tr></table></figure>
-<p>if语句是JAVA语言选择控制或分支控制语句之一，用来对给定条件进行判定，并根据判定的结果（真或假）决定执行给出的两种操作之一。</p>
-<h2 id="if语句包括三种形式："><a href="#if语句包括三种形式：" class="headerlink" title="if语句包括三种形式："></a>if语句包括三种形式：</h2><h3 id="单分支if语句："><a href="#单分支if语句：" class="headerlink" title="单分支if语句："></a>单分支if语句：</h3><p>语句的格式：<br>if(条件表达式){<br> 语句块<br>}<br>首先执行条件表达式，如果表达式结果为真，执行语句；否则，不执行语句，而执行语句的下一条语句。</p>
-<h3 id="双分支if语句："><a href="#双分支if语句：" class="headerlink" title="双分支if语句："></a>双分支if语句：</h3><p>格式：<br> if(条件表达式){<br>  语句块1<br> }else{<br>    语句块2<br> }<br>如果条件表达式为真，则执行语句块1；否则，执行语句块2</p>
-<h3 id="多分支if语句："><a href="#多分支if语句：" class="headerlink" title="多分支if语句："></a>多分支if语句：</h3><p>语句格式<br>if(条件表达式1){语句块1}<br>else if(条件表达式2){语句块2}<br>else if(条件表达式3){语句块3}<br>…<br>else if(条件表达式m-1){语句块m-1}<br>else{语句块m}<br>首先执行条件表达式1，如果表达式1结果为真，执行语句块1；否则执行条件表达式2，如果表达式2结果为真，执行语句块2；以此类推；如果条件表达式都不成立，则执行语句块m。</p>
-<h2 id="switch语句格式："><a href="#switch语句格式：" class="headerlink" title="switch语句格式："></a>switch语句格式：</h2><h3 id="语句格式："><a href="#语句格式：" class="headerlink" title="语句格式："></a>语句格式：</h3><p>switch(算术表达式){<br>  case 常量表达式1 ：语句块1<br>                     break;<br>  case 常量表达式2 ：语句块2<br>                     break;<br>  …<br>  default ：    语句块m<br>                     break;<br>}</p>
-<h3 id="switch语句特性："><a href="#switch语句特性：" class="headerlink" title="switch语句特性："></a>switch语句特性：</h3><p>switch后面括弧的“算术表达式 ”的数据类型必须是字符型、字节型、短型整数、整数。<br>每一个case的常量表达式的值必须互不相同，否则就会出现相互矛盾的现象。<br>case和default的放置没有顺序。</p>
-<h2 id="循环结构："><a href="#循环结构：" class="headerlink" title="循环结构："></a>循环结构：</h2><p>在JAVA中可用以下语句实现循环：</p>
-<h3 id="while语句"><a href="#while语句" class="headerlink" title="while语句"></a>while语句</h3><h3 id="do-while语句"><a href="#do-while语句" class="headerlink" title="do-while语句"></a>do-while语句</h3><h3 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h3><p>根据判断循环结束的条件所放位置的不同分为：<br>          先验循环、后验循环</p>
-<h3 id="while循环："><a href="#while循环：" class="headerlink" title="while循环："></a>while循环：</h3><p>while语句是先验循环<br>它可以执行0次或更多次。如果在循环开始部分的条件不为真的话，循环代码永远不能执行。<br>while循环的一般格式：<br> while（布尔表达式）{<br>   循环体<br> }</p>
-<h3 id="do-while循环："><a href="#do-while循环：" class="headerlink" title="do-while循环："></a>do-while循环：</h3><p>do-while语句是后验循环<br>它可以执行1次或更多次。无论循环后面的判断部分的条件是否为真，循环代码至少要执行一次，然后再判断是否满足继续循环的条件。<br>do-while循环的一般格式：<br> do{<br>         循环体<br>    }while( 布尔表达式);</p>
-<h2 id="for循环："><a href="#for循环：" class="headerlink" title="for循环："></a>for循环：</h2><p>for循环是循环控制结构中使用最广泛的一种循环控制语句。它是一种先验循环。</p>
-<h3 id="for循环的一般格式为："><a href="#for循环的一般格式为：" class="headerlink" title="for循环的一般格式为："></a>for循环的一般格式为：</h3><p>for(表达式1；表达式2；表达式3){<br>  循环体<br>}<br>break和continue：<br>break:<br> 用break语句可以跳出switch语句体，程序继续执行switch语句体下面的程序。<br> 在循环结构中，也可以用break语句跳出本层循环体，从而提前结束层循环。<br>continue：<br> continue的作用是结束本次循环（即跳过本次循环中余下尚未执行的语句），接着再一次进行循环条件的判定。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p>1、方法的调用<br>2、选择语句<br>单分支if语句<br>双分子if语句<br>多分子if语句<br>switch语句格式<br>break和continue<br>3、循环语句<br>while语句<br>do-while语句<br>for语句</p>
+        <p>– 第一章<br>/<em><br> 数据库分类<br> 1 网状<br> 2 层次<br> 3 关系<br> 4 对象<br>关系型数据库<br> 表之间的关系: 1 一对一<br>        2 一对多<br>        3 多对多<br> SQL语句：1.DDL<br>   2.DQL<br>   3.DML<br>   4,DCL<br>– 第二章<br>创建数据库、表<br>create database 库名<br>create table 表名<br>修改表名、删除列名、修改列名、添加列、备份<br>增加列 ALTER TABLE t_class ADD COLUMN 列名 类型 – column可省略<br>修改列 ALTER TABLE t_class CHANGE 列名 新列名 新列类型<br>删除列 ALTER TABLE t_class DROP COLUMN nam – column可省略<br>备份表 CREATE TABLE 新表名 SELECT</em>FROM 旧表名<br>数据类型<br>decimal(m,n) 总长度和小数点后长度<br>char 默认长度为1  最大长度为16<br>varchar()后面必须跟参数<br>– 第三章<br>数据完整性<br> 1 实体完整性<br> 2 域完整性<br> 3 引用完整性<br> 4 自定义完整性<br>constraint foreign key 列 references 列<br>必须申明表的类型 engine=innodb<br>还有字符的编码集 charset=’utf8‘；<br>– 第四章<br>添加、删除、修改<br>delete from 表名<br>truncate table 表名<br>– 第五章<br>select * from 表名<br>模糊查询 where like’_%’<br>         and or not<br>在什么与什么之间 between and<br>           in<br>      运算符<br>order by 列名 asc<br>              desc<br>      limit<br>select distinct 列 from 表   去重复<br>AS<br>– 第六章<br> MAX() 求最大值<br> Min() 求最小值<br> count() 统计所有数据<br> sum() 求总和<br> avg() 求平均值<br>Group by 分组<br>having   （having可以使用聚合函数的过滤条件 where不能使用聚合函数可以使用比较运算符===having和where都是过滤条件)<br>SQL执行顺序<br>select  1.from      某张表<br> 2.where     进行条件筛选<br> 3.group by  条件筛选完后进行那一列的分组<br> 4.select    分组之后执行查询某张表某一列的数据<br> 5.having    进行函数过滤进行条件<br> 6.order by  进行排序操作 <asc如果不写就是正序排列>和<desc倒叙排列><br> 7.limit     返回这张表需要显示多少行<br>– 第七章<br>组合查询<br>子查询<br>union  两张表进行连接以列的形式显示数据<br>exists() 存在 结果为真就真，假为假<br>all() 满足所有数据<br>any() 满足任意数据<br>– 第八章<br>  多表的连接<br>  内连接：where<br>  外连接: 表1 left join 表2 on 条件<br>   表1 right join 表2 on 条件</desc倒叙排列></asc如果不写就是正序排列></p>
 
       
 
@@ -254,7 +341,7 @@
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -264,7 +351,7 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

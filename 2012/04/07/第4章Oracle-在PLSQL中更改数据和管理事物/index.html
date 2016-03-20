@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第4章Oracle 在PL/SQL中更改数据和管理事物 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DML操作的游标属性游标：       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第4章Oracle 在PL/SQL中更改数据和管理事物">
+<meta property="og:url" content="http://yoursite.com/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="DML操作的游标属性游标：       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；">
+<meta property="og:updated_time" content="2016-03-20T05:43:25.767Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第4章Oracle 在PL/SQL中更改数据和管理事物">
+<meta name="twitter:description" content="DML操作的游标属性游标：       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第4章Oracle 在PL/SQL中更改数据和管理事物
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
+  <time datetime="2012-04-07T02:47:43.000Z" itemprop="datePublished">2012-04-07</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
+                   例：
+                          begin
+                                  update emp set sal = 3100 where enpno = 7788;
+                                   if sql%found then
+                                         dbms_output.put_line(&apos;记录修改成功&apos;);
+                                     end if ;
+                           end;                                    
+         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
+                    例：
+                           begin
+                                   delete from emp where sal &gt;= 2000;
+                                     if SQL%FOUND then
+                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
+                                     end if;
+                             end;
+         SQL%ROWCOUNT-----返回从游标中获取的记录数、
+</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
+      declare
+                 v_name varchar(50);
+      begin
+                 for col in (select empno, ename from emp) loop;
+                       update emp set ename = &apos;temp&apos; where empno = col.empno
+                  retuening ename into v_name;
+                  dbms_output.put_line(）；
+                 end loop;
+      end;
+</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
+       事物不是一个可以分割的单元
+ 2. 一致性
+       事物必须使系统从一个一致性状态变换到另一个一致性状态
+3. 隔离性
+       每个事物必须独立与其他事务执行
+4.持久性
+       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
+</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/08/第5章Oracle-PLSQL使用游标获取/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第5章Oracle PL/SQL使用游标获取
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/06/第3章oreaclePLSQL程序结构控制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第3章oreaclePL/SQL程序结构控制</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" data-title="第4章Oracle 在PL/SQL中更改数据和管理事物" data-url="http://yoursite.com/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-spring3mvc与struts2比较" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-java18章网络编程" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,22 +42,72 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/spring3mvc与struts2比较/">spring3mvc与struts2比较</a>
+      <a class="article-title" href="/2012/05/17/java18章网络编程/">java18章网络编程</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/spring3mvc与struts2比较/" class="article-date">
-  <time datetime="2014-09-19T15:03:32.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/17/java18章网络编程/" class="article-date">
+  <time datetime="2012-05-17T12:42:16.000Z" itemprop="datePublished">2012-05-17</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>项目刚刚换了web层框架，放弃了struts2改用spring3mvc。当初换框架的时候目的比较单纯：springmvc支持rest，我对对restful url由衷的喜欢<br>不用不知道 一用就发现开发效率确实比struts2高。<br>我们用struts2时采用的传统的配置文件的方式，并没有使用传说中的0配置。spring3 mvc可以认为已经100%零配置了（除了配置springmvc-servlet.xml外）<br>比较了一下strus2与spring3 mvc的差别：<br>spring3 mvc是方法级别的拦截，拦截到方法后根据参数上的注解，把request数据注入进去，在spring3mvc中，一个方法对应一个request上下文。<br>而struts2框架是类级别的拦截，每次来了请求就创建一个Action，然后调用setter getter方法把request中的数据注入；struts2实际上是通过setter getter方法与request打交道的；struts2中，一个Action对象对应一个request上下文。</p>
-<h3 id="好了-我们来整理一下"><a href="#好了-我们来整理一下" class="headerlink" title="好了 我们来整理一下"></a>好了 我们来整理一下</h3><p>spring mvc是方法级别的拦截，一个方法对应一个request上下文，而方法同时又跟一个url对应，所以说从架构本身上 spring3 mvc就容易实现restful url。<br>struts2是类级别的拦截， 一个类对应一个request上下文；实现restful url要费劲，因为struts2 action的一个方法可以对应一个url；而其类属性却被所有方法共享，这也就无法用注解或其他方式标识其所属方法了。<br>spring3 mvc的方法之间基本上独立的，独享request response数据，请求数据通过参数获取，处理结果通过ModelMap交回给框架方法之间不共享变量<br>而struts2搞的就比较乱，虽然方法之间也是独立的，但其所有Action变量是共享的，这不会影响程序运行，却给我们编码 读程序时带来麻烦。<br>spring3 mvc的验证也是一个亮点，支持JSR303，处理ajax的请求更是方便 只需一个注解@ResponseBody ，然后直接返回响应文本即可。</p>
+        <p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
+<h2 id="OSI7层模型解释："><a href="#OSI7层模型解释：" class="headerlink" title="OSI7层模型解释："></a>OSI7层模型解释：</h2><p>1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）</p>
+<p>2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据<br>如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。</p>
+<p>3：网络层：源主机和目标主机的网络地址进行通信</p>
+<p>4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，以不可靠的传输单位称为数据报</p>
+<p>5：会话层：会话层管理进程之间的会话过程  负责建立，管理和连接进程之间的会话，比如说QQ我跟你说话就表示在会话这一层.</p>
+<p>6：表示层：表示层对上层的数据进行转换，以保证一个主机的应用层的数据可以被另一个主机的应用层理解，表示层包括，加密-解密-压缩-解压和格式转换<br>7：应用层：应用层确定进程之间通信的实际用途，以满足用户的实际请求，例如浏览Web站点 收发E-mail,上传或下载文件等.</p>
+<p>TCP/IP模型：程序员应要做的就是在应用这一层里面<br>TCP协议是面向连接的可靠的通信协议,<br>而UDP是非连接的不可靠的通信协议,<br>这两个协议位于TCP/IP模型的传输层，要在网络上找到另一台计算机的程序进行通讯需要提供IP地址和端口号.</p>
+<p>Socke是客户端ServerSocke是服务器端,Socket和ServerSocke用于在两个java程序之间创建一个TCP/IP连接，程序之间的通讯通过IO类来执行</p>
+<h3 id="下面给大家贴一段代码f是服务器端f1是客服端"><a href="#下面给大家贴一段代码f是服务器端f1是客服端" class="headerlink" title="下面给大家贴一段代码f是服务器端f1是客服端"></a>下面给大家贴一段代码f是服务器端f1是客服端</h3><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.LayoutManager;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.ServerSocket;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import java.net.SocketTimeoutException;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class f extends JFrame implements Runnable &#123;</span><br><span class="line"> ServerSocket svr;</span><br><span class="line"> JTextArea w;</span><br><span class="line"> public f(int port) throws IllegalArgumentException, IOException &#123;</span><br><span class="line">  Container m = this.getContentPane();</span><br><span class="line">  m.setLayout(new GridLayout(3, 1));</span><br><span class="line">  this.setSize(300, 450);</span><br><span class="line">  this.setTitle(&quot;服务端&quot;);</span><br><span class="line">  this.setVisible(true);</span><br><span class="line">  this.setLocationRelativeTo(null);</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">  w = new JTextArea(100, 200);</span><br><span class="line">  this.add(w);</span><br><span class="line">  svr = new ServerSocket(port);</span><br><span class="line"> &#125;</span><br><span class="line"> public void run() &#123;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">   System.out.println(&quot;在端口&quot; + svr.getLocalPort() + &quot;上等待客户端...&quot;);</span><br><span class="line">   Socket server;</span><br><span class="line">   try &#123;</span><br><span class="line">    server = svr.accept();  //服务器等待方法</span><br><span class="line">    System.out.println(&quot;刚连接&quot; + server.getReuseAddress());</span><br><span class="line">    DataInputStream in = new DataInputStream(server.getInputStream());</span><br><span class="line">    w.setText(in.readUTF());</span><br><span class="line">    server.close();</span><br><span class="line">   &#125; catch (SocketTimeoutException e) &#123;</span><br><span class="line">    break;</span><br><span class="line">   &#125; catch (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    break;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">   f x = new f(8088);</span><br><span class="line">   Thread f = new Thread(x);</span><br><span class="line">   f.start();</span><br><span class="line">  &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第17章IO系统流" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/16/第17章IO系统流/">第17章I/O系统流</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/16/第17章IO系统流/" class="article-date">
+  <time datetime="2012-05-16T12:32:39.000Z" itemprop="datePublished">2012-05-16</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IO流："><a href="#IO流：" class="headerlink" title="IO流："></a>IO流：</h2><p>IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流</p>
+<h3 id="IO有具体的分类"><a href="#IO有具体的分类" class="headerlink" title="IO有具体的分类"></a>IO有具体的分类</h3><p>1 根据处理的数据类型不同：字节流和字符流<br>2 根据流向不同：输入流和输出流</p>
+<h3 id="字节流和字符流的区别："><a href="#字节流和字符流的区别：" class="headerlink" title="字节流和字符流的区别："></a>字节流和字符流的区别：</h3><p>1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回<br>2字节流可以处理所有类型数据，如图片，MP3，AVI而字符流只能处理字符数据.<br>结论：只有是处理纯文本数据，就要优先考虑使用字符流.除此之外都用字节流<br>IO的体系.所具备的基本功能就有两个：读和写</p>
+<ol>
+<li>字节流：inputStream(读)，OutputStream(写)</li>
+<li>字符流：     Reader(读)，Writer(写) </li>
+</ol>
+<p>比较常用的流有 <strong>文件流——处理流——对象流</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> public static void main(String []args) throws FileNotFoundException,IOException &#123;</span><br><span class="line">  FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流            这是字节流输入流</span><br><span class="line">  BufferedInputStream d=new BufferedInputStream(w);//缓存区                  这是缓存流</span><br><span class="line">  FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流         这是字节写出流</span><br><span class="line">  int b;</span><br><span class="line">  while((b = d.read())!=-1) &#123;</span><br><span class="line">   c.write(b);</span><br><span class="line">  &#125;</span><br><span class="line">  c.flush(); //刷新</span><br><span class="line">  d.close(); //关闭写出字节流</span><br><span class="line">  c.close(); //关闭写出缓存区字节流</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">字节流：</span><br><span class="line">FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流          </span><br><span class="line">FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流        </span><br><span class="line">InputStreamReader w=new InputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流 </span><br><span class="line">OutputStreamReader c=new OutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符写出流   </span><br><span class="line"> </span><br><span class="line">↓ ↑</span><br><span class="line">FileInputStreamReader w=new FileInputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流</span><br><span class="line">FileOutputStreamReader c=new FileOutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符输出流   </span><br><span class="line"> </span><br><span class="line">处理流：</span><br><span class="line">BufferedInputStream d=new BufferedInputStream(w);//缓存区 可以整行读取      字节缓存流</span><br><span class="line">BufferedOutputStream d=new BufferedOutputStream(w);//缓存区  可以整行写出    字节缓存流</span><br><span class="line"> </span><br><span class="line">对象流：</span><br><span class="line"> ObjectIputStream   对象序列化</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -70,7 +120,7 @@
 
 
   
-    <article id="post-hibernate关系注解映射" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第15章集合框架" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -78,32 +128,51 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/hibernate关系注解映射/">hibernate关系注解映射</a>
+      <a class="article-title" href="/2012/05/15/第15章集合框架/">第15章集合框架</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/hibernate关系注解映射/" class="article-date">
-  <time datetime="2014-09-19T14:54:52.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/15/第15章集合框架/" class="article-date">
+  <time datetime="2012-05-15T12:24:39.000Z" itemprop="datePublished">2012-05-15</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一对多-最好不要用单向关联，其实单向本身并无多大意义-："><a href="#一对多-最好不要用单向关联，其实单向本身并无多大意义-：" class="headerlink" title="一对多(最好不要用单向关联，其实单向本身并无多大意义)："></a>一对多(最好不要用单向关联，其实单向本身并无多大意义)：</h2><p>一方：<br>@OneToMany(targetEntity=Order.class,cascade=CascadeType.ALL,fetch=FetchType.EAGER)<br> @JoinColumn(name=”fk_customer_id”)</p>
-<p>如果一方加了fetch=FetchType.EAGER，查单一的多方对象时，会多产生一条sql<br>targetEntity也可以写成mappedBy=”customer”（这里写的是多多中对一方的引用属性），表示由对方去维护外键关系。<br>注：一般会将fetch=FetchType.LAZY</p>
-<p>多方：<br>@ManyToOne<br> @JoinColumn(name=”fk_customer_id”)<br>注：一般需要会将fetch=FetchType.LAZY，默认情况下多方会主动加载一方数据的。</p>
-<p>配置实例（客户–&gt;客户订单）：<br>客户中的集合：<br>@OneToMany(targetEntity=Order.class,cascade=CascadeType.ALL)<br>@JoinColumn(name=”fk_customer_id”)<br>private Set<order> orders = new HashSet<order>();<br>客户订单中的客户：<br>//订单所属客户<br>@ManyToOne(fetch=FetchType.LAZY)<br>@JoinColumn(name=”fk_customer_id”)<br>private Customer customer;</order></order></p>
-<h2 id="二、多对一"><a href="#二、多对一" class="headerlink" title="二、多对一"></a>二、多对一</h2><p>比较简单，示例：注册用户—-&gt;城市<br>@ManyToOne(targetEntity=City.class, fetch=FetchType.LAZY)<br>@JoinColumn(name=”fk_city_id”)<br>private City city;</p>
-<h2 id="三、多对多"><a href="#三、多对多" class="headerlink" title="三、多对多"></a>三、多对多</h2><p>示例：游戏用户，用户组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//用户参加的组</span><br><span class="line">@ManyToMany(fetch=FetchType.LAZY)</span><br><span class="line">@Cascade(value=&#123;org.hibernate.annotations.CascadeType.SAVE_UPDATE&#125;)</span><br><span class="line">@JoinTable(name=&quot;t_user_group&quot;,joinColumns=&#123;@JoinColumn(name=&quot;fk_user_id&quot;)&#125;</span><br><span class="line">            ,inverseJoinColumns=&#123;@JoinColumn(name=&quot;fk_group_id&quot;)&#125;</span><br><span class="line">        )</span><br><span class="line">private Set&lt;Group&gt; groups = new HashSet&lt;Group&gt;();</span><br></pre></td></tr></table></figure></p>
-<p>而在用户组中：<br>//该小组 中所包含的用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    @ManyToMany(mappedBy=&quot;groups&quot;)</span><br><span class="line">    @Cascade(value=&#123;org.hibernate.annotations.CascadeType.SAVE_UPDATE&#125;)</span><br><span class="line">    @JoinTable(name=&quot;t_user_group&quot;,joinColumns=&#123;@JoinColumn(name=&quot;fk_group_id&quot;)&#125;</span><br><span class="line">                ,inverseJoinColumns=&#123;@JoinColumn(name=&quot;fk_user_id&quot;)&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<h3 id="三、一对一惟一外键关联"><a href="#三、一对一惟一外键关联" class="headerlink" title="三、一对一惟一外键关联"></a>三、一对一惟一外键关联</h3><p>示例：husband—-&gt;wife<br>而husband中（外键在t_husband表中）：<br>@OneToOne(cascade=CascadeType.ALL)<br>    @JoinColumn(name=”fk_wife_id”,unique=true)<br>    private Wife wife;</p>
-<p>wife对象中：<br>@OneToOne(mappedBy=”wife”,cascade=CascadeType.ALL)<br> private Husband husband;</p>
-<p>注解方式与spring的整合：<br><!--  配置sessionFactory--><br>    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"><br>        <property name="..............</property"><br>        <property name="packagesToScan"><br>            <list><br>                <value>com.lovo.edu.model</value><br>                <value>com.lovo.edu.test</value><br>            </list><br>        </property><br>    </property></bean></p>
-<p>关于序列类型主键的配置示例：<br>@Id<br>    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator=”student_id”)<br>    @SequenceGenerator(name=”student_id”, allocationSize=1, initialValue=1,sequenceName=”seq_student_id”)<br>    private Long sid;<br>其它的一些主键生成方式：<br>@Id<br>@GenericGenerator(name=”idGenerator”, strategy=”uuid”)<br>@GeneratedValue(generator=”idGenerator”) //使用uuid的生成策略<br>同理：使用assigned策略则在strategy中指定 =”assigned”</p>
-<p>枚举映射示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">@Table(name=&quot;t_husband&quot;)</span><br><span class="line">public class Husband &#123;</span><br><span class="line">    </span><br><span class="line">    //状态</span><br><span class="line">    public enum State &#123;</span><br><span class="line">        haveMoney, noMoney</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //状态</span><br><span class="line">    @Enumerated</span><br><span class="line">    @Column(name=&quot;f_state&quot;)</span><br><span class="line">    private State state = State.noMoney;</span><br></pre></td></tr></table></figure></p>
+        <h2 id="集合框架："><a href="#集合框架：" class="headerlink" title="集合框架："></a>集合框架：</h2><p>java集合框架中的对象容器，按照对象在其中的存储方式，分为List -Set和Map三种类型.<br>Set类型对象容器中没有顺序，且不能重复;List类型对象容器中的对象按照索引顺序排序，而且可以有重复的对象;Map类型对象容器中的元素包含一对 ”键对象–值对象“映射，其中键对象不能重复，值对象可以重复。三种存储方式对应java集合框架中 Set     List     和Map 三个接口.<br>java集合层次流程图：画黑色边框的是重点掌握的内容(1-Collection接&gt;2-Map接口&gt;Iterator迭代器)<br><img src="http://i.imgur.com/yEHt6b1.jpg" alt=""><br>第二版文字说明：</p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><pre><code>|--List:元素是有序的，元素可以重复。因为该集合体系有索引。
+        |--ArrayList:底层的数据结构使用的是数组结构。特点：查询速度很快。但是增删稍慢。线程不同步。
+        |--LinkedList:底层使用的链表数据结构。特点：增删速度很快，查询稍慢。线程不同步。
+        |--Vector:底层是数组数据结构。线程同步。被ArrayList替代了。因为效率低。(特有的： 枚举)
+
+|--Set：元素是无序(存入和取出的顺序不一定一致)，元素不可以重复。
+        |--HashSet:底层数据结构是哈希表。是线程不安全的。不同步。
+                HashSet是如何保证元素唯一性的呢？
+                是通过元素的两个方法，hashCode和equals来完成。
+                如果元素的HashCode值相同，才会判断equals是否为true。
+                如果元素的hashcode值不同，不会调用equals。
+                注意,对于判断元素是否存在，以及删除等操作，依赖的方法是元素的hashcode和equals方法。
+                Set集合的功能和Collection是一致的。
+        |--TreeSet：可以对Set集合中的元素进行排序。
+                底层数据结构是二叉树。
+                保证元素唯一性的依据：compareTo方法return 0.
+                TreeSet排序的第一种方式：
+                        让元素自身具备比较性。
+                        元素需要实现Comparable接口，覆盖compareTo方法。
+                        这种方式也称为元素的自然顺序，或者叫做默认顺序。
+                TreeSet的第二种排序方式：
+                        当元素自身不具备比较性时，或者具备的比较性不是所需要的。
+                        这时就需要让集合自身具备比较性。
+                        在集合初始化时，就有了比较方式
+</code></pre><h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><pre><code>|--Hashtable:底层是哈希表数据结构，不可以存入null键null值。该集合是线程同步的。jdk1.0.效率低。
+|--HashMap：底层是哈希表数据结构，允许使用 null 值和 null 键，该集合是不同步的。将hashtable替代，jdk1.2.效率高。
+|--TreeMap：底层是二叉树数据结构。线程不同步。可以用于给map集合中的键进行排序。
+</code></pre><h3 id="map集合的两种取出方式："><a href="#map集合的两种取出方式：" class="headerlink" title="map集合的两种取出方式："></a>map集合的两种取出方式：</h3><p>  1，Set<k> keySet：将map中所有的键存入到Set集合。因为set具备迭代器。<br>        所有可以迭代方式取出所有的键，在根据get方法。获取每一个键对应的值。</k></p>
+<pre><code>Map集合的取出原理：将map集合转成set集合。在通过迭代器取出。
+</code></pre><p>  2，Set<map.entry<k,v>&gt; entrySet：将map集合中的映射关系存入到了set集合中，<br>                                而这个关系的数据类型就是：Map.Entry<br>                                Entry其实就是Map中的一个static内部接口。<br>                                为什么要定义在内部呢？<br>                                因为只有有了Map集合，有了键值对，才会有键值的映射关系。<br>                                关系属于Map集合中的一个内部事物。<br>                                而且该事物在直接访问Map集合中的元素。</map.entry<k,v></p>
 
       
 
@@ -116,7 +185,7 @@
 
 
   
-    <article id="post-hibernate二级缓存的实现" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-第12章反射" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -124,164 +193,133 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/hibernate二级缓存的实现/">hibernate二级缓存的实现</a>
+      <a class="article-title" href="/2012/05/14/第12章反射/">第12章反射</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/hibernate二级缓存的实现/" class="article-date">
-  <time datetime="2014-09-19T14:38:08.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/14/第12章反射/" class="article-date">
+  <time datetime="2012-05-14T11:32:47.000Z" itemprop="datePublished">2012-05-14</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>对于Hibernate这类ORM而言,缓存显的尤为重要,它是持久层性能提升的关键.简单来讲Hibernate就是对JDBC进行封装,以实现内部状态的管理,OR关系的映射等,但随之带来的就是数据访问效率的降低,和性能的下降,而缓存就是弥补这一缺点的重要方法.</p>
-<pre><code>缓存就是数据库数据在内存中的临时容器,包括数据库数据在内存中的临时拷贝,它位于数据库与数据库访问层中间.ORM在查询数据时首先会根据自身的缓存管理策略,在缓存中查找相关数据,如发现所需的数据,则直接将此数据作为结果加以利用,从而避免了数据库调用性能的开销.而相对内存操作而言,数据库调用是一个代价高昂的过程.
+        <h2 id="反射加载类与垃圾回收"><a href="#反射加载类与垃圾回收" class="headerlink" title="反射加载类与垃圾回收"></a>反射加载类与垃圾回收</h2><h3 id="1-类的加载机制："><a href="#1-类的加载机制：" class="headerlink" title="1 类的加载机制："></a>1 类的加载机制：</h3><p>类的加载→连接→ 初始化<br>java类文件通过类加载器加载到内存中. 类加载器包括底层<br>[类加载器↔扩展类加载器↔应用类加载器]<br>1 JVM运行底层加载器，该加载器加载java核心API<br>2 扩展类加载器：加载搜索 JAVA_HOME/jre/lib/ext目录，加载扩展API<br>3 应用类加载器：加载搜索CLASSPATH目录，加载我们要运行的类<br>javaAPI中还提供了一个对应的Class对象有一个ClassLoader抽象类，可以通过继承ClassLoader基类来创建自定义的类加载器</p>
+<h3 id="2-反射："><a href="#2-反射：" class="headerlink" title="2 反射："></a>2 反射：</h3><p>使用反射查看类的信息<br>在java程序中获得Class对象的方式有3种<br>第一种 知道类的名称时：在编译期不知道类名，但在运行期可以获得该类名的时候使用Class类的forName()静态方法可以获得Class对象例如： Class c=Class.forName(“全限定类名”);<br>Class c=Class.forName(“java.lang.System”);这是第一种知道类的名称时.</p>
+<p>第二种 在编译时知道类的名称：如果在编译期知道类名的情况，可以调用该类的class属性来获得该类对象的Class对象 例如：Class c = 类名.Class;<br>Class c= Student.Class 这是第二种在编译时知道类的名称来获取信息</p>
+<p>第三种 知道对象的时候：如果一个类的实例对象以及得到，则调用该对象的getClass()方法返回该对象所属类对应的Class对象。getClass()方法是java.lang.Object类的方法之一，所以所有对象都可以调用该方法. 例如：Class c= 对象名.getClass(); 这是知道对象的时候用对象名称调用，比如说一个类的实例new扭了一个Student对象 Class c=Student.getClass();</p>
+<h3 id="3垃圾回收："><a href="#3垃圾回收：" class="headerlink" title="3垃圾回收："></a>3垃圾回收：</h3><p>在java中，当对象被创建后，就会拥有一块内存。在程序运行时，JVM会陆续创很多对象，如果所有对象都永久占用内存，那么系统内存有可能很快被消耗，最好引发内存空间不足必须采用某种方法及时回收哪些无用对象的内存，以保证内存可以被重复利用。finalize()方法对象的finalize()方法可以帮助我们完成一些释放对象所占用的资源等收尾工作但是垃圾回收器是否会执行finalize方法以及何时执行该方法，都是不确定的.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">publicclassA</span><br><span class="line">&#123;</span><br><span class="line">public void finalize()</span><br><span class="line">&#123;</span><br><span class="line">System.out.println(&quot;A finalized&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><h3 id="使用反射查看信息有3种方法"><a href="#使用反射查看信息有3种方法" class="headerlink" title="使用反射查看信息有3种方法"></a>使用反射查看信息有3种方法</h3><p>第1种知道类的名称时<br>第2种在编译时知道类的名称<br>第3种知道对象的时候<br>垃圾回收没有实例指向对象的时候就被回收 ###</p>
+<h2 id="反射的工作原理"><a href="#反射的工作原理" class="headerlink" title="反射的工作原理"></a>反射的工作原理</h2><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。<br>Java的反射机制的实现要借助于4个类：class，Constructor，Field，Method；其中class代表的是类对 象，Constructor－类的构造器对象，Field－类的属性对象，Method－类的方法对象。通过这四个对象我们可以粗略的看到一个类的各个组 成部分。<br>Reflection 是 Java 程序开发语言的特征之一，它允许运行中的 Java 程序对自身进行检查，或者说“自审”，并能直接操作程序的内部属性。<br>reflection的工作机制，如下简单的例子<br>Java代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.Method;  </span><br><span class="line">public class ReflectTest &#123;  </span><br><span class="line">       public static void main(String args[]) throws ClassNotFoundException &#123;  </span><br><span class="line">              Class c = Class.forName(&quot;java.util.ArrayList&quot;);  </span><br><span class="line">              Method[] m = c.getDeclaredMethods();  </span><br><span class="line">              for (Method method : m) &#123;  </span><br><span class="line">                     System.out.println(method.toString());  </span><br><span class="line">              &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个程序使用 Class.forName 载入指定的类，然后调用 getDeclaredMethods 来获取这个类中定义了的方法列表。java.lang.reflect.Methods 是用来描述某个类中单个方法的一个类。</p>
+<h3 id="Java类反射中的主要方法："><a href="#Java类反射中的主要方法：" class="headerlink" title="Java类反射中的主要方法："></a>Java类反射中的主要方法：</h3><h3 id="构造函数："><a href="#构造函数：" class="headerlink" title="构造函数："></a>构造函数：</h3><p>Constructor getConstructor(Class[] params) – 获得使用特殊的参数类型的公共构造函数，<br>Constructor[] getConstructors() – 获得类的所有公共构造函数<br>Constructor getDeclaredConstructor(Class[] params) – 获得使用特定参数类型的构造函数(与接入级别无关)<br>Constructor[] getDeclaredConstructors() – 获得类的所有构造函数(与接入级别无关)</p>
+<h3 id="字段："><a href="#字段：" class="headerlink" title="字段："></a>字段：</h3><p>Field getField(String name) – 获得命名的公共字段<br>Field[] getFields() – 获得类的所有公共字段<br>Field getDeclaredField(String name) – 获得类声明的命名的字段<br>Field[] getDeclaredFields() – 获得类声明的所有字段</p>
+<h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p>Method getMethod(String name, Class[] params) – 使用特定的参数类型，获得命名的公共方法<br>Method[] getMethods() – 获得类的所有公共方法<br>Method getDeclaredMethod(String name, Class[] params) – 使用特写的参数类型，获得类声明的命名的方法<br>Method[] getDeclaredMethods() – 获得类声明的所有方法<br>JDK1.5以后关于注解的：<br>Annotation[] getAnnotations() – 获得所有公共注解<br>Annotation[] getDeclaredAnnotations() – 获得声明的所有注解<br>AnnotationType getAnnotationType() – 获得注解的类型<br>用于 reflection 的类，如 Method，可以在 java.lang.relfect 包中找到。使用这些类的时候必须要遵循三个步骤：</p>
+<p>获得你想操作的类的 java.lang.Class 对象。<br>调用诸如 getDeclaredMethods 的方法，以取得该类中定义的所有方法的列表。<br>使用 reflection API 来操作这些信息。</p>
+<h3 id="反射的安全性："><a href="#反射的安全性：" class="headerlink" title="反射的安全性："></a>反射的安全性：</h3><p>在处理反射时安全性是一个较复杂的问题。反射经常由框架型代码使用，由于这一点，我们可能希望框架能够全面接入代码，无需考虑常规的接入限制。但是，在其它情况下，不受控制的接入会带来严重的安全性风险，例如当代码在不值得信任的代码共享的环境中运行时。由于这些互相矛盾的需求，Java编程语言定义一种多级别方法来处理反射的安全性。基本模式是对反射实施与应用于源代码接入相同的限制：<br>从任意位置到类公共组件的接入<br>类自身外部无任何到私有组件的接入<br>受保护和打包（缺省接入）组件的有限接入<br>不过至少有些时候，围绕这些限制还有一种简单的方法。我们可以在我们所写的类中，扩展一个普通的基本类 java.lang.reflect.AccessibleObject 类。这个类定义了一种setAccessible方法，使我们能够启动或关闭对这些类中其中一个类的实例的接入检测。唯一的问题在于如果使用了安全性管理 器，它将检测正在关闭接入检测的代码是否许可了这样做。如果未许可，安全性管理器抛出一个例外。<br>下面是一段程序：<br>Java代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String args[]) throws ClassNotFoundException &#123;  </span><br><span class="line">       try &#123;  </span><br><span class="line">              String test = &quot;&quot;;  </span><br><span class="line">              Class clas = test.getClass();  </span><br><span class="line">              Field field = clas.getDeclaredField(&quot;count&quot;);  </span><br><span class="line">              // field.setAccessible(true);  </span><br><span class="line">              System.out.println(field.get(&quot;test&quot;));  </span><br><span class="line">       &#125; catch(Exception e) &#123;  </span><br><span class="line">              System.out.println(&quot;Exception&quot;);  </span><br><span class="line">              e.printStackTrace(System.out);  </span><br><span class="line">       &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果我们编译这一程序时，不使用任何特定参数直接运行，它将在field .get(“test”)调用中抛出一个IllegalAccessException异常。如果我们不注释 field.setAccessible(true)代码行，那么重新编译并重新运行该代码，它将编译成功。最后，如果我们在命令行添加了JVM参数 -Djava.security.manager以实现安全性管理器，它仍然将不能通过编译，除非我们定义了ReflectSecurity类的许可权 限。</p>
+<h3 id="反射的性能："><a href="#反射的性能：" class="headerlink" title="反射的性能："></a>反射的性能：</h3><p>写了个简单的测试程序，如下：<br>Java代码  </p>
+<pre><code>import java.lang.reflect.Method;  
 
-一般来讲ORM中的缓存分为以下几类:
+public class ReflectTest {  
+    String name;  
+    int age;  
+    public static void main(String args[])  throws Exception {  
 
-    1.事务级缓存:即在当前事务范围内的数据缓存.就Hibernate来讲,事务级缓存是基于Session的生命周期实现的,每个Session内部会存在一个数据缓存,它随着Session的创建而存在,随着Session的销毁而灭亡,因此也称为Session Level Cache.
+        Object o2 = javaCreate();  
 
-    2.应用级缓存:即在某个应用中或应用中某个独立数据库访问子集中的共享缓存,此缓存可由多个事务共享(数据库事务或应用事务),事务之间的缓存共享策略与应用的事务隔离机制密切相关.在Hibernate中,应用级缓存由SessionFactory实现,所有由一个SessionFactory创建的Session实例共享此缓存,因此也称为SessionFactory Level Cache.
+        ReflectTest my = new ReflectTest();  
 
-    3.分布式缓存:即在多个应用实例,多个JVM间共享的缓存策略.分布式缓存由多个应用级缓存实例组成,通过某种远程机制(RMI,JMS)实现各个缓存实例间的数据同步,任何一个实例的数据修改,将导致整个集群间的数据状态同步.
+        long a = System.currentTimeMillis();  
+        long b = System.currentTimeMillis();  
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+            javaCreate();  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;javaCreate : &quot; + (b - a));  
 
-Hibernate数据缓存:
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+            manualCreate();  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;manualCreate : &quot; + (b - a));  
 
-    1.内部缓存(Session Level Cache也称一级缓存):
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+            javaSet(o2);  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;javaSet : &quot; + (b - a));  
 
-    举例说明:
-</code></pre><p>java 代码<br>public class Test {    </p>
-<pre><code>public void get(){     
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+            manualSet(my);  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;manualSet : &quot; + (b - a));  
 
-      Session session = HibernateSessionFactory.getSession();    
-      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
-      System.out.println(t.getName());    
-      session.close();    
-      }    
-</code></pre><p>}    </p>
-<pre><code>       进行测试:在控制台打印出一条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=? 说明进行了一次数据库的调用.
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+            javaGet(o2);  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;javaGet : &quot; + (b - a));  
 
-代码更改如下:
-</code></pre><p>public class Test {    </p>
-<pre><code>public void get(){    
+        a = System.currentTimeMillis();  
+        for (int i = 0; i &lt; 5000; i++) {  
+             manualGet(my);  
+        }  
+        b = System.currentTimeMillis();  
+        System.out.println(&quot;manualGet : &quot; + (b - a));  
+    }  
 
-      Session session = HibernateSessionFactory.getSession();    
-      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
-      System.out.println(t.getName());    
-      TUser tt = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
-      System.out.println(tt.getName());    
-      session.close();    
+    // ===============下面是 java自身的直接反射的方法  
+    public static Object javaCreate()  throws Exception {  
+        Object ob = ReflectTest.class.newInstance();  
+        return ob;  
+    }  
+    public static void javaSet(Object ob)  throws Exception {  
+        Method m = ReflectTest.class.getDeclaredMethod(&quot;setName&quot;,  
+                new Class[] { String.class });  
+        m.invoke(ob, new Object[] { &quot;旺旺旺&quot; });  
+    }  
+    public static void javaGet(Object ob) throws Exception {  
+        Method m = ReflectTest.class.getDeclaredMethod(&quot;getName&quot;, new Class[0]);  
+        m.invoke(ob, new Object[0]);  
+    }  
+    // ===============下面是 手动的创建对象  
+    public static ReflectTest manualCreate() {  
+        ReflectTest my = new ReflectTest();  
+        return my;  
+    }  
 
-}    
-</code></pre><p>}    </p>
-<pre><code>再进行测试:进行了两次查询,控制台仍然只打出一条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=?  说明还是只进行了一次数据库的调用.
-
-再将代码更改如下:
-</code></pre><p>public class Test {    </p>
-<pre><code>public void get(){     
-
-      Session session = HibernateSessionFactory.getSession();    
-      TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
-      System.out.println(t.getName());    
-      session.close();    
-      Session session1 = HibernateSessionFactory.getSession();    
-      TUser tt = (TUser)session1.get(&quot;hibernate.TUser&quot;, 2);    
-      System.out.println(tt.getName());    
-      session1.close();    
-
-}    
-</code></pre><p>}    </p>
-<pre><code>继续测试:进行两次查询控制台打印两条SQL语句:Hibernate: select tuser0_.id as id0_0_, tuser0_.name as name0_0_, tuser0_.*** as ***0_0_ from test.t_user tuser0_ where tuser0_.id=?
-</code></pre><p>Hibernate: select tuser0_.id as id0<em>0</em>, tuser0_.name as name0<em>0</em>, tuser0_.<strong><em> as </em></strong>0<em>0</em> from test.t<em>user tuser0</em> where tuser0_.id=?</p>
-<pre><code>结论:Hibernate进行查询时总是先在缓存中进行查询,如缓存中没有所需数据才进行数据库的查询.Hibernate的内部缓存是基于Session的生命周期的,也就是说存在于每个Session内部,它随着Session的创建而存在,随着Session的销毁而灭亡,内部缓存一般由Hibernate自动维护,不需要人为干预,当然我们也可以根据需要进行相应操作:Session.evict(Object)(将指定对象从内部缓存清除),Session.clear()(清空内部缓存).(如在两次查询间加入Session.clear()将会清空内部缓存,使得一个Sesion内部的两次相同的查询要对数据库进行两次操作).
-
-2.二级缓存:(有时称为SessionFactory Level Cache)
-
-Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基于HashTable的简单缓存以供调试),这里我使用的是第三方缓存组件:EHcache.Hibernate的二级缓存实现需要进行以下配置(Hibernate3):
-
-首先在hibernate.cfg.xml内添加: 
-</code></pre><property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property><br><property name="hibernate.cache.use_query_cache">true</property>   
-
-<p>然后在映射文件中添加:</p>
-<cache usage="read-only">   
-
-<pre><code>测试上面代码:控制台输出多了这样一句[ WARN] (CacheFactory.java:43) - read-only cache configured for mutable class: hibernate.TUser,二级缓存启用成功!!       
-</code></pre><p>java 代码<br>public class Test {    </p>
-<pre><code> public void executeQuery(){    
-
-       List list = new ArrayList();    
-       Session session = HibernateSessionFactory.getSession();    
-       Query query = session.createQuery(&quot;from TUser t&quot;);    
-       query.setCacheable(true);//激活查询缓存    
-       list = query.list();    
-       session.close();    
-
- }    
- public void get(){    
-
-       Session session = HibernateSessionFactory.getSession();    
-       TUser t = (TUser)session.get(&quot;hibernate.TUser&quot;, 2);    
-       System.out.println(t.getName());    
-       session.close();    
-
-}    
-</code></pre><p>}    </p>
-<pre><code>测试:控制台只输出一条SQL语句:Hibernate: select tuser0_.id as id0_, tuser0_.name as name0_, tuser0_.*** as ***0_ from test.t_user tuser0_(即Query query = session.createQuery(&quot;from TUser t&quot;)这句代码所对应的SQL).  executeQuery()方法与get()方法使用的是不同的Session!!可是executeQuery()方法与get()方法只对数据库进行了一次操作,这就是二级缓存在起作用了.   
-
-结论:Hibernate二级缓存是SessionFactory级的缓存,它允许多个Session间共享,使用时需要使用第三方的缓存组件,新版Hibernate将EHcache作为默认的二级缓存实现.
-
-缓存同步策略:缓存同步策略决定了数据对象在缓存中的存取规则,我们必须为每个实体类指定相应的缓存同步策略.Hibernate中提供了4种不同的缓存同步策略:(暂时只记个概念吧)
-
-1.read-only:只读.对于不会发生改变的数据可使用（对数据只能查询，其他的增删改都会报错不关是1或2缓存中）.
-
-2.nonstrict-read-write:如果程序对并发访问下的数据同步要求不严格,且数据更新频率较低,采用本缓存同步策略可获得较好性能.(不能在二级缓存进行增删改都会报错)
-
-3.read-write:严格的读写缓存.基于时间戳判定机制,实现了&quot;read committed&quot;事务隔离等级.用于对数据同步要求的情况,但不支持分布式缓存,实际应用中使用最多的缓存同步策略.（都可以比较常用的）
-
-4.transactional:事务型缓存,必须运行在JTA事务环境中.此缓存中,缓存的相关操作被添加到事务中(此缓存类似于一个内存数据库),如事务失败,则缓冲池的数据会一同回滚到事务的开始之前的状态.事务型缓存实现了&quot;Repeatable read&quot;事务隔离等级,有效保证了数据的合法性,适应于对关键数据的缓存,Hibernate内置缓存中,只有JBossCache支持事务型缓存.
-</code></pre><p>Hibernate获取数据的方式有不同的几种，其与缓存结合使用的效果也不尽相同，而Hibernate中具体怎么使用缓存其实是我们很关心的一个问题，直接涉及到性能方面。<br>缓存在Hibernate中主要有三个方面：一级缓存、二级缓存和查询缓存；一级缓存在Hibernate中对应的即为session范围的缓存，也就是当session关闭时缓存即被清除，一级缓存在Hibernate中是不可配置的部分；二级缓存在Hibernate中对应的即为SessionFactory范围的缓存，通常来讲SessionFactory的生命周期和应用的生命周期相同，所以可以看成是进程缓存或集群缓存，二级缓存在Hibernate中是可以配置的，可以通过class-cache配置类粒度级别的缓存(class-cache在class中数据发生任何变化的情况下自动更新)，同时也可通过collection-cache配置集合粒度级别的缓存(collection-cache仅在 collection中增加了元素或者删除了元素的情况下才自动更新，也就是当collection中元素发生值的变化的情况下它是不会自动更新的)，缓存自然会带来并发的访问问题，这个时候相应的就要根据应用来设置缓存所采用的事务隔离级别，和数据库的事务隔离级别概念基本一样，没什么多介绍的， ^<em>^；查询缓存在Hibernate同样是可配置的，默认是关闭的，可以通过设置cache.use</em> query<em>cache为true来打开查询缓存。根据缓存的通常实现策略，我们可以来理解Hibernate的这三种缓存，缓存的实现通过是通过key/value的Map方式来实现，在 Hibernate的一级、二级和查询缓存也同样如此，一级、二级缓存使用的key均为po的主键ID，value即为po实例对象，查询缓存使用的则为查询的条件、查询的参数、查询的页数，value有两种情况，如果采用的是select po.property这样的方式那么value为整个结果集，如采用的是from这样的方式那么value为获取的结果集中各po对象的主键ID，这样的作用很明显，节省内存，^</em>^<br>简单介绍完Hibernate的缓存后，再结合Hibernate的获取数据方式来说明缓存的具体使用方式，在Hibernate中获取数据常用的方式主要有四种：Session.load、Session.get、Query.list、Query.iterator。<br>1、Session.load<br>      在执行session.load时，Hibernate首先从当前session的一级缓存中获取id对应的值，在获取不到的情况下，将根据该对象是否配置了二级缓存来做相应的处理，如配置了二级缓存，则从二级缓存中获取id对应的值，如仍然获取不到则还需要根据是否配置了延迟加载来决定如何执行，如未配置延迟加载则从数据库中直接获取，在从数据库获取到数据的情况下，Hibernate会相应的填充一级缓存和二级缓存，如配置了延迟加载则直接返回一个代理类，只有在触发代理类的调用时才进行数据库查询的操作。<br>      在这样的情况下我们就可以看到，在session一直打开的情况下，要注意在适当的时候对一级缓存进行刷新操作，通常是在该对象具有单向关联维护的时候，在Hibernate中可以使用象session.clear、session.evict的方式来强制刷新一级缓存。<br>      二级缓存则在数据发生任何变化(新增、更新、删除)的情况下都会自动的被更新。<br>2、Session.get<br>      在执行Session.get时，和Session.load不同的就是在当从缓存中获取不到时，直接从数据库中获取id对应的值。<br>3、Query.list<br>      在执行Query.list时，Hibernate的做法是首先检查是否配置了查询缓存，如配置了则从查询缓存中查找key为查询语句+查询参数+分页条件的值，如获取不到则从数据库中进行获取，从数据库获取到后Hibernate将会相应的填充一级、二级和查询缓存，如获取到的为直接的结果集，则直接返回，如获取到的为一堆id的值，则再根据id获取相应的值(Session.load)，最后形成结果集返回，可以看到，在这样的情况下，list也是有可能造成N次的查询的。<br>      查询缓存在数据发生任何变化的情况下都会被自动的清空。<br>4、Query.iterator<br>      在执行Query.iterator时，和Query.list的不同的在于从数据库获取的处理上，Query.iterator向数据库发起的是 select id from这样的语句，也就是它是先获取符合查询条件的id，之后在进行iterator.next调用时才再次发起session.load的调用获取实际的数据。<br>      可见，在拥有二级缓存并且查询参数多变的情况下，Query.iterator会比Query.list更为高效。</p>
-<p>这四种获取数据的方式都各有适用的场合，要根据实际情况做相应的决定，^_^，最好的方式无疑就是打开show_sql选项看看执行的情况来做分析，系统结构上只用保证这种调整是容易实现的就好了，在cache这个方面的调整自然是非常的容易，只需要调整配置文件里的设置，而查询的方式则可对外部进行屏蔽，这样要根据实际情况调整也非常容易。</p>
-</cache>
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iBatis与Hibernate区别" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/iBatis与Hibernate区别/">iBatis与Hibernate区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/iBatis与Hibernate区别/" class="article-date">
-  <time datetime="2014-09-19T14:34:40.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>相同点：屏蔽jdbc api的底层访问细节，使用我们不用与jdbc api打交道，就可以访问数据。<br>jdbc api编程流程固定，还将sql语句与java代码混杂在了一起，经常需要拼凑sql语句，细节很繁琐。<br>ibatis的好处：屏蔽jdbc api的底层访问细节；将sql语句与java代码进行分离;提供了将结果集自动封装称为实体对象和对象的集合的功能，queryForList返回对象集合，用queryForObject返回单个对象；提供了自动将实体对象的属性传递给sql语句的参数。</p>
-<p>Hibernate是一个全自动的orm映射工具，它可以自动生成sql语句,ibatis需要我们自己在xml配置文件中写sql语句，hibernate要比ibatis功能负责和强大很多。因为hibernate自动生成sql语句，我们无法控制该语句，我们就无法去写特定的高效率的sql。对于一些不太复杂的sql查询，hibernate可以很好帮我们完成，但是，对于特别复杂的查询，hibernate就很难适应了，这时候用ibatis就是不错的选择，因为ibatis还是由我们自己写sql语句。</p>
-<h3 id="总结叉子可以理解："><a href="#总结叉子可以理解：" class="headerlink" title="总结叉子可以理解："></a>总结叉子可以理解：</h3><p>hibernate 是一个ORM框架，就是java对象和数据库表中记录相映射是它是主要的一个特点<br>比如，一个java类，和一个数据库的表相对应，java类的成员变量和表的字段对应<br>而 ibatis 是一个sql map框架，就是sql语句和java对象相映射的特点 比如，sql语句，<br>select * from XX,这个返回的字段数据和java对象的成员变量相映射。</p>
+    public static void manualSet(ReflectTest my) {  
+        my.setName(&quot;旺旺旺&quot;);  
+    }  
+    public static void manualGet(ReflectTest my) {  
+        my.getName();  
+    }  
+    public int getAge() {  
+        return age;  
+    }  
+    public void setAge(int age) {  
+        this.age = age;  
+    }  
+    public String getName() {  
+        return name;  
+    }  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+}
+</code></pre><p>运行结果： 写道<br>javaCreate : 22<br>manualCreate : 0<br>javaSet : 40<br>manualSet : 0<br>javaGet : 9<br>manualGet : 0</p>
+<p>由此可见，反射对性能的影响。</p>
+<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><p>Java语言反射提供一种动态链接程序组件的多功能方法。它允许程序创建和控制任何类的对象(根据安全性限制)，无需提前硬编码目标类。这些特性使得反射 特别适用于创建以非常普通的方式与对象协作的库。例如，反射经常在持续存储对象为数据库、XML或其它外部格式的框架中使用。Java reflection 非常有用，它使类和数据结构能按名称动态检索相关信息，并允许在运行着的程序中操作这些信息。Java 的这一特性非常强大，并且是其它一些常用语言，如 C、C++、Fortran 或者 Pascal 等都不具备的。<br>但反射有两个缺点。第一个是性能问题。用于字段和方法接入时反射要远慢于直接代码。性能问题的程度取决于程序中是如何使用反射的。如果它作为程序运行中相 对很少涉及的部分，缓慢的性能将不会是一个问题。即使测试中最坏情况下的计时图显示的反射操作只耗用几微秒。仅反射在性能关键的应用的核心逻辑中使用时性 能问题才变得至关重要。<br>许多应用中更严重的一个缺点是使用反射会模糊程序内部实际要发生的事情。程序人员希望在源代码中看到程序的逻辑，反射等绕过了源代码的技术会带来维护问 题。反射代码比相应的直接代码更复杂，正如性能比较的代码实例中看到的一样。解决这些问题的最佳方案是保守地使用反射——仅在它可以真正增加灵活性的地方 ——记录其在目标类中的使用。</p>
 
       
 
@@ -294,7 +332,7 @@ Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基�
 
 
   
-    <article id="post-Hiberante_lazy延迟加载总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-11章异常处理" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -302,23 +340,21 @@ Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/Hiberante_lazy延迟加载总结/">Hiberante_lazy延迟加载总结</a>
+      <a class="article-title" href="/2012/05/13/11章异常处理/">11章异常处理</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/Hiberante_lazy延迟加载总结/" class="article-date">
-  <time datetime="2014-09-19T14:32:48.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/05/13/11章异常处理/" class="article-date">
+  <time datetime="2012-05-13T11:16:27.000Z" itemprop="datePublished">2012-05-13</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>如果想对实体对象使用延迟加载，必须要在实体的映射配置文件中进行相应的配置，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;hibernate-mapping&gt;   </span><br><span class="line">  </span><br><span class="line">&lt;class name=”net.ftng.entity.user” table=”user” lazy=”true”&gt;   </span><br><span class="line">  </span><br><span class="line">    ……   </span><br><span class="line">  </span><br><span class="line">&lt;/class&gt;   </span><br><span class="line">  </span><br><span class="line">&lt;/hibernate-mapping&gt;   </span><br><span class="line">```  </span><br><span class="line">通过将class的lazy属性设置为true，来开启实体的延迟加载特性。如果我们运行下面的代码：   </span><br><span class="line">```  </span><br><span class="line">User user=(User)session.load(User.class,”1”);（1）   </span><br><span class="line">  </span><br><span class="line">System.out.println(user.getName());（2）</span><br></pre></td></tr></table></figure></p>
-<p>当运行到(1)处时，Hibernate并没有发起对数据的查询，<br>当代码运行到（2）处时，此时调用user.getName()方法，这时通过CGLIB赋予的回调机制，<br>target属性是否为null，如果不为空，则调用目标对象的getName方法，如果为空，则会发起数据库查询</p>
-<p>通过一个中间代理对象，Hibernate实现了实体的延迟加载，<br>只有当用户真正发起获得实体对象属性的动作时，<br>才真正会发起数据库查询操作。<br>所以实体的延迟加载是用通过中间代理类完成的，<br>所以只有session.load()方法才会利用实体延迟加载，<br>因为只有session.load()方法才会返回实体类的代理类对象。  </p>
+        <h2 id="异常"><a href="#异常" class="headerlink" title="异常:"></a>异常:</h2><p>Thowable类有两个子类:运行时异常Exception和错误Error<br> 异常的父类：Exception类<br>  异常的常用关键字：throw、throws、 try catch 、finally<br>  throw和throws是抛出异常，throw 是把新建的异常对象抛给调用者，而throws是把已经存在的异常抛给调用者去处理。<br>  finally必须接在try catch 后面，try是用来捕获异常，catch是处理try捕获的异常，finally表示不管有没有执行try catch 语句，都要执行finally后面的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">try&#123; </span><br><span class="line">eq(s); </span><br><span class="line">&#125; </span><br><span class="line">catch(Exception e)&#123; </span><br><span class="line">String t=e.getMessage(); </span><br><span class="line">System.out.println(&quot;s不是ioexception&quot;); </span><br><span class="line">e.printStackTrace(); </span><br><span class="line">&#125; </span><br><span class="line">finally&#123; </span><br><span class="line">System.out.println(&quot;执行了finally语句&quot;); </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">public void eq(String s) throws Exception&#123;         //throws已经存在的异常抛给调用者去处理</span><br><span class="line">if(s.equals(&quot;ioexception&quot;)) System.out.println(&quot;s是&quot;+s); </span><br><span class="line">else&#123; </span><br><span class="line">Exception e=new Exception(s); </span><br><span class="line">throw e; </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -342,7 +378,7 @@ Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基�
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -352,7 +388,7 @@ Hibernate本身并未提供二级缓存的产品化实现(只提供了一个基�
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

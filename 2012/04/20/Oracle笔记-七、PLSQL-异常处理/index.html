@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Oracle笔记 七、PL/SQL 异常处理 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Oracle笔记 七、PL/SQL 异常处理–异常处理declare  sNum number := 0;begin  sNum := 5 / sNum;  dbms_output.put_line(sNum);exception  when others then    dbms_output.put_line(‘is Error!’);end;
+–自定义异常declare       ex_c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记 七、PL/SQL 异常处理">
+<meta property="og:url" content="http://yoursite.com/2012/04/20/Oracle笔记-七、PLSQL-异常处理/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="Oracle笔记 七、PL/SQL 异常处理–异常处理declare  sNum number := 0;begin  sNum := 5 / sNum;  dbms_output.put_line(sNum);exception  when others then    dbms_output.put_line(‘is Error!’);end;
+–自定义异常declare       ex_c">
+<meta property="og:updated_time" content="2016-03-20T05:47:09.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle笔记 七、PL/SQL 异常处理">
+<meta name="twitter:description" content="Oracle笔记 七、PL/SQL 异常处理–异常处理declare  sNum number := 0;begin  sNum := 5 / sNum;  dbms_output.put_line(sNum);exception  when others then    dbms_output.put_line(‘is Error!’);end;
+–自定义异常declare       ex_c">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Oracle笔记-七、PLSQL-异常处理" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记 七、PL/SQL 异常处理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/20/Oracle笔记-七、PLSQL-异常处理/" class="article-date">
+  <time datetime="2012-04-20T09:14:32.000Z" itemprop="datePublished">2012-04-20</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Oracle笔记 七、PL/SQL 异常处理<br>–异常处理<br>declare<br>  sNum number := 0;<br>begin<br>  sNum := 5 / sNum;<br>  dbms_output.put_line(sNum);<br>exception<br>  when others then<br>    dbms_output.put_line(‘is Error!’);<br>end;</p>
+<p>–自定义异常<br>declare<br>       ex_custom_invaild_age exception; –自定义的异常myerr<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise ex_custom_invaild_age; –引发自定义异常<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>exception<br>      when ex_custom_invaild_age then<br>        dbms_output.put_line(‘非法的年龄’);<br>end;</p>
+<p>–引发应用程序异常<br>–raise_application_error(异常编号，说明);<br>declare<br>       age int;<br>begin<br>     age := &amp;请输入年龄;<br>     if (age &lt; 0) then<br>        raise_application_error(-20500, ‘年龄不能为负数’);<br>     else<br>        dbms_output.put_line(‘年龄是：’ || age);<br>     end if;<br>end;</p>
+<p>–非预定义异常<br>declare<br>     ex_custom_error exception;<br>     pragma exception_init(ex_custom_error, -1); –把一个编号和一个自定义异常关联，<br>     –相当于把-1编号的异常命名为ex_custom_error，这样就可以捕获这种异常<br>begin<br>     insert into dept values(10, ‘aaa’, ‘bbb’);<br>     exception<br>       when ex_custom_error then<br>       dbms_output.put_line(‘部门编号已经存在’);<br>end;</p>
+<p>–异常处理<br>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp;<br>  exception<br>    when too_many_rows then<br>      dbms_output.put_line(‘多条数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
+<p>declare<br>  vSal emp.sal%type;<br>begin<br>  select sal into vSal from emp where empno = 1;<br>  exception<br>    when no_data_found then<br>      dbms_output.put_line(‘没有数据’);<br>    when others then<br>      dbms_output.put_line(‘Error’);<br>end;</p>
+<p>–异常日志处理<br>create table errorLog (<br>       id number primary key,<br>       errCode number,<br>       errMsg varchar2(1024),<br>       errDate date<br>);<br>–创建序列，从1开始，每次加1<br>create sequence seq_errorLog_id start with 1 increment by 1;</p>
+<p>declare<br>       vDeptno dept.deptno%type := 10;<br>       vErrCode number;<br>       vErrMsg varchar2(1024);<br>begin<br>  delete from dept where deptno = vDeptno;<br>  commit;<br>  exception<br>    when others then<br>      rollback;<br>      vErrCode := SQLCODE;<br>      vErrMsg := SQLERRM;<br>      insert into errorLog values(seq_errorLog_id.nextval, vErrCode, vErrMsg, sysdate);<br>      commit;<br>end;</p>
+<p>select * from errorLog;</p>
+<p>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/21/Oracle笔记-八、PLSQL跳转判断循环语句块/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记 八、PL/SQL跳转/判断/循环语句块
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/19/Oracle笔记-六、PLSQL简单语句块、变量定义/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Oracle笔记 六、PL/SQL简单语句块、变量定义</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/20/Oracle笔记-七、PLSQL-异常处理/" data-title="Oracle笔记 七、PL/SQL 异常处理" data-url="http://yoursite.com/2012/04/20/Oracle笔记-七、PLSQL-异常处理/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

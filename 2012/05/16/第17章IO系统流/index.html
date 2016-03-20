@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第17章I/O系统流 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="IO流：IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流
+IO有具体的分类1 根据处理的数据类型不同：字节流和字符流2 根据流向不同：输入流和输出流
+字节流和字符流的区别：1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回2字节流可以处理所有类型数据，如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第17章I/O系统流">
+<meta property="og:url" content="http://yoursite.com/2012/05/16/第17章IO系统流/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="IO流：IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流
+IO有具体的分类1 根据处理的数据类型不同：字节流和字符流2 根据流向不同：输入流和输出流
+字节流和字符流的区别：1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回2字节流可以处理所有类型数据，如">
+<meta property="og:updated_time" content="2016-03-20T05:09:19.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第17章I/O系统流">
+<meta name="twitter:description" content="IO流：IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流
+IO有具体的分类1 根据处理的数据类型不同：字节流和字符流2 根据流向不同：输入流和输出流
+字节流和字符流的区别：1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回2字节流可以处理所有类型数据，如">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第17章IO系统流" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第17章I/O系统流
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/16/第17章IO系统流/" class="article-date">
+  <time datetime="2012-05-16T12:32:39.000Z" itemprop="datePublished">2012-05-16</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IO流："><a href="#IO流：" class="headerlink" title="IO流："></a>IO流：</h2><p>IO流：当程序需要读取数据的时候，就会开启一个通向数据源设备的流</p>
+<h3 id="IO有具体的分类"><a href="#IO有具体的分类" class="headerlink" title="IO有具体的分类"></a>IO有具体的分类</h3><p>1 根据处理的数据类型不同：字节流和字符流<br>2 根据流向不同：输入流和输出流</p>
+<h3 id="字节流和字符流的区别："><a href="#字节流和字符流的区别：" class="headerlink" title="字节流和字符流的区别："></a>字节流和字符流的区别：</h3><p>1 字节流读取的时候，读到一个字节就返回一个字节字符流使用了字节流读到一个或多个字节（中文对应的字节数是两个，在UTF-8码表中是3个字节）时.先去查指定的编码表，将查到的字符返回<br>2字节流可以处理所有类型数据，如图片，MP3，AVI而字符流只能处理字符数据.<br>结论：只有是处理纯文本数据，就要优先考虑使用字符流.除此之外都用字节流<br>IO的体系.所具备的基本功能就有两个：读和写</p>
+<ol>
+<li>字节流：inputStream(读)，OutputStream(写)</li>
+<li>字符流：     Reader(读)，Writer(写) </li>
+</ol>
+<p>比较常用的流有 <strong>文件流——处理流——对象流</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"> public static void main(String []args) throws FileNotFoundException,IOException &#123;</span><br><span class="line">  FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流            这是字节流输入流</span><br><span class="line">  BufferedInputStream d=new BufferedInputStream(w);//缓存区                  这是缓存流</span><br><span class="line">  FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流         这是字节写出流</span><br><span class="line">  int b;</span><br><span class="line">  while((b = d.read())!=-1) &#123;</span><br><span class="line">   c.write(b);</span><br><span class="line">  &#125;</span><br><span class="line">  c.flush(); //刷新</span><br><span class="line">  d.close(); //关闭写出字节流</span><br><span class="line">  c.close(); //关闭写出缓存区字节流</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">字节流：</span><br><span class="line">FileInputStream w=new FileInputStream(&quot;D:\\CC.txt&quot;);//字节输入流          </span><br><span class="line">FileOutputStream c=new FileOutputStream(&quot;D:\\hhw.txt&quot;); // 写出流        </span><br><span class="line">InputStreamReader w=new InputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流 </span><br><span class="line">OutputStreamReader c=new OutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符写出流   </span><br><span class="line"> </span><br><span class="line">↓ ↑</span><br><span class="line">FileInputStreamReader w=new FileInputStreamReader(&quot;D:\\CC.txt&quot;);//字符输入流</span><br><span class="line">FileOutputStreamReader c=new FileOutputStreamReader(&quot;D:\\hhw.txt&quot;); // 字符输出流   </span><br><span class="line"> </span><br><span class="line">处理流：</span><br><span class="line">BufferedInputStream d=new BufferedInputStream(w);//缓存区 可以整行读取      字节缓存流</span><br><span class="line">BufferedOutputStream d=new BufferedOutputStream(w);//缓存区  可以整行写出    字节缓存流</span><br><span class="line"> </span><br><span class="line">对象流：</span><br><span class="line"> ObjectIputStream   对象序列化</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/05/17/java18章网络编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          java18章网络编程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/15/第15章集合框架/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第15章集合框架</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/05/16/第17章IO系统流/" data-title="第17章I/O系统流" data-url="http://yoursite.com/2012/05/16/第17章IO系统流/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

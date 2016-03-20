@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Oracle笔记 二、常用dba命令行 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Oracle笔记 二、常用dba命令行1、给用户解锁
+alter user scott account unlock;
+2、注销、断开、切换当前用户连接
+quit
+conn scott/tiger
+3、用户权限查询
+A .查看所有用户：
+select * from dba_users;
+select * from all_users;
+select * from user_users;
+B.查看用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记 二、常用dba命令行">
+<meta property="og:url" content="http://yoursite.com/2012/04/15/Oracle笔记-二、常用dba命令行/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="Oracle笔记 二、常用dba命令行1、给用户解锁
+alter user scott account unlock;
+2、注销、断开、切换当前用户连接
+quit
+conn scott/tiger
+3、用户权限查询
+A .查看所有用户：
+select * from dba_users;
+select * from all_users;
+select * from user_users;
+B.查看用">
+<meta property="og:updated_time" content="2016-03-20T05:46:49.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle笔记 二、常用dba命令行">
+<meta name="twitter:description" content="Oracle笔记 二、常用dba命令行1、给用户解锁
+alter user scott account unlock;
+2、注销、断开、切换当前用户连接
+quit
+conn scott/tiger
+3、用户权限查询
+A .查看所有用户：
+select * from dba_users;
+select * from all_users;
+select * from user_users;
+B.查看用">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Oracle笔记-二、常用dba命令行" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记 二、常用dba命令行
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/15/Oracle笔记-二、常用dba命令行/" class="article-date">
+  <time datetime="2012-04-15T03:07:26.000Z" itemprop="datePublished">2012-04-15</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Oracle笔记 二、常用dba命令行<br>1、给用户解锁</p>
+<p>alter user scott account unlock;</p>
+<p>2、注销、断开、切换当前用户连接</p>
+<p>quit</p>
+<p>conn scott/tiger</p>
+<p>3、用户权限查询</p>
+<p>A .查看所有用户：</p>
+<p>select * from dba_users;</p>
+<p>select * from all_users;</p>
+<p>select * from user_users;</p>
+<p>B.查看用户或角色系统权限(直接赋值给用户或角色的系统权限)：</p>
+<p>select * from dba_sys_privs;</p>
+<p>select * from user_sys_privs;</p>
+<p>C.查看角色(只能查看登陆用户拥有的角色)所包含的权限</p>
+<p>select * from role_sys_privs;</p>
+<p>D.查看用户对象权限：</p>
+<p>select * from dba_tab_privs;</p>
+<p>select * from all_tab_privs;</p>
+<p>select * from user_tab_privs;</p>
+<p>E.查看所有角色：</p>
+<p>select * from dba_roles;</p>
+<p>F.查看用户或角色所拥有的角色：</p>
+<p>select * from dba_role_privs; s</p>
+<p>elect * from user_role_privs;</p>
+<p>G.查看哪些用户有sysdba或sysoper系统权限(查询时需要相应权限)</p>
+<p>select * from V$PWFILE_USERS</p>
+<p>4、用户管理</p>
+<p>A、创建用户</p>
+<p>create user username identified by password;</p>
+<p>create user username identified by password default tablespace users quota 10M on users;</p>
+<p>B、修改密码</p>
+<p>alter user username identified by pass;</p>
+<p>密码就从password改成pass了；同样登陆后输入password也可以修改密码</p>
+<p>C、删除用户</p>
+<p>drop user username;</p>
+<p>drop user username cascade;</p>
+<p>5、三种标准的角色（role）：CONNECT、RESOURCE和DBA。</p>
+<p>I、Connect连接、登陆权限</p>
+<p>II、Resource可以创建表、序列、过程（procedure）、触发器（trigger）、索引（index）和簇（cluster）。</p>
+<p>III、Dba管理员</p>
+<p>6、 用户权限</p>
+<p>A、给用户授权</p>
+<p>grant connect, resource to username;</p>
+<p>grant create session, create table, create view to username;</p>
+<p>B、撤销权限</p>
+<p>revoke connect from username;</p>
+<p>7、 角色管理</p>
+<p>A、创建角色</p>
+<p>create role LOGIN;</p>
+<p>B、删除角色</p>
+<p>drop role LOGIN;</p>
+<p>8、 导出角色资源</p>
+<p>A、 首先进入控制台cmd</p>
+<p>B、 进入某个目录，如：cd c:/userdir</p>
+<p>C、 输入命令，exp</p>
+<p>D、 提示输入用户名、口令，也就是即将导出角色的数据</p>
+<p>E、 以下直接默认，按回车enter键即可</p>
+<p>F、 导出完成后，即可看到导出的文件EXPDAT.DMP</p>
+<p>9、 导入角色数据</p>
+<p>A、 首先进入dos控制台</p>
+<p>B、 进入导出数据的目录，如：cd c:/userdir</p>
+<p>C、 输入命令，imp</p>
+<p>D、 输入用户名、口令，将此数据导入给的用户</p>
+<p>E、 后面一直回车，enter键即可</p>
+<p>F、 提示输入用户名、口令，这个是数据从哪个用户中导出的，就是那个用户的</p>
+<p>10、Sqlplus常用命令</p>
+<p>A、set lineSize 120可以设置sqlplus的显示缓冲区大小；</p>
+<p>B、set pageSize 20 可以设置每页显示大小</p>
+<p>C、edit 可以编辑当前sql语句，保存后输入/回车运行</p>
+<p>D、spool c:/temp.sql; 和 spool off 可以保存之间所有的显示内容；</p>
+<p>E、start [filepath]可以批量执行sql语句；</p>
+<p>F、desc tableName 可以查看指定表结构</p>
+<p>G、 show user 可以查看当前用户</p>
+<p>H、 set serveroutput on 运行dbms_output输出信息</p>
+<p>I、 show error 查看编译错误信息</p>
+<p>11、用户常用系统表、表字典</p>
+<p>select table_name from user_tables;</p>
+<p>select view_name from user_views;</p>
+<p>select constraint_name, constraint_type, table_name from user_constraints;</p>
+<p>select table_name from dictionary;</p>
+<p>select index_name from user_indexes;</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/16/Oracle笔记-三、function-、select/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记 三、function 、select
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/10/第7章Oreacle开发PLSQL子程序和包/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第7章Oreacle开发PL/SQL子程序和包</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/15/Oracle笔记-二、常用dba命令行/" data-title="Oracle笔记 二、常用dba命令行" data-url="http://yoursite.com/2012/04/15/Oracle笔记-二、常用dba命令行/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

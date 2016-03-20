@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第5章对象的行为 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 this：表示当前对象同时注意事项
+2 方法调用栈123456789101112主方法先进入栈，后进先出：┌──────────┐│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙│──────────│↑                                                 │ name3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第5章对象的行为">
+<meta property="og:url" content="http://yoursite.com/2012/05/08/第5章对象的行为/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="1 this：表示当前对象同时注意事项
+2 方法调用栈123456789101112主方法先进入栈，后进先出：┌──────────┐│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙│──────────│↑                                                 │ name3">
+<meta property="og:updated_time" content="2016-03-20T05:08:04.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第5章对象的行为">
+<meta name="twitter:description" content="1 this：表示当前对象同时注意事项
+2 方法调用栈123456789101112主方法先进入栈，后进先出：┌──────────┐│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙│──────────│↑                                                 │ name3">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第5章对象的行为" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第5章对象的行为
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/08/第5章对象的行为/" class="article-date">
+  <time datetime="2012-05-08T15:44:27.000Z" itemprop="datePublished">2012-05-08</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-this："><a href="#1-this：" class="headerlink" title="1 this："></a>1 this：</h2><p>表示当前对象同时注意事项</p>
+<h2 id="2-方法调用栈"><a href="#2-方法调用栈" class="headerlink" title="2 方法调用栈"></a>2 方法调用栈</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">主方法先进入栈，后进先出：</span><br><span class="line">┌──────────┐</span><br><span class="line">│ name4              │↖name1方法第四个先进  ↘后进来的name4在内存栈中先出去依次    ↙</span><br><span class="line">│──────────│↑                                                 </span><br><span class="line">│ name3              │↖name1方法第三个先进   ↘依次在出去name3               ↙    </span><br><span class="line">│──────────│ ↑</span><br><span class="line">│ name2              │↖name1方法第二个先进   ↘依次在出去name2         ↙</span><br><span class="line">│──────────│  ↑</span><br><span class="line">│ name1              │↖name1方法第一个先进   ↘依次在出去name2     ↙</span><br><span class="line">│──────────│   ↑                  </span><br><span class="line">│ main()             │↖第一个先进入的主方法  ↘返回main方法结束↙</span><br><span class="line">└──────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="3方法的重载："><a href="#3方法的重载：" class="headerlink" title="3方法的重载："></a>3方法的重载：</h2><p>方法的名称相同参数列不同就构成方法重载.  体现参数列：表示 个数不同–类型不同–顺序不同.</p>
+<h3 id="顺序不同类型："><a href="#顺序不同类型：" class="headerlink" title="顺序不同类型："></a>顺序不同类型：</h3><p>public void name(int a long b) //  2个形式参数<br>        ↖这样就构成2个方法名称相同参数 顺序不同 就构成方法重载成功<br>      ↙<br>public void name(long a int b) //  2个形式参数</p>
+<h3 id="个数不同类型"><a href="#个数不同类型" class="headerlink" title="个数不同类型"></a>个数不同类型</h3><p>public void name(int a long b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 个数不同 就构成方法重载成功<br>      ↙<br>public void name(long a) //  1个形式参数    </p>
+<h3 id="类型不同类型"><a href="#类型不同类型" class="headerlink" title="类型不同类型"></a>类型不同类型</h3><p>public void name(String a int b) //  2个形式参数<br>      ↖这样就构成2个方法名称相同参数 类型不同 就构成方法重载成功<br>      ↙<br>public void name(long a short b) //  2个形式参数   </p>
+<h2 id="4访问修饰符："><a href="#4访问修饰符：" class="headerlink" title="4访问修饰符："></a>4访问修饰符：</h2><h3 id="访问修饰符有3种修饰符类型："><a href="#访问修饰符有3种修饰符类型：" class="headerlink" title="访问修饰符有3种修饰符类型："></a>访问修饰符有3种修饰符类型：</h3><p>public    公共修饰符的作用：最大权限在任何地方都可以访问这个方法或属性。<br>private   似有修饰符的作用：只有在类的方法中访问，如果不在同一个类中是无法访问的权限是只有在这个类中才能访问这个方法或属性。<br>protected 受保护修饰符作用：权限是在同一个包下才能访问，如果不在同一个包就不能访问权限不够因为他是受保护的。<br>default   默认修饰符的作用：默认修饰符权限跟受保护修饰符是一样的必须在同一个包里面才能调用这个方法或属性，但是权限没有受保护权限高。</p>
+<h2 id="5形参和实参"><a href="#5形参和实参" class="headerlink" title="5形参和实参"></a>5形参和实参</h2><p>当你在定义一个方法的时候,比如 void setter(int i){};<br>其中的参数i就是形参 形参是这个方法的局部变量 只能在方法体中使用<br>当你调用这个方法的时候,比如setter(a);<br>此时a就是实参 实参a把他的值传递给形参i<br>基本数据类型实参传递给形参的是值<br>对象实参传递给形参的是对象的引用</p>
+<h2 id="6构造器"><a href="#6构造器" class="headerlink" title="6构造器"></a>6构造器</h2><p>构造器是类中的一个特殊的方法，该方法在对象实例化时被调用，构造器的用途是当对象实例化时，初始化对象中的成员变量<br>构造器的名称必须要和类的名称相同.<br>不能有返回值，void也不行.<br>构造器的参数可有可无，可有一个也可有多个参数</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>this引用：<br>2 方法调用栈：<br>3方法的重载：<br>4访问修饰符：<br>5形参和实参：<br>6构造器：</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/05/09/第7章继承/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第7章继承
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/07/第4章类对象和包/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第4章类对象和包</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/05/08/第5章对象的行为/" data-title="第5章对象的行为" data-url="http://yoursite.com/2012/05/08/第5章对象的行为/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

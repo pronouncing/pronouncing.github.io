@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第4章类对象和包 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对象万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第4章类对象和包">
+<meta property="og:url" content="http://yoursite.com/2012/05/07/第4章类对象和包/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="对象万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量">
+<meta property="og:updated_time" content="2016-03-20T05:07:45.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第4章类对象和包">
+<meta name="twitter:description" content="对象万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第4章类对象和包" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第4章类对象和包
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/07/第4章类对象和包/" class="article-date">
+  <time datetime="2012-05-07T15:38:42.000Z" itemprop="datePublished">2012-05-07</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；<br>对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。<br>    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋<br>初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量名=new 引用类型（）；对象创建好后，如何访问成员变量与方法，我们可以使用点运算符。<br>    在Java中我们可以引入包机制，因为它会组织类，且为包中类提供了以命名的空间。如果我们不显示的讲<br>一个类声明在包之中，那么这个类就属于默认包。包必须放在注释之外的第一条语句。如果我们要使用或访问不同包的成员或方法，我们就需要导入与之对应的包。语句是import 包名.*;或者import 包名.类名；</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是来约束对象的属性和行为<br>类是对象的描述，对象是类得实例<br>对象由属性和行为组成，属性是对象所具有的特征，而行为是对象可以做的动作。<br>对象的每个属性被表示为类中的成员变量，对象的每个行为成为类中的一个方法。<br>访问修饰符：<br>访问修饰符 可以是public公有 private私有 protected受保护<br>实例化对象：<br>内存分配：堆划分为4块<br>堆是存放类，栈存放对象的全局变量和局部变量。<br>       栈         堆<br>┌────────────────<br>│局部变量     │数据区：存放String静态变量和字符串常量。<br>│全局变量     │代码区：存放方法。<br>│            │new对象<br>│            │<br>│            │<br>└────────────────<br>访问对象的属性和方法：<br>(.)点运算符用于与对象的一个引用一起访问对象的成员变量和方法。<br>this<br>每个对象有一个对自身的引用，这个引用称为this 引用。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包  关键字 package<br>包是java中组织和管理类的一种机制，同时可以防止类命名冲突</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/05/08/第5章对象的行为/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第5章对象的行为
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/05/06/第3章程序流程控制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第3章程序流程控制</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/05/07/第4章类对象和包/" data-title="第4章类对象和包" data-url="http://yoursite.com/2012/05/07/第4章类对象和包/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

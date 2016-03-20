@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第2章PL/SQL编程基础 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PL/SQL编程基础PL/SQL简介 
+ PL/SQL块的基础结构：                    declare 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常                    begin                  执行部分– PL/SQL语句和SQL语句                    exception">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第2章PL/SQL编程基础">
+<meta property="og:url" content="http://yoursite.com/2012/04/05/第2章PLSQL编程基础/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="PL/SQL编程基础PL/SQL简介 
+ PL/SQL块的基础结构：                    declare 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常                    begin                  执行部分– PL/SQL语句和SQL语句                    exception">
+<meta property="og:image" content="http://i.imgur.com/FW8XAQc.jpg">
+<meta property="og:updated_time" content="2016-03-20T05:43:01.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第2章PL/SQL编程基础">
+<meta name="twitter:description" content="PL/SQL编程基础PL/SQL简介 
+ PL/SQL块的基础结构：                    declare 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常                    begin                  执行部分– PL/SQL语句和SQL语句                    exception">
+<meta name="twitter:image" content="http://i.imgur.com/FW8XAQc.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第2章PLSQL编程基础" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第2章PL/SQL编程基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/05/第2章PLSQL编程基础/" class="article-date">
+  <time datetime="2012-04-04T16:15:58.000Z" itemprop="datePublished">2012-04-05</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i.imgur.com/FW8XAQc.jpg" alt=""><br>PL/SQL编程基础<br>PL/SQL简介 </p>
+<p> PL/SQL块的基础结构：<br>                    declare<br> 定义部分——定义常量、变量、复杂数据类型、游标、用户自定义异常<br>                    begin<br>                  执行部分– PL/SQL语句和SQL语句<br>                    exception<br>                  异常处理部分–处理运行错误<br>                     end<br>                   块结束标记<br>     编写PL/SQL语句时，执行部分是必须的，而其它两个部分是可选的。<br>2、PL/SQL块的类型<br> a、匿名块<br>    既可以内嵌到应用程序中，也可以在交互环境中直接使用<br>       例 ：<br>             declare<br>               v_name varchar2(50);<br>             begin<br>               dbms_output.put_line(‘wwww’);<br>             end;<br> b、子程序<br>    a.过程<br>          例：<br>             create or replace procedure pro_name is<br>             v_name varchar2(50);<br>              begin<br>              dbms_output.put_line(‘过程’);<br>     b.函数<br>         例：<br>            create or replace function fun_name return varchar2 as<br>            v_name varchar2(50);<br>             begin<br>            v_funvar:= “函数变量”；<br>            dbms_output.put_line(‘函数’)；<br>            return v_funvar;<br> ```<br>    c.包<br>/<em>包规范</em>/<br>create or replace package 包名is<br>/<em>包方法定义</em>/<br>   procedure proc_name_sal_info(id in int);<br> end 包名;<br>/<em>包体</em>/<br> create or replace package body pack_info is<br>/<em>包规范中定义的方法在包体中实现</em>/<br>  procedure proc_name_sal_info(id in int) is<br>  type cur_name is ref cursor;<br>  cur_info cur_name;<br>  cur_name_sal emp%rowtype;<br>  begin<br>  open cur_info for select <em> from emp where empno=id;<br>  loop<br>  fetch cur_info into cur_name_sal;<br>  exit when cur_info%notfound;<br>  dbms_output.put_line(‘ID：’||cur_name_sal.empno|| ‘姓名：’||cur_name_sal.ename ||’工资：’ ||cur_name_sal.sal);<br>  end loop;<br>  close cur_info;<br>  end;<br>  end pack_info;<br>  /</em>call测试<em>/<br>  call pack_info.proc_name_sal_info(7369);<br>  /</em>匿名块测试<em>/<br>  declare<br>  begin<br>  pack_info.proc_name_sal_info(7369);<br>  end;<br> c、触发器<br>/</em>触发器*/<br>  create or replace trigger 触发器名称<br>  before insert on t_dempt     – 在什么之前关键字before或之后关键字after on是哪张表表名<br>  for each row                          –行级触发器默认不填是语句级触发器<br>  begin<br>  select id_seq.nextval into :new.id from dual;<br>  end;<br>3.数据类型与变量</p>
+<ol>
+<li>标量变量<br>指只能存入单个数值的变量<br>varchar2（n）、char（n）、number(m,n)(m表示精度，表示指定数子的总位数，n表示小数点后面数字的位数)、date<br>2.使用%TYPE属性<pre><code>例：
+    declare
+    v_loc dept.loc%type;
+    begin
+     select loc into v_loc from dept where deptno = 10;
+    dbms_output.put_line(v_loc);
+    end;
+</code></pre></li>
+</ol>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/06/第3章oreaclePLSQL程序结构控制/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第3章oreaclePL/SQL程序结构控制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/04/第1章oreacle数据库基本概念/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第1章oreacle数据库基本概念</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/05/第2章PLSQL编程基础/" data-title="第2章PL/SQL编程基础" data-url="http://yoursite.com/2012/04/05/第2章PLSQL编程基础/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

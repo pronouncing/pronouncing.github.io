@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第5章Oracle PL/SQL使用游标获取 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="### 1. 游标的概述 ###
+1. 隐式游标   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+2. 显式游标显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第5章Oracle PL/SQL使用游标获取">
+<meta property="og:url" content="http://yoursite.com/2012/04/08/第5章Oracle-PLSQL使用游标获取/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="### 1. 游标的概述 ###
+1. 隐式游标   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+2. 显式游标显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭">
+<meta property="og:updated_time" content="2016-03-20T05:43:31.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第5章Oracle PL/SQL使用游标获取">
+<meta name="twitter:description" content="### 1. 游标的概述 ###
+1. 隐式游标   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+2. 显式游标显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第5章Oracle PL/SQL使用游标获取
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/08/第5章Oracle-PLSQL使用游标获取/" class="article-date">
+  <time datetime="2012-04-08T02:50:03.000Z" itemprop="datePublished">2012-04-08</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>### 1. 游标的概述 ###
+</code></pre><h3 id="1-隐式游标"><a href="#1-隐式游标" class="headerlink" title="1. 隐式游标"></a>1. 隐式游标</h3><pre><code>   Oracle在执行时会自动为我们处理很多和游标相关的操作（声明游标、打开游标、提取记录关闭游标）。隐式游标是最简单最有效的获取数据的方式。
+缺点：代码中存在大量相同或相似的select语句，不利于代码的重用。
+</code></pre><h3 id="2-显式游标"><a href="#2-显式游标" class="headerlink" title="2. 显式游标"></a>2. 显式游标</h3><pre><code>显式游标用在需要获取多行记录的情况下
+必须在手动的在PL/SQL块的声明部分定义
+手动执行每个操作（打开、提取、数据、关闭）
+</code></pre><h3 id="3-典型的查询操作"><a href="#3-典型的查询操作" class="headerlink" title="3. 典型的查询操作"></a>3. 典型的查询操作</h3><pre><code> a、 解析 （处理SQL语句的一个步骤是解析，确保SQL语句是有效的）
+ b、 绑定（将PL/SQL程序中的变量与绑定变量关联）
+  c、打开（打开游标）
+ d、 执行（从SQL引擎中运行SQL语句）
+ e、 提取（在游标的结果集中获取下一行）
+ f、 关闭（关闭 游标）
+游标获取数据库中的数据集合，然后打开提取每次提取后都会定位到下一行，然后从SGA中将数据拿到程序变量中，在此过程中是由Oracle自动将绑定变量与程序变量相关联。
+</code></pre><h3 id="4-游标属性"><a href="#4-游标属性" class="headerlink" title="4. 游标属性"></a>4. 游标属性</h3><pre><code>      a、%found      如果记录成功获取，返回true，否则返回false
+      b、%notfound   如果记录获取失败，返回true，否则返回false
+      c、%rowcount   返回从游标中获取的记数
+      d、%isopen     如果游标是打开的，返回true，否则返回false
+      e、bulk_rowcount 返回forall语句更改的每个集合元素的记录数
+      f、bulk_exception 返回forall语句更改的每个集合元素的记录的异常信息
+注意：可以在PL/SQL代码中引用游标属性，不能在SQL语句中使用这些属性。
+</code></pre><h3 id="2-使用显式游标"><a href="#2-使用显式游标" class="headerlink" title="2. 使用显式游标"></a>2. 使用显式游标</h3><pre><code>1. 声明显示游标
+      cursor 游标名     is select 语句 for update;
+                 游标名 指向的影响这一行类型%rowtype或type类型
+2. 打开显式游标
+      open 显式游标名；
+3. 从显式游标中提取记录
+      fetch 游标名 into 记录或变量列表；
+4. 关闭显式游标
+      close 游标名
+</code></pre><ol>
+<li>游标for循环<pre><code>for 记录 in 游标名 loop
+   执行语句
+end loop；
+</code></pre><h3 id="使用引用游标"><a href="#使用引用游标" class="headerlink" title="使用引用游标:"></a>使用引用游标:</h3>create or replace procedure proc_info(id in int) is<br>type cur_info is ref cursor; –类型type   游标名   IS   ref cursor引用游标<br>cur_emp cur_info;             –游标标量<br>cur_emp_info emp%rowtype;   –影响的整列的数据<br>begin<br>open cur_emp for                     – 打开游标<br>select <em> from emp where empno=id;<br>loop<br>fetch cur_emp into cur_emp_info;    –从游标中提取数据<br>exit when cur_emp%notfound;        –退出条件没有记录就退出<br>dbms_output.put_line(‘ID：’||cur_emp_info.empno|| ‘姓名：’||cur_emp_info.ename ||’工资：’||v_vv.sal);<br>end loop;<br>close cur_emp;                                   –关闭游标<br>end;<br>call v_v(7499);<br>select </em> from emp;</li>
+</ol>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/09/第6章OreaclePLSQL动态SQL/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第6章OreaclePL/SQL动态SQL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第4章Oracle 在PL/SQL中更改数据和管理事物</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/08/第5章Oracle-PLSQL使用游标获取/" data-title="第5章Oracle PL/SQL使用游标获取" data-url="http://yoursite.com/2012/04/08/第5章Oracle-PLSQL使用游标获取/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>

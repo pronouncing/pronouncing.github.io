@@ -34,7 +34,7 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-ooad第五天" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-十三、PLSQL面向对象之package" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -42,106 +42,70 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/ooad第五天/">ooad第五天</a>
+      <a class="article-title" href="/2012/04/26/Oracle笔记-十三、PLSQL面向对象之package/">Oracle笔记 十三、PL/SQL面向对象之package</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/ooad第五天/" class="article-date">
-  <time datetime="2014-09-19T13:42:39.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/26/Oracle笔记-十三、PLSQL面向对象之package/" class="article-date">
+  <time datetime="2012-04-26T09:27:42.000Z" itemprop="datePublished">2012-04-26</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="行为型设计模式"><a href="#行为型设计模式" class="headerlink" title="行为型设计模式"></a>行为型设计模式</h2><p>行为型模式：行为模式关注的是对象的行为。该类型的模式需要做的是对可能变化的行为进行抽象，通过封装达到整个架构的可扩展性。</p>
-<p>模版模式：模板方法模式是通过把不变行为搬移到超类，去除子类中的重复代码来体现他的优势的，提供一个很好的代码复用平台（变化的抽象、不变得封装）。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/09/19/ooad第五天/#more">More...</a>
-          </p>
-        
-      
+        <p>–将方法和过程用包定义<br>create or replace package pkg_emp<br>as<br>       –输入员工编号查询出员工信息<br>       procedure pro_findInfo(<br>         in_empno emp2.empno%type,<br>         out_name out emp2.ename%type,<br>         out_sal out emp2.sal%type<br>       );<br>       –根据部门编号修改本部门员工工资<br>       procedure pro_editInfo(<br>         in_emp_record emp2%rowtype,<br>         out_flag out boolean<br>       );<br>       –输入新员工信息并保存到数据库<br>       procedure pro_addInfo(<br>         in_emp_new_record emp2%rowtype<br>       );<br>       –统计工资信息<br>       function fun_sum(<br>         num_a number,<br>         num_b number<br>       ) return number;<br>end pkg_emp;</p>
+<p>–实现包<br>create or replace package body pkg_emp<br>as<br>       –输入员工编号查询出员工信息<br>       procedure pro_findInfo(<br>         in_empno emp2.empno%type,<br>         out_name out emp2.ename%type,<br>         out_sal out emp2.sal%type<br>       )<br>       as<br>       begin<br>         select ename, sal into out_name, out_sal from emp2 where empno = in_empno;<br>       end pro_findInfo;</p>
+<pre><code>--根据部门编号修改本部门员工工资
+procedure pro_editInfo(
+  in_emp_record emp2%rowtype,
+  out_flag out boolean
+)
+is         
+begin
+  update emp2 set sal = in_emp_record.sal where deptno = in_emp_record.deptno;
+  out_flag := true;
+  /*exception
+    when no_data_found then
+      out_flag := false;
+  commit;*/
+  if (sql%rowcount &lt; 1) then
+    out_flag := false;
+  else
+    out_flag := true;
+    commit;
+  end if;
+end pro_editInfo;
 
-      
+--输入新员工信息并保存到数据库
+procedure pro_addInfo(
+  in_emp_new_record emp2%rowtype
+)
+as
+  temp_sql varchar2(200);
+begin
+  temp_sql := &apos;insert into emp2(empno, ename, sal, comm, deptno) values(:1, :2, :3, :4, :5)&apos;;
+  execute immediate temp_sql using in_emp_new_record.empno, in_emp_new_record.ename,
+        in_emp_new_record.sal, in_emp_new_record.comm, in_emp_new_record.deptno;
+  commit;
+end;
 
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ooad第四天" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/ooad第四天/">ooad第四天</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/ooad第四天/" class="article-date">
-  <time datetime="2014-09-19T13:36:27.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="结构型设计模式"><a href="#结构型设计模式" class="headerlink" title="结构型设计模式"></a>结构型设计模式</h3><p>结构型设计模式用于处理类或对象之间的组合，即描述类和对象之间怎样组织起来形成大的结构，从而实现新的功能。</p>
-<p>外观模式（Facade）：外观模式的核心是，通过将分散的功能包含在外观类中，从而提供一致的操作接口，封装实现，起到了松耦合的目的（体现迪米特法则）</p>
-<p>装饰器模式（Decorator）：Decorator模式采用对象组合而非继承的手法，实现了在运行时动态的扩展对象功能的能力，而且可以根据需要扩展多个功能，避免了单独使用继承带来的“灵活性差”和“多子类衍生问题”。<br>装饰器模式至少有：抽象构件角色、具体构件角色、抽象装饰角色、具体装饰角色，4个类</p>
-<p>代理模式（Bridge）： 客户程序和目标对象之间增加一层中间层，让代理对象来代替目标对象打点一切。</p>
-<p>适配器模式：简单来说就是将不匹配的变成匹配</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ooad第三天" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/ooad第三天/">ooad第三天</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2014/09/19/ooad第三天/" class="article-date">
-  <time datetime="2014-09-19T13:32:35.000Z" itemprop="datePublished">2014-09-19</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="创建设计模式"><a href="#创建设计模式" class="headerlink" title="创建设计模式"></a>创建设计模式</h3><p>模式：描述了解决该问题的核心方案，这样就可以多次使用这一解决方案，也就是说可以重复使用的设计方案。<br>模式的四个基本要素：<br>模式名称、该模式所能解决的问题、解决方案、使用该模式后的效果（优点和缺点）</p>
-<h3 id="模式的分类："><a href="#模式的分类：" class="headerlink" title="模式的分类："></a>模式的分类：</h3><p>架构模式、设计模式</p>
-<p>使用模式的优点：复用、增强表达能力、维护</p>
-<h3 id="创建型模式分类："><a href="#创建型模式分类：" class="headerlink" title="创建型模式分类："></a>创建型模式分类：</h3><p>工厂模式：是集中创建实例对象<br>单例模式：只能产生一个对象<br>原型模式：克隆</p>
-<h3 id="工厂模式分为："><a href="#工厂模式分为：" class="headerlink" title="工厂模式分为："></a>工厂模式分为：</h3><p>简单工厂、工厂方法、抽象工厂</p>
-<h3 id="单例模式分为："><a href="#单例模式分为：" class="headerlink" title="单例模式分为："></a>单例模式分为：</h3><p>懒汉模式、饿汉模式</p>
-<h3 id="原型模式分为"><a href="#原型模式分为" class="headerlink" title="原型模式分为:"></a>原型模式分为:</h3><p>浅度克隆（实现cloneable接口）、深度克隆（实现serialiable接口）</p>
+--统计工资信息
+function fun_sum(
+  num_a number,
+  num_b number
+) return number
+is
+begin
+  return num_a + num_b;
+end fun_sum;
+</code></pre><p>end pkg_emp;</p>
+<p>–测试1<br>declare<br>       out_name emp2.ename%type;<br>       out_sal emp2.sal%type;<br>begin<br>     pkg_emp.pro_findInfo(7369, out_name, out_sal);<br>     dbms_output.put_line(out_name);<br>     dbms_output.put_line(out_sal);<br>end;  </p>
+<p>–测试2<br>select * from emp2;<br>declare<br>       in_emp_record emp2%rowtype;<br>       flag boolean;<br>begin<br>     in_emp_record.deptno := &amp;部门编号;<br>     in_emp_record.sal := &amp;员工工资;<br>     pkg_emp.pro_editInfo(in_emp_record, flag);<br>     if (flag = false) then<br>       dbms_output.put_line(‘no’);<br>     else<br>       dbms_output.put_line(‘yes’);<br>     end if;<br>end;   </p>
+<p>–测试3<br>declare<br>       new_emp_record emp2%rowtype;<br>begin<br>     new_emp_record.empno := &amp;员工编号;<br>     new_emp_record.ename := &amp;姓名;<br>     new_emp_record.sal := &amp;工资;<br>     new_emp_record.comm := &amp;奖金;<br>     new_emp_record.deptno := &amp;部门编号;<br>     pkg_emp.pro_addInfo(new_emp_record);<br>end;</p>
+<p>–测试4<br>declare<br>     sum_emp number;<br>begin<br>     select pkg_emp.fun_sum(sal, nvl(comm, 0)) into sum_emp from emp2<br>     where empno = &amp;员工编号;<br>     dbms_output.put_line(‘员工总工资:’ || sum_emp);<br>end;<br>版权维护转载hoojo博客的。</p>
 
       
 
@@ -154,7 +118,7 @@
 
 
   
-    <article id="post-ooad第二天" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-十二、PLSQL-面向对象oop编程" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -162,28 +126,52 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/ooad第二天/">ooad第二天</a>
+      <a class="article-title" href="/2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/">Oracle笔记 十二、PL/SQL 面向对象oop编程</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/ooad第二天/" class="article-date">
-  <time datetime="2014-09-19T13:07:13.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/25/Oracle笔记-十二、PLSQL-面向对象oop编程/" class="article-date">
+  <time datetime="2012-04-25T09:26:14.000Z" itemprop="datePublished">2012-04-25</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><p>面向对象设计原则<br>好的设计<br>可读性、可复用性、可扩展性、可维护性<br>上面四个标准太抽象无法考量：高内聚，高耦合<br>什么是内聚度：定义：表示一个应用程序的单个单元所负责的热我弄数量和多样性内聚与单个类或者单个方法和他类相关。<br>什么是耦合度： 耦合度表示类和类之间的紧密程度</p>
-<h3 id="1单元职责"><a href="#1单元职责" class="headerlink" title="1单元职责"></a>1单元职责</h3><p>一个类而言，应该仅有一个引起他变化的原因。永远不让一个类存在多个改变的理由，一个类只应该做和一个任务相关的业务，不应该把过多的业务放在一个类中完成。</p>
-<h3 id="2开辟原则"><a href="#2开辟原则" class="headerlink" title="2开辟原则"></a>2开辟原则</h3><p>值一个软件实体(类、模块、方法)应该对扩展开放，对修改关闭<br>开闭原则是设计原则的核心原则<br>开闭原则的核心带来了灵活性</p>
-<h3 id="3里氏替换原则："><a href="#3里氏替换原则：" class="headerlink" title="3里氏替换原则："></a>3里氏替换原则：</h3><p>父类出现的地方子类一定会出现<br>子类应该能够完全替换任何父类能够出现的地方<br>里氏替换原则： 主要是来检查两个类是否经常有继承关系.<br>动化确性保证：来创建一个新的子类时，符合里氏替换原则的扩展不会给已有的系统引入新的错误。<br>里氏替换原则给我们的启示<br>如果子类不能完整的实现父类的方法，或者父类的某些方法，在子类中已经方式 “畸变” 则建议断开父类继承关系，采用依赖，聚集，组合等关系，代替继承。</p>
-<h3 id="4依赖倒转原则"><a href="#4依赖倒转原则" class="headerlink" title="4依赖倒转原则"></a>4依赖倒转原则</h3><p>高层模块不应该依赖于低层模块，二者都应该依赖于抽象：<br>抽象不应该依赖于细节，细节应该依赖于抽象。<br>也就是面向对象编程，不要面向具体编程。<br>具体耦合关系：发生在两个具体的（可实例化的）类之间，经由一个类对另一个类具体类的直接引用造成。<br>抽象耦合关系：发生在个具体类和一个抽象类（或接口）之间，使两个必须发生关系的类之间存在最大灵活性。</p>
-<h3 id="5聚合组合复用原则："><a href="#5聚合组合复用原则：" class="headerlink" title="5聚合组合复用原则："></a>5聚合组合复用原则：</h3><p>是指要尽量使用聚合/聚合实现代码复用，少用继承来达到复用目的<br>组合/聚合复用<br>继承复用</p>
-<h3 id="6接口隔离原则："><a href="#6接口隔离原则：" class="headerlink" title="6接口隔离原则："></a>6接口隔离原则：</h3><p>是指客户不应该依赖他们用不到的方法，<br>只给每个客户所需要的接口。<br>换句话说，就是不能强迫用户<br>去依赖那些他们不使用的接口，也就是使用专门的接口，比用一个统一的接口好。</p>
-<h3 id="7迪米特法则："><a href="#7迪米特法则：" class="headerlink" title="7迪米特法则："></a>7迪米特法则：</h3><p>又称为最少知识原则，它的定义为：一个软件实体应当尽可能少的与其他实体发生相互作用</p>
+        <p>————————抽象数据类型———–<br>–创建地址类型，一定要加as object，还可以在类型中加过程或方法<br>create or replace type address as object (<br>       province varchar2(10), –省份属性<br>       city varchar2(10) –市属性<br>) not final; –not final表示该类型可以有子类型</p>
+<p>–定义一个子类型<br>–under address说明这个类型继承至address类型<br>create or replace type detailAddress under address (<br>       street varchar2(20) –街道属性  第3个成员<br>)；</p>
+<p>–创建员工信息表，最后一列是detailAddress类型<br>drop table empInfo<br>create table empInfo (<br>       eName varchar2(20) ,  –员工姓名<br>       eSex char(2),  –性别<br>       eAge int, –年龄<br>       eAddress detailAddress   –员工地址<br>);</p>
+<p>–增加数据,只能用构造方法<br>insert into empInfo values(‘aaa’, ‘男’, 28, detailAddress(‘湖北’, ‘襄樊’, ‘八一路’));<br>insert into empInfo values(‘bbb’, ‘男’, 26, detailAddress(‘湖北’, ‘武汉’, ‘永清街’));<br>insert into empInfo values(‘ccc’, ‘女’, 29, detailAddress(‘湖北’, ‘武汉’, ‘光谷’));</p>
+<p>–查询<br>select <em> from empInfo;<br>select </em> from empInfo where eSex = ‘男’;<br>select * from empInfo e where e.eAddress.city = ‘武汉’; –如果查询条件包含属性必须用表的别名<br>–更新有2种方式：<br>–第一种方式：整体更新<br>update empInfo e set e.eAddress = detailAddress(‘湖北’, ‘武汉’, ‘武昌’) where e.eName = ‘ccc’;<br>–第二种方式：只更新抽象类型的某一列<br>update empInfo e set e.eAddress.city = ‘武汉’ where e.eName = ‘ccc’;</p>
+<p>–删除<br>delete from empInfo e where  e.eAddress.city = ‘武汉’;</p>
+<p>–为抽象数据类型的属性建立索引<br>create index idxemp on empInfo(eAddress.city);<br>–删除<br>drop table empInfo;<br>drop type address force; –强制删除抽象类型</p>
+<p>——————————-抽象数据类型结束———————-</p>
+<p>——————对象表，表中的每一行就是一个对象———————–<br>–创建抽象数据类型person,并作为基类型<br>create or replace type person as object (<br>       pName varchar2(20),  –姓名<br>       pSex char(2),   –性别<br>       pAge int      –年龄<br>) not final;</p>
+<p>–创建子类型student，继承person<br>–后面不要加as object<br>create or replace type student under person (<br>       stuId int<br>);</p>
+<p>–创建对象表stuInfo<br>create table stuInfo of student;<br>–为对象表创建主键约束<br>alter table stuInfo add constraint pk_stuInfo primary key(stuId);<br>–插入数据，当普通表插入<br>insert into stuInfo values(‘aaa’, ‘男’, 29, 1001);<br>–插入数据，用构造方法<br>insert into stuInfo values(student(‘bbb’, ‘男’, 26, 1002));<br>insert into stuInfo values(student(‘ccc’, ‘女’, 29, 1003));<br>–查询，当普通表用<br>select * from stuInfo where stuId = 1002;</p>
+<p>–更新和删除都用普通的sql语句即可<br>update stuInfo set pAge = 29 where pName = ‘ccc’;<br>delete from stuInfo where stuId = 1001;<br>rollback;</p>
+<p>–ref(表别名)函数用来返回对象的OID，也就是对象标识符，对象表也有rowid<br>select ref(s) from stuInfo s;<br>select rowid, ref(s) OIDS  from stuInfo s;</p>
+<p>–创建学生分数表，注意外键<br>create table stuScore (<br>       stu ref student, –stu这一列的值必须出现在stuInfo表中，且stu这一列存的对象的OID而不是对象本身<br>       score int  –分数<br>);<br>–向分数表插入数据，只能用select，不能用普通的values<br>–错误的做法：insert into stuscore values(select ref(s) from stuInfo where stuId = 1001, 90)<br>–正确的做法：<br>insert into stuscore select ref(s), 90 from stuInfo s where stuId = 1001;<br>insert into stuscore select ref(s), 80 from stuInfo s; –插入3行数据<br>insert into stuscore select ref(s), 70 from stuInfo s where stuId = 1003;</p>
+<p>–查询<br>select * from stuScore;<br>–deref(列名)函数可以把OID还原为对象，主键列显示有问题<br>select deref(s.stu), score from stuScore s where s.stu.stuId = 1001;</p>
+<p>–修改，以下2个都可以<br>update stuScore set score=100 where stu = (select ref(s) from stuInfo s where stuId = 1001);<br>update stuScore s set score = 99 where s.stu.stuId = 1001;<br>–删除，以下3个都可以<br>delete from stuScore where stu = (select ref(s) from stuInfo s where stuId = 1001);<br>delete from stuScore s where s.stu.stuId = 1001;<br>delete from stuScore where stuId = 1001;<br>———————————-对象表结束———————-</p>
+<p>———————————-对象视图———————–<br>–对象视图的作用：把已经存在的关系表转换为对象表来使用，原表没有变<br>–首先要创建一个和原表一样的类型<br>–然后创建视图<br>create table aaa<br>(a int);<br>create type aaaa as object<br>(a int);<br>create or replace view view_stu of aaaa with object oid(a)<br>as<br>select * from aaa;</p>
+<p>select * from view_stu;<br>–增删改查都和对象表一样<br>——————————-对象视图结束———————–</p>
+<p>——————————–抽象类型，包含过程和方法————-<br>create or replace type ADDRESS as object (<br>       province varchar2(10), –省份<br>       city varchar2(10), –市,后面的,不能少<br>       member function get_pro return varchar2,  –函数，后面接,而不是;<br>       member function get_city return varchar2,<br>       member procedure set_pro(pro varchar2),   –过程<br>       member procedure set_city(cy varchar2)<br>);</p>
+<p>create or replace type body ADDRESS–后面不能加 as object<br>as –后面不能加begin</p>
+<p>   member function get_pro return varchar2<br>   is<br>   begin<br>       return province;<br>   end get_pro;</p>
+<p>   member function get_city return varchar2<br>   is<br>   begin<br>       return city;<br>   end;</p>
+<p>   member procedure set_pro(pro varchar2)<br>   is<br>   begin<br>        province := pro;<br>   end;<br>   member procedure set_city(cy varchar2)<br>   is<br>   begin<br>        city := cy;<br>   end;<br>end;</p>
+<p>–测试上面的成员函数和过程<br>declare<br>       addr address;<br>begin<br>     addr := address(‘湖北’, ‘武汉’);<br>     dbms_output.put_line(addr.get_city);<br>end;</p>
+<p>–drop table stuInfo;<br>create table stuInfo (<br>       stuId int primary key,<br>       addr address<br>);</p>
+<p>declare<br>       addr address;<br>begin<br>     addr := address(‘湖北’, ‘武汉’);<br>     insert into stuInfo values(1, addr);<br>     addr.set_city(‘郑州’);<br>     addr.set_pro(‘河南’);<br>     insert into stuInfo values(2, addr);<br>end;</p>
+<p>select * from stuInfo;<br>–删除类型<br>drop type address force;<br>————————–抽象类型，包含过程和方法 结束————-<br>—————————-可变数组——————————<br>–就是一个可以存储多个值的有最大长度的数组，数组的成员可以是任意类型<br>–建立一个可变数组类型,长度是10，存放的数据类型是number(4)<br>create or replace type arrType as varray(10) of number(4);</p>
+<p>create or replace type scoreType as object (<br>       subName varchar2(10),<br>       score int<br>);<br>–创建一个长度为10的可变数组，存放数据类型是scorType<br>create or replace type arrScoreType as varray(10) of scoreType;<br>–创建学生信息表<br>–drop table stuInfo;<br>create table stuInfo (<br>       stuId int primary key,<br>       score arrScoreType  –可变数组，最多10个成员<br>);<br>–插入数据,用可变数组的构造函数<br>insert into stuInfo values(1, arrScoreType(<br>       scoreType(‘sql’, 50), scoreType(‘C#’, 80), scoreType(‘java’, 90)));<br>insert into stuInfo values(2, arrScoreType(<br>       scoreType(‘sql’, 60), scoreType(‘C#’, 85), scoreType(‘java’, 95), scoreType(‘html’, 60)));<br>insert into stuInfo values(3, arrScoreType(<br>       scoreType(‘sql’, 70), scoreType(‘java’, 93)));<br>–查询<br>select <em> from stuInfo;  –查询结果是集合<br>–如何才能查询出可变数组里的数据呢？思路是：用table函数把集合转化为表，然后再从这个表查询数据<br>select </em> from table(select s.score from stuInfo s where s.stuId = 2);<br>–table函数里面只能是一个可变数组</p>
+<p>select s.stuId, t.* from stuInfo s,<br>       table(select score from stuInfo  where stuId = s.stuId) t<br>       where s.stuId = 2;<br>–更新，整个可变数组一起更新，不能只更新数组的某个元素<br>update stuInfo set score = arrScoreType(<br>       scoreType(‘sql’, 50), scoreType(‘C#’, 80)) where stuId = 1;<br>–删除，按主键删除<br>—————————–可变数组结束———————————<br>drop type scoreType force;<br>drop type arrScoreType force;<br>drop table stuInfo;</p>
+<p>—————————–嵌套表—————————<br>–创建抽象类型<br>create or replace type scoreType as object (<br>       subName varchar2(10),<br>       score int<br>);<br>–创建嵌套表类型<br>create or replace type nestTable is table of scoreType;<br>–创建包含嵌套表的学生信息表<br>create table stuInfo (<br>       stuId int,<br>       score nestTable  –其实存的是引用，实际数据存在abc表中<br>) nested table score store as abc;<br>–nested table score store as abc意思是：stuInfo这个表中的score这一列是嵌套表类型，嵌套表实际是存在abc这个表中</p>
+<p>–增删和可变数组一样<br>insert into stuInfo values(3, nestTable(<br>       scoreType(‘sql’, 70), scoreType(‘java’, 93)));<br>–查询，思路：把嵌套表先查出来，然后把嵌套表和stuInfo进行联合查询<br>select <em> from table(select ss.score from stuInfo ss where stuId = 3);<br>select s.stuId, t.</em> from stuInfo s, table(select ss.score from stuInfo ss where stuId = s.stuId) t<br> where s.stuId = 3;<br>–更新<br>update table(select ss.score from stuInfo ss where stuId=3) t<br>set t.score = 80 where t.subName = ‘sql’;<br>–删除<br>delete from table(select ss.score from stuInfo ss where stuId = 3) t<br>where t.subname=’sql’;</p>
+<p>—-可变数组和嵌套表的异同—————-<br>相同点：<br>1、都是抽象类型<br>2、都可以作为表中某列的数据类型（record和快表是不能作为列的数据类型的）<br>不同点：<br>1、可变数组本身就存放在原表中，而嵌套表存放在另外的表中<br>2、可变数组有大小限制，而嵌套表没有<br>3、可变数组更新时必须更新整个可变数组，而嵌套表更新时可以只更新嵌套表中的部分记录<br>版权维护转载hoojo博客的。</p>
 
       
 
@@ -196,7 +184,7 @@
 
 
   
-    <article id="post-ooad第一章" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Oracle笔记-十一、PLSQL函数和触发器" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
     
@@ -204,25 +192,120 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/19/ooad第一章/">ooad第一天</a>
+      <a class="article-title" href="/2012/04/24/Oracle笔记-十一、PLSQL函数和触发器/">Oracle笔记 十一、PL/SQL函数和触发器</a>
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2014/09/19/ooad第一章/" class="article-date">
-  <time datetime="2014-09-19T13:03:27.000Z" itemprop="datePublished">2014-09-19</time>
+      <a href="/2012/04/24/Oracle笔记-十一、PLSQL函数和触发器/" class="article-date">
+  <time datetime="2012-04-24T09:25:11.000Z" itemprop="datePublished">2012-04-24</time>
 </a>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="面向对象技术概述"><a href="#面向对象技术概述" class="headerlink" title="面向对象技术概述"></a>面向对象技术概述</h3><p>软件工程三大要素:方法、过程、工具</p>
-<p>软件生命周期6个阶段：可行性分析阶段、需求分析阶段、系统设计阶段（设计阶段又分为概要设计和详细设计）、 系统实现阶段、 测试阶段、维护阶段。</p>
-<p>UML（统一建模语言）：是专门用来进行软件系统设计和架构建模的一门可视化建模语言，它通过各种图示展示了软件系统的方方面面。</p>
-<p>使用类图表示关系：接口与类（实现关系）、对象与对象之间（泛化关系、关联关系）。<br>关联关系有分为：聚合关系、组合关系、依赖关系</p>
-<p>泛化关系: 指对象与对象之间的继承关系<br>关联关系: 指对象和对象之间的连接<br>依赖关系:使用(方法或构造器的参数、方法的返回值)<br>聚合关系: 整体与部分的拥有关系(整体与部分之间是可分离的)<br>组合关系: 同样体现整体与部分间的包含关系(整体与部分是不可分的)</p>
+        <p>–创建函数<br>create or replace function add_sal(sSal number)<br>       return number<br>is<br>begin<br>  if (sSal &gt; 5000) then<br>    return sSal + 51;<br>  elsif (sSal &gt; 3000) then<br>    return sSal + 111;<br>  else<br>    return sSal + 222;<br>  end if;<br>end;</p>
+<p>select sal, add_sal(sal) from emp;</p>
+<p>–触发器<br>create table deptLog(<br>       uName varchar2(20),<br>       action varchar2(20),<br>       dTime date<br>);</p>
+<p>–创建触发器<br>–for each row 可以触发多条，当你的语言影响多少条记录就会触发多少次<br>create or replace trigger trig_dept2<br>  after insert or delete or update on dept2/<em> for each row</em>/<br>begin<br>  if inserting then<br>    insert into deptLog values(user, ‘insert’, sysdate);<br>  elsif updating then<br>    insert into deptLog values(user, ‘update’, sysdate);<br>  elsif deleting then<br>    insert into deptLog values(user, ‘delete’, sysdate);<br>  end if;<br>end;</p>
+<p>select <em> from dept2;<br>select </em> from deptLog;<br>insert into dept2 values(55, ‘SOFTWARE’, ‘cic’);<br>update dept2 set loc = ‘go’ where deptno in(30);<br>delete dept2 where deptno = 55;</p>
+<p>–触发器<br>create or replace trigger trig_emp<br>  after update on dept for each row<br>begin<br>  update emp set emp.deptno =: new.deptno where emp.deptno = :old.deptno;<br>end;</p>
+<p>update dept set deptno = 11     where deptno = 10;<br>select * from emp;</p>
+<p>—语句级触发器<br>create or replace trigger trg_ins_dept2<br>before insert<br>on dept2<br>begin<br>     if user not in(‘SCOTT’) then<br>       raise_application_error(-20001, ‘只有SCOTT才能修改该表!’);<br>     end if;<br>end;</p>
+<p>禁用、启用触发器<br>alter trigger tgr_Name disable | enable;<br>alter table tableName disable all trigger | enable all trigger;<br>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Oracle笔记-九、PLSQL-游标的使用" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/04/23/Oracle笔记-九、PLSQL-游标的使用/">Oracle笔记 九、PL/SQL 游标的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/23/Oracle笔记-九、PLSQL-游标的使用/" class="article-date">
+  <time datetime="2012-04-23T09:22:26.000Z" itemprop="datePublished">2012-04-23</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>–演示隐式游标,系统自动声明，自动打开，自动使用并且自动关闭<br>begin<br>     update emp set sal = 1000;<br>     dbms_output.put_line(‘影响的行数：’ || sql%rowcount);<br>end;</p>
+<p>rollback;</p>
+<p>/<em>游标的使用方法：<br>第一步：声明游标<br>第二步：打开游标<br>第三步：使用游标进行循环操作<br>第四步：关闭游标</em>/</p>
+<p>–普通游标，游标本身就是一个变量<br>declare<br>     –下面的这行代码声明了一个游标<br>     cursor mycur is select * from emp where deptno = 20;<br>     emprow emp%rowtype;<br>begin<br>     open mycur; –打开游标<br>     loop<br>         fetch mycur into emprow; –把游标所指的纪录放到变量中<br>         exit  when (mycur%notfound); –当游标没有指向行时退出循环<br>         dbms_output.put_line(‘名字：’ || emprow.ename || ‘薪水：’ || emprow.sal);<br>     end loop;<br>     close mycur;  –关闭游标<br>end;</p>
+<p>–简单游标，列操作<br>declare<br>       empname emp.ename%type;<br>       empsal emp.sal%type;<br>       cursor mycur is select ename,sal from emp where deptno = 30;<br>begin<br>     open mycur;<br>     loop<br>         fetch mycur into empname,empsal;<br>         exit when mycur%notfound;<br>         dbms_output.put_line(‘姓名:’ || empname || ‘工资’ || empsal);<br>     end loop;<br>end;</p>
+<p>–简单游标，列操作<br>declare<br>  cursor c<br>  is<br>  select * from dept;<br>  vDept_row_record c%rowtype;<br>begin<br>  open c;<br>  fetch c into vDept_row_record;<br>  dbms_output.put_line(vDept_row_record.dname);<br>  close c;<br>end;</p>
+<p>–when循环游标<br>declare<br>  cursor c<br>  is<br>  select * from dept;<br>  vDept_row_record c%rowtype;<br>begin<br>  open c;<br>  loop<br>       fetch c into vDept_row_record;<br>       exit when(c%notfound);<br>       dbms_output.put_line(vDept_row_record.dname);<br>  end loop;<br>  close c;<br>end;</p>
+<p>–while循环游标<br>declare<br>  cursor c<br>  is<br>  select * from dept;<br>  vDept_row_record c%rowtype;<br>begin<br>  open c;<br>  fetch c into vDept_row_record;<br>  while (c%found) loop<br>    dbms_output.put_line(vDept_row_record.dname);<br>    fetch c into vDept_row_record;<br>  end loop;<br>  close c;<br>end;</p>
+<p>–for循环游标<br>declare<br>  cursor c<br>  is<br>  select * from dept;<br>  vDept_row_record c%rowtype;<br>begin<br>  for vDept_row_record in c loop<br>    dbms_output.put_line(vDept_row_record.dname);<br>  end loop;<br>end;</p>
+<p>–带参游标<br>declare<br>  cursor c(sSal emp.sal%type, sEmpno emp.empno%type)<br>  is<br>  select * from emp where sal &gt;= sSal and empno &gt; sEmpno;<br>begin<br>  for record_data in c(2500, 6666) loop<br>      dbms_output.put_line(record_data.ename);<br>  end loop;<br>end;</p>
+<p>–update游标<br>declare<br>  cursor c(sSal emp2.sal%type)<br>  is<br>  select * from emp2 where sal &gt;= sSal for update;<br>begin<br>  for record_data in c(2500) loop<br>    if (record_data.sal &lt; 3000) then<br>      update emp2 set sal = sal + 3 where current of c;<br>      dbms_output.put_line(record_data.ename);<br>    elsif (record_data.sal = 5000) then<br>      update emp2 set sal = sal - 3 where current of c;<br>      dbms_output.put_line(record_data.ename);<br>    end if;<br>  end loop;<br>end;</p>
+<p>–引用游标不能使用循环游标的语法<br>–引用游标不能进行删除和修改<br>–引用游标是一个数据类型，使用该类型必须声明变量</p>
+<p>–弱类型引用游标，就是不指定游标将要提取的数据行的类型<br>declare<br>       type my_cur_type is ref cursor;<br>       mycur my_cur_type;–声明变量<br>       which varchar2(10);<br>       deptrow dept%rowtype;<br>       emprow emp%rowtype;<br>begin<br>     which := ‘&amp;请选择dept还是emp’;<br>     if (which = ‘dept’) then<br>        open mycur for select <em> from dept;<br>        loop<br>            fetch mycur into deptrow;<br>            exit when (mycur%notfound);<br>            dbms_output.put_line(deptrow.deptno || ‘  ‘ || deptrow.dname);<br>        end loop;<br>     elsif (which = ‘emp’) then<br>        open mycur for select </em> from emp;<br>        loop<br>            fetch mycur into emprow;<br>            exit when (mycur%notfound);<br>            dbms_output.put_line(emprow.empno || ‘  ‘ || emprow.ename);<br>        end loop;<br>     end if;<br>     close mycur;<br>end;</p>
+<p>–强类型引用游标，就是指定游标将要提取的数据行的类型 ，只能是record或%rowtype类型<br>–比如：return number是错的，return emp.ename%type也是错的<br>declare<br>       type mycurtype is ref cursor return emp%rowtype;<br>       mycur mycurtype;–声明变量<br>       emprow emp%rowtype;<br>begin<br>        open mycur for select * from emp;<br>        loop<br>            fetch mycur into emprow;<br>            exit when mycur%notfound;<br>            dbms_output.put_line(emprow.empno || ‘  ‘ || emprow.ename);<br>        end loop;<br>        close mycur;<br>end;<br>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Oracle笔记-十、PLSQL存储过程" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/04/22/Oracle笔记-十、PLSQL存储过程/">Oracle笔记 十、PL/SQL存储过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/22/Oracle笔记-十、PLSQL存储过程/" class="article-date">
+  <time datetime="2012-04-22T09:23:56.000Z" itemprop="datePublished">2012-04-22</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>–create or replace 创建或替换，如果存在就替换，不存在就创建<br>create or replace procedure p<br>is<br>  cursor c<br>  is<br>  select * from dept2 for update;<br>begin<br>  for row_record in c loop<br>    if (row_record.deptno = 30) then<br>      update dept2 set dname = substr(dname, 0, length(dname) - 3) where current of c;<br>    end if;<br>  end loop;<br>end;</p>
+<p>exec p;</p>
+<p>begin<br>p;<br>end;</p>
+<p>–带参存储过程<br>–in 输入参数，不带in out 默认输入参数<br>–out 输出参数<br>–in out 同时带的是输入输入参数<br>create or replace procedure p2(<br>       a in number,<br>       b number,<br>       s_result out number,<br>       s_temp in out number<br>  )<br>is<br>begin<br>  if (a &gt; b) then<br>    s_result := a;<br>  else<br>    s_result := b;<br>  end if;<br>  s_temp := s_temp + 3;<br>end;</p>
+<p>–调用存储过程<br>declare<br>  v_a number := 4;<br>  v_b number := 6;<br>  v_result number;<br>  v_temp number := 5;<br>begin<br>  p2(v_a, v_b, v_result, v_temp);<br>  dbms_output.put_line(v_a);<br>  dbms_output.put_line(v_b);<br>  dbms_output.put_line(v_result);<br>  dbms_output.put_line(v_temp);<br>end;</p>
+<p>—删除一个表的过程<br>create or replace procedure drop_table(tname varchar2)<br>as<br>  total int := 0;<br>begin<br>     select count(<em>) into total from user_tables<br>            where table_name = upper(tname);<br>     if total &gt;= 1 then<br>        execute immediate ‘drop table ‘||tname; –此处必须用动态sql<br>     end if;<br>end;<br>select </em> from user_tables;</p>
+<p>–递归存储过程<br>create or replace procedure pro_emp(sEmpno emp.empno%type, sLevel integer)<br>is<br>       cursor c is select * from emp where mgr = sEmpno;<br>       prefixStr varchar(255);<br>begin<br>  for i in 1..sLevel loop<br>    prefixStr := prefixStr || ‘—-‘;<br>  end loop;</p>
+<p>  for row_data in c loop<br>    dbms_output.put_line(prefixStr || row_data.ename);<br>    pro_emp(row_data.empno, sLevel + 1);<br>  end loop;<br>end;</p>
+<p>select * from emp;<br>begin<br>  pro_emp(7839, 0);<br>end;<br>版权维护转载hoojo博客的。</p>
 
       
 
@@ -246,7 +329,7 @@
   	<ul>
   		<li><a href="/"><i class="icon icon-home"></i></a></li>
   		
-			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+			<li><a href="/archives"><i class="icon"></i></a></li>
   		
   		
 			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
@@ -256,7 +339,7 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
 </aside>
       </div>
       <footer id="footer">

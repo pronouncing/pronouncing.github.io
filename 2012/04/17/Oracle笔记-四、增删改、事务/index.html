@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Oracle笔记 四、增删改、事务 | lihao</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Oracle笔记 四、增删改、事务
+1、插入    insert into dept values(50, ‘soft’, ‘Guangzhou’);    insert into dept(deptno, dname) values(60, ‘software test’);    insert into dept select * from dept where deptno = 20;
+2、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle笔记 四、增删改、事务">
+<meta property="og:url" content="http://yoursite.com/2012/04/17/Oracle笔记-四、增删改、事务/index.html">
+<meta property="og:site_name" content="lihao">
+<meta property="og:description" content="Oracle笔记 四、增删改、事务
+1、插入    insert into dept values(50, ‘soft’, ‘Guangzhou’);    insert into dept(deptno, dname) values(60, ‘software test’);    insert into dept select * from dept where deptno = 20;
+2、">
+<meta property="og:updated_time" content="2016-03-20T05:46:56.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle笔记 四、增删改、事务">
+<meta name="twitter:description" content="Oracle笔记 四、增删改、事务
+1、插入    insert into dept values(50, ‘soft’, ‘Guangzhou’);    insert into dept(deptno, dname) values(60, ‘software test’);    insert into dept select * from dept where deptno = 20;
+2、">
+  
+    <link rel="alternative" href="/atom.xml" title="lihao" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <section id="main"><article id="post-Oracle笔记-四、增删改、事务" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle笔记 四、增删改、事务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/17/Oracle笔记-四、增删改、事务/" class="article-date">
+  <time datetime="2012-04-17T03:11:22.000Z" itemprop="datePublished">2012-04-17</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Oracle笔记 四、增删改、事务</p>
+<p>1、插入<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    insert into dept(deptno, dname) values(60, ‘software test’);<br>    insert into dept select * from dept where deptno = 20;</p>
+<p>2、删除<br>    delete from dept where deptno = 20;<br>    delete from dept;</p>
+<p>3、修改<br>    update dept set dname = dname || ‘ ^.^’ where deptno = 20;</p>
+<p>4、事务<br>    每个修改语句完成后都可以回滚或提交，即rollback、commit；<br>    eg:<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    rollback;<br>    这样就回滚了，等于上面的没有插入；如果commit就提交了，此后如果再rollback也无力回天了。<br>    下面这样也是无法回滚的：<br>    insert into dept values(50, ‘soft’, ‘Guangzhou’);<br>    create table temp as select * from dept;<br>    rollback;<br>    再次查询，发现无法回滚；同样增删改后面运行grant/create语句也是无法回滚的；</p>
+<p>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/04/18/Oracle笔记-五、创建表、约束、视图、索引、序列、同义词、表空间/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Oracle笔记 五、创建表、约束、视图、索引、序列、同义词、表空间
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/16/Oracle笔记-三、function-、select/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Oracle笔记 三、function 、select</div>
+    </a>
+  
+</nav>
+
+
+<!--��˵��������-->
+
+<!-- ��˵���ۿ� start -->
+<div class="ds-thread" data-thread-key="2012/04/17/Oracle笔记-四、增删改、事务/" data-title="Oracle笔记 四、增删改、事务" data-url="http://yoursite.com/2012/04/17/Oracle笔记-四、增删改、事务/"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"lihaoinfo"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- ��˵����JS���� end -->
+
+<!-- �ٶ�ͳ�ƹ���JS���� end -->
+
+<script type="text/javascript">
+  var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+  document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F22d5a86d655ad9712a372c404d20029a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script id="allmobilize" charset="utf-8" src="http://a.yunshipei.com/6feec3760df159bea36a5655af5f7c89/allmobilize.min.js"></script><meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#"
+        />
+
+
+
+
+  
+</article>
+
+</section>
+        <aside id="sidebar">
+  <nav class="menus">
+  	<ul>
+  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		
+			<li><a href="/archives"><i class="icon"></i></a></li>
+  		
+  		
+			<li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+  		
+  		
+  			<li><a href="https://github.com/" target="_blank"><i class="icon icon-github"></i></a></li>
+  		
+  	</ul>
+  </nav>
+  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+</aside>
+      </div>
+      <footer id="footer">
+  
+	<div id="footer-info" class="inner">
+	  &copy; 2016 lihao
+	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	</div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/" class="mobile-nav-link">Github</a>
+  
+</nav>
+    
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>
