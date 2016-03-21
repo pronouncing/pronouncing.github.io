@@ -34,48 +34,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-第10章接口" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/05/12/第10章接口/">第10章接口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/05/12/第10章接口/" class="article-date">
-  <time datetime="2012-05-12T11:02:30.000Z" itemprop="datePublished">2012-05-12</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
-<p>　　在Java语言规范中，一个方法的特征仅包括方法的名字，参数的数目和种类，而不包括方法的返回类<br>型，参数的名字以及所抛出来的异常。在Java编译器检查方法的重载时，会根据这些条件判断两个方法是<br>否是重载方法。但在Java编译器检查方法的置换时，则会进一步检查两个方法(分处超类型和子类型)的返<br>还类型和抛出的异常是否相同。</p>
-<p>　　接口继承和实现继承的规则不同，一个类只有一个直接父类，但可以实现多个接口。<br>　　Java接口本身没有任何实现，因为Java接口不涉及表象，而只描述public行为，所以Java接口比Java<br>抽象类更抽象化。<br>　　Java接口的方法只能是抽象的和公开的，Java接口不能有构造器，Java接口可以有public，静态的和<br>final属性。<br>　　接口把方法的特征和方法的实现分割开来。这种分割体现在接口常常代表一个角色，它包装与该角色<br>相关的操作和属性，而实现这个接口的类便是扮演这个角色的演员。一个角色由不同的演员来演，而不同<br>的演员之间除了扮演一个共同的角色之外，并不要求其它的共同之处。<br>为什么使用接口？<br>　　两个类中的两个类似的功能，调用他们的类动态的决定一种实现，那他们提供一个抽象父类，子类分<br>别实现父类所定义的方法。<br>　　问题的出现：Java是一种单继承的语言，一般情况下，哪个具体类可能已经有了一个超类，解决是给<br>它的父类加父类，或者给它父类的父类加父类，只到移动到类等级结构的最顶端。这样一来，对一个具体<br>类的可插入性的设计，就变成了对整个等级结构中所有类的修改。<br>　　接口是可插入性的保证。<br>　　在一个等级结构中的任何一个类都可以实现一个接口，这个接口会影响到此类的所有子类，但不会影<br>响到此类的任何超类。此类将不得不实现这个接口所规定的方法，而其子类可以从此类自动继承这些方法<br>，当然也可以选择置换掉所有的这些方法，或者其中的某一些方法，这时候，这些子类具有了可插入性(<br>并且可以用这个接口类型装载，传递实现了他的所有子类)。<br>　　我们关心的不是那一个具体的类，而是这个类是否实现了我们需要的接口。<br>　　接口提供了关联以及方法调用上的可插入性，软件系统的规模越大，生命周期越长，接口使得软件系<br>统的灵活性和可扩展性，可插入性方面得到保证。<br>　　类型<br>　　使用Java接口将软件单位与内部和外部耦合起来。使用Java接口不是具体的类进行变量的类型声明，<br>方法的返还类型声明，参量的类型声明，以及数据类型的转换。<br>　　在理想的情况下，一个具体的Java类应当只实现Java接口和抽象Java类中声明的方法，而不应当给多<br>余方法。</p>
-<h2 id="类型等级结构"><a href="#类型等级结构" class="headerlink" title="　　类型等级结构"></a>　　类型等级结构</h2><p>　　Java接口(以及抽象类)一般用来作为一个类型的等级结构的起点。<br>　　如果一个类已经有了一个主要的超类型，那么通过实现一个接口，这个类可以拥有另一个次要的超类型，<br>这种次要的超类型叫做混合类型。<br>Java接口常用方法</p>
-<h2 id="单方法接口"><a href="#单方法接口" class="headerlink" title="　　单方法接口"></a>　　单方法接口</h2><p>　　以下是引用片段：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　public interface Actionlistener&#123; </span><br><span class="line">　　public abstract void actionPerformed(ActionEvent event); </span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　　仅且只有一个方法，只有实现了这个接口(重写这个接口中的唯一一个方法)，你才有资格去事件监听<br>器列表里注册(参数为Actionlistener类型)，当事件源变动时，自动调用这个唯一的actionPerformed方<br>法.<br>　　## 标识接口 ##<br>　　是没有任何方法和属性的接口。标识接口不对实现它的类有任何语意上的要求，它仅仅表明了实现它<br>的类属于一个特定的类型(传递)。<br>　　不推荐过多的使用标识接口。<br>　　## 常量接口 ##<br>　　用Java接口来声明一些常量，然后由实现这个接口的类使用这些常量。</p>
-<p>接口提供了规范和标准，接口不能被实例化，接口不包含任何构造器，接口中的所有方法都是抽象的，<br>接口可以定义静态常量，是异构集合.<br>一个接口能继承多个接口 public class b extends A<br>一个类可以实现多个接口<br>声明一个接口关键字是public interface A<br>实现一个接口的方法用public class H implements A,B,C</p>
-<h2 id="为什么使用接口"><a href="#为什么使用接口" class="headerlink" title="为什么使用接口:"></a>为什么使用接口:</h2><p><strong>抽象中有2个缺陷.<br>1抽象是单项继承————接口是多项实现<br>2抽象而破坏了安全性————而接口保证了安全性<br>抽象——[标准]——接口<br>抽象方法——[安全]——抽象方法<br>抽象是指向子类对象——不能被实例——而接口指向实现对象<br>总结：<br> Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，</strong></p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-第9章多态和抽象" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -242,6 +200,43 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
 
 
   
+    <article id="post-第4章类对象和包" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/07/第4章类对象和包/">第4章类对象和包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/07/第4章类对象和包/" class="article-date">
+  <time datetime="2012-05-07T15:38:42.000Z" itemprop="datePublished">2012-05-07</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；<br>对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。<br>    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋<br>初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量名=new 引用类型（）；对象创建好后，如何访问成员变量与方法，我们可以使用点运算符。<br>    在Java中我们可以引入包机制，因为它会组织类，且为包中类提供了以命名的空间。如果我们不显示的讲<br>一个类声明在包之中，那么这个类就属于默认包。包必须放在注释之外的第一条语句。如果我们要使用或访问不同包的成员或方法，我们就需要导入与之对应的包。语句是import 包名.*;或者import 包名.类名；</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是来约束对象的属性和行为<br>类是对象的描述，对象是类得实例<br>对象由属性和行为组成，属性是对象所具有的特征，而行为是对象可以做的动作。<br>对象的每个属性被表示为类中的成员变量，对象的每个行为成为类中的一个方法。<br>访问修饰符：<br>访问修饰符 可以是public公有 private私有 protected受保护<br>实例化对象：<br>内存分配：堆划分为4块<br>堆是存放类，栈存放对象的全局变量和局部变量。<br>       栈         堆<br>┌────────────────<br>│局部变量     │数据区：存放String静态变量和字符串常量。<br>│全局变量     │代码区：存放方法。<br>│            │new对象<br>│            │<br>│            │<br>└────────────────<br>访问对象的属性和方法：<br>(.)点运算符用于与对象的一个引用一起访问对象的成员变量和方法。<br>this<br>每个对象有一个对自身的引用，这个引用称为this 引用。</p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包  关键字 package<br>包是java中组织和管理类的一种机制，同时可以防止类命名冲突</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
@@ -251,7 +246,7 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
         <aside id="sidebar">
   <nav class="menus">
   	<ul>
-  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		<li><a href="/"><i class="icon icon-cansee"></i></a></li>
   		
 			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
   		
@@ -263,14 +258,14 @@ JAVA虚拟机调用一个类方法时，它会基于对象引用的类型(通常
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
       <footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
-	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
 </footer>
     </div>

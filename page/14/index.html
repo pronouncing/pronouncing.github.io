@@ -34,65 +34,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-MySQL学习笔记三" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/03/05/MySQL学习笔记三/">MySQL学习笔记三</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/03/05/MySQL学习笔记三/" class="article-date">
-  <time datetime="2012-03-05T15:54:59.000Z" itemprop="datePublished">2012-03-05</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>? 注释</p>
-<p>select 1+1;     # 单行注释<br>select 1+1;     – 单行注释<br>select 1 /<em> 多行注释 </em>/ + 1;<br>? 基本数据类型操作</p>
-<p>字符串<br>    select ‘hello’, ‘“hello”‘, ‘“”hello””‘, ‘hel’’lo’, ‘/‘hello’;<br>    select “hello”, “‘hello’”, “‘’hello’’”, “hel””lo”, “/“hello”;</p>
-<p>/n换行<br>    select ‘This/nIs/nFour/nLines’;</p>
-<p>/转义<br>    select ‘hello / world!’;<br>    select ‘hello /world!’;<br>    select ‘hello // world!’;<br>    select ‘hello /‘ world!’;<br>? 设置数据库mode模式</p>
-<p>SET sql_mode=’ANSI_QUOTES’;<br>create table t(a int);<br>create table “tt”(a int);<br>create table “t””t”(a int);<br>craate talbe tab(“a””b” int);<br>? 用户变量</p>
-<p>set @num1 = 0, @num2 = 2, @result = 0;</p>
-<p>select @result := (@num1 := 5) + @num2 := 3, @num1, @num2, @result;</p>
-<p>? 存储过程</p>
-<p>创建存储过程：<br>delimiter //<br>create procedure get(out result int)<br>begin<br> select max(age) into result from temp;<br>end//<br>调用存储过程：<br>call get(@temp);<br>查询结果：<br>select @temp;</p>
-<p>删除存储过程：<br>drop procedure get;</p>
-<p>查看存储过程创建语句：<br>show create procedure get;</p>
-<p>select…into 可以完成单行记录的赋值：<br>create procedure getRecord(sid int)<br>begin<br>    declare v_name varchar(20) default ‘jason’;<br>    declare v_age int;<br>    declare v_sex bit;<br>    select name, age, sex into v_name, v_age, v_sex from temp where id = sid;<br>    select v_name, v_age, v_sex;<br>end;<br>call getRecord(1);<br>? 函数</p>
-<p>函数类似于存储过程，只是调用方式不同<br>例如：select max(age) from temp;</p>
-<p>创建函数：<br>create function addAge(age int) returns int<br>     return age + 5;</p>
-<p>使用函数：<br>select addAge(age) from temp;</p>
-<p>删除函数：<br>drop function if exists addAge;<br>drop function addAge;</p>
-<p>显示创建语法：<br>show create function addAge;<br>? 游标</p>
-<p>声明游标：declare cur_Name cursor for select name from temp;<br>打开游标：open cur_Name;<br>Fetch游标：fetch cur_Name into @temp;<br>关闭游标：close cur_Name;</p>
-<p>示例：<br>CREATE PROCEDURE cur_show()<br>BEGIN<br>  DECLARE done INT DEFAULT 0;<br>  DECLARE v_id, v_age INT;<br>  DECLARE v_name varchar(20);<br>  DECLARE cur_temp CURSOR FOR SELECT id, name, age FROM temp;<br>  DECLARE CONTINUE HANDLER FOR SQLSTATE ‘02000’ SET done = 1;</p>
-<p>  OPEN cur_temp;</p>
-<p>  REPEAT<br>    FETCH cur_temp INTO v_id, v_name, v_age;<br>    IF NOT done THEN<br>       IF isnull(v_name) THEN<br>          update temp set name = concat(‘test-json’, v_id) where id = v_id;<br>       ELSEIF isnull(v_age) THEN<br>          update temp set age = 22 where id = v_id;<br>       END IF;<br>    END IF;<br>  UNTIL done END REPEAT;</p>
-<p>  CLOSE cur_temp;<br>END<br>? 触发器</p>
-<p>触发器分为insert、update、delete三种触发器事件类型<br>还有after、before触发时间<br>创建触发器：<br>create trigger trg_temp_ins<br>before insert<br>on temp for each row<br>begin<br>insert into temp_log values(NEW.id, NEW.name);<br>end//</p>
-<p>删除触发器：<br>drop trigger trg_temp_ins<br>版权维护转载hoojo博客的。</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-MySQL学习笔记二" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -344,7 +285,7 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
         <aside id="sidebar">
   <nav class="menus">
   	<ul>
-  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		<li><a href="/"><i class="icon icon-cansee"></i></a></li>
   		
 			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
   		
@@ -356,14 +297,14 @@ from关键字之后，被当做一个表来进行查询，这种用法被称为�
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
       <footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
-	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
 </footer>
     </div>

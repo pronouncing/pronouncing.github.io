@@ -34,50 +34,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-使用jackson对json的操作" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/06/22/使用jackson对json的操作/">使用jackson对json的操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/06/22/使用jackson对json的操作/" class="article-date">
-  <time datetime="2012-06-22T14:15:08.000Z" itemprop="datePublished">2012-06-22</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>jackson是一个开源的处理json的工具包，spring mvc中的json类型响应就是用这个东西实现的，性能比较优异。我以前最早的项目用的是json-lib，后来因效率问题改为gson，现在看来可以换成jackson了。<br>下面给大家讲讲jackson的使用：<br>一、简单对象转为json<br>ObjectMapper om = new ObjectMapper();<br>StringWriter result = new StringWriter();<br>om.writeValue(result, 【这个参数是你要转换的东西，对象或集合都是可以的】);</p>
-<p>当然，如果你不想用StringWriter的话，你可以直接用om.writeValueAsString(obj)直接输出字符串。</p>
-<p>二、日期的处理<br>默认情况下，jackson会把日期处理为毫秒，如果你想处理成字符串，可以：<br>ObjectMapper om = new ObjectMapper();<br>om.setDateFormat(new SimpleDateFormat(“yyyy-MM-dd”));</p>
-<p>三、排除不想要的属性<br>这个主要是用来解决对象间循环关联的情况的，使用如下：<br>SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept(“不要的属性名”);<br>SimpleFilterProvider fp = new SimpleFilterProvider();<br>fp.addFilter(“user_json”, filter);</p>
-<p>om.setFilters(fp);<br>当然，这个设置将对全局的ObjectMapper都起作用，我们也可以使用下面这种：<br>om.writer(fp).writeValueAsString(obj)；<br>每次使用前再设置，这个也是全局作用域。</p>
-<p>如果仅仅想要自己需要的属性，如下写法：<br>SimpleBeanPropertyFilter.filterOutAllExcept(“id”, “title”);</p>
-<p>注意：addFilter的第一个参数，要用注解指写，比如：<br>@JsonFilter(“user_json”)<br>public class User {}<br>如果持久层使用的是hibernate，需要将hibernateLazyInitializer属性也排除。</p>
-<p>四、反序列化<br>反序列化用的没有序列化多。我们先看普通对象的处理：<br>User u = om.readValue(json_str, User.class);<br>集合对象，处理方式不同，请看list的处理方式：<br>List<user> uss = om.readValue(json_str, new TypeReference<list<user>&gt;() {});</list<user></user></p>
-<p>五、图片等二进制类型的json转换<br>这个不用担心，jackson可直接完成转换，前提是：<br>你要用byte[]类型表示二进制数据，比如：private byte[] photo ;</p>
-<p>当然，上面的的代码都是在线手工操作下的示例，jackson也是支持注解的，比如：排除属性，日期格式的定义等，都可以用注解的方式去实现，请大家自己so一下吧。</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-JSP九大内置对象" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -263,6 +219,50 @@
 
 
   
+    <article id="post-java18章网络编程" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/17/java18章网络编程/">java18章网络编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/17/java18章网络编程/" class="article-date">
+  <time datetime="2012-05-17T12:42:16.000Z" itemprop="datePublished">2012-05-17</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
+<h2 id="OSI7层模型解释："><a href="#OSI7层模型解释：" class="headerlink" title="OSI7层模型解释："></a>OSI7层模型解释：</h2><p>1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）</p>
+<p>2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据<br>如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。</p>
+<p>3：网络层：源主机和目标主机的网络地址进行通信</p>
+<p>4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，以不可靠的传输单位称为数据报</p>
+<p>5：会话层：会话层管理进程之间的会话过程  负责建立，管理和连接进程之间的会话，比如说QQ我跟你说话就表示在会话这一层.</p>
+<p>6：表示层：表示层对上层的数据进行转换，以保证一个主机的应用层的数据可以被另一个主机的应用层理解，表示层包括，加密-解密-压缩-解压和格式转换<br>7：应用层：应用层确定进程之间通信的实际用途，以满足用户的实际请求，例如浏览Web站点 收发E-mail,上传或下载文件等.</p>
+<p>TCP/IP模型：程序员应要做的就是在应用这一层里面<br>TCP协议是面向连接的可靠的通信协议,<br>而UDP是非连接的不可靠的通信协议,<br>这两个协议位于TCP/IP模型的传输层，要在网络上找到另一台计算机的程序进行通讯需要提供IP地址和端口号.</p>
+<p>Socke是客户端ServerSocke是服务器端,Socket和ServerSocke用于在两个java程序之间创建一个TCP/IP连接，程序之间的通讯通过IO类来执行</p>
+<h3 id="下面给大家贴一段代码f是服务器端f1是客服端"><a href="#下面给大家贴一段代码f是服务器端f1是客服端" class="headerlink" title="下面给大家贴一段代码f是服务器端f1是客服端"></a>下面给大家贴一段代码f是服务器端f1是客服端</h3><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.LayoutManager;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.ServerSocket;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import java.net.SocketTimeoutException;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class f extends JFrame implements Runnable &#123;</span><br><span class="line"> ServerSocket svr;</span><br><span class="line"> JTextArea w;</span><br><span class="line"> public f(int port) throws IllegalArgumentException, IOException &#123;</span><br><span class="line">  Container m = this.getContentPane();</span><br><span class="line">  m.setLayout(new GridLayout(3, 1));</span><br><span class="line">  this.setSize(300, 450);</span><br><span class="line">  this.setTitle(&quot;服务端&quot;);</span><br><span class="line">  this.setVisible(true);</span><br><span class="line">  this.setLocationRelativeTo(null);</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">  w = new JTextArea(100, 200);</span><br><span class="line">  this.add(w);</span><br><span class="line">  svr = new ServerSocket(port);</span><br><span class="line"> &#125;</span><br><span class="line"> public void run() &#123;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">   System.out.println(&quot;在端口&quot; + svr.getLocalPort() + &quot;上等待客户端...&quot;);</span><br><span class="line">   Socket server;</span><br><span class="line">   try &#123;</span><br><span class="line">    server = svr.accept();  //服务器等待方法</span><br><span class="line">    System.out.println(&quot;刚连接&quot; + server.getReuseAddress());</span><br><span class="line">    DataInputStream in = new DataInputStream(server.getInputStream());</span><br><span class="line">    w.setText(in.readUTF());</span><br><span class="line">    server.close();</span><br><span class="line">   &#125; catch (SocketTimeoutException e) &#123;</span><br><span class="line">    break;</span><br><span class="line">   &#125; catch (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    break;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">   f x = new f(8088);</span><br><span class="line">   Thread f = new Thread(x);</span><br><span class="line">   f.start();</span><br><span class="line">  &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -272,7 +272,7 @@
         <aside id="sidebar">
   <nav class="menus">
   	<ul>
-  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		<li><a href="/"><i class="icon icon-cansee"></i></a></li>
   		
 			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
   		
@@ -284,14 +284,14 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
       <footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
-	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
 </footer>
     </div>

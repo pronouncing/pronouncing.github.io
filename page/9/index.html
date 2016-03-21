@@ -34,43 +34,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-第4章类对象和包" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/05/07/第4章类对象和包/">第4章类对象和包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/05/07/第4章类对象和包/" class="article-date">
-  <time datetime="2012-05-07T15:38:42.000Z" itemprop="datePublished">2012-05-07</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>万事万物皆为对象，我们根据我们不同的角度来观察问题，我们可以得到不同类。所以类是对象的抽象合；<br>对象是类的一个实例。一个对象是由属性与行为组成，那么属性就是类的成员，行为就是类的方法。<br>    在一个类中创建好类后，然后实例化一个对象，如果我们不对其进行初始化，那么分配内存的时候就会被赋<br>初始值。数值型初值为0，字符型为空字符，引用类型为NULL。创建一个对象，我们就会new一个对象：引用类型 变量名=new 引用类型（）；对象创建好后，如何访问成员变量与方法，我们可以使用点运算符。<br>    在Java中我们可以引入包机制，因为它会组织类，且为包中类提供了以命名的空间。如果我们不显示的讲<br>一个类声明在包之中，那么这个类就属于默认包。包必须放在注释之外的第一条语句。如果我们要使用或访问不同包的成员或方法，我们就需要导入与之对应的包。语句是import 包名.*;或者import 包名.类名；</p>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>类是来约束对象的属性和行为<br>类是对象的描述，对象是类得实例<br>对象由属性和行为组成，属性是对象所具有的特征，而行为是对象可以做的动作。<br>对象的每个属性被表示为类中的成员变量，对象的每个行为成为类中的一个方法。<br>访问修饰符：<br>访问修饰符 可以是public公有 private私有 protected受保护<br>实例化对象：<br>内存分配：堆划分为4块<br>堆是存放类，栈存放对象的全局变量和局部变量。<br>       栈         堆<br>┌────────────────<br>│局部变量     │数据区：存放String静态变量和字符串常量。<br>│全局变量     │代码区：存放方法。<br>│            │new对象<br>│            │<br>│            │<br>└────────────────<br>访问对象的属性和方法：<br>(.)点运算符用于与对象的一个引用一起访问对象的成员变量和方法。<br>this<br>每个对象有一个对自身的引用，这个引用称为this 引用。</p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>包  关键字 package<br>包是java中组织和管理类的一种机制，同时可以防止类命名冲突</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-第3章程序流程控制" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -250,6 +213,90 @@
 
 
   
+    <article id="post-Oracle笔记-十三、PLSQL面向对象之package" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/04/26/Oracle笔记-十三、PLSQL面向对象之package/">Oracle笔记 十三、PL/SQL面向对象之package</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/26/Oracle笔记-十三、PLSQL面向对象之package/" class="article-date">
+  <time datetime="2012-04-26T09:27:42.000Z" itemprop="datePublished">2012-04-26</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>–将方法和过程用包定义<br>create or replace package pkg_emp<br>as<br>       –输入员工编号查询出员工信息<br>       procedure pro_findInfo(<br>         in_empno emp2.empno%type,<br>         out_name out emp2.ename%type,<br>         out_sal out emp2.sal%type<br>       );<br>       –根据部门编号修改本部门员工工资<br>       procedure pro_editInfo(<br>         in_emp_record emp2%rowtype,<br>         out_flag out boolean<br>       );<br>       –输入新员工信息并保存到数据库<br>       procedure pro_addInfo(<br>         in_emp_new_record emp2%rowtype<br>       );<br>       –统计工资信息<br>       function fun_sum(<br>         num_a number,<br>         num_b number<br>       ) return number;<br>end pkg_emp;</p>
+<p>–实现包<br>create or replace package body pkg_emp<br>as<br>       –输入员工编号查询出员工信息<br>       procedure pro_findInfo(<br>         in_empno emp2.empno%type,<br>         out_name out emp2.ename%type,<br>         out_sal out emp2.sal%type<br>       )<br>       as<br>       begin<br>         select ename, sal into out_name, out_sal from emp2 where empno = in_empno;<br>       end pro_findInfo;</p>
+<pre><code>--根据部门编号修改本部门员工工资
+procedure pro_editInfo(
+  in_emp_record emp2%rowtype,
+  out_flag out boolean
+)
+is         
+begin
+  update emp2 set sal = in_emp_record.sal where deptno = in_emp_record.deptno;
+  out_flag := true;
+  /*exception
+    when no_data_found then
+      out_flag := false;
+  commit;*/
+  if (sql%rowcount &lt; 1) then
+    out_flag := false;
+  else
+    out_flag := true;
+    commit;
+  end if;
+end pro_editInfo;
+
+--输入新员工信息并保存到数据库
+procedure pro_addInfo(
+  in_emp_new_record emp2%rowtype
+)
+as
+  temp_sql varchar2(200);
+begin
+  temp_sql := &apos;insert into emp2(empno, ename, sal, comm, deptno) values(:1, :2, :3, :4, :5)&apos;;
+  execute immediate temp_sql using in_emp_new_record.empno, in_emp_new_record.ename,
+        in_emp_new_record.sal, in_emp_new_record.comm, in_emp_new_record.deptno;
+  commit;
+end;
+
+--统计工资信息
+function fun_sum(
+  num_a number,
+  num_b number
+) return number
+is
+begin
+  return num_a + num_b;
+end fun_sum;
+</code></pre><p>end pkg_emp;</p>
+<p>–测试1<br>declare<br>       out_name emp2.ename%type;<br>       out_sal emp2.sal%type;<br>begin<br>     pkg_emp.pro_findInfo(7369, out_name, out_sal);<br>     dbms_output.put_line(out_name);<br>     dbms_output.put_line(out_sal);<br>end;  </p>
+<p>–测试2<br>select * from emp2;<br>declare<br>       in_emp_record emp2%rowtype;<br>       flag boolean;<br>begin<br>     in_emp_record.deptno := &amp;部门编号;<br>     in_emp_record.sal := &amp;员工工资;<br>     pkg_emp.pro_editInfo(in_emp_record, flag);<br>     if (flag = false) then<br>       dbms_output.put_line(‘no’);<br>     else<br>       dbms_output.put_line(‘yes’);<br>     end if;<br>end;   </p>
+<p>–测试3<br>declare<br>       new_emp_record emp2%rowtype;<br>begin<br>     new_emp_record.empno := &amp;员工编号;<br>     new_emp_record.ename := &amp;姓名;<br>     new_emp_record.sal := &amp;工资;<br>     new_emp_record.comm := &amp;奖金;<br>     new_emp_record.deptno := &amp;部门编号;<br>     pkg_emp.pro_addInfo(new_emp_record);<br>end;</p>
+<p>–测试4<br>declare<br>     sum_emp number;<br>begin<br>     select pkg_emp.fun_sum(sal, nvl(comm, 0)) into sum_emp from emp2<br>     where empno = &amp;员工编号;<br>     dbms_output.put_line(‘员工总工资:’ || sum_emp);<br>end;<br>版权维护转载hoojo博客的。</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
@@ -259,7 +306,7 @@
         <aside id="sidebar">
   <nav class="menus">
   	<ul>
-  		<li><a href="/"><i class="icon icon-home"></i></a></li>
+  		<li><a href="/"><i class="icon icon-cansee"></i></a></li>
   		
 			<li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
   		
@@ -271,14 +318,14 @@
   		
   	</ul>
   </nav>
-  <a id="go-top" href="#"><i class="icon icon_up"></i></a>
+  <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
       <footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
-	  - Powered by <a href="http://pronouncing.io/" target="_blank">lihao</a>
+	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
 </footer>
     </div>
