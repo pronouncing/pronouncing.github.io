@@ -27,12 +27,254 @@
 
 
 
+
 </head>
+
+
 <body>
   <div id="container">
     <div id="wrap">
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Oracle笔记-三、function-、select" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/04/16/Oracle笔记-三、function-、select/">Oracle笔记 三、function 、select</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/16/Oracle笔记-三、function-、select/" class="article-date">
+  <time datetime="2012-04-16T03:09:42.000Z" itemprop="datePublished">2012-04-16</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Oracle笔记 三、function 、select</p>
+<p>Scott表下有这么几个常用的表，而且还带有数据。分别是emp、dept、salgrade；<br>1、查看表结构用desc<br>    desc emp;</p>
+<p>2、空表dual，最常用的空表，如：<br>    select 2 * 4 from dual;<br>    select sysdate from dual;</p>
+<p>3、双引号能保持格式<br>    如：select sysdate “toDay 日 期” from dual;</p>
+<p>4、|| 字符串连接<br>    如：select 2*3 || 8 from dual;<br>    select ename || sal from scott.emp;<br>    select ename || ‘ORACLE’ from scott.emp;</p>
+<p>5、单引号，如：select 2 * 2 || ‘abc’’efg’ from dual;<br>    用两个单引号表示一个单引号</p>
+<p>6、去掉重复数据distinct<br>    select distinct deptno from scott.emp;<br>    去掉重复组合：select distinct deptno,job from scott.emp;</p>
+<p>7、where查询<br>    A、=查询，select * from scott.emp where sal = 1500;</p>
+<pre><code>B、比较&lt;、&gt;、&gt;=、&lt;=
+    select * from scott.emp where sal &gt; 1500;
+C、and or
+    select * from scott.emp where sal &gt; 1500 and sal &lt;= 5000 or deptno = 10;
+D、in、not in
+    select * from scott.emp where sal in (1500, 800) and deptno not in (10, 20)
+
+E、like模糊 escape 转义
+    Select * from scott.emp where ename like ‘%in%’;
+    Select * from scott.emp where ename like ‘%in\%k%’;
+    Select * from scott.emp where ename like ‘%in#%k%’ escape ‘#’;
+    表示like中的#号是转义字符，相当于\
+F、is null、is not null
+K、    order by
+    select sal, ename from scott.emp order by sal;
+    select sal, ename from scott.emp order by sal asc;
+    select sal, ename from scott.emp order by sal desc;
+    select sal, ename from scott.emp where sal &gt; 2000 order by sal desc;
+    select sal, deptno, ename from scott.emp order by sal,deptno desc;
+</code></pre><p>8、function<br>    A、lower、upper、substr<br>        select lower(‘abcABC’) from dual;<br>        select upper(‘abcABC’) from dual;<br>        substr(target, startIndex, length)<br>        select substr(‘abcABC’, 1, 3) from dual;</p>
+<pre><code>B、chr、ascii
+    将数字安装ascii值转换成字符：select char(65) from dual;
+    将字符转换成ascii值：select ascii(‘Z’) from dual;
+
+C、round、to_char
+    精确小数
+    select round(22.456) from dual;
+    保留2位小数：select round(22.456, 2) from dual;
+    精确到个位：select round(22.456, -1) from dual;
+
+    货币
+    设置货币格式，000前面不足就用0代替
+    select to_char(sal, &apos;$000,000.00&apos;) from scott.emp;
+    999就不会替换不足的地方，只会安装格式输出
+    select to_char(sal, &apos;$999,999.99&apos;) from scott.emp;
+    本地货币格式
+    select to_char(sal, &apos;L999,999.99&apos;) from scott.emp;
+
+    日期
+    日期格式 
+    格式控制 描述 
+    YYYY、YYY、YY 分别代表4位、3位、2位的数字年 
+    YEAR 年的拼写 
+    MM 数字月 
+    MONTH 月的全拼 
+    MON 月的缩写 
+    DD 数字日 
+    DAY 星期的全拼 
+    DY 星期的缩写 
+    AM 表示上午或者下午 
+    HH24、HH12 12小时制或24小时制 
+    MI 分钟 
+    SS 秒钟 
+    SP 数字的拼写 
+    TH 数字的序数词 
+
+    “特殊字符” 假如特殊字符 
+    HH24:MI:SS AM 15:43:20 PM
+    select to_char(sysdate, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_char(sysdate, &apos;YYYY-MM-DD HH24:MI:SS&apos;) from dual;
+
+ D、to_date、to_number、nvl
+    to_date(target, current_format)
+    select to_date(&apos;2011-4-2 17:55:55&apos;, &apos;YYYY-MM-DD HH:MI:SS&apos;) from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$999,999.99&apos;) + 10 from dual;
+    select to_number(&apos;$12,322.56&apos;, &apos;$00,000.00&apos;) + 10 from dual;
+    select to_number(&apos;22.56&apos;) + 10 from dual;
+    nvl可以将某个字段的空值转换成指定的值
+    select ename, sal, nvl(comm, 1.00) from scott.emp;
+</code></pre><p>9、group function 组函数：min、max、avg、sum、count<br>        select max(sal) from scott.emp;<br>        select min(sal) from scott.emp;<br>        select avg(sal) from emp;<br>        select round(avg(sal), 2) from emp;<br>        select to_char(avg(sal), ‘L999,999.99’) from emp;<br>        select sum(sal) from emp;<br>        select count(comm) from emp;<br>        select count(distinct deptno) from emp;</p>
+<p>10、group by 分组<br>    select deptno, avg(sal) from emp group by deptno;<br>    select deptno, job, avg(sal) from emp group by deptno, job;<br>    求部门最高工资的所在部门的员工信息：<br>    select deptno, ename, sal from emp where sal in (select max(sal) from emp group by deptno);</p>
+<p>11、having 对分组数据进行过滤<br>    求部门评价工资：<br>    select * from (select avg(sal) sal, deptno from emp group by deptno) where sal &gt; 2000;<br>    select avg(sal) sal, deptno from emp group by deptno having avg(sal) &gt; 2000;</p>
+<p>12、子查询<br>    求部门分组后工资最高的员工信息<br>    select emp.ename, emp.sal, emp.deptno from emp, (select max(sal) max_sal, deptno from emp group by deptno) t where emp.sal = t.max_sal and emp.deptno = t.deptno;<br>    求部门平均工资等级<br>    select s.grade, t.deptno, t.avg_sal from scott.salgrade s, (select deptno, avg(sal) avg_sal from emp group by deptno) t where t.avg_sal &gt; s.losal and t.avg_sal &lt; s.hisal;（between）</p>
+<p>13、自连接<br>    select a.ename, b.ename mgr_name from emp a, emp b where a.empno = b.mgr;</p>
+<p>14、 连接查询<br>    select dname, ename from dept, emp where dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept join emp using(deptno);<br>    select dname, ename from dept left join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept right join emp on dept.deptno = emp.deptno;<br>    select dname, ename from dept full join emp on dept.deptno = emp.deptno;<br>    select a.ename, b.ename mgr_name from emp a join emp b on a.mgr = b.empno;<br>    select a.ename, b.ename mgr_name from emp a left join emp b on a.mgr = b.empno;</p>
+<p>15、 Rownum<br>    select rounum, deptno, dname from dept;<br>    select <em> from (<br>         select rownum r, dept.</em> from dept<br>    ) t where  t.r &gt; 2;</p>
+<p>16、树状结构查询<br>    select level, empno, ename, mgr from emp<br>    connect by prior mgr = empno;</p>
+<p>17、排序函数<br>    –按部门分组，给出分组后的序号<br>    select row_number() over(partition by deptno order by sal), emp.* from emp;</p>
+<pre><code>--rank排序，空出相同部分
+select rank() over(partition by deptno order by sal), emp.* from emp;
+select rank() over(order by deptno), emp.* from emp;
+select rank() over(order by sal), emp.* from emp;
+
+--dense_rank排序给出相同序号,不空留序号
+select rank() over(order by sal), emp.* from emp;
+select dense_rank() over(order by sal), emp.* from emp;
+</code></pre><p>18、交集、并集、割集查询<br>    –并集：不带重复数据<br>    select <em> from emp<br>    union<br>    select </em> from emp2;</p>
+<pre><code>--并集：带重复数据
+select * from emp
+union all
+select * from emp2;        
+
+--割集,显示不同部分
+select * from emp
+minus
+select * from emp2;
+</code></pre><p>19、 查询系统表、视图<br>    select owner, object_name, object_type, status, dba_objects.* from dba_objects where object_type = ‘view’ and status = ‘invalid’;</p>
+<pre><code>select * from user_objects where object_type like &apos;PROCEDURE&apos;;
+</code></pre><p>20、练习题<br>    –部门最高薪资员工信息<br>    select ename, sal, deptno from emp<br>    where sal in (select max(sal) from emp group by deptno);</p>
+<pre><code>--部门最高薪资员工信息
+select ename, sal, emp.deptno from emp 
+join (select max(sal) max_sal, deptno from emp group by deptno) t 
+on emp.deptno = t.deptno and emp.sal = t.max_sal;
+
+--部门平均薪资等级
+select grade, losal, hisal, t.avg_sal from salgrade 
+join (select avg(sal) avg_sal, deptno from emp group by deptno) t
+on t.avg_sal between losal and hisal;
+
+--经理人
+select ename, job from emp where empno in (select mgr from emp);
+
+--不用分组函数，查询薪水最高值
+select * from (select sal, ename from emp order by sal desc) where rownum = 1;
+select distinct a.sal from emp a join emp b on a.sal &gt; b.sal where rownum = 1;
+select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal &lt; b.sal);
+
+--部门平均薪水最高的部门编号
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
+);
+
+select deptno, t.avg_sal from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+where avg_sal = (
+    select max(avg(sal)) max_sal from emp group by deptno
+);
+
+--部门平均薪水最高的部门名称
+select dname from dept where deptno = (
+ select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+ where avg_sal = (
+        select max(avg_sal) max_sal from (select avg(sal) avg_sal, deptno from emp group by deptno)
+ )
+);
+
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) t
+    where avg_sal = (
+           select max(avg(sal)) from emp group by deptno
+    )
+);
+
+--平均薪水最低的部门的部门名称
+select dname from dept where deptno = (
+  select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+  where avg_sal = (
+    select min(avg_sal) min_sal from (
+           select avg(sal) avg_sal from emp group by deptno
+    )
+  )
+);
+
+select dname from dept where deptno = (
+    select deptno from (select avg(sal) avg_sal, deptno from emp group by deptno) 
+    where avg_sal = (    
+      select min(avg(sal)) avg_sal from emp group by deptno
+    )
+);
+
+--平均薪水等级最低的部门的部门名称
+select dname from dept where deptno = (
+select deptno from (
+     select grade, t.deptno from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+     ) t
+     on t.avg_sal between s.losal and s.hisal
+  )
+  where grade = (
+    select min(grade) from salgrade s join (
+        select avg(sal) avg_sal, deptno from emp group by deptno
+    ) t
+    on t.avg_sal between s.losal and s.hisal
+  )
+);
+
+--部门经理人中，平均薪水最低的部门名称
+select t.deptno, dname from (
+    select sal, deptno from emp where empno in (select distinct mgr from emp)
+) t join dept 
+on t.deptno = dept.deptno
+where sal = (
+    select min(sal) from emp where empno in (select distinct mgr from emp)
+);
+
+--比普通员工的最高薪水还要高的经理人名称
+select * from (
+    select empno, ename, sal from emp where empno in (select distinct mgr from emp where mgr is not null)
+) t
+where t.sal &gt; (
+    select max(sal) max_sal from emp where empno not in (
+     select distinct mgr from emp where mgr is not null
+    )
+);
+</code></pre>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-Oracle笔记-二、常用dba命令行" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -45,6 +287,7 @@
       <a class="article-title" href="/2012/04/15/Oracle笔记-二、常用dba命令行/">Oracle笔记 二、常用dba命令行</a>
     </h1>
   
+
 
       </header>
     
@@ -148,6 +391,8 @@
 </article>
 
 
+
+
   
     <article id="post-第7章Oreacle开发PLSQL子程序和包" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -160,6 +405,7 @@
       <a class="article-title" href="/2012/04/10/第7章Oreacle开发PLSQL子程序和包/">第7章Oreacle开发PL/SQL子程序和包</a>
     </h1>
   
+
 
       </header>
     
@@ -185,6 +431,8 @@
 </article>
 
 
+
+
   
     <article id="post-第6章OreaclePLSQL动态SQL" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -197,6 +445,7 @@
       <a class="article-title" href="/2012/04/09/第6章OreaclePLSQL动态SQL/">第6章OreaclePL/SQL动态SQL</a>
     </h1>
   
+
 
       </header>
     
@@ -220,6 +469,8 @@
 </article>
 
 
+
+
   
     <article id="post-第5章Oracle-PLSQL使用游标获取" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -232,6 +483,7 @@
       <a class="article-title" href="/2012/04/08/第5章Oracle-PLSQL使用游标获取/">第5章Oracle PL/SQL使用游标获取</a>
     </h1>
   
+
 
       </header>
     
@@ -289,79 +541,6 @@ end loop；
 </article>
 
 
-  
-    <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/">第4章Oracle 在PL/SQL中更改数据和管理事物</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
-  <time datetime="2012-04-07T02:47:43.000Z" itemprop="datePublished">2012-04-07</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
- 隐式游标：
-       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
-隐式游标的属性：
-
-         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
-                   例：
-                          begin
-                                  update emp set sal = 3100 where enpno = 7788;
-                                   if sql%found then
-                                         dbms_output.put_line(&apos;记录修改成功&apos;);
-                                     end if ;
-                           end;                                    
-         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
-                    例：
-                           begin
-                                   delete from emp where sal &gt;= 2000;
-                                     if SQL%FOUND then
-                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
-                                     end if;
-                             end;
-         SQL%ROWCOUNT-----返回从游标中获取的记录数、
-</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
-      declare
-                 v_name varchar(50);
-      begin
-                 for col in (select empno, ename from emp) loop;
-                       update emp set ename = &apos;temp&apos; where empno = col.empno
-                  retuening ename into v_name;
-                  dbms_output.put_line(）；
-                 end loop;
-      end;
-</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
-       事物不是一个可以分割的单元
- 2. 一致性
-       事物必须使系统从一个一致性状态变换到另一个一致性状态
-3. 隔离性
-       每个事物必须独立与其他事务执行
-4.持久性
-       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
-</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
 
 
   
@@ -370,6 +549,8 @@ end loop；
       <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
     </nav>
   
+
+
 </section>
         <aside id="sidebar">
   <nav class="menus">
@@ -387,13 +568,17 @@ end loop；
   <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
-      <footer id="footer">
+      
+<footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
 	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
+
 </footer>
+
+
     </div>
     <nav id="mobile-nav">
   
@@ -407,9 +592,7 @@ end loop；
   
 </nav>
     
-
 <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-
 
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>

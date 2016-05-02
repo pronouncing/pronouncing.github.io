@@ -27,12 +27,62 @@
 
 
 
+
 </head>
+
+
 <body>
   <div id="container">
     <div id="wrap">
       <div class="outer">
         <section id="main">
+  
+    <article id="post-java18章网络编程" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/17/java18章网络编程/">java18章网络编程</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/05/17/java18章网络编程/" class="article-date">
+  <time datetime="2012-05-17T12:42:16.000Z" itemprop="datePublished">2012-05-17</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i.imgur.com/0YVkoFj.jpg" alt=""></p>
+<h2 id="OSI7层模型解释："><a href="#OSI7层模型解释：" class="headerlink" title="OSI7层模型解释："></a>OSI7层模型解释：</h2><p>1：物理层：数据作为原始的比特流（bit）,典型的设备包括集线器（Hub）</p>
+<p>2：数据链路层：数据链路层负责两个相邻的节点间的线路上，无差错的传送以帧（Frame）为单位的数据<br>如果接收方检测到所传的数据中有差错，就要通知发送方重新发送这一帧，本层的典型设备是交换机。</p>
+<p>3：网络层：源主机和目标主机的网络地址进行通信</p>
+<p>4：传输层：传输和取消的连接功能以可靠方式传输的数据单位称为段，以不可靠的传输单位称为数据报</p>
+<p>5：会话层：会话层管理进程之间的会话过程  负责建立，管理和连接进程之间的会话，比如说QQ我跟你说话就表示在会话这一层.</p>
+<p>6：表示层：表示层对上层的数据进行转换，以保证一个主机的应用层的数据可以被另一个主机的应用层理解，表示层包括，加密-解密-压缩-解压和格式转换<br>7：应用层：应用层确定进程之间通信的实际用途，以满足用户的实际请求，例如浏览Web站点 收发E-mail,上传或下载文件等.</p>
+<p>TCP/IP模型：程序员应要做的就是在应用这一层里面<br>TCP协议是面向连接的可靠的通信协议,<br>而UDP是非连接的不可靠的通信协议,<br>这两个协议位于TCP/IP模型的传输层，要在网络上找到另一台计算机的程序进行通讯需要提供IP地址和端口号.</p>
+<p>Socke是客户端ServerSocke是服务器端,Socket和ServerSocke用于在两个java程序之间创建一个TCP/IP连接，程序之间的通讯通过IO类来执行</p>
+<h3 id="下面给大家贴一段代码f是服务器端f1是客服端"><a href="#下面给大家贴一段代码f是服务器端f1是客服端" class="headerlink" title="下面给大家贴一段代码f是服务器端f1是客服端"></a>下面给大家贴一段代码f是服务器端f1是客服端</h3><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.LayoutManager;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.net.ServerSocket;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import java.net.SocketTimeoutException;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class f extends JFrame implements Runnable &#123;</span><br><span class="line"> ServerSocket svr;</span><br><span class="line"> JTextArea w;</span><br><span class="line"> public f(int port) throws IllegalArgumentException, IOException &#123;</span><br><span class="line">  Container m = this.getContentPane();</span><br><span class="line">  m.setLayout(new GridLayout(3, 1));</span><br><span class="line">  this.setSize(300, 450);</span><br><span class="line">  this.setTitle(&quot;服务端&quot;);</span><br><span class="line">  this.setVisible(true);</span><br><span class="line">  this.setLocationRelativeTo(null);</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">  w = new JTextArea(100, 200);</span><br><span class="line">  this.add(w);</span><br><span class="line">  svr = new ServerSocket(port);</span><br><span class="line"> &#125;</span><br><span class="line"> public void run() &#123;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">   System.out.println(&quot;在端口&quot; + svr.getLocalPort() + &quot;上等待客户端...&quot;);</span><br><span class="line">   Socket server;</span><br><span class="line">   try &#123;</span><br><span class="line">    server = svr.accept();  //服务器等待方法</span><br><span class="line">    System.out.println(&quot;刚连接&quot; + server.getReuseAddress());</span><br><span class="line">    DataInputStream in = new DataInputStream(server.getInputStream());</span><br><span class="line">    w.setText(in.readUTF());</span><br><span class="line">    server.close();</span><br><span class="line">   &#125; catch (SocketTimeoutException e) &#123;</span><br><span class="line">    break;</span><br><span class="line">   &#125; catch (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    break;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">   f x = new f(8088);</span><br><span class="line">   Thread f = new Thread(x);</span><br><span class="line">   f.start();</span><br><span class="line">  &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客服端"><a href="#客服端" class="headerlink" title="客服端"></a>客服端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package ccc;</span><br><span class="line">import java.awt.Container;</span><br><span class="line">import java.awt.GridLayout;</span><br><span class="line">import java.awt.event.ActionEvent;</span><br><span class="line">import java.awt.event.ActionListener;</span><br><span class="line">import java.io.DataInputStream;</span><br><span class="line">import java.io.DataOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.Socket;</span><br><span class="line">import javax.swing.JButton;</span><br><span class="line">import javax.swing.JFrame;</span><br><span class="line">import javax.swing.JTextArea;</span><br><span class="line">import javax.swing.JTextField;</span><br><span class="line">import javax.swing.event.AncestorEvent;</span><br><span class="line">import javax.swing.event.AncestorListener;</span><br><span class="line">public class f1 extends JFrame &#123;</span><br><span class="line"> JTextField s;</span><br><span class="line"> JButton an;</span><br><span class="line"> public f1() &#123;</span><br><span class="line">  </span><br><span class="line">  Container m = this.getContentPane(); //内容面板 </span><br><span class="line">  m.setLayout(new GridLayout(2, 1));  //布局</span><br><span class="line">  this.setSize(300, 450);     //大小</span><br><span class="line">  this.setTitle(&quot;客户端&quot;);     //名称    </span><br><span class="line">  this.setVisible(true);              //可见</span><br><span class="line">  this.setLocationRelativeTo(null);    //居中</span><br><span class="line">  this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //关闭</span><br><span class="line">  s = new JTextField();</span><br><span class="line">  an = new JButton(&quot;提交&quot;);</span><br><span class="line">  this.add(s);</span><br><span class="line">  m.add(an);</span><br><span class="line">  s.setBounds(10, 10, 150, 200);</span><br><span class="line">  an.addActionListener(new ActionListener() &#123;</span><br><span class="line">   public void actionPerformed(ActionEvent e) &#123;</span><br><span class="line">    ke();</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> public void ke() &#123;</span><br><span class="line">  String serverNanme = &quot;localhost&quot;;//客户端进行连接服务端</span><br><span class="line">  int prot = 8088;     //端口</span><br><span class="line">  System.out.println(&quot;端口&quot; + prot + &quot;连接&quot; + serverNanme);</span><br><span class="line">  try &#123;</span><br><span class="line">   Socket ck = new Socket(serverNanme, prot);//NEW了一个Socket对象</span><br><span class="line">   System.out.println(&quot;本地主机：&quot; + ck.getRemoteSocketAddress());</span><br><span class="line">   OutputStream ccc = ck.getOutputStream();</span><br><span class="line">   DataOutputStream cc1 = new DataOutputStream(ccc);</span><br><span class="line">   cc1.writeUTF(s.getText());</span><br><span class="line">   ck.close();</span><br><span class="line">  &#125; catch (IOException e) &#123;</span><br><span class="line">   e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public static void main(String [] args) &#123;</span><br><span class="line">  new f1();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-第17章IO系统流" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -45,6 +95,7 @@
       <a class="article-title" href="/2012/05/16/第17章IO系统流/">第17章I/O系统流</a>
     </h1>
   
+
 
       </header>
     
@@ -75,6 +126,8 @@
 </article>
 
 
+
+
   
     <article id="post-第15章集合框架" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -87,6 +140,7 @@
       <a class="article-title" href="/2012/05/15/第15章集合框架/">第15章集合框架</a>
     </h1>
   
+
 
       </header>
     
@@ -140,6 +194,8 @@
 </article>
 
 
+
+
   
     <article id="post-第12章反射" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -152,6 +208,7 @@
       <a class="article-title" href="/2012/05/14/第12章反射/">第12章反射</a>
     </h1>
   
+
 
       </header>
     
@@ -287,6 +344,8 @@ public class ReflectTest {
 </article>
 
 
+
+
   
     <article id="post-11章异常处理" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -299,6 +358,7 @@ public class ReflectTest {
       <a class="article-title" href="/2012/05/13/11章异常处理/">11章异常处理</a>
     </h1>
   
+
 
       </header>
     
@@ -322,46 +382,6 @@ public class ReflectTest {
 </article>
 
 
-  
-    <article id="post-第10章接口" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/05/12/第10章接口/">第10章接口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/05/12/第10章接口/" class="article-date">
-  <time datetime="2012-05-12T11:02:30.000Z" itemprop="datePublished">2012-05-12</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是接口？"><a href="#什么是接口？" class="headerlink" title="什么是接口？"></a>什么是接口？</h2><p>　　Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，<br>因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为(功能)。<br>接口的两种含义：一，Java接口，Java语言中存在的结构，有特定的语法和结构;二，一个类所具有的方法的<br>特征集合，是一种逻辑上的抽象。前者叫做“Java接口”，后者叫做“接口”。</p>
-<p>　　在Java语言规范中，一个方法的特征仅包括方法的名字，参数的数目和种类，而不包括方法的返回类<br>型，参数的名字以及所抛出来的异常。在Java编译器检查方法的重载时，会根据这些条件判断两个方法是<br>否是重载方法。但在Java编译器检查方法的置换时，则会进一步检查两个方法(分处超类型和子类型)的返<br>还类型和抛出的异常是否相同。</p>
-<p>　　接口继承和实现继承的规则不同，一个类只有一个直接父类，但可以实现多个接口。<br>　　Java接口本身没有任何实现，因为Java接口不涉及表象，而只描述public行为，所以Java接口比Java<br>抽象类更抽象化。<br>　　Java接口的方法只能是抽象的和公开的，Java接口不能有构造器，Java接口可以有public，静态的和<br>final属性。<br>　　接口把方法的特征和方法的实现分割开来。这种分割体现在接口常常代表一个角色，它包装与该角色<br>相关的操作和属性，而实现这个接口的类便是扮演这个角色的演员。一个角色由不同的演员来演，而不同<br>的演员之间除了扮演一个共同的角色之外，并不要求其它的共同之处。<br>为什么使用接口？<br>　　两个类中的两个类似的功能，调用他们的类动态的决定一种实现，那他们提供一个抽象父类，子类分<br>别实现父类所定义的方法。<br>　　问题的出现：Java是一种单继承的语言，一般情况下，哪个具体类可能已经有了一个超类，解决是给<br>它的父类加父类，或者给它父类的父类加父类，只到移动到类等级结构的最顶端。这样一来，对一个具体<br>类的可插入性的设计，就变成了对整个等级结构中所有类的修改。<br>　　接口是可插入性的保证。<br>　　在一个等级结构中的任何一个类都可以实现一个接口，这个接口会影响到此类的所有子类，但不会影<br>响到此类的任何超类。此类将不得不实现这个接口所规定的方法，而其子类可以从此类自动继承这些方法<br>，当然也可以选择置换掉所有的这些方法，或者其中的某一些方法，这时候，这些子类具有了可插入性(<br>并且可以用这个接口类型装载，传递实现了他的所有子类)。<br>　　我们关心的不是那一个具体的类，而是这个类是否实现了我们需要的接口。<br>　　接口提供了关联以及方法调用上的可插入性，软件系统的规模越大，生命周期越长，接口使得软件系<br>统的灵活性和可扩展性，可插入性方面得到保证。<br>　　类型<br>　　使用Java接口将软件单位与内部和外部耦合起来。使用Java接口不是具体的类进行变量的类型声明，<br>方法的返还类型声明，参量的类型声明，以及数据类型的转换。<br>　　在理想的情况下，一个具体的Java类应当只实现Java接口和抽象Java类中声明的方法，而不应当给多<br>余方法。</p>
-<h2 id="类型等级结构"><a href="#类型等级结构" class="headerlink" title="　　类型等级结构"></a>　　类型等级结构</h2><p>　　Java接口(以及抽象类)一般用来作为一个类型的等级结构的起点。<br>　　如果一个类已经有了一个主要的超类型，那么通过实现一个接口，这个类可以拥有另一个次要的超类型，<br>这种次要的超类型叫做混合类型。<br>Java接口常用方法</p>
-<h2 id="单方法接口"><a href="#单方法接口" class="headerlink" title="　　单方法接口"></a>　　单方法接口</h2><p>　　以下是引用片段：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　public interface Actionlistener&#123; </span><br><span class="line">　　public abstract void actionPerformed(ActionEvent event); </span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　　仅且只有一个方法，只有实现了这个接口(重写这个接口中的唯一一个方法)，你才有资格去事件监听<br>器列表里注册(参数为Actionlistener类型)，当事件源变动时，自动调用这个唯一的actionPerformed方<br>法.<br>　　## 标识接口 ##<br>　　是没有任何方法和属性的接口。标识接口不对实现它的类有任何语意上的要求，它仅仅表明了实现它<br>的类属于一个特定的类型(传递)。<br>　　不推荐过多的使用标识接口。<br>　　## 常量接口 ##<br>　　用Java接口来声明一些常量，然后由实现这个接口的类使用这些常量。</p>
-<p>接口提供了规范和标准，接口不能被实例化，接口不包含任何构造器，接口中的所有方法都是抽象的，<br>接口可以定义静态常量，是异构集合.<br>一个接口能继承多个接口 public class b extends A<br>一个类可以实现多个接口<br>声明一个接口关键字是public interface A<br>实现一个接口的方法用public class H implements A,B,C</p>
-<h2 id="为什么使用接口"><a href="#为什么使用接口" class="headerlink" title="为什么使用接口:"></a>为什么使用接口:</h2><p><strong>抽象中有2个缺陷.<br>1抽象是单项继承————接口是多项实现<br>2抽象而破坏了安全性————而接口保证了安全性<br>抽象——[标准]——接口<br>抽象方法——[安全]——抽象方法<br>抽象是指向子类对象——不能被实例——而接口指向实现对象<br>总结：<br> Java中的接口是一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，</strong></p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
 
 
   
@@ -370,6 +390,8 @@ public class ReflectTest {
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
+
+
 </section>
         <aside id="sidebar">
   <nav class="menus">
@@ -387,13 +409,17 @@ public class ReflectTest {
   <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
-      <footer id="footer">
+      
+<footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
 	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
+
 </footer>
+
+
     </div>
     <nav id="mobile-nav">
   
@@ -407,9 +433,7 @@ public class ReflectTest {
   
 </nav>
     
-
 <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-
 
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>

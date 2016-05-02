@@ -27,12 +27,93 @@
 
 
 
+
 </head>
+
+
 <body>
   <div id="container">
     <div id="wrap">
       <div class="outer">
         <section id="main">
+  
+    <article id="post-第4章Oracle-在PLSQL中更改数据和管理事物" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/">第4章Oracle 在PL/SQL中更改数据和管理事物</a>
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2012/04/07/第4章Oracle-在PLSQL中更改数据和管理事物/" class="article-date">
+  <time datetime="2012-04-07T02:47:43.000Z" itemprop="datePublished">2012-04-07</time>
+</a>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="DML操作的游标属性"><a href="#DML操作的游标属性" class="headerlink" title="DML操作的游标属性"></a>DML操作的游标属性</h3><h3 id="游标："><a href="#游标：" class="headerlink" title="游标："></a>游标：</h3><pre><code>       在Oracle中作为指针来引用该私有工作区
+ 隐式游标：
+       执行一个SQL DML语句（insert、update、delete）以及返回单行的select into时，PL/SQL都会声明和管理一个隐式游标，这种类型的游标就称为隐式的游标。
+隐式游标的属性：
+
+         SQL%FOUND  ------如果记录成功获取，返回true；否则就返回false
+                   例：
+                          begin
+                                  update emp set sal = 3100 where enpno = 7788;
+                                   if sql%found then
+                                         dbms_output.put_line(&apos;记录修改成功&apos;);
+                                     end if ;
+                           end;                                    
+         SQL%NOTFOUTD -----如果记录获取失败，返回true；否则就返回false
+                    例：
+                           begin
+                                   delete from emp where sal &gt;= 2000;
+                                     if SQL%FOUND then
+                                       dbms_output.put_line(&apos;被开除的高薪员工有&apos; || SQL%ROWCOUNT ||‘人’)；
+                                     end if;
+                             end;
+         SQL%ROWCOUNT-----返回从游标中获取的记录数、
+</code></pre><h3 id="2-DML语句的RETURNING字句"><a href="#2-DML语句的RETURNING字句" class="headerlink" title="2. DML语句的RETURNING字句"></a>2. DML语句的RETURNING字句</h3><pre><code>例：
+      declare
+                 v_name varchar(50);
+      begin
+                 for col in (select empno, ename from emp) loop;
+                       update emp set ename = &apos;temp&apos; where empno = col.empno
+                  retuening ename into v_name;
+                  dbms_output.put_line(）；
+                 end loop;
+      end;
+</code></pre><h3 id="3-事物、事物的回滚与提交"><a href="#3-事物、事物的回滚与提交" class="headerlink" title="3. 事物、事物的回滚与提交"></a>3. 事物、事物的回滚与提交</h3><pre><code>1. 原子性
+       事物不是一个可以分割的单元
+ 2. 一致性
+       事物必须使系统从一个一致性状态变换到另一个一致性状态
+3. 隔离性
+       每个事物必须独立与其他事务执行
+4.持久性
+       确保事物完成后，对数据的修改是永久性的，即使接下来发生系统鼓掌也不会对其有任何影响
+</code></pre><p>  commit(提交) 、 rollback（回滚）<br>           例：<br>               declare<br>               begin<br>                    update demp set name = ‘a’  where id = 1;<br>                     commit;<br>                     update demp set name = ‘b’  where id = 2；<br>                     rollback;  – 程序执行到这里会清除前面没提交存在内存中的数据；<br>                     update demp set name = ‘c’  where id = 3;<br>                      commit;<br>                end;</p>
+
+      
+
+      
+
+    </div>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-第3章oreaclePLSQL程序结构控制" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -45,6 +126,7 @@
       <a class="article-title" href="/2012/04/06/第3章oreaclePLSQL程序结构控制/">第3章oreaclePL/SQL程序结构控制</a>
     </h1>
   
+
 
       </header>
     
@@ -73,6 +155,8 @@
 </article>
 
 
+
+
   
     <article id="post-第2章PLSQL编程基础" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -85,6 +169,7 @@
       <a class="article-title" href="/2012/04/05/第2章PLSQL编程基础/">第2章PL/SQL编程基础</a>
     </h1>
   
+
 
       </header>
     
@@ -119,6 +204,8 @@
 </article>
 
 
+
+
   
     <article id="post-第1章oreacle数据库基本概念" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -131,6 +218,7 @@
       <a class="article-title" href="/2012/04/04/第1章oreacle数据库基本概念/">第1章oreacle数据库基本概念</a>
     </h1>
   
+
 
       </header>
     
@@ -219,6 +307,8 @@ f、归档进程(ARCH)
 </article>
 
 
+
+
   
     <article id="post-MYSQL数据库总结篇" class="article article-type-post" itemscope itemprop="blogPost">
 
@@ -231,6 +321,7 @@ f、归档进程(ARCH)
       <a class="article-title" href="/2012/03/10/MYSQL数据库总结篇/">MYSQL数据库总结篇</a>
     </h1>
   
+
 
       </header>
     
@@ -254,63 +345,6 @@ f、归档进程(ARCH)
 </article>
 
 
-  
-    <article id="post-MySQL学习笔记三" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/03/05/MySQL学习笔记三/">MySQL学习笔记三</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2012/03/05/MySQL学习笔记三/" class="article-date">
-  <time datetime="2012-03-05T15:54:59.000Z" itemprop="datePublished">2012-03-05</time>
-</a>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>? 注释</p>
-<p>select 1+1;     # 单行注释<br>select 1+1;     – 单行注释<br>select 1 /<em> 多行注释 </em>/ + 1;<br>? 基本数据类型操作</p>
-<p>字符串<br>    select ‘hello’, ‘“hello”‘, ‘“”hello””‘, ‘hel’’lo’, ‘/‘hello’;<br>    select “hello”, “‘hello’”, “‘’hello’’”, “hel””lo”, “/“hello”;</p>
-<p>/n换行<br>    select ‘This/nIs/nFour/nLines’;</p>
-<p>/转义<br>    select ‘hello / world!’;<br>    select ‘hello /world!’;<br>    select ‘hello // world!’;<br>    select ‘hello /‘ world!’;<br>? 设置数据库mode模式</p>
-<p>SET sql_mode=’ANSI_QUOTES’;<br>create table t(a int);<br>create table “tt”(a int);<br>create table “t””t”(a int);<br>craate talbe tab(“a””b” int);<br>? 用户变量</p>
-<p>set @num1 = 0, @num2 = 2, @result = 0;</p>
-<p>select @result := (@num1 := 5) + @num2 := 3, @num1, @num2, @result;</p>
-<p>? 存储过程</p>
-<p>创建存储过程：<br>delimiter //<br>create procedure get(out result int)<br>begin<br> select max(age) into result from temp;<br>end//<br>调用存储过程：<br>call get(@temp);<br>查询结果：<br>select @temp;</p>
-<p>删除存储过程：<br>drop procedure get;</p>
-<p>查看存储过程创建语句：<br>show create procedure get;</p>
-<p>select…into 可以完成单行记录的赋值：<br>create procedure getRecord(sid int)<br>begin<br>    declare v_name varchar(20) default ‘jason’;<br>    declare v_age int;<br>    declare v_sex bit;<br>    select name, age, sex into v_name, v_age, v_sex from temp where id = sid;<br>    select v_name, v_age, v_sex;<br>end;<br>call getRecord(1);<br>? 函数</p>
-<p>函数类似于存储过程，只是调用方式不同<br>例如：select max(age) from temp;</p>
-<p>创建函数：<br>create function addAge(age int) returns int<br>     return age + 5;</p>
-<p>使用函数：<br>select addAge(age) from temp;</p>
-<p>删除函数：<br>drop function if exists addAge;<br>drop function addAge;</p>
-<p>显示创建语法：<br>show create function addAge;<br>? 游标</p>
-<p>声明游标：declare cur_Name cursor for select name from temp;<br>打开游标：open cur_Name;<br>Fetch游标：fetch cur_Name into @temp;<br>关闭游标：close cur_Name;</p>
-<p>示例：<br>CREATE PROCEDURE cur_show()<br>BEGIN<br>  DECLARE done INT DEFAULT 0;<br>  DECLARE v_id, v_age INT;<br>  DECLARE v_name varchar(20);<br>  DECLARE cur_temp CURSOR FOR SELECT id, name, age FROM temp;<br>  DECLARE CONTINUE HANDLER FOR SQLSTATE ‘02000’ SET done = 1;</p>
-<p>  OPEN cur_temp;</p>
-<p>  REPEAT<br>    FETCH cur_temp INTO v_id, v_name, v_age;<br>    IF NOT done THEN<br>       IF isnull(v_name) THEN<br>          update temp set name = concat(‘test-json’, v_id) where id = v_id;<br>       ELSEIF isnull(v_age) THEN<br>          update temp set age = 22 where id = v_id;<br>       END IF;<br>    END IF;<br>  UNTIL done END REPEAT;</p>
-<p>  CLOSE cur_temp;<br>END<br>? 触发器</p>
-<p>触发器分为insert、update、delete三种触发器事件类型<br>还有after、before触发时间<br>创建触发器：<br>create trigger trg_temp_ins<br>before insert<br>on temp for each row<br>begin<br>insert into temp_log values(NEW.id, NEW.name);<br>end//</p>
-<p>删除触发器：<br>drop trigger trg_temp_ins<br>版权维护转载hoojo博客的。</p>
-
-      
-
-      
-
-    </div>
-  </div>
-  
-</article>
 
 
   
@@ -319,6 +353,8 @@ f、归档进程(ARCH)
       <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
     </nav>
   
+
+
 </section>
         <aside id="sidebar">
   <nav class="menus">
@@ -336,13 +372,17 @@ f、归档进程(ARCH)
   <a id="go-top" href="#"><i class="icon icon-up"></i></a>
 </aside>
       </div>
-      <footer id="footer">
+      
+<footer id="footer">
   
 	<div id="footer-info" class="inner">
 	  &copy; 2016 lihao
 	  - Powered by <a href="http://pronouncing.github.io/" target="_blank">lihao</a>
 	</div>
+
 </footer>
+
+
     </div>
     <nav id="mobile-nav">
   
@@ -356,9 +396,7 @@ f、归档进程(ARCH)
   
 </nav>
     
-
 <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-
 
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
